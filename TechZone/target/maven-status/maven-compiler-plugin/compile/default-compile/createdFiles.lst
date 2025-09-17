@@ -1,6 +1,0 @@
-dao\ProductDB.class
-com\techzone\techzone\JakartaRestConfiguration.class
-com\techzone\techzone\resources\JakartaEE10Resource.class
-model\Product.class
-dao\DBUntils.class
-controller\List.class
