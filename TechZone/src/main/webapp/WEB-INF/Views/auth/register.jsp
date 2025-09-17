@@ -1,6 +1,6 @@
 <%-- 
-    Document   : login
-    Created on : Sep 17, 2025, 9:29:21 AM
+    Document   : register
+    Created on : Sep 17, 2025, 6:31:40 PM
     Author     : acer
 --%>
 
@@ -131,9 +131,8 @@
           <label for="">password</label>
           <input style="margin-left: 32px;" class="inputtext" type="text" name="password">
           <br>
-          <input type="submit" value="login" class="button">
-          <br>
-          <p>you do not account? <a href="${pageContext.request.contextPath}/register">Sign Up</a></p>
+          <input type="submit" value="register" class="button">
+                   
       </form>
   </div>
 
@@ -150,3 +149,4 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

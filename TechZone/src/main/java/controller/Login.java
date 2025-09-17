@@ -14,10 +14,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author letan
+ * @author acer
  */
-@WebServlet(name = "List", urlPatterns = {"/list"})
-public class List extends HttpServlet {
+@WebServlet(name = "Login", urlPatterns = {"/login"})
+public class Login extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +36,10 @@ public class List extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet list</title>");
+            out.println("<title>Servlet Login</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet list at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,7 +58,7 @@ public class List extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-        request.getRequestDispatcher("/WEB-INF/Views/cart/cart.jsp").forward(request, response);
+  request.getRequestDispatcher("/WEB-INF/Views/auth/login.jsp").forward(request, response);
     }
 
     /**
@@ -72,7 +72,7 @@ public class List extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**
