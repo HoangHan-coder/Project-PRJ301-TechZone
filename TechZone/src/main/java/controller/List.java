@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.ProductDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +12,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import model.Product;
 
 /**
  *
@@ -57,8 +60,10 @@ public class List extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-//        request.getRequestDispatcher("/WEB-INF/Views/listproduct/listproduct.jsp").forward(request, response);
+        ProductDB product = new ProductDB();
+        ArrayList<Product> list = product.getAll();
+        request.setAttribute("list", list);
+        request.getRequestDispatcher("/WEB-INF/Views/listproduct/listproduct.jsp").forward(request, response);
     }
 
     /**
