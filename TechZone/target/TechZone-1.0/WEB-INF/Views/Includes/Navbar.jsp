@@ -43,12 +43,23 @@
 <nav class="navbar navbar-expand-lg" style="background-color: #285dde; height: 70px"> 
   <div class="container-fluid d-flex justify-content-between align-items-center">
 
-    <!-- Shop by Categories -->
-    <a href="#" class="d-flex align-items-center text-white fw-bold me-3">
-      <i class="bi bi-list fs-4 me-2" ></i>
-      <span>Shop By Categories</span>
-    </a>
+  <!-- Nút bấm Shop By Categories -->
+<div class="dropdown">
+  <!-- Nút bấm -->
+  <a class="d-flex align-items-center text-white fw-bold me-3 text-decoration-none dropdown-toggle" 
+     href="#" id="categoriesDropdown" role="button" 
+     data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-list fs-4 me-2"></i>
+    <span>Shop By Categories</span>
+  </a>
 
+  <!-- Menu xổ xuống -->
+  <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+    <li><a class="dropdown-item" href="#">Weekly Bestsellers</a></li>
+    <li><a class="dropdown-item" href="#">Featured Products</a></li>
+    <li><a class="dropdown-item" href="#">New Arrivals</a></li>
+  </ul>
+</div>
     <!-- Search Bar -->
     <form class="d-flex justify-content-center mx-3 flex-grow-1" role="search">
   <div class="input-group" style="max-width: 600px; width: 100%;">
@@ -88,3 +99,5 @@
 
 <!-- Bootstrap Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,2 +1,4 @@
 com\techzone\techzone\JakartaRestConfiguration.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
+controller\List.class
+controller\HomeServlet.class
