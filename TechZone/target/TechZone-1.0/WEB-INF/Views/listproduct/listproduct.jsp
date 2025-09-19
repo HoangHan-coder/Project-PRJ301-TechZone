@@ -78,7 +78,7 @@
                                     <span><i class="fa-regular fa-heart"></i></span>
                                     <span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
                                 </div>
-                                <img src="assets/images/phones/iphone_01.jpg" alt="Computer Case">
+                                <img src="assets/images/phones/oppo_01.jpg" alt="Computer Case">
                             </div>
                     </div>
                 </div>
