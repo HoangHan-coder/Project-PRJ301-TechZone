@@ -72,18 +72,14 @@
                         </div>
                     </div>
                     <div class="box-4">
-                        <c:forEach items="${list}" var="i">
                             <div class="card">
                                 <div class="category">3D Printers</div>
                                 <div class="icons">
                                     <span><i class="fa-regular fa-heart"></i></span>
                                     <span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
                                 </div>
-                                <img src="${i.linkImg}" alt="Computer Case">
-                                <div class="title">${i.productName}</div>
-                                <div class="price">$${i.productPrice}</div>
+                                <img src="assets/images/phones/iphone_01.jpg" alt="Computer Case">
                             </div>
-                        </c:forEach>
                     </div>
                 </div>
             </div>
