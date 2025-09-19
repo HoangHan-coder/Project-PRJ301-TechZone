@@ -96,7 +96,68 @@
             .logo-container img:hover {
                 transform: scale(1.1);
             }
-
+ 
+  
+            footer {
+    background-color:#111; 
+    color:#fff; 
+    padding:40px 20px 0;
+  }
+  .footer-columns {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 40px; /* khoảng cách giữa các cột */
+  max-width: 1200px;
+  margin: 0 auto 30px;
+  text-align: left;
+}
+.footer-column h4 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.footer-column ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.footer-column ul li {
+  margin-bottom: 8px;
+}
+.footer-column ul li a {
+  color: #bbb;
+  text-decoration: none;
+  transition: color .3s;
+}
+.footer-column ul li a:hover {
+  color: #fff;
+}
+  .footer-bottom {
+    border-top:1px solid #333;
+    margin-top:30px;
+    padding:20px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-evenly;
+    align-items:center;
+    max-width:1200px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .footer-logo {
+    font-size:24px;
+    font-weight:bold;
+  }
+  .footer-bottom-item {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#bbb;
+  }
+  .footer-bottom-item i {
+    font-size:20px;
+    color:#fff;
+  }
         </style>
     </head>
     <body>
@@ -231,7 +292,19 @@
                 </div>
             </div>
         </section>
-
+       <div class="logo-container">
+            <!-- Samsung -->
+            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-1.png" alt="Samsung">
+            <!-- ASUS -->
+            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-2.png" alt="ASUS">
+            <!-- Dell -->
+            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-3.png" alt="Dell">
+            <!-- HP -->
+            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-4.png" alt="HP">
+            <!-- Lenovo -->
+            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-5.png" alt="Lenovo">
+            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-6.png" alt="Lenovo">
+        </div>
         <!-- Trending Products -->
         <section class="trending-products py-5 bg-light">
             <div class="container">
@@ -250,19 +323,7 @@
                 </div>
             </div>
         </section>
-        <div class="logo-container">
-            <!-- Samsung -->
-            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-1.png" alt="Samsung">
-            <!-- ASUS -->
-            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-2.png" alt="ASUS">
-            <!-- Dell -->
-            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-3.png" alt="Dell">
-            <!-- HP -->
-            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-4.png" alt="HP">
-            <!-- Lenovo -->
-            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-5.png" alt="Lenovo">
-            <img src="https://gizmos.qodeinteractive.com/wp-content/uploads/2022/09/client-6.png" alt="Lenovo">
-        </div>
+        
         <!-- Newsletter -->
         <section class="newsletter py-5 text-white">
             <div class="container">
