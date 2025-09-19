@@ -1,4 +1,5 @@
 com\techzone\techzone\JakartaRestConfiguration.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
-controller\Login.class
 controller\List.class
+controller\Register.class
+controller\Login.class
