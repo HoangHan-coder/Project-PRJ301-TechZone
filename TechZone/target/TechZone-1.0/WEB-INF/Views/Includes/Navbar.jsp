@@ -3,7 +3,23 @@
     Created on : 16 Sept 2025, 21:45:15
     Author     : PC
 --%>
+<style>
+    .input-group .form-select,
+.input-group .form-control,
+.input-group .btn {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
 
+.input-group .form-select:focus,
+.input-group .form-control:focus,
+.input-group .btn:focus {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+    </style>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!-- Top Navbar -->
 <div class="bg-light border-bottom">
