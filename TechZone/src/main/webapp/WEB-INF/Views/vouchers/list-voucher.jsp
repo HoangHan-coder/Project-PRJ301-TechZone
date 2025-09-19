@@ -4,6 +4,7 @@
     Author     : NgKaitou
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,171 +43,26 @@
             <div class="list-voucher py-4">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6">
+                        <c:forEach items="${listVoucher}" var="i">
+                            <div class="col-md-6">
                             <div class="card mb-3" style="max-width: 540px;">
                                 <div class="row g-0">
                                     <div class="col-md-4 d-flex align-items-md-center">
-                                        <img src="https://bizweb.dktcdn.net/thumb/grande/100/377/231/articles/freeship.png?v=1588928233387"
+                                        <img src="<%= request.getContextPath() %>/assets/images/vouchers/voucher.jpg" 
                                              class="img-fluid rounded-start" alt="...">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">This is a wider card with supporting text below as a</p>
-                                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins
-                                                    ago</small></p>
+                                            <h5 class="card-title">${i.code}</h5>
+                                            <p class="card-text"> Giảm: ${i.discountValue}</p>
+                                            <p class="card-text"> Cho sản phẩn từ ${i.condition} VND</p>
+                                            <p class="card-text"><small class="text-body-secondary"> Thời hạn:  ${i.endDate}</small></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <div class="col-md-4 d-flex align-items-md-center">
-                                        <img src="https://bizweb.dktcdn.net/thumb/grande/100/377/231/articles/freeship.png?v=1588928233387"
-                                             class="img-fluid rounded-start" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">This is a wider card with supporting text below as a.</p>
-                                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins
-                                                    ago</small></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <div class="col-md-4 d-flex align-items-md-center">
-                                        <img src="https://bizweb.dktcdn.net/thumb/grande/100/377/231/articles/freeship.png?v=1588928233387"
-                                             class="img-fluid rounded-start" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">This is a wider card with supporting text below as a.</p>
-                                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins
-                                                    ago</small></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <div class="col-md-4 d-flex align-items-md-center">
-                                        <img src="https://bizweb.dktcdn.net/thumb/grande/100/377/231/articles/freeship.png?v=1588928233387"
-                                             class="img-fluid rounded-start" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">This is a wider card with supporting text below as a.</p>
-                                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <div class="col-md-4 d-flex align-items-md-center">
-                                        <img src="https://bizweb.dktcdn.net/thumb/grande/100/377/231/articles/freeship.png?v=1588928233387"
-                                             class="img-fluid rounded-start" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">This is a wider card with supporting text below as a.</p>
-                                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <div class="col-md-4 d-flex align-items-md-center">
-                                        <img src="https://bizweb.dktcdn.net/thumb/grande/100/377/231/articles/freeship.png?v=1588928233387"
-                                             class="img-fluid rounded-start" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">This is a wider card with supporting text below as a.</p>
-                                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <div class="col-md-4 d-flex align-items-md-center">
-                                        <img src="https://bizweb.dktcdn.net/thumb/grande/100/377/231/articles/freeship.png?v=1588928233387"
-                                             class="img-fluid rounded-start" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">This is a wider card with supporting text below as a.</p>
-                                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <div class="col-md-4 d-flex align-items-md-center">
-                                        <img src="https://bizweb.dktcdn.net/thumb/grande/100/377/231/articles/freeship.png?v=1588928233387"
-                                             class="img-fluid rounded-start" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">This is a wider card with supporting text below as a.</p>
-                                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card mb-3" style="max-width: 540px;">
-                                <div class="row g-0">
-                                    <div class="col-md-4 d-flex align-items-md-center">
-                                        <img src="https://bizweb.dktcdn.net/thumb/grande/100/377/231/articles/freeship.png?v=1588928233387"
-                                             class="img-fluid rounded-start" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">This is a wider card with supporting text below as a.</p>
-                                            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
+                        </c:forEach>
                     </div>
                 </div>
             </div>

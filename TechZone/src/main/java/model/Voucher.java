@@ -4,7 +4,7 @@
  */
 package model;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 /**
  *
@@ -14,8 +14,8 @@ public class Voucher {
     private String imgPath;
     private String code;
     private String discountValue;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private Timestamp startDate;
+    private Timestamp endDate;
     private String status;
     private String condition;
     private String maxUsage;
@@ -25,18 +25,18 @@ public class Voucher {
     public Voucher() {
     }
 
-    public Voucher(String imgPath, String code, String discountValue, LocalDateTime startDate, LocalDateTime endDate, String status, String condition, String maxUsage, String currentUsage) {
+    public Voucher(String imgPath, String code, String discountValue, Timestamp startDate, Timestamp endDate, String status, String condition, String maxUsage, String currentUsage) {
         this.imgPath = "/" + imgPath;
         this.code = code;
         this.discountValue = discountValue;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
-        this.condition = condition;
+        this.condition = condition.substring(9);
         this.currentUsage = currentUsage;
     }
     
-    public Voucher(String imgPath, String code, String discountValue, LocalDateTime startDate, LocalDateTime endDate, String status, String condition, String maxUsage, String minUsage, String currentUsage) {
+    public Voucher(String imgPath, String code, String discountValue, Timestamp startDate, Timestamp endDate, String status, String condition, String maxUsage, String minUsage, String currentUsage) {
         this.imgPath = "/" + imgPath;
         this.code = code;
         this.discountValue = discountValue;
@@ -66,26 +66,29 @@ public class Voucher {
     }
 
     public String getDiscountValue() {
-        return discountValue;
+        if(this.discountValue.length() > 3) {
+            return   discountValue + " VND";
+        }
+        return  discountValue;
     }
 
     public void setDiscountValue(String discountValue) {
         this.discountValue = discountValue;
     }
 
-    public LocalDateTime getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 

@@ -45,6 +45,7 @@ public class VoucherDB {
                         rs.getTimestamp("startDate"),
                         rs.getTimestamp("endDate"),
                         rs.getString("status"),
+                        rs.getString("condition"),
                         rs.getString("maxUsage"),
                         rs.getString("currentUsage")
                 ));
