@@ -51,7 +51,8 @@ public class ProductDB {
                             rs.getInt("categoryId"),
                             rs.getBoolean("isDeleted"), 
                             rs.getObject("timeCreate",LocalDateTime.class),
-                            rs.getInt("quantity")
+                            rs.getInt("quantity"),
+                            rs.getString("descriptionProduct")
                     );
                     list.add(a);
                 }

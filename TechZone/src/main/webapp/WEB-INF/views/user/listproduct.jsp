@@ -74,14 +74,17 @@
                     <div class="row">
                         <c:forEach items="${list}" var="i">
                             <div class="box-4 col-md-4">
-                                <div class="card">
-                                    <div class="category">3D Printers</div>
-                                    <div class="icons">
-                                        <span><i class="fa-regular fa-heart"></i></span>
-                                        <span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                                <<form action="<%= request.getContextPath() %>/products" method="GET">
+                                    <div class="card">
+                                        <div class="category">3D Printers</div>
+                                        <div class="icons">
+                                            <span><i class="fa-regular fa-heart"></i></span>
+                                            <span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                                        </div>
+                                        <img src=" ${c}  ${i.linkImg}" alt="Computer Case">
+                                        <button type="submit"  name="action" value="detail" class="btn btn-outline-primary btn-sm">Small button</button>
                                     </div>
-                                    <img src=" ${c}  ${i.linkImg}" alt="Computer Case">
-                                </div>
+                                </form>
                             </div>
                         </c:forEach>
                     </div>

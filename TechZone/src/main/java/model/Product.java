@@ -22,11 +22,12 @@ public class Product {
     private boolean isDeleted;
     private LocalDateTime timeCreate;
     private int quantity;
+    private String descriptionProduct;
 
     public Product() {
     }
 
-    public Product(int productId, String linkImg, String productName, BigDecimal productPrice, Map<String, String> productAttributes, int categoryId, boolean isDeleted, LocalDateTime timeCreate, int quantity) {
+    public Product(int productId, String linkImg, String productName, BigDecimal productPrice, Map<String, String> productAttributes, int categoryId, boolean isDeleted, LocalDateTime timeCreate, int quantity,  String descriptionProduct) {
         this.productId = productId;
         this.linkImg = linkImg;
         this.productName = productName;
@@ -36,6 +37,15 @@ public class Product {
         this.isDeleted = isDeleted;
         this.timeCreate = timeCreate;
         this.quantity = quantity;
+        this.descriptionProduct = descriptionProduct;
+    }
+
+    public String getDescriptionProduct() {
+        return descriptionProduct;
+    }
+
+    public void setDescriptionProduct(String descriptionProduct) {
+        this.descriptionProduct = descriptionProduct;
     }
 
     public Map<String, String> getProductAttributes() {
