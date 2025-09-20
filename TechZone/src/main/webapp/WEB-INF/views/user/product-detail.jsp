@@ -21,6 +21,63 @@
                 padding: 0;
                 box-sizing: border-box;
             }
+            .tab-container {
+                display: flex;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                overflow: hidden;
+                width: fit-content;
+            }
+
+            .tab {
+                padding: 12px 24px;
+                cursor: pointer;
+                border-right: 1px solid #ddd;
+                background-color: white;
+                color: black;
+                font-weight: 500;
+                transition: 0.3s;
+            }
+
+            .tab:last-child {
+                border-right: none;
+            }
+
+            .tab.active {
+                background-color: #2563eb; /* xanh */
+                color: white;
+            }
+            .detail, .des, .review {
+                display: none;
+            }
+            .star {
+                font-size: 2rem;
+                color: #ccc;
+                cursor: pointer;
+                transition: color 0.2s;
+            }
+            .star.active {
+                color: gold;
+            }
+            ::-webkit-scrollbar {
+                width: 10px;            
+                height: 10px;           
+            }
+
+            ::-webkit-scrollbar-track {
+                background: #f1f1f1;    
+                border-radius: 10px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #2563eb;   
+                border-radius: 10px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #1e40af;    
+            }
+
         </style>
 
     </head>
@@ -57,7 +114,12 @@
                     </div>
                 </div>
             </div>
-            <div class="row w-100">
+            <div class="tab-container">
+                <div class="tab detailProduct active" onclick="handleDetail(this)">Chi tiết sản phẩm</div>
+                <div class="tab despriceProduct" onclick="handleDetail(this)">Miêu tả sản phẩm</div>
+                <div class="tab reviewProduct" onclick="handleDetail(this)">Đánh giá sản phẩm</div>
+            </div>
+            <div class="row w-100 detail">
                 <table class="table table-bordered m-4 w-100">
                     <tbody>
                         <tr>
@@ -100,13 +162,22 @@
 
                 </table>
             </div>
-            <div class="row w-100">
+            <div class="des">
+                <p>Alienum phaedrum torquatos nec eu, vis detraxit periculis ex, nihil expete mei. Mei an consequat an.
+                    Eius lorem tincidunt vix at, vel pertinax sensibus id, error epicurei mea et. Qui purto zril
+                    laoreet. Ex error omnium interpretaris pro</p>
+            </div>
+            <div class="row w-100 review">
                 <form class="mx-3">
-                    <h2>Đánh giá sản phẩm</h2>
-                    <div class="d-flex">
-                        <input type="range" class="form-range w-25 me-5 my-3" min="0" max="5" value="50" id="range4">
-                        <div class=""><output for="range4" id="rangeValue" aria-hidden="true" class="my-3"></output><i
-                                class="bi bi-star-fill ms-3"></i></div>
+                    <p>Alienum phaedrum torquatos nec eu, vis detraxit periculis ex, nihil expete mei. Mei an consequat an.
+                        Eius lorem tincidunt vix at, vel pertinax sensibus id, error epicurei mea et. Qui purto zril
+                        laoreet. Ex error omnium interpretaris pro</p>
+                    <div class="rating my-3">
+                        <i class="bi bi-star star" data-value="1"></i>
+                        <i class="bi bi-star star" data-value="2"></i>
+                        <i class="bi bi-star star" data-value="3"></i>
+                        <i class="bi bi-star star" data-value="4"></i>
+                        <i class="bi bi-star star" data-value="5"></i>
                     </div>
                     <div class="form-floating mb-4">
                         <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
@@ -116,44 +187,49 @@
                     <button type="submit" class="btn btn-primary">Đánh giá</button>
                 </form>
             </div>
-            <div class="row w-100">
-                <div class="card m-4" style="width: 100%;">
-                    <div class="card-body">
-                        <h5 class="card-title">Username</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                        </h6>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                            card’s content.</p>
-                    </div>
-                </div>
-            </div>
         </div>
         <script>
-            // This is an example script, please modify as needed
-            const rangeInput = document.getElementById('range4');
-            const rangeOutput = document.getElementById('rangeValue');
+            document.addEventListener("DOMContentLoaded", () => {
+                const firstTab = document.querySelector(".tab");
+                if (firstTab) {
+                    handleDetail(firstTab);
+                }
+            });
+            function handleDetail(a) {
+                const sections = {
+                    "tab detailProduct": document.querySelector(".detail"),
+                    "tab despriceProduct": document.querySelector(".des"),
+                    "tab reviewProduct": document.querySelector(".review")
+                };
 
-            // Set initial value
-            rangeOutput.textContent = rangeInput.value;
+                Object.values(sections).forEach(el => el.style.display = "none");
 
-            rangeInput.addEventListener('input', function () {
-                rangeOutput.textContent = this.value;
+                document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+
+                if (sections[a.className]) {
+                    sections[a.className].style.display = "block";
+                }
+
+                a.classList.add("active");
+            }
+            document.querySelectorAll(".star").forEach(star => {
+                star.addEventListener("click", () => {
+                    const value = parseInt(star.dataset.value);
+
+                    document.querySelectorAll(".star").forEach(s => {
+                        if (parseInt(s.dataset.value) <= value) {
+                            s.classList.add("active");
+                            s.classList.replace("bi-star", "bi-star-fill");
+                        } else {
+                            s.classList.remove("active");
+                            s.classList.replace("bi-star-fill", "bi-star");
+                        }
+                    });
+
+                    document.getElementById("ratingValue").value = value;
+                });
             });
 
-            function increase() {
-                let qty = document.getElementById("quantity");
-                qty.value = parseInt(qty.value) + 1;
-            }
-            function decrease() {
-                let qty = document.getElementById("quantity");
-                if (parseInt(qty.value) > 1)
-                    qty.value = parseInt(qty.value) - 1;
-            }
         </script>
     </body>
 
