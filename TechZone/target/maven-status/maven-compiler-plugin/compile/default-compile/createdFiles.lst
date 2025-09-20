@@ -2,6 +2,10 @@ dao\ProductDB.class
 com\techzone\techzone\JakartaRestConfiguration.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
 controller\ListProduct.class
+dao\VoucherDB.class
 model\Product.class
 dao\ProductDB$1.class
 dao\DBUntils.class
+model\Voucher.class
+controller\Order.class
+controller\ListVoucher.class

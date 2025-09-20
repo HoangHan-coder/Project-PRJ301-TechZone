@@ -30,7 +30,7 @@ public class Order extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/Views/order/HistoryOrder.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/user/HistoryOrder.jsp").forward(request, response);
     }
 
     /**

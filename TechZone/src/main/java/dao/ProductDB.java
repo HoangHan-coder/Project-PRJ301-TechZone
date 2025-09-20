@@ -40,7 +40,6 @@ public class ProductDB {
             try {
                 PreparedStatement st = connect.prepareStatement(sql);
                 ResultSet rs = st.executeQuery();
-                
                 ObjectMapper mapper = new ObjectMapper();
                 while (rs.next()) {
                     Product a = new Product(

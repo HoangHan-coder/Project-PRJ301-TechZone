@@ -80,7 +80,7 @@
                                         <span><i class="fa-regular fa-heart"></i></span>
                                         <span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
                                     </div>
-                                    <img src="${i.linkImg}" alt="Computer Case">
+                                    <img src=" ${c}  ${i.linkImg}" alt="Computer Case">
                                 </div>
                             </div>
                         </c:forEach>

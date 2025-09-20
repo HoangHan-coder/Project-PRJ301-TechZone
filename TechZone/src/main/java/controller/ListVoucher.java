@@ -43,7 +43,7 @@ public class ListVoucher extends HttpServlet {
         
         request.setAttribute("listVoucher", listVoucher);
         
-        request.getRequestDispatcher("/WEB-INF/Views/vouchers/list-voucher.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/user/list-voucher.jsp").forward(request, response);
     }
 
     /**
