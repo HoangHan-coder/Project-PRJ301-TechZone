@@ -116,7 +116,6 @@
             </div>
             <div class="tab-container">
                 <div class="tab detailProduct active" onclick="handleDetail(this)">Chi tiết sản phẩm</div>
-                <div class="tab despriceProduct" onclick="handleDetail(this)">Miêu tả sản phẩm</div>
                 <div class="tab reviewProduct" onclick="handleDetail(this)">Đánh giá sản phẩm</div>
             </div>
             <div class="row w-100 detail">
@@ -162,14 +161,9 @@
 
                 </table>
             </div>
-            <div class="des">
-                <p>Alienum phaedrum torquatos nec eu, vis detraxit periculis ex, nihil expete mei. Mei an consequat an.
-                    Eius lorem tincidunt vix at, vel pertinax sensibus id, error epicurei mea et. Qui purto zril
-                    laoreet. Ex error omnium interpretaris pro</p>
-            </div>
             <div class="row w-100 review">
                 <form class="mx-3">
-                    <p>Alienum phaedrum torquatos nec eu, vis detraxit periculis ex, nihil expete mei. Mei an consequat an.
+                    <p class="my-3">Alienum phaedrum torquatos nec eu, vis detraxit periculis ex, nihil expete mei. Mei an consequat an.
                         Eius lorem tincidunt vix at, vel pertinax sensibus id, error epicurei mea et. Qui purto zril
                         laoreet. Ex error omnium interpretaris pro</p>
                     <div class="rating my-3">
@@ -198,7 +192,6 @@
             function handleDetail(a) {
                 const sections = {
                     "tab detailProduct": document.querySelector(".detail"),
-                    "tab despriceProduct": document.querySelector(".des"),
                     "tab reviewProduct": document.querySelector(".review")
                 };
 
