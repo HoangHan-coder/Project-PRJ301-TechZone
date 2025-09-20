@@ -5,7 +5,7 @@ dao\VoucherDB.class
 controller\ProductServlet.class
 model\Product.class
 dao\ProductDB$1.class
+controller\OrderServlet.class
 dao\DBUntils.class
 model\Voucher.class
-controller\Order.class
 controller\ListVoucher.class
