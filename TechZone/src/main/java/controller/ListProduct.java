@@ -63,7 +63,7 @@ public class ListProduct extends HttpServlet {
         ProductDB product = new ProductDB();
         ArrayList<Product> list = product.getAll();
         request.setAttribute("list", list);
-        request.getRequestDispatcher("/WEB-INF/Views/listproduct/listproduct.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/user/listproduct.jsp").forward(request, response);
     }
 
     /**
