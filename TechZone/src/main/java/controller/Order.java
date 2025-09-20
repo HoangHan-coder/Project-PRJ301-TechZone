@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.voucher;
+package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,10 +15,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author NgKaitou
  */
-@WebServlet(name = "ListVoucher", urlPatterns = {"/vouchers"})
-public class ListVoucher extends HttpServlet {
-
-
+@WebServlet(name = "Order", urlPatterns = {"/order"})
+public class Order extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -33,7 +30,7 @@ public class ListVoucher extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/Views/vouchers/list-voucher.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Views/order/HistoryOrder.jsp").forward(request, response);
     }
 
     /**
@@ -47,6 +44,7 @@ public class ListVoucher extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
     }
 
     /**

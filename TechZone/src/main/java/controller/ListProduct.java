@@ -20,7 +20,7 @@ import model.Product;
  * @author letan
  */
 @WebServlet(name = "List", urlPatterns = {"/list"})
-public class List extends HttpServlet {
+public class ListProduct extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
