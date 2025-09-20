@@ -71,18 +71,20 @@
                             <button class="page-btn">&gt;</button>
                         </div>
                     </div>
-                    <c:forEach items="${list}" var="i">
-                        <div class="box-4">
-                            <div class="card">
-                                <div class="category">3D Printers</div>
-                                <div class="icons">
-                                    <span><i class="fa-regular fa-heart"></i></span>
-                                    <span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                    <div class="row">
+                        <c:forEach items="${list}" var="i">
+                            <div class="box-4 col-md-4">
+                                <div class="card">
+                                    <div class="category">3D Printers</div>
+                                    <div class="icons">
+                                        <span><i class="fa-regular fa-heart"></i></span>
+                                        <span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                                    </div>
+                                    <img src="${i.linkImg}" alt="Computer Case">
                                 </div>
-                                <img src="${i.linkImg}" alt="Computer Case">
                             </div>
+                        </c:forEach>
                     </div>
-                    </c:forEach>
                 </div>
             </div>
         </div>
