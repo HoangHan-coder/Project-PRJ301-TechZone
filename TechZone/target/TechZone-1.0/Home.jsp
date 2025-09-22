@@ -323,23 +323,7 @@
                 </div>
             </div>
         </section>
-        
-        <!-- Newsletter -->
-        <section class="newsletter py-5 text-white">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-8 text-center">
-                        <h3>Sign up to Newsletter</h3>
-                        <p>Follow us to get the latest updates</p>
-                        <form class="d-flex justify-content-center">
-                            <input type="email" class="form-control w-50 me-2" placeholder="Enter your email">
-                            <button type="submit" class="btn btn-primary">Subscribe</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+  
         <jsp:include page="/WEB-INF/Views/Includes/Footer.jsp"/>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
