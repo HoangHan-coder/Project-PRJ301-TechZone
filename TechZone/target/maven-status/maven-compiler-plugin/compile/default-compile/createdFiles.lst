@@ -1,3 +1,4 @@
+controller\Cart.class
 dao\ProductDB.class
 com\techzone\techzone\JakartaRestConfiguration.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
