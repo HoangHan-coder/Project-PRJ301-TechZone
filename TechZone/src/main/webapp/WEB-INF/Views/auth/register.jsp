@@ -21,12 +21,12 @@
 
             }
                 .login{
-                    box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);
+/*                    box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);*/
                     margin-left: 90px;
                     width: 50%;
-                    height: 590px;
+                    height: 520px;
                     width: 600px;
-
+                    
                 }
 
                 h1{
@@ -36,7 +36,7 @@
                 }
 
                 #inputtext{
-                    margin-bottom: 40px;
+                    
                     margin-left: 30px;
                     width: 450px;
 
@@ -50,9 +50,9 @@
                     margin-left: 20px;
                 }
                 .button{
-                    margin-left: 80px;
-                    margin-top: 10px;
-                    width: 370px;
+                    margin-left: 30px;
+                    margin-top: 20px;
+                    width: 450px;
 
                     padding: 10px;
                     font-size: 14px;
@@ -82,9 +82,9 @@
                     height: 400px;
                     text-align: center;
                     transform: translateX(-150px);
-
+                    
                     left: 70px;
-                    box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);
+/*                    box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);*/
                 }
 
                 .frame div{
@@ -105,7 +105,9 @@
                     margin-left: 115px;
                     margin-top: 70px;
                 }
-
+                #lab{
+                    margin-left: 30px;
+                }
 
             </style>
         </head>
@@ -125,14 +127,14 @@
                 <div class="login">
                     <h1>REGISTER</h1>
                     <form>
-                        <label for="user" class="form-label">username</label>
+                        <label id="lab" for="user" class="form-label">username</label>
                         <input class="form-control" id="inputtext" type="text" name="name" placeholder="Enter your username" required="please enter your username">
                         <br>
-                        <label for="password" class="form-label">password</label>
+                        <label id="lab" for="password" class="form-label">password</label>
                         <input class="form-control" id="inputtext" type="text" name="password" placeholder="Enter your password" required="please enter your password">
                         <br>
 
-                        <label for="user" class="form-label">phone</label>
+                        <label id="lab" for="user" class="form-label">phone</label>
                         <input class="form-control" id="inputtext" type="text" name="phone" placeholder="Enter your phone" required="please enter your phone">
                         <br>
                         <input type="submit" value="register" class="button">
@@ -153,13 +155,13 @@
                     <!-- Slides -->
                     <div class="carousel-inner frame">
                         <div class="carousel-item active">
-                            <img src="https://www.studytienganh.vn/upload/2021/06/106879.jpg" class="d-block w-100" alt="Ảnh 1">
+                            <img src="assets/headphone.png" class="d-block w-100" alt="Ảnh 1">
                         </div>
                         <div class="carousel-item">
-                            <img src="https://hanoicomputercdn.com/media/product/75551_ban_phim_co_gaming_co_day_zifriend_za98_white_blue_blue_switch_1.jpg" class="d-block w-100" alt="Ảnh 2">
+                            <img src="assets/keyboard.png" class="d-block w-100" alt="Ảnh 2">
                         </div>
                         <div class="carousel-item">
-                            <img src="https://www.phucanh.vn/media/news/2312_laptop-moi-cua-lenovo-1.jpg" class="d-block w-100" alt="Ảnh 3">
+                            <img src="assets/laptop.png" class="d-block w-100" alt="Ảnh 3">
                         </div>
 
                     </div>
