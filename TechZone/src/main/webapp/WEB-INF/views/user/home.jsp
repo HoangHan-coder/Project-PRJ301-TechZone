@@ -161,7 +161,7 @@
         </style>
     </head>
     <body>
-        <jsp:include page="/WEB-INF/Views/Includes/Navbar.jsp"/>
+        <jsp:include page="/WEB-INF/views/user/navbar.jsp"/>
 
         <!-- Bootstrap Carousel -->
         <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -335,7 +335,7 @@
             </div>
         </section>
   
-        <jsp:include page="/WEB-INF/Views/Includes/Footer.jsp"/>
+        <jsp:include page="/WEB-INF/views/user/footer.jsp"/>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 

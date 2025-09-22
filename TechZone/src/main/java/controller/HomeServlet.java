@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author PC
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/homeServlet"})
+@WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
 public class HomeServlet extends HttpServlet {
 
     /**
@@ -45,7 +45,7 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/Includes/Navbar.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/user/home.jsp").forward(request, response);
     }
 
     /**
