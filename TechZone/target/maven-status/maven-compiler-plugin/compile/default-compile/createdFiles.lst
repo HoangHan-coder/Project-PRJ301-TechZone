@@ -1,16 +1,13 @@
 dao\ProductDB.class
 com\techzone\techzone\JakartaRestConfiguration.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
-<<<<<<< HEAD
 dao\VoucherDB.class
 controller\ProductServlet.class
+dao\DBUntils.class
+controller\Order.class
 model\Product.class
 dao\ProductDB$1.class
-dao\DBUntils.class
+controller\Login.class
 model\Voucher.class
-controller\Order.class
+controller\Register.class
 controller\ListVoucher.class
-=======
-controller\List.class
-controller\HomeServlet.class
->>>>>>> Khang
