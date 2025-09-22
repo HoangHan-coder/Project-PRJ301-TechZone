@@ -77,7 +77,7 @@
   </ul>
 </div>
     <!-- Search Bar -->
-    <form class="d-flex justify-content-center mx-3 flex-grow-1" role="search">
+    <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" role="search">
   <div class="input-group" style="max-width: 600px; width: 100%;">
     <select class="form-select border-0 border-end" style="max-width: 180px;">
       <option selected>All Categories</option>
