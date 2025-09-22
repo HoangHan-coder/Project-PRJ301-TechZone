@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author NgKaitou
  */
 @WebServlet(name = "Order", urlPatterns = {"/order"})
-public class Order extends HttpServlet {
+public class OrderServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -30,7 +30,16 @@ public class Order extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/user/HistoryOrder.jsp").forward(request, response);
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "order-list";
+        }
+
+        if (action.equalsIgnoreCase("order-detail")) {
+            request.getRequestDispatcher("/WEB-INF/views/user/order-detail.jsp").forward(request, response);
+        } else if (action.equalsIgnoreCase("order-list")) {
+            request.getRequestDispatcher("/WEB-INF/views/user/order-list.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -44,7 +53,7 @@ public class Order extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     /**

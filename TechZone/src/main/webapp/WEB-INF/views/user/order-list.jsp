@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,7 +84,8 @@
                     <li class="list-group-item d-flex justify-content-between">
                         <p class="fw-bold m-2">Cooler_Master_Store</p>
                         <p class="m-2"><span class="text-success"> Giao hàng thành công</span><span
-                                class="mx-2">|</span><span class="text-uppercase text-danger">Hoàn thành</span></p>
+                                class="mx-2">|</span><span class="text-uppercase text-danger">Hoàn thành</span>
+                        </p>
                     </li>
                     <li class="list-group-item">
                         <div class="row g-0">
@@ -93,9 +95,8 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="card-body">
-                                    <h5 class="card-title">Đế Tản Nhiệt Laptop Cooler Master Notepal L1, Chống ồn, giữ
-                                        Cho
-                                        Laptop Mát Mẻ, Tương thích 17 Inch | Bảo Hành 2 Năm</h5>
+                                    <h5 class="card-title" style="cursor: pointer;"><a name="action" href="http://localhost:8080/TechZone/order?action=order-detail" class="text-black" style="text-decoration: none;">Đế Tản Nhiệt Laptop Cooler Master Notepal L1, Chống
+                                        ồn, giữ Cho Laptop Mát Mẻ, Tương thích 17 Inch | Bảo Hành 2 Năm</a></h5>
                                     <p class="card-text position-relative">x1<span
                                             class="position-absolute  top-0 end-0">379.000₫</span></p>
                                     </p>
@@ -104,7 +105,8 @@
                     <li class="list-group-item d-flex flex-column align-items-end">
                         <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger">315.649₫</span></p>
                         <div class="m-2">
-                            <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua lại</button>
+                            <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua
+                                lại</button>
                             <button type="button" class="btn btn-light ">Liên hệ người bán</button>
                         </div>
                     </li>
@@ -116,7 +118,8 @@
                     <li class="list-group-item d-flex justify-content-between">
                         <p class="fw-bold m-2">Cooler_Master_Store</p>
                         <p class="m-2"><span class="text-success"> Giao hàng thành công</span><span
-                                class="mx-2">|</span><span class="text-uppercase text-danger">Hoàn thành</span></p>
+                                class="mx-2">|</span><span class="text-uppercase text-danger">Hoàn thành</span>
+                        </p>
                     </li>
                     <li class="list-group-item">
                         <div class="row g-0">
@@ -126,7 +129,8 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="card-body">
-                                    <h5 class="card-title">Đế Tản Nhiệt Laptop Cooler Master Notepal L1, Chống ồn, giữ
+                                    <h5 class="card-title">Đế Tản Nhiệt Laptop Cooler Master Notepal L1, Chống
+                                        ồn, giữ
                                         Cho
                                         Laptop Mát Mẻ, Tương thích 17 Inch | Bảo Hành 2 Năm</h5>
                                     <p class="card-text position-relative">x1<span
@@ -137,7 +141,8 @@
                     <li class="list-group-item d-flex flex-column align-items-end">
                         <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger">315.649₫</span></p>
                         <div class="m-2">
-                            <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua lại</button>
+                            <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua
+                                lại</button>
                             <button type="button" class="btn btn-light ">Liên hệ người bán</button>
                         </div>
                     </li>
@@ -149,7 +154,8 @@
                     <li class="list-group-item d-flex justify-content-between">
                         <p class="fw-bold m-2">Cooler_Master_Store</p>
                         <p class="m-2"><span class="text-success"> Giao hàng thành công</span><span
-                                class="mx-2">|</span><span class="text-uppercase text-danger">Hoàn thành</span></p>
+                                class="mx-2">|</span><span class="text-uppercase text-danger">Hoàn thành</span>
+                        </p>
                     </li>
                     <li class="list-group-item">
                         <div class="row g-0">
@@ -159,7 +165,8 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="card-body">
-                                    <h5 class="card-title">Đế Tản Nhiệt Laptop Cooler Master Notepal L1, Chống ồn, giữ
+                                    <h5 class="card-title">Đế Tản Nhiệt Laptop Cooler Master Notepal L1, Chống
+                                        ồn, giữ
                                         Cho
                                         Laptop Mát Mẻ, Tương thích 17 Inch | Bảo Hành 2 Năm</h5>
                                     <p class="card-text position-relative">x1<span
@@ -170,18 +177,14 @@
                     <li class="list-group-item d-flex flex-column align-items-end">
                         <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger">315.649₫</span></p>
                         <div class="m-2">
-                            <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua lại</button>
+                            <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua
+                                lại</button>
                             <button type="button" class="btn btn-light ">Liên hệ người bán</button>
                         </div>
                     </li>
                 </ul>
             </div>
-
-
         </div>
-
-
     </div>
 </body>
-
 </html>

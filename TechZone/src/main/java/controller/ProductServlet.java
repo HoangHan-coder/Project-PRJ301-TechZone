@@ -35,16 +35,16 @@ public class ProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        request.getRequestDispatcher("/WEB-INF/views/user/product-detail.jsp").forward(request, response);
+//        request.getRequestDispatcher("/WEB-INF/views/user/product-detail.jsp").forward(request, response);
 
-//        if (action == null) {
-//            getAllProduct(request, response);
-//        } else {
-//            System.out.println(action);
-//            if (action.equals("detail")) {
-//                request.getRequestDispatcher("/WEB-INF/views/user/product-detail.jsp").forward(request, response);
-//            }
-//        }
+        if (action == null) {
+            getAllProduct(request, response);
+        } else {
+            System.out.println(action);
+            if (action.equals("detail")) {
+                request.getRequestDispatcher("/WEB-INF/views/user/product-detail.jsp").forward(request, response);
+            }
+        }
 
     }
 
