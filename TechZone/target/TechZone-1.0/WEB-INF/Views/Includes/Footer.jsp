@@ -38,7 +38,7 @@
       </div>
     </div>
   </section>
-    <div class="footer-columns" style="margin-top: 20px ;background-color: #212529 !important;">
+    <div class="footer-columns" style="margin-top: 40px ;background-color: #212529 !important;">
     <!-- Privacy Policy -->
     <div class="footer-column">
       <h4>Privacy Policy</h4>
