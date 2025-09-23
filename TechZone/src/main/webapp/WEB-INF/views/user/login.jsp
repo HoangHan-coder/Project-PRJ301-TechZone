@@ -21,7 +21,7 @@
 
 
                 .login{
-/*                    box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);*/
+                    /*                    box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);*/
                     margin-left: 90px;
                     width: 50%;
                     height: 490px;
@@ -36,7 +36,7 @@
                 }
 
                 #inputtext{
-                    
+
                     margin-left: 40px;
                     width: 450px;
 
@@ -84,7 +84,7 @@
                     transform: translateX(-150px);
                     border-radius: 5px;
                     left: 70px;
-/*                    box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);*/
+                    /*                    box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);*/
                 }
 
                 .frame div{
@@ -113,7 +113,9 @@
         </head>
         <body>
             <header>
-                <img src="https://img.freepik.com/free-vector/tech-computer-logo-template_23-2149204144.jpg?w=2000" alt="alt"/>
+                <div>
+                    <jsp:include page="/WEB-INF/views/user/navbar.jsp"/>
+                </div>
             </header>
             <!-- Navbar -->
 
@@ -178,7 +180,7 @@
 
 
             <!-- Footer -->
-
+             <jsp:include page="/WEB-INF/views/user/footer.jsp"/>
             <script>
 
             </script>

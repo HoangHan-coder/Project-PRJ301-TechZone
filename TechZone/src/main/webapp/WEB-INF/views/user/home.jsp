@@ -96,11 +96,11 @@
             .logo-container img:hover {
                 transform: scale(1.1);
             }
- 
-  
+
+
             footer {
-    background-color:#111; 
-    color:#fff; 
+    background-color:#111;
+    color:#fff;
     padding:40px 20px 0;
   }
   .footer-columns {

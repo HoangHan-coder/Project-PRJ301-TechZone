@@ -83,6 +83,9 @@
     </head>
 
     <body>
+        <div>
+            <jsp:include page="/WEB-INF/views/user/navbar.jsp"/>
+        </div>
         <div class="container-fluid">
             <div class="row w-100">
                 <div class="col-md-5 mx-4 my-5 border rounded">
@@ -182,6 +185,7 @@
                 </form>
             </div>
         </div>
+         <jsp:include page="/WEB-INF/views/user/footer.jsp"/>
         <script>
             document.addEventListener("DOMContentLoaded", () => {
                 const firstTab = document.querySelector(".tab");

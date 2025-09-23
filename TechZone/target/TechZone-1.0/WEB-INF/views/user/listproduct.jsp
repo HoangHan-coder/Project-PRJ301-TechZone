@@ -16,6 +16,9 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <div>
+            <jsp:include page="/WEB-INF/views/user/navbar.jsp"/>
+        </div>
         <div class="box-1">
             <div class="row" >
                 <div class="col-md-3 inner-1">
@@ -91,5 +94,6 @@
                 </div>
             </div>
         </div>
+         <jsp:include page="/WEB-INF/views/user/footer.jsp"/>
     </body>
 </html>

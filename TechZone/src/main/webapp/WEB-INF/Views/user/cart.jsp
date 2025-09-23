@@ -34,9 +34,9 @@
     </head>
     <body>
         <!-- Thanh điều hướng (Navbar) -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light py-2">
+<!--        <nav class="navbar navbar-expand-lg navbar-light bg-light py-2">
             <div class="container-fluid d-flex justify-content-between align-items-center px-5">       
-                <!-- Logo Shopee -->
+                 Logo Shopee 
                 <a href="#" class="navbar-logo d-flex align-items-center text-decoration-none">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTc6KyYQqBpxn8XpymfjPsDdDzYn-OLlQ8Bg&s"
                          alt="Shopee Logo" height="40" class="me-2">
@@ -45,7 +45,7 @@
                         <span class="ms-2 fs-5 text-dark">| Giỏ Hàng</span>
                     </div>
                 </a>
-                <!-- Ô tìm kiếm -->
+                 Ô tìm kiếm 
                 <form class="d-flex ms-auto search-form" style="width: 50%;">
                     <div class="input-group">
                         <input type="text" class="form-control search-input"
@@ -56,7 +56,10 @@
                     </div>
                 </form>
             </div>
-        </nav>
+        </nav>-->
+        <div>
+            <jsp:include page="/WEB-INF/views/user/navbar.jsp"/>
+        </div>
         <!-- Tiêu đề giỏ hàng -->
         <div class="container-fluid my-4">
             <div class="row align-items-center bg-white py-3 border rounded shadow-sm cart-header">
@@ -137,5 +140,6 @@
                 <a href="#" class="text-primary text-decoration-none">Tìm hiểu thêm</a>
             </div>
         </div>
+     <jsp:include page="/WEB-INF/views/user/footer.jsp"/>
     </body>
 </html>
