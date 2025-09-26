@@ -117,8 +117,8 @@
                             <td>0903456789</td>
                             <td>Ad</td>
                             <td class="text-center">
-                                <i class="bi bi-eye me-2"></i>
-                                <i class="bi bi-trash text-danger"></i>
+                                <i class="bi bi-eye me-2" style="cursor: pointer;"></i>
+                                <i class="bi bi-trash text-danger" style="cursor: pointer;"></i>
                             </td>
                         </tr>
                     </tbody>
