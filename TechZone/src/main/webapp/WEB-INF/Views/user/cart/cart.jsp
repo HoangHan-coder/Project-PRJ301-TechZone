@@ -137,5 +137,44 @@
                 <a href="#" class="text-primary text-decoration-none">Tìm hiểu thêm</a>
             </div>
         </div>
+        <div class="cart-container p-3">
+            <div class="d-flex justify-content-between align-items-center p-3 items-row">
+                <div class="d-flex justify-content-center align-items-center">
+                    <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/cart/293cb84a6429a3426672.svg" alt="Voucher Icon" height="20" class="me-2">
+                    <span class="text-dark fw-bold"> Shoppe Voucher </span>
+                </div>
+                <div 
+                    <a href="#" class="text-primary text-decoration-none">Chọn hoặc nhập mã</a>                  
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center p-3 item-row">
+                <div class="d-flex align-items-center">
+
+                </div>
+                <div>
+                    <span class="shoppe-coin-text me-2">Bạn chưa chọn sản phẩm</span>
+                    <span class="shoppe-coin-text">-0đ </span>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center p-3 total-section">
+                <div class="d-flex align-items-center">
+                    <div class="form-check me-3">
+                        <input class="form-check-input" type="checkbox" id="selectAll">
+                        <label class="form-check-lable" for="selectAll">
+                            Chọn Tất Cả
+                        </label>
+                    </div>
+                    <a href="#" class="text-muted text-decoration-none me-3">Xóa</a>
+                    <a href="#" class="text-danger text-decoration-none">Lưu vào mục đã thích</a>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="me-3">
+                        Tổng cộng (0 Sản phẩm): 
+                        <span class="text-danger fw-bold fs-5">0<sup>đ</sup></span>
+                    </span>
+                    <button class="btn btn-danger fw-bold">Mua Hàng</button>
+                </div>
+
+            </div>      
     </body>
 </html>
