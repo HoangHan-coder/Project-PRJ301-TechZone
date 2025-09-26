@@ -8,7 +8,8 @@ dao\DBUntils.class
 model\Product.class
 dao\ProductDB$1.class
 controller\Login.class
+controller\Admin.class
 model\Voucher.class
 controller\Register.class
-controller\HomeServlet.class
+controller\HomeServet.class
 controller\ListVoucher.class
