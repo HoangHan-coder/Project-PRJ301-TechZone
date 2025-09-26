@@ -115,7 +115,7 @@
                             <td>Phạm Thị D</td>
                             <td>d@gmail.com</td>
                             <td>0903456789</td>
-                            <td>Admin</td>
+                            <td>Ad</td>
                             <td class="text-center">
                                 <i class="bi bi-eye me-2"></i>
                                 <i class="bi bi-trash text-danger"></i>
