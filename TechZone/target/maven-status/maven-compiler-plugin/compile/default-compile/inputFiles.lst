@@ -1,6 +1,7 @@
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\resources\JakartaEE10Resource.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\Voucher.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ListVoucher.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\HomeServet.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderServlet.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\dao\DBUntils.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\dao\VoucherDB.java
@@ -9,5 +10,8 @@ D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Login.
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ProductServlet.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Register.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\dao\ProductDB.java
-D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\HomeServlet.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OrdersDB.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orders.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\dto\DTODashboard.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\JakartaRestConfiguration.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Dashboard.java

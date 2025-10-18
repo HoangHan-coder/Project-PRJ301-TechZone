@@ -15,12 +15,12 @@ import java.sql.SQLException;
 public class DBUntils {
     private static final String DB_NAME = "TechZoneDB";
     private static final String DB_USER_NAME = "sa";
-    private static final String DB_PASSWORD = "123456";
+    private static final String DB_PASSWORD = "1234";
 
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
         Connection conn = null;
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=" + DB_NAME+";encrypt=true;trustServerCertificate=true";
+        String url = "jdbc:sqlserver://127.0.0.1:1433;databaseName=" + DB_NAME + ";encrypt=false";
         conn = DriverManager.getConnection(url, DB_USER_NAME, DB_PASSWORD);
         if(conn != null) System.out.println("------------------------------------------------>");
         return conn;
