@@ -42,6 +42,22 @@
             <version>2.9.8</version>
             <type>jar</type>
         </dependency>
+        <dependency> <!-- JSTL -->
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency> <!-- JSTL -->
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.atnos</groupId>
+            <artifactId>eff-list_2.13</artifactId>
+            <version>7.0.6</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     
     <build>
