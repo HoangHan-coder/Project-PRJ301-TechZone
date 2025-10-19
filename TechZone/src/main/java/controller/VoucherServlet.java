@@ -20,7 +20,7 @@ import model.Voucher;
  * @author NgKaitou
  */
 @WebServlet(name = "ListVoucher", urlPatterns = {"/vouchers"})
-public class ListVoucher extends HttpServlet {
+public class VoucherServlet extends HttpServlet {
 
 
 

@@ -42,7 +42,7 @@ public class ProductServlet extends HttpServlet {
         } else {
             System.out.println(action);
             if (action.equals("detail")) {
-                request.getRequestDispatcher("/WEB-INF/views/user/product-detail.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/user/listproduct.jsp").forward(request, response);
             }
         }
 
