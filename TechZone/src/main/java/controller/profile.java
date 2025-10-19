@@ -4,7 +4,6 @@
  */
 package controller;
 
-import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,15 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.sql.SQLException;
 
 /**
  *
  * @author acer
  */
-@WebServlet(name = "Login", urlPatterns = {"/login"})
-public class Login extends HttpServlet {
+@WebServlet(name = "profile", urlPatterns = {"/profile"})
+public class profile extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +36,10 @@ public class Login extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Login</title>");
+            out.println("<title>Servlet profile</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet profile at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,7 +58,7 @@ public class Login extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-  request.getRequestDispatcher("/WEB-INF/Views/auth/login.jsp").forward(request, response);
+request.getRequestDispatcher("/WEB-INF/Views/profile/profile.jsp").forward(request, response);
     }
 
     /**
@@ -75,22 +72,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        try {
-            UserDAO userdao = new UserDAO();
-            if(userdao.login(username, password) != null){
-                response.sendRedirect(getServletContext().getContextPath() + "/home");
-                HttpSession session = request.getSession();
-            session.setAttribute("user", userdao.login(username, password));
-            } else {
-                 response.sendRedirect(getServletContext().getContextPath() + "/login");
-            }
-            
-        } catch (SQLException ex) {
-            System.getLogger(Login.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        }
+//        processRequest(request, response);
     }
 
     /**
