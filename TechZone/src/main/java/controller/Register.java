@@ -58,7 +58,7 @@ public class Register extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
- request.getRequestDispatcher("/WEB-INF/Views/auth/register.jsp").forward(request, response);
+ request.getRequestDispatcher("/WEB-INF/views/user/register.jsp").forward(request, response);
     }
 
     /**
