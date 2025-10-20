@@ -12,7 +12,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Home 12 Clone</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <style>
             .hero {
@@ -194,7 +194,7 @@
             <div class="col-md-4">
                 <a href="products?category=phone" class="text-decoration-none text-dark">
                     <div class="category-card p-4 text-center bg-white rounded shadow-sm">
-                        <img src="assets/images/categories/phone.jpg" alt="Phone Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
+                        <img src="assets/images/phones/iphone_01.jpg" alt="Phone Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
                         <h5>Smartphones & Tablets</h5>
                     </div>
                 </a>
@@ -204,7 +204,7 @@
             <div class="col-md-4">
                 <a href="products?category=laptop" class="text-decoration-none text-dark">
                     <div class="category-card p-4 text-center bg-white rounded shadow-sm">
-                        <img src="assets/images/categories/laptop.jpg" alt="Laptop Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
+                        <img src="assets/images/laptops/acer_01.jpg" alt="Laptop Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
                         <h5>Laptops</h5>
                     </div>
                 </a>

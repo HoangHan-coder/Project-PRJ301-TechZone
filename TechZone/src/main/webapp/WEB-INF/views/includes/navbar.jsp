@@ -22,7 +22,7 @@
     <div class="container d-flex justify-content-between align-items-center py-2">
         <!-- Logo + Menu -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
-            <a class="navbar-brand fw-bold fs-2" href="Home.jsp" >Gizmos<span style="color: orange">.</span></a>
+            <a class="navbar-brand fw-bold fs-2" href="${pageContext.request.contextPath}/products" >Gizmos<span style="color: orange">.</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" 
                     aria-label="Toggle navigation">
@@ -31,7 +31,7 @@
 
             <div class="collapse navbar-collapse my-navbar" id="mainNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active fw-bold" href="Home.jsp">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active fw-bold" href="${pageContext.request.contextPath}/products">Home</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="#">Pages</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="Shop.jsp">Shop</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="#">Blog</a></li>
@@ -67,21 +67,15 @@
 
             <!-- Menu x? xu?ng -->
             <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                <li><a class="dropdown-item" href="#">Weekly Bestsellers</a></li>
-                <li><a class="dropdown-item" href="#">Featured Products</a></li>
-                <li><a class="dropdown-item" href="#">New Arrivals</a></li>
+                <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=phone">SMARTPHONE</a></li>
+                <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=laptop">LAPTOP</a></li>
+                <li><a class="dropdown-item" href="#">ACCESSORY</a></li>
             </ul>
         </div>
         <!-- Search Bar -->
         <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" role="search">
-            <div class="input-group" style="max-width: 600px; width: 100%;">
-                <select class="form-select border-0 border-end" style="max-width: 180px;">
-                    <option selected>All Categories</option>
-                    <option value="1">Electronics</option>
-                    <option value="2">Fashion</option>
-                    <option value="3">Home</option>
-                </select>
-                <input class="form-control border-0" type="search" placeholder="Tìm ki?m s?n ph?m..." aria-label="Search">
+            <div class="input-group" style="max-width: 600px; width: 100%;">           
+                <input class="form-control border-0" type="search" placeholder="Search products" aria-label="Search">
                 <button class="btn btn-light" type="submit">
                     <i class="bi bi-search"></i>
                 </button>

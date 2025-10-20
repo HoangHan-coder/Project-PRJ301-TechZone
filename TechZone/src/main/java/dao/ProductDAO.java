@@ -21,7 +21,6 @@ public class ProductDAO extends DBUntils {
             while (rs.next()) {
                 list.add(mapResultSetToProduct(rs));
             }
- System.out.println("co du lieu sssssssssssssssssssssssssssssssssssssssssa12312312ssssssssssssssssssssssssssssssss");
         } catch (Exception e) {
             e.printStackTrace();
         
@@ -46,7 +45,6 @@ public class ProductDAO extends DBUntils {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("du ma                           22222222222222222222222222222" + e);
         }
 
         return null;
@@ -66,7 +64,6 @@ public class ProductDAO extends DBUntils {
             while (rs.next()) {
                 list.add(mapResultSetToProduct(rs));
             }
-            System.out.println("co du lieu sssssssss12312312sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
         } catch (Exception e) {
             e.printStackTrace();
         }
