@@ -58,9 +58,11 @@ public class AdminServlet extends HttpServlet {
             request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/WEB-INF/Views/admin/account-management.jsp").forward(request, response);
 
-        } else if (view.equals("profile")) {
-            System.out.println("Servlet chạy thành công!");
-            request.getRequestDispatcher("/WEB-INF/Views/admin/account-management.jsp").forward(request, response);
+        } else if (view.equals("update")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            Accounts acc = dao.getById(id);
+            request.setAttribute("account", acc);
+            request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
         }
     }
 
@@ -75,6 +77,29 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = request.getParameter("action");
+        AccountsDAO dao = new AccountsDAO();
+
+        if ("update".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String name = request.getParameter("fullName");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+
+            Accounts account = new Accounts();   // tạo object Artist
+            account.setId(id);
+            account.setFullName(name);
+            account.setEmail(email);
+            account.setPhone(phone);
+
+            int result = dao.update(account);
+            if (result == 1) {
+                System.out.println("----------------------------------------------------------------------------->");
+                response.sendRedirect(request.getContextPath() + "/admin?action=list");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/admin?view=update&id="+account.getId());
+            }
+        }
     }
 
     /**

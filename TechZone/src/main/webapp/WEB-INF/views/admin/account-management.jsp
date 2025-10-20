@@ -18,7 +18,6 @@
             <select class="form-select" style="max-width:200px;">
                 <option selected>Lọc theo vai trò</option>
                 <option value="Admin">Admin</option>
-                <option value="Staff">Staff</option>
                 <option value="Customer">Customer</option>
             </select>
         </div>
@@ -43,7 +42,7 @@
                         <td>${a.phone}</td>
                         <td>Ad</td>
                         <td class="text-center">
-                            <a href="${pageContext.request.contextPath}/admin">
+                            <a class="text-decoration-none" href="${pageContext.request.contextPath}/admin?view=update&id=${a.id}">
                                 <i class="bi bi-eye me-2" style="cursor: pointer;"></i>
                             </a>
                             <a href="${pageContext.request.contextPath}/artist?view=create">

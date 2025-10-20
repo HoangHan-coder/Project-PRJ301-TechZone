@@ -15,12 +15,12 @@ public class Accounts {
     private String passWord;
     private String fullName;
     private String email;
-    private int phone;
+    private String phone;
 
     public Accounts() {
     }
 
-    public Accounts(int id, String userName, String passWord, String fullName, String email, int phone) {
+    public Accounts(int id, String userName, String passWord, String fullName, String email, String phone) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
@@ -29,7 +29,9 @@ public class Accounts {
         this.phone = phone;
     }
 
-    public Accounts(String fullName, String email, int phone) {
+    public Accounts(int id, String userName, String fullName, String email, String phone) {
+        this.id = id;
+        this.userName = userName;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
@@ -75,11 +77,11 @@ public class Accounts {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

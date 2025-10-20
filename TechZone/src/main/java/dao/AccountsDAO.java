@@ -29,7 +29,7 @@ public class AccountsDAO extends DBContext {
             }
 
             List<Accounts> list = new ArrayList<>();
-            String query = "SELECT FullName, Email, Phone FROM Accounts "
+            String query = "SELECT AccountId,username, FullName, Email, Phone FROM Accounts "
                     + "ORDER BY AccountID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
             PreparedStatement statement = this.getConnection().prepareStatement(query);
@@ -40,10 +40,12 @@ public class AccountsDAO extends DBContext {
 
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
+                int accoutId = rs.getInt("AccountId");
+                String userName = rs.getString("username");
                 String name = rs.getString("fullName");
                 String email = rs.getString("email");
-                int phone = rs.getInt("phone");
-                Accounts account = new Accounts(name, email, phone);
+                String phone = rs.getString("phone");
+                Accounts account = new Accounts(accoutId, userName, name, email, phone);
                 list.add(account);
             }
             return list;
@@ -91,6 +93,43 @@ public class AccountsDAO extends DBContext {
             return 1;
         }
 
+    }
+
+    public Accounts getById(int id) {
+        try {
+            String sql = "SELECT AccountId,username, FullName, email, phone FROM Accounts where AccountId=?";
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+                int accoutId = rs.getInt("AccountId");
+                String userName = rs.getString("username");
+                String name = rs.getString("fullName");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                Accounts account = new Accounts(accoutId, userName, name, email, phone);
+                return account;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public int update(Accounts account) {
+        String sql = "UPDATE Accounts SET fullName = ?, email=?, phone=?\n"
+                + " WHERE AccountId = ?";
+        try (PreparedStatement st = this.getConnection().prepareStatement(sql)) {
+            st.setString(1, account.getFullName());
+            st.setString(2, account.getEmail());
+            st.setString(3, account.getPhone());
+            st.setInt(4, account.getId());
+            return st.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
     }
 
 }
