@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
@@ -11,46 +12,54 @@ import java.sql.Timestamp;
  * @author NgKaitou
  */
 public class Voucher {
+
+    private int voucherId;
     private String imgPath;
     private String code;
-    private String discountValue;
+    private BigDecimal discountValue;
+    private String discountType;
     private Timestamp startDate;
     private Timestamp endDate;
     private String status;
-    private String condition;
-    private String maxUsage;
-    private String minUsage;
-    private String currentUsage;
+    private BigDecimal minOrderValue;
+    private int maxUsage;
+    private int currentUsage;
 
     public Voucher() {
     }
 
-    public Voucher(String imgPath, String code, String discountValue, Timestamp startDate, Timestamp endDate, String status, String condition, String maxUsage, String currentUsage) {
-        this.imgPath = "/" + imgPath;
+    public Voucher(int voucherId, String imgPath, String code, BigDecimal discountValue, String discountType, Timestamp startDate, Timestamp endDate, String status, BigDecimal minOrderValue, int maxUsage, int currentUsage) {
+        this.voucherId = voucherId;
+        this.imgPath = imgPath;
         this.code = code;
         this.discountValue = discountValue;
+        this.discountType = discountType;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
-        this.condition = condition.substring(9);
-        this.currentUsage = currentUsage;
-    }
-    
-    public Voucher(String imgPath, String code, String discountValue, Timestamp startDate, Timestamp endDate, String status, String condition, String maxUsage, String minUsage, String currentUsage) {
-        this.imgPath = "/" + imgPath;
-        this.code = code;
-        this.discountValue = discountValue;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = status;
-        this.condition = condition;
+        this.minOrderValue = minOrderValue;
         this.maxUsage = maxUsage;
-        this.minUsage = minUsage;
         this.currentUsage = currentUsage;
     }
 
+    public int getVoucherId() {
+        return voucherId;
+    }
+
+    public void setVoucherId(int voucherId) {
+        this.voucherId = voucherId;
+    }
+
+    public String getDiscountType() {
+        return discountType;
+    }
+
+    public void setDiscountType(String discountType) {
+        this.discountType = discountType;
+    }
+
     public String getImgPath() {
-        return imgPath;
+        return "/" + imgPath;
     }
 
     public void setImgPath(String imgPath) {
@@ -66,13 +75,14 @@ public class Voucher {
     }
 
     public String getDiscountValue() {
-        if(this.discountValue.length() > 3) {
-            return   discountValue + " VND";
+        if (this.discountType.equals("PERCENT")) {
+            return discountValue + " %";
+        } else {
+            return discountValue + " VND";
         }
-        return  discountValue;
     }
 
-    public void setDiscountValue(String discountValue) {
+    public void setDiscountValue(BigDecimal discountValue) {
         this.discountValue = discountValue;
     }
 
@@ -100,37 +110,30 @@ public class Voucher {
         this.status = status;
     }
 
-    public String getCondition() {
-        return condition;
+    public BigDecimal getMinOrderValue() {
+        return minOrderValue;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setMinOrderValue(BigDecimal MinOrderValue) {
+        this.minOrderValue = MinOrderValue;
     }
 
-    public String getMaxUsage() {
+    public int getMaxUsage() {
         return maxUsage;
     }
 
-    public void setMaxUsage(String maxUsage) {
+    public void setMaxUsage(int maxUsage) {
         this.maxUsage = maxUsage;
     }
 
-    public String getMinUsage() {
-        return minUsage;
-    }
-
-    public void setMinUsage(String minUsage) {
-        this.minUsage = minUsage;
-    }
-
-    public String getCurrentUsage() {
+    public int getCurrentUsage() {
         return currentUsage;
     }
 
-    public void setCurrentUsage(String currentUsage) {
+    public void setCurrentUsage(int currentUsage) {
         this.currentUsage = currentUsage;
     }
     
     
 }
+    
