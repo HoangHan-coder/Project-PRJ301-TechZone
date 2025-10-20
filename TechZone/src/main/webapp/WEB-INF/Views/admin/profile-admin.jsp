@@ -1,40 +1,46 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="../Includes/navbar-admin.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- Content -->
 <div class="content">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <form action="${pageContext.request.contextPath}/admin?action=profile" method="post">
-                    
+                <form>
+
                     <h3 class="mb-4">Hồ sơ cá nhân</h3>
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label class="form-label">Họ và tên</label>
-                                    <input type="text" class="form-control" value="Nguyễn Văn A" readonly>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" value="nguyenvana@example.com" readonly>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Số điện thoại</label>
-                                        <input type="text" class="form-control" value="0123456789" readonly>
+                            <c:if test="${accounts == null}"> 
+                                <div> khong tim thay Accounts voi id <%=request.getParameter("id")%></div>
+                            </c:if>
+                            <c:if test ="${accoutns != null}">
+                                <form action="${pageContext.request.contextPath}/admin?action=profile" method="post">
+                                    <div class="mb-3">
+                                        <label class="form-label">Họ và tên</label>
+                                        <input type="text" class="form-control" value="${nextId}" readonly>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label class="form-label">Địa chỉ</label>
-                                        <input type="text" class="form-control" value="123 Đường ABC, Quận 1, TP. Hồ Chí Minh" readonly>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" value="" readonly>
                                     </div>
-                                </div>
-                                <div class="d-flex gap-2">
-                                    <button type="button" class="btn btn-primary">Chỉnh sửa thông tin</button>
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Đổi mật khẩu</button>
-                                </div>
-                            </form>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Số điện thoại</label>
+                                            <input type="text" class="form-control" value="0123456789" readonly>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Địa chỉ</label>
+                                            <input type="text" class="form-control" value="123 Đường ABC, Quận 1, TP. Hồ Chí Minh" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-primary">Chỉnh sửa thông tin</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Đổi mật khẩu</button>
+                                    </div>
+                                </form>
+                            </c:if>
                         </div>
                     </div>
 
