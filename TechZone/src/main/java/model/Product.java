@@ -1,59 +1,40 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Map;
+import java.sql.Timestamp;
 
-/**
- *
- * @author letan
- */
 public class Product {
     private int productId;
     private String linkImg;
     private String productName;
-    private BigDecimal productPrice;
-    private Map<String, String> productAttributes;
+    private double productPrice;
+    private String productAttributes;
     private int categoryId;
-    private boolean isDeleted;
-    private LocalDateTime timeCreate;
-    private int quantity;
+    private int stock;
+    private int quantitySold;
     private String descriptionProduct;
+    private boolean isDeleted;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
+    private byte[] rowVersion;
 
+    // Constructors
     public Product() {
     }
 
-    public Product(int productId, String linkImg, String productName, BigDecimal productPrice, Map<String, String> productAttributes, int categoryId, boolean isDeleted, LocalDateTime timeCreate, int quantity,  String descriptionProduct) {
+    public Product(int productId, String linkImg, String productName, double productPrice, String productAttributes, int categoryId, int stock, int quantitySold, String descriptionProduct, boolean isDeleted, Timestamp createdAt, Timestamp updatedAt, byte[] rowVersion) {
         this.productId = productId;
         this.linkImg = linkImg;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productAttributes = productAttributes;
         this.categoryId = categoryId;
+        this.stock = stock;
+        this.quantitySold = quantitySold;
+        this.descriptionProduct = descriptionProduct;
         this.isDeleted = isDeleted;
-        this.timeCreate = timeCreate;
-        this.quantity = quantity;
-        this.descriptionProduct = descriptionProduct;
-    }
-
-    public String getDescriptionProduct() {
-        return descriptionProduct;
-    }
-
-    public void setDescriptionProduct(String descriptionProduct) {
-        this.descriptionProduct = descriptionProduct;
-    }
-
-    public Map<String, String> getProductAttributes() {
-        return productAttributes;
-    }
-
-    public void setProductAttributes(Map<String, String> productAttributes) {
-        this.productAttributes = productAttributes;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.rowVersion = rowVersion;
     }
 
     public int getProductId() {
@@ -80,14 +61,21 @@ public class Product {
         this.productName = productName;
     }
 
-    public BigDecimal getProductPrice() {
+    public double getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(BigDecimal productPrice) {
+    public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
 
+    public String getProductAttributes() {
+        return productAttributes;
+    }
+
+    public void setProductAttributes(String productAttributes) {
+        this.productAttributes = productAttributes;
+    }
 
     public int getCategoryId() {
         return categoryId;
@@ -95,6 +83,30 @@ public class Product {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public int getQuantitySold() {
+        return quantitySold;
+    }
+
+    public void setQuantitySold(int quantitySold) {
+        this.quantitySold = quantitySold;
+    }
+
+    public String getDescriptionProduct() {
+        return descriptionProduct;
+    }
+
+    public void setDescriptionProduct(String descriptionProduct) {
+        this.descriptionProduct = descriptionProduct;
     }
 
     public boolean isIsDeleted() {
@@ -105,21 +117,28 @@ public class Product {
         this.isDeleted = isDeleted;
     }
 
-    public LocalDateTime getTimeCreate() {
-        return timeCreate;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTimeCreate(LocalDateTime timeCreate) {
-        this.timeCreate = timeCreate;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    
+    public byte[] getRowVersion() {
+        return rowVersion;
+    }
+
+    public void setRowVersion(byte[] rowVersion) {
+        this.rowVersion = rowVersion;
+    }
+
 }

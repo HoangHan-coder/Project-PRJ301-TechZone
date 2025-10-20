@@ -1,72 +1,93 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
-import dao.ProductDB;
-import java.io.IOException;
-import java.io.PrintWriter;
+import dao.ProductDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import model.Product;
 
-/**
- *
- * @author NgKaitou
- */
 @WebServlet(name = "ProductServlet", urlPatterns = {"/products"})
 public class ProductServlet extends HttpServlet {
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        ProductDAO dao = new ProductDAO();
         String action = request.getParameter("action");
-        request.getRequestDispatcher("/WEB-INF/views/user/home.jsp").forward(request, response);
+        String category = request.getParameter("category");
 
-//        if (action == null) {
-//            getAllProduct(request, response);
-//        } else {
-//            System.out.println(action);
-//            if (action.equals("detail")) {
-//                request.getRequestDispatcher("/WEB-INF/views/user/product-detail.jsp").forward(request, response);
-//            }
-//        }
+        try {
+            // 🏠 1️⃣ Nếu không có action hoặc category → hiển thị tất cả sản phẩm
+            if (action == null && category == null) {
+                ArrayList<Product> list = (ArrayList<Product>) dao.getAllProducts();
+                request.setAttribute("list", list);
+                request.getRequestDispatcher("/WEB-INF/views/user/home.jsp").forward(request, response);
+                return;
+            }
 
+            // 📱 2️⃣ Lọc sản phẩm theo danh mục
+       if (category != null) {
+    ArrayList<Product> list = new ArrayList<>();
+    String viewPath = "/WEB-INF/views/user/product-list/";
+
+    switch (category) {
+        case "phone":
+            list = (ArrayList<Product>) dao.getProductsByCategory(2);
+            viewPath += "phone-list.jsp";
+            break;
+
+        case "laptop":
+            list = (ArrayList<Product>) dao.getProductsByCategory(1);
+            viewPath += "laptop-list.jsp";
+            break;
+
+        case "accessory":
+            list = (ArrayList<Product>) dao.getProductsByCategory(3);
+            viewPath += "accessory-list.jsp";
+            break;
+
+        default:
+            response.sendRedirect("products");
+            return;
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    request.setAttribute("list", list);
+    request.getRequestDispatcher(viewPath).forward(request, response);
+}
+
+
+            // 🔍 3️⃣ Xem chi tiết sản phẩm
+            if ("detail".equals(action)) {
+                String id = request.getParameter("id");
+                if (id != null) {
+                    try {
+                        int productId = Integer.parseInt(id);
+                        Product p = dao.getProductById(productId);
+                        if (p != null) {
+                            request.setAttribute("product", p);
+                            request.getRequestDispatcher("/WEB-INF/views/user/product-detail.jsp").forward(request, response);
+                            return;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("❌ Invalid product ID: " + id);
+                    }
+                }
+                response.sendRedirect("products");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi tải sản phẩm");
+        }
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        // ❌ User không cần POST
     }
-
-    public void getAllProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ProductDB product = new ProductDB();
-        ArrayList<Product> list = product.getAll();
-        request.setAttribute("list", list);
-        request.getRequestDispatcher("/WEB-INF/views/user/listproduct.jsp").forward(request, response);
-    }
-
 }
