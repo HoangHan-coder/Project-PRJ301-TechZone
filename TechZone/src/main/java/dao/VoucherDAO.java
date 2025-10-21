@@ -62,6 +62,37 @@ public class VoucherDAO {
         return listVoucher;
     }
     
+    public Voucher getByVoucherCode(String voucherCode) {
+        
+        try {
+            String sql = "SELECT * FROM Vouchers WHERE Code = ?";
+            PreparedStatement  statement = this.connect.prepareStatement(sql);
+            statement.setString(1, voucherCode);
+            ResultSet rs = statement.executeQuery();
+            
+            while(rs.next()) {
+                return new Voucher(
+                        rs.getInt("VoucherId"),
+                        rs.getString("imgPath"),
+                        rs.getString("code"),
+                        rs.getBigDecimal("discountValue"),
+                        rs.getString("discountType"),
+                        rs.getTimestamp("startDate"),
+                        rs.getTimestamp("endDate"),
+                        rs.getString("status"),
+                        rs.getBigDecimal("minOrderValue"),
+                        rs.getInt("maxUsage"),
+                        rs.getInt("currentUsage")
+                );
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+    
     public int createVoucher(Voucher voucher){
         if(voucher.isExpired()) {
             voucher.setStatus("EXPIRED");
@@ -89,6 +120,39 @@ public class VoucherDAO {
             statement.setBigDecimal(8, voucher.getMinOrderValue());
             statement.setInt(9, voucher.getMaxUsage());
             
+            return statement.executeUpdate();            
+        } catch (SQLException ex) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return 0;
+    }
+    
+    public int updateVoucher(Voucher voucher, int voucherId){
+        
+        
+        String sql = "UPDATE Vouchers SET "
+                + " Code = ?,"
+                + " DiscountValue = ?,"
+                + " DiscountType = ?,"
+                + " StartDate = ?,"
+                + " EndDate = ?,"
+                + " Status = ?,"
+                + " MinOrderValue = ?,"
+                + " MaxUsage = ?"
+                + " WHERE VoucherId = ?";
+        try {
+            PreparedStatement  statement = this.connect.prepareStatement(sql);
+            statement.setString(1, voucher.getCode());
+            statement.setBigDecimal(2, voucher.getDiscountValue());
+            statement.setString(3, voucher.getDiscountType());
+            statement.setTimestamp(4, voucher.getStartDate());
+            statement.setTimestamp(5, voucher.getEndDate());
+            statement.setString(6, voucher.getStatus());
+            statement.setBigDecimal(7, voucher.getMinOrderValue());
+            statement.setInt(8, voucher.getMaxUsage());
+            statement.setInt(9, voucherId);
             return statement.executeUpdate();            
         } catch (SQLException ex) {
             Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);

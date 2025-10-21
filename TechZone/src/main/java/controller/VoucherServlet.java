@@ -13,8 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ import model.Voucher;
  *
  * @author NgKaitou
  */
-@WebServlet(name = "ListVoucher", urlPatterns = {"/voucher"})
+@WebServlet(name = "VoucherServlet", urlPatterns = {"/voucher"})
 public class VoucherServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -109,13 +109,18 @@ public class VoucherServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/views/admin/voucher/create-voucher.jsp").forward(request, response);
     }
 
-    private void getUpdateVoucher(HttpServletRequest request, HttpServletResponse response) {
-
+    private void getUpdateVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String voucherCode = request.getParameter("voucherCode");
+        VoucherDAO db = new VoucherDAO();
+        Voucher v = db.getByVoucherCode(voucherCode);
+        
+        request.setAttribute("voucher", v);
+        request.getRequestDispatcher("/WEB-INF/views/admin/voucher/update-voucher.jsp").forward(request, response);
     }
 
-    private void getRemoveVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    private void getRemoveVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String success = request.getParameter("success");
-        String  removeError = request.getParameter("removeError");
+        String removeError = request.getParameter("removeError");
 
         request.setAttribute("success", success);
         request.setAttribute("removeError", removeError);
@@ -193,18 +198,19 @@ public class VoucherServlet extends HttpServlet {
 
     private void removeVoucher(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         int voucherId = Integer.parseInt(request.getParameter("voucherId"));
         VoucherDAO voucherDAO = new VoucherDAO();
         int result = voucherDAO.deleteVoucher(voucherId);
         System.out.println(voucherId);
-        if(result == 1){
+        if (result == 1) {
             String success = "Xóa thành công!";
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=remove&success="+success); 
+            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=remove&success=" + success);
         } else {
             String removeError = "Xóa không thành công!";
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=remove&removeError="+removeError); 
+            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=remove&removeError=" + removeError);
         }
-        
+
     }
 
     private void updateVoucher(HttpServletRequest request, HttpServletResponse response)

@@ -132,6 +132,17 @@ public class Voucher {
     }
 
     public String getStatus() {
+        if(this.isExpired()) {
+            this.setStatus("EXPIRED");
+        } else if(this.isNotStart()) {
+            this.setStatus("UPCOMING");
+        } else {
+            this.setStatus("ACTIVE");
+        }
+        
+        if(this.getMaxUsage() <= 0) {
+            this.setStatus("DISABLED");
+        }
         return status;
     }
 

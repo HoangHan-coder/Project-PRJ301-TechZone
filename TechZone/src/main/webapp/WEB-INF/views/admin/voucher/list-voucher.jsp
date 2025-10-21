@@ -55,7 +55,7 @@
                                 <td>${voucher.getMinOrderValueToString()}</td>
                                 <td>${voucher.currentUsage}/${voucher.maxUsage}</td>
                                 <td class="text-center d-flex gap-3 justify-content-center">
-                                    <a href="#" class="text-decoration-none">
+                                    <a href="<c:url value="/voucher?view=update&voucherCode=${voucher.code}"></c:url>" class="text-decoration-none">
                                         <i class="bi bi-eye me-2 text-dark" style="cursor: pointer;"></i>
                                     </a>
                                     <button style="border: none;background-color: #ffffff;"
