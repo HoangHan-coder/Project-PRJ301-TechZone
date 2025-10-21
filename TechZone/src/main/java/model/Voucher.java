@@ -6,6 +6,7 @@ package model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -28,6 +29,19 @@ public class Voucher {
     public Voucher() {
     }
 
+    public Voucher(String code, BigDecimal discountValue, String discountType, Timestamp startDate, Timestamp endDate, BigDecimal minOrderValue, int maxUsage) {
+        this.code = code;
+        this.discountValue = discountValue;
+        this.discountType = discountType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.minOrderValue = minOrderValue;
+        this.maxUsage = maxUsage;
+        this.currentUsage = 0;
+    }
+    
+    
+    
     public Voucher(int voucherId, String imgPath, String code, BigDecimal discountValue, String discountType, Timestamp startDate, Timestamp endDate, String status, BigDecimal minOrderValue, int maxUsage, int currentUsage) {
         this.voucherId = voucherId;
         this.imgPath = imgPath;
@@ -40,6 +54,16 @@ public class Voucher {
         this.minOrderValue = minOrderValue;
         this.maxUsage = maxUsage;
         this.currentUsage = currentUsage;
+    }
+    
+    public boolean isExpired() {
+        LocalDateTime now = LocalDateTime.now();        
+        return (now.isAfter(endDate.toLocalDateTime()));
+    }
+    
+    public boolean isNotStart() {
+        LocalDateTime now = LocalDateTime.now();        
+        return (now.isBefore(startDate.toLocalDateTime()));
     }
 
     public int getVoucherId() {
@@ -73,12 +97,17 @@ public class Voucher {
     public void setCode(String code) {
         this.code = code;
     }
+    
+    public BigDecimal getDiscountValue() {
+        return this.discountValue;
+    }
+    
 
-    public String getDiscountValue() {
+    public String getDiscountValueToString() {
         if (this.discountType.equals("PERCENT")) {
-            return discountValue + " %";
+            return discountValue.intValue() + "%";
         } else {
-            return discountValue + " VND";
+            return discountValue.intValue() + "VND";
         }
     }
 
@@ -109,9 +138,13 @@ public class Voucher {
     public void setStatus(String status) {
         this.status = status;
     }
-
+    
     public BigDecimal getMinOrderValue() {
         return minOrderValue;
+    }
+    
+    public String getMinOrderValueToString() {
+        return minOrderValue.intValue() + "VND";
     }
 
     public void setMinOrderValue(BigDecimal MinOrderValue) {

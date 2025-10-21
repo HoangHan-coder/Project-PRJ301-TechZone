@@ -22,7 +22,6 @@ public class DBUntils {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         String url = "jdbc:sqlserver://localhost:1433;databaseName=" + DB_NAME+";encrypt=true;trustServerCertificate=true";
         conn = DriverManager.getConnection(url, DB_USER_NAME, DB_PASSWORD);
-        if(conn != null) System.out.println("------------------------------------------------>");
         return conn;
     }
 }
