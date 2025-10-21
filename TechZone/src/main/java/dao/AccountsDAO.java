@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class AccountsDAO extends DBContext {
 
     private final int SIZE = 30;
-
+ 
     public List<Accounts> getAccounts(int page) {
         try {
             if (page < 1) {
@@ -30,6 +30,7 @@ public class AccountsDAO extends DBContext {
 
             List<Accounts> list = new ArrayList<>();
             String query = "SELECT AccountId,username, FullName, Email, Phone FROM Accounts "
+                    + "WHERE IsDeleted = 0"
                     + "ORDER BY AccountID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
             PreparedStatement statement = this.getConnection().prepareStatement(query);
@@ -130,6 +131,41 @@ public class AccountsDAO extends DBContext {
             Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
+    }
+
+    public int delete(int id) {
+        try {
+            String sql = "UPDATE Accounts SET IsDeleted = 1 WHERE AccountId = ?";
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
+            st.setInt(1, id);
+            return st.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountsDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+    }
+
+    public int create(Accounts account) {
+        try {
+            String query = "insert into Accounts (Username, FullName, Email, PasswordHash,Phone)"
+                    + " values(?,?,?,?,?)";
+            PreparedStatement st = this.getConnection().prepareStatement(query);
+     
+            st.setString(1, account.getUserName());
+            st.setString(2, account.getFullName());
+            st.setString(3, account.getEmail());
+            st.setString(4, account.getPassWord());
+            st.setString(5, account.getPhone());
+            return st.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountsDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+
     }
 
 }

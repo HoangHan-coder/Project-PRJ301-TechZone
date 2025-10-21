@@ -37,7 +37,7 @@ public class AdminServlet extends HttpServlet {
         String view = request.getParameter("view");
         AccountsDAO dao = new AccountsDAO();
 
-        if (view == null || view.equals("user")) {
+        if (view == null || view.equals("list")) {
             String pageParam = request.getParameter("page");
             int page = 1; // mặc định là trang 1
             if (pageParam != null) {
@@ -63,7 +63,21 @@ public class AdminServlet extends HttpServlet {
             Accounts acc = dao.getById(id);
             request.setAttribute("account", acc);
             request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
+        } else if (view.equals("delete")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            int result = dao.delete(id);
+
+            if (result == 1) {
+                response.sendRedirect(request.getContextPath() + "/admin?view=list&delete=1");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/admin?view=list&delete=0");
+            }
+        } else if (view.equals("create")) {
+            int nextId = dao.getNextId();
+            request.setAttribute("nextId", nextId);
+            request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
         }
+
     }
 
     /**
@@ -86,7 +100,7 @@ public class AdminServlet extends HttpServlet {
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
 
-            Accounts account = new Accounts();   // tạo object Artist
+            Accounts account = new Accounts();
             account.setId(id);
             account.setFullName(name);
             account.setEmail(email);
@@ -94,12 +108,42 @@ public class AdminServlet extends HttpServlet {
 
             int result = dao.update(account);
             if (result == 1) {
-                System.out.println("----------------------------------------------------------------------------->");
                 response.sendRedirect(request.getContextPath() + "/admin?action=list");
             } else {
-                response.sendRedirect(request.getContextPath() + "/admin?view=update&id="+account.getId());
+                response.sendRedirect(request.getContextPath() + "/admin?view=update&id=" + account.getId());
+            }
+        } else if ("create".equals(action)) {
+            String userName = request.getParameter("userName");
+            String passWord = request.getParameter("passWord");
+            String name = request.getParameter("fullName");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+
+            // Kiểm tra rỗng
+            if (name == null || name.trim().isEmpty()) {
+                request.setAttribute("error", "Tên Account không được để trống!");
+                request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
+                return;
+            }
+            // Tạo object và set dữ liệu
+            Accounts account = new Accounts();
+            account.setUserName(userName);
+            account.setPassWord(passWord);
+            account.setFullName(name);
+            account.setEmail(email);
+            account.setPhone(phone);
+
+//            int id = dao.getNextId();
+            int re = dao.create(account);
+
+            if (re == 1) {
+                response.sendRedirect(request.getContextPath() + "/admin?view=list&created=1");
+            } else {
+                request.setAttribute("error", "Không thể tạo Account!");
+                request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
             }
         }
+
     }
 
     /**

@@ -9,7 +9,8 @@
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1>Người dùng</h1>
-            <button class="btn btn-primary">Thêm người dùng mới</button>
+            <a class="text-decoration-none btn btn-primary" href="${pageContext.request.contextPath}/admin?view=create">Thêm người dùng mới
+            </a>
         </div>
 
         <!-- Tìm kiếm + Lọc -->
@@ -27,7 +28,8 @@
             <table class="table table-hover align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>Tên</th>
+                        <th>Tên tài khoản</th>
+                        <th>Họ&Tên</th>
                         <th>Email</th>
                         <th>SDT</th>
                         <th>Vai trò</th>
@@ -36,22 +38,24 @@
                 </thead>
                 <tbody>
                     <c:forEach var="a" items="${accounts}">
-                    <tr>
-                        <td>${a.fullName}</td>
-                        <td>${a.email}</td>
-                        <td>${a.phone}</td>
-                        <td>Ad</td>
-                        <td class="text-center">
-                            <a class="text-decoration-none" href="${pageContext.request.contextPath}/admin?view=update&id=${a.id}">
-                                <i class="bi bi-eye me-2" style="cursor: pointer;"></i>
-                            </a>
-                            <a href="${pageContext.request.contextPath}/artist?view=create">
-                                <i class="bi bi-trash text-danger" style="cursor: pointer;"></i>
-                            </a>
+                        <tr>
+                            <td>${a.userName}</td>
+                            <td>${a.fullName}</td>
+                            <td>${a.email}</td>
+                            <td>${a.phone}</td>
+                            <td>Ad</td>
+                            <td class="text-center">
+                                <a class="text-decoration-none" href="${pageContext.request.contextPath}/admin?view=update&id=${a.id}">
+                                    <i class="bi bi-eye me-2" style="cursor: pointer;"></i>
+                                </a>
+                                <a class="text-decoration-none"
+                                   href="${pageContext.request.contextPath}/admin?view=delete&id=${a.id}"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa Account với ID = ${a.id} này không?');">
+                                    <i class="bi bi-trash text-danger" style="cursor: pointer;"></i>
+                                </a>
 
-
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
                     </c:forEach>
                 </tbody>
             </table>
