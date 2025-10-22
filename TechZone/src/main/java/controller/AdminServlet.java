@@ -52,18 +52,18 @@ public class AdminServlet extends HttpServlet {
             }
 
             List<Accounts> list = dao.getAccounts(page);
-            int totalPages = dao.getNextId();
             request.setAttribute("accounts", list);
             request.setAttribute("currentPage", page);
-            request.setAttribute("totalPages", totalPages);
             request.getRequestDispatcher("/WEB-INF/Views/admin/account-management.jsp").forward(request, response);
 
-        } else if (view.equals("update")) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            Accounts acc = dao.getById(id);
-            request.setAttribute("account", acc);
-            request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
-        } else if (view.equals("delete")) {
+        } 
+//        else if (view.equals("update")) {
+        //            int id = Integer.parseInt(request.getParameter("id"));
+        //            Accounts acc = dao.getById(id);
+        //            request.setAttribute("account", acc);
+        //            request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
+        //        }
+        else if (view.equals("delete")) {
             int id = Integer.parseInt(request.getParameter("id"));
             int result = dao.delete(id);
 

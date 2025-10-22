@@ -16,25 +16,39 @@ public class Accounts {
     private String fullName;
     private String email;
     private String phone;
+    private boolean isDeleted;
+    private String roleName;
 
     public Accounts() {
     }
 
-    public Accounts(int id, String userName, String passWord, String fullName, String email, String phone) {
+//    public Accounts(int id, String userName, String passWord, String fullName, String email, String phone) {
+//        this.id = id;
+//        this.userName = userName;
+//        this.passWord = passWord;
+//        this.fullName = fullName;
+//        this.email = email;
+//        this.phone = phone;
+//    }
+
+    public Accounts(int id, String userName, String fullName, String email, String phone, String roleName) {
+        this.id = id;
+        this.userName = userName;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.roleName = roleName;
+    }
+
+    public Accounts(int id, String userName, String passWord, String fullName, String email, String phone, boolean isDeleted, String roleName) {
         this.id = id;
         this.userName = userName;
         this.passWord = passWord;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
-    }
-
-    public Accounts(int id, String userName, String fullName, String email, String phone) {
-        this.id = id;
-        this.userName = userName;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
+        this.isDeleted = isDeleted;
+        this.roleName = roleName;
     }
 
     public int getId() {
@@ -83,6 +97,22 @@ public class Accounts {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public boolean isIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @Override

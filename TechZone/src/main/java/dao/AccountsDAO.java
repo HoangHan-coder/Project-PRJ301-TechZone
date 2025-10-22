@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class AccountsDAO extends DBContext {
 
     private final int SIZE = 30;
- 
+
     public List<Accounts> getAccounts(int page) {
         try {
             if (page < 1) {
@@ -29,9 +29,13 @@ public class AccountsDAO extends DBContext {
             }
 
             List<Accounts> list = new ArrayList<>();
-            String query = "SELECT AccountId,username, FullName, Email, Phone FROM Accounts "
-                    + "WHERE IsDeleted = 0"
-                    + "ORDER BY AccountID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            String query = "SELECT a.AccountId, a.Username, a.FullName, a.Email, a.Phone, r.RoleName "
+                    + "FROM Accounts a "
+                    + "JOIN AccountRoles ar ON a.AccountId = ar.AccountId "
+                    + "JOIN Roles r ON ar.RoleId = r.RoleId "
+                    + "WHERE a.IsDeleted = 0 "
+                    + "ORDER BY a.AccountId "
+                    + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
             PreparedStatement statement = this.getConnection().prepareStatement(query);
 
@@ -42,11 +46,12 @@ public class AccountsDAO extends DBContext {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 int accoutId = rs.getInt("AccountId");
-                String userName = rs.getString("username");
-                String name = rs.getString("fullName");
-                String email = rs.getString("email");
-                String phone = rs.getString("phone");
-                Accounts account = new Accounts(accoutId, userName, name, email, phone);
+                String userName = rs.getString("Username");
+                String name = rs.getString("FullName");
+                String email = rs.getString("Email");
+                String phone = rs.getString("Phone");
+                String roleName = rs.getString("RoleName");
+                Accounts account = new Accounts(accoutId, userName, name, email, phone, roleName);
                 list.add(account);
             }
             return list;
@@ -96,27 +101,27 @@ public class AccountsDAO extends DBContext {
 
     }
 
-    public Accounts getById(int id) {
-        try {
-            String sql = "SELECT AccountId,username, FullName, email, phone FROM Accounts where AccountId=?";
-            PreparedStatement st = this.getConnection().prepareStatement(sql);
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
-
-            if (rs.next()) {
-                int accoutId = rs.getInt("AccountId");
-                String userName = rs.getString("username");
-                String name = rs.getString("fullName");
-                String email = rs.getString("email");
-                String phone = rs.getString("phone");
-                Accounts account = new Accounts(accoutId, userName, name, email, phone);
-                return account;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
+//    public Accounts getById(int id) {
+//        try {
+//            String sql = "SELECT AccountId,username, FullName, email, phone FROM Accounts where AccountId=?";
+//            PreparedStatement st = this.getConnection().prepareStatement(sql);
+//            st.setInt(1, id);
+//            ResultSet rs = st.executeQuery();
+//
+//            if (rs.next()) {
+//                int accoutId = rs.getInt("AccountId");
+//                String userName = rs.getString("username");
+//                String name = rs.getString("fullName");
+//                String email = rs.getString("email");
+//                String phone = rs.getString("phone");
+//                Accounts account = new Accounts(accoutId, userName, name, email, phone);
+//                return account;
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return null;
+//    }
 
     public int update(Accounts account) {
         String sql = "UPDATE Accounts SET fullName = ?, email=?, phone=?\n"
@@ -152,7 +157,7 @@ public class AccountsDAO extends DBContext {
             String query = "insert into Accounts (Username, FullName, Email, PasswordHash,Phone)"
                     + " values(?,?,?,?,?)";
             PreparedStatement st = this.getConnection().prepareStatement(query);
-     
+
             st.setString(1, account.getUserName());
             st.setString(2, account.getFullName());
             st.setString(3, account.getEmail());
@@ -166,6 +171,38 @@ public class AccountsDAO extends DBContext {
             return 0;
         }
 
+    }
+
+    public List<Accounts> getByRole(String roleName) {
+        try {
+            List<Accounts> list = new ArrayList<>();
+            String sql = "SELECT a.AccountId, a.FullName, a.Username, a.Email, a.Phone, r.RoleName "
+                    + "FROM Accounts a "
+                    + "JOIN AccountRoles ar ON a.AccountId = ar.AccountId "
+                    + "JOIN Roles r ON ar.RoleId = r.RoleId "
+                    + "WHERE a.IsDeleted = 0 AND r.RoleName = ?";
+
+            PreparedStatement statement = this.getConnection().prepareStatement(sql);
+            statement.setString(1, roleName);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                try {
+                    int accoutId = rs.getInt("AccountId");
+                    String userName = rs.getString("username");
+                    String name = rs.getString("fullName");
+                    String email = rs.getString("email");
+                    String phone = rs.getString("phone");
+                    Accounts account = new Accounts(accoutId, userName, name, email, phone, roleName);
+                    list.add(account);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

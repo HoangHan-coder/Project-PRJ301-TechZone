@@ -43,7 +43,7 @@
                             <td>${a.fullName}</td>
                             <td>${a.email}</td>
                             <td>${a.phone}</td>
-                            <td>Ad</td>
+                            <td>${a.roleName}</td>
                             <td class="text-center">
                                 <a class="text-decoration-none" href="${pageContext.request.contextPath}/admin?view=update&id=${a.id}">
                                     <i class="bi bi-eye me-2" style="cursor: pointer;"></i>
