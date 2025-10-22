@@ -4,7 +4,7 @@
  */
 package dao;
 
-import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,16 +17,11 @@ import model.Voucher;
  *
  * @author NgKaitou
  */
-public class VoucherDAO {
-    protected Connection connect;
+public class VoucherDAO extends DBContext{
     private final String IMG_PATH = "assets/images/vouchers/voucher.png";
 
     public VoucherDAO() {
-        try {
-            connect = DBUntils.getConnection();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
     
     
@@ -35,7 +30,7 @@ public class VoucherDAO {
         String sql = "SELECT * FROM Vouchers";
                
         try {
-            PreparedStatement ps = connect.prepareStatement(sql);
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             
             while(rs.next()) {
@@ -66,7 +61,7 @@ public class VoucherDAO {
         
         try {
             String sql = "SELECT * FROM Vouchers WHERE Code = ?";
-            PreparedStatement  statement = this.connect.prepareStatement(sql);
+            PreparedStatement  statement = this.getConnection().prepareStatement(sql);
             statement.setString(1, voucherCode);
             ResultSet rs = statement.executeQuery();
             
@@ -109,7 +104,7 @@ public class VoucherDAO {
         String sql = "INSERT INTO Vouchers (ImgPath, Code, DiscountValue, DiscountType, StartDate, EndDate, Status, MinOrderValue, MaxUsage) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            PreparedStatement  statement = this.connect.prepareStatement(sql);
+            PreparedStatement  statement = this.getConnection().prepareStatement(sql);
             statement.setString(1, IMG_PATH);
             statement.setString(2, voucher.getCode());
             statement.setBigDecimal(3, voucher.getDiscountValue());
@@ -143,7 +138,7 @@ public class VoucherDAO {
                 + " MaxUsage = ?"
                 + " WHERE VoucherId = ?";
         try {
-            PreparedStatement  statement = this.connect.prepareStatement(sql);
+            PreparedStatement  statement = this.getConnection().prepareStatement(sql);
             statement.setString(1, voucher.getCode());
             statement.setBigDecimal(2, voucher.getDiscountValue());
             statement.setString(3, voucher.getDiscountType());
@@ -166,7 +161,7 @@ public class VoucherDAO {
          
         try {
             String sql = "UPDATE Vouchers SET Status='DISABLED' WHERE VoucherId = ?";
-            PreparedStatement  statement = this.connect.prepareStatement(sql);
+            PreparedStatement  statement = this.getConnection().prepareStatement(sql);
             statement.setInt(1, id);
             return statement.executeUpdate();
         } catch (SQLException ex) {
@@ -175,5 +170,49 @@ public class VoucherDAO {
         return 0;
     }
     
+    public int getTotalRow() {
+        try {
+            String sql = "SELECT Count(VoucherId) as totalRow FROM Vouchers";
+            PreparedStatement  statement = this.getConnection().prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+                return rs.getInt(1);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
     
+    public List<Voucher> getVoucherList(int page) {
+        List<Voucher> listVoucher = new ArrayList<>();
+        int index = (page - 1) * 12;
+        try {
+            String sql = "select * from Vouchers order by VoucherId "
+                    + "offset ? rows fetch next 12 rows only";
+            PreparedStatement pt = this.getConnection().prepareStatement(sql);
+            pt.setInt(1, index);
+            ResultSet rs = pt.executeQuery();
+             while(rs.next()) {
+                listVoucher.add(new Voucher(
+                        rs.getInt("VoucherId"),
+                        rs.getString("imgPath"),
+                        rs.getString("code"),
+                        rs.getBigDecimal("discountValue"),
+                        rs.getString("discountType"),
+                        rs.getTimestamp("startDate"),
+                        rs.getTimestamp("endDate"),
+                        rs.getString("status"),
+                        rs.getBigDecimal("minOrderValue"),
+                        rs.getInt("maxUsage"),
+                        rs.getInt("currentUsage")
+                ));
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listVoucher;
+    }
 }

@@ -96,6 +96,7 @@
 
                     </tbody>
                 </table>
+                <%@include file="../../includes/pagination.jsp" %>
             </div>
         </div>
     </body>

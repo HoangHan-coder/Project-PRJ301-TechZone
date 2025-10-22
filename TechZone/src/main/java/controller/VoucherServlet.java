@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import model.Voucher;
+import until.Pagination;
 
 /**
  *
@@ -96,10 +97,18 @@ public class VoucherServlet extends HttpServlet {
     }
 
     private void getAllVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String pageRaw = request.getParameter("page");
+        int currentPage;
+        try {
+            currentPage = Integer.parseInt(pageRaw);
+        } catch (NumberFormatException ex) {
+            currentPage = 1;
+        }
         VoucherDAO db = new VoucherDAO();
-
-        List<Voucher> listVoucher = db.getAllVoucher();
-
+        Pagination p = new Pagination();
+        int totalRow = db.getTotalRow();
+        List<Voucher> listVoucher = db.getVoucherList(currentPage);
+        p.handlePagintation(request, currentPage, totalRow, "voucher");
         request.setAttribute("listVoucher", listVoucher);
 
         request.getRequestDispatcher("/WEB-INF/views/admin/voucher/list-voucher.jsp").forward(request, response);
@@ -113,7 +122,7 @@ public class VoucherServlet extends HttpServlet {
         String voucherCode = request.getParameter("voucherCode");
         VoucherDAO db = new VoucherDAO();
         Voucher v = db.getByVoucherCode(voucherCode);
-        
+
         request.setAttribute("voucher", v);
         request.getRequestDispatcher("/WEB-INF/views/admin/voucher/update-voucher.jsp").forward(request, response);
     }

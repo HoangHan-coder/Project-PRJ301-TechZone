@@ -14,12 +14,21 @@ import java.io.IOException;
  */
 public class Pagination {
     
-    public static void handlePagintation(HttpServletRequest request, int currentPage, int totalPage) throws ServletException, IOException {
+    public void handlePagintation(HttpServletRequest request, int currentPage, int totalRow, String servletPath) throws ServletException, IOException {
         int endPage;
         int startPage;
         int currentGroup;
         int pageGroup = 5;
-     
+        int rowInPage = 12;
+        int totalPage = 0;
+        
+        if(totalRow % rowInPage == 0) {
+            totalPage = totalRow/rowInPage;
+        } else {
+            totalPage = (totalRow/rowInPage) + 1;
+        }
+            
+        
         if(currentPage > totalPage) currentPage = totalPage;
         if(currentPage < 1) currentPage = 1;
         
@@ -29,7 +38,7 @@ public class Pagination {
         
         if(endPage > totalPage) endPage = totalPage;
         
-        
+        request.setAttribute("servletPath", servletPath);
         request.setAttribute("startPage", startPage);
         request.setAttribute("endPage", endPage);
         request.setAttribute("currentPage", currentPage);
