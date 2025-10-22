@@ -19,72 +19,80 @@
 
     <style>
         * {
-            box-sizing: border-box;
-        }
+                box-sizing: border-box;
+            }
+            .tab-container {
+                display: flex;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                overflow: hidden;
+                width: fit-content;
+                margin: 0 auto;
+            }
 
-        .tab-container {
-            display: flex;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            width: fit-content;
-            margin: 0 auto;
-        }
+            .tab {
+                padding: 12px 24px;
+                cursor: pointer;
+                border-right: 1px solid #ddd;
+                background-color: white;
+                color: black;
+                font-weight: 500;
+                transition: 0.3s;
+            }
 
-        .tab {
-            padding: 12px 24px;
-            cursor: pointer;
-            border-right: 1px solid #ddd;
-            background-color: white;
-            color: black;
-            font-weight: 500;
-            transition: 0.3s;
-        }
+            .tab:last-child {
+                border-right: none;
+            }
 
-        .tab:last-child {
-            border-right: none;
-        }
+            .tab.active {
+                background-color: #2563eb;
+                color: white;
+            }
 
-        .tab.active {
-            background-color: #2563eb;
-            color: white;
-        }
+            .detail,
+            .review {
+                display: none;
+            }
 
-        .detail,
-        .review {
-            display: none;
-        }
+            .star {
+                font-size: 2rem;
+                color: #ccc;
+                cursor: pointer;
+                transition: color 0.2s;
+            }
 
-        .star {
-            font-size: 2rem;
-            color: #ccc;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
+            .star.active {
+                color: gold;
+            }
 
-        .star.active {
-            color: gold;
-        }
+            ::-webkit-scrollbar {
+                width: 10px;
+                height: 10px;
+            }
 
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
+            ::-webkit-scrollbar-thumb {
+                background: #2563eb;
+                border-radius: 10px;
+            }
 
-        ::-webkit-scrollbar-thumb {
-            background: #2563eb;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #1e40af;
-        }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #1e40af;
+            }
+            .review {
+                --bs-gutter-x: 1.5rem;
+                --bs-gutter-y: 0;
+                display: none;
+                flex-wrap: wrap;
+                margin-top: calc(-1 * var(--bs-gutter-y));
+                margin-right: calc(-.5 * var(--bs-gutter-x));
+                margin-left: calc(-.5 * var(--bs-gutter-x));
+            }
     </style>
 </head>
 
 <body>
     <jsp:include page="/WEB-INF/views/includes/navbar.jsp" />
-
+    
     <div class="container-fluid">
         <div class="row w-100">
             <!-- Hình ảnh sản phẩm -->
@@ -142,7 +150,7 @@
         </div>
 
         <!-- Đánh giá -->
-        <div class="row w-100 review">
+        <div class=" w-100 review">
             <form class="mx-3 mb-5">
                 <p class="my-3 text-muted">Hãy chia sẻ cảm nhận của bạn về sản phẩm này!</p>
                 <div class="rating my-3">
@@ -176,10 +184,10 @@
             });
         });
 
-        // Mặc định mở tab đầu tiên
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelector(".detail").style.display = "block";
-        });
+//         Mặc định mở tab đầu tiên
+//        document.addEventListener("DOMContentLoaded", () => {
+//            document.querySelector(".detail").style.display = "block";
+//        });
 
         // Rating sao
         document.querySelectorAll(".star").forEach(star => {
@@ -207,5 +215,6 @@
             if (parseInt(q.value) > 1) q.value = parseInt(q.value) - 1;
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

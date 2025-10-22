@@ -4,7 +4,7 @@
     Author     : PC
 --%>
 
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,65 +99,65 @@
 
 
             footer {
-    background-color:#111;
-    color:#fff;
-    padding:40px 20px 0;
-  }
-  .footer-columns {
-  display: flex;
-  justify-content: space-evenly;
-  gap: 40px; /* khoảng cách giữa các cột */
-  max-width: 1200px;
-  margin: 0 auto 30px;
-  text-align: left;
-}
-.footer-column h4 {
-  margin-bottom: 15px;
-  font-size: 18px;
-  font-weight: bold;
-}
-.footer-column ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.footer-column ul li {
-  margin-bottom: 8px;
-}
-.footer-column ul li a {
-  color: #bbb;
-  text-decoration: none;
-  transition: color .3s;
-}
-.footer-column ul li a:hover {
-  color: #fff;
-}
-  .footer-bottom {
-    border-top:1px solid #333;
-    margin-top:30px;
-    padding:20px;
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:space-evenly;
-    align-items:center;
-    max-width:1200px;
-    margin-left:auto;
-    margin-right:auto;
-  }
-  .footer-logo {
-    font-size:24px;
-    font-weight:bold;
-  }
-  .footer-bottom-item {
-    display:flex;
-    align-items:center;
-    gap:10px;
-    color:#bbb;
-  }
-  .footer-bottom-item i {
-    font-size:20px;
-    color:#fff;
-  }
+                background-color:#111;
+                color:#fff;
+                padding:40px 20px 0;
+            }
+            .footer-columns {
+                display: flex;
+                justify-content: space-evenly;
+                gap: 40px; /* khoảng cách giữa các cột */
+                max-width: 1200px;
+                margin: 0 auto 30px;
+                text-align: left;
+            }
+            .footer-column h4 {
+                margin-bottom: 15px;
+                font-size: 18px;
+                font-weight: bold;
+            }
+            .footer-column ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+            .footer-column ul li {
+                margin-bottom: 8px;
+            }
+            .footer-column ul li a {
+                color: #bbb;
+                text-decoration: none;
+                transition: color .3s;
+            }
+            .footer-column ul li a:hover {
+                color: #fff;
+            }
+            .footer-bottom {
+                border-top:1px solid #333;
+                margin-top:30px;
+                padding:20px;
+                display:flex;
+                flex-wrap:wrap;
+                justify-content:space-evenly;
+                align-items:center;
+                max-width:1200px;
+                margin-left:auto;
+                margin-right:auto;
+            }
+            .footer-logo {
+                font-size:24px;
+                font-weight:bold;
+            }
+            .footer-bottom-item {
+                display:flex;
+                align-items:center;
+                gap:10px;
+                color:#bbb;
+            }
+            .footer-bottom-item i {
+                font-size:20px;
+                color:#fff;
+            }
         </style>
     </head>
     <body>
@@ -172,7 +172,7 @@
             </div>
 
             <!-- Slides -->
-            
+
 
             <!-- Nút điều hướng -->
             <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
@@ -185,66 +185,78 @@
             </button>
         </div>
         <!-- Categories -->
-       <section class="categories py-5 bg-light">
-    <div class="container">
-        <h2 class="mb-4 text-center fw-bold">Shop By Categories</h2>
-        <div class="row g-4">
+        <section class="categories py-5 bg-light">
+            <div class="container">
+                <h2 class="mb-4 text-center fw-bold">Shop By Categories</h2>
+                <div class="row g-4">
 
-            <!-- Điện thoại -->
-            <div class="col-md-4">
-                <a href="products?category=phone" class="text-decoration-none text-dark">
-                    <div class="category-card p-4 text-center bg-white rounded shadow-sm">
-                        <img src="assets/images/phones/iphone_01.jpg" alt="Phone Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
-                        <h5>Smartphones & Tablets</h5>
+                    <!-- Điện thoại -->
+                    <div class="col-md-4">
+                        <a href="products?category=phone" class="text-decoration-none text-dark">
+                            <div class="category-card p-4 text-center bg-white rounded shadow-sm">
+                                <img src="assets/images/phones/iphone_01.jpg" alt="Phone Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
+                                <h5>Smartphones & Tablets</h5>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
 
-            <!-- Laptop -->
-            <div class="col-md-4">
-                <a href="products?category=laptop" class="text-decoration-none text-dark">
-                    <div class="category-card p-4 text-center bg-white rounded shadow-sm">
-                        <img src="assets/images/laptops/acer_01.jpg" alt="Laptop Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
-                        <h5>Laptops</h5>
+                    <!-- Laptop -->
+                    <div class="col-md-4">
+                        <a href="products?category=laptop" class="text-decoration-none text-dark">
+                            <div class="category-card p-4 text-center bg-white rounded shadow-sm">
+                                <img src="assets/images/laptops/acer_01.jpg" alt="Laptop Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
+                                <h5>Laptops</h5>
+                            </div>
+                        </a>
                     </div>
-                </a>
-            </div>
 
-            <!-- Linh kiện -->
-            <div class="col-md-4">
-                <a href="products?category=accessory" class="text-decoration-none text-dark">
-                    <div class="category-card p-4 text-center bg-white rounded shadow-sm">
-                        <img src="assets/images/categories/accessory.jpg" alt="Accessory Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
-                        <h5>Accessories</h5>
+                    <!-- Linh kiện -->
+                    <div class="col-md-4">
+                        <a href="products?category=accessory" class="text-decoration-none text-dark">
+                            <div class="category-card p-4 text-center bg-white rounded shadow-sm">
+                                <img src="assets/images/categories/accessory.jpg" alt="Accessory Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
+                                <h5>Accessories</h5>
+                            </div>
+                        </a>
                     </div>
-                </a>
+
+                </div>
             </div>
-
-        </div>
-    </div>
-</section>
+        </section>
 
 
-       
+
 
         <!-- Featured Products -->
-          
-         <section class="featured py-5 bg-light">
+
+        <section class="featured py-5 bg-light">
             <div class="container">
-                <h2 class="mb-4">Featured Products</h2>
+                <h2 class="mb-4 text-center fw-bold">Featured Products</h2>
                 <div class="row g-3">
-                    <div class="col-md-4">
-                        <div class="category-card p-4 text-center bg-white">
-                            <img src="#” alt="Category 1" class="img-fluid mb-3">
-                            <h5>Home Appliances</h5>
+                     <c:forEach var="p" items="${listPhonefe}">
+                        <div class="col-md-4">
+                            <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
+                                <a href="products?action=detail&id=${p.productId}">
+                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <h5 class="fw-bold">${p.productName}</h5>
+                                    <p class="text-danger mb-0">${p.productPrice} VND</p>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="category-card p-4 text-center bg-white">
-                            <img src="#” alt="Category 2" class="img-fluid mb-3">
-                            <h5>Smartphones & Tablets</h5>
+                    </c:forEach>
+
+                    <!-- 🔹 Top sản phẩm laptop -->
+                    <c:forEach var="p" items="${listLapfe}">
+                        <div class="col-md-4">
+                            <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
+                                <a href="products?action=detail&id=${p.productId}">
+                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <h5 class="fw-bold">${p.productName}</h5>
+                                    <p class="text-danger mb-0">${p.productPrice} VND</p>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    </c:forEach>
                     <div class="col-md-4">
                         <div class="category-card p-4 text-center bg-white">
                             <img src="#”alt="Category 3" class="img-fluid mb-3">
@@ -254,26 +266,38 @@
                 </div>
             </div>
         </section>
-        
-       
+
+
         <!-- Trending Products -->
-          
-         <section class="Trending py-5 bg-light">
+
+        <section class="Trending py-5 bg-light">
             <div class="container">
-                <h2 class="mb-4">Trending Products</h2>
+                <h2 class="mb-4 text-center fw-bold">Trending Products</h2>
                 <div class="row g-3">
-                    <div class="col-md-4">
-                        <div class="category-card p-4 text-center bg-white">
-                            <img src="#” alt="Category 1" class="img-fluid mb-3">
-                            <h5>Home Appliances</h5>
+                    <c:forEach var="p" items="${listPhone}">
+                        <div class="col-md-4">
+                            <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
+                                <a href="products?action=detail&id=${p.productId}">
+                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <h5 class="fw-bold">${p.productName}</h5>
+                                    <p class="text-danger mb-0">${p.productPrice} VND</p>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="category-card p-4 text-center bg-white">
-                            <img src="#” alt="Category 2" class="img-fluid mb-3">
-                            <h5>Smartphones & Tablets</h5>
+                    </c:forEach>
+
+                    <!-- 🔹 Top sản phẩm laptop -->
+                    <c:forEach var="p" items="${listLap}">
+                        <div class="col-md-4">
+                            <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
+                                <a href="products?action=detail&id=${p.productId}">
+                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <h5 class="fw-bold">${p.productName}</h5>
+                                    <p class="text-danger mb-0">${p.productPrice} VND</p>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    </c:forEach>
                     <div class="col-md-4">
                         <div class="category-card p-4 text-center bg-white">
                             <img src=" #" alt="Category 3" class="img-fluid mb-3">
@@ -283,7 +307,7 @@
                 </div>
             </div>
         </section>
-  
+
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>

@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import model.Product;
 
 @WebServlet(name = "ProductServlet", urlPatterns = {"/products"})
@@ -20,10 +21,21 @@ public class ProductServlet extends HttpServlet {
         String category = request.getParameter("category");
 
         try {
-            // 🏠 1️⃣ Không có action/category → hiển thị tất cả sản phẩm
+            // 🏠 1️⃣ Không có action/category → hiển thị trang chủ
             if (action == null && category == null) {
-                ArrayList<Product> list = (ArrayList<Product>) dao.getAllProducts();
-                request.setAttribute("list", list);
+                // mat hang them moi nhat
+                ArrayList<Product> listPhone = (ArrayList<Product>) dao.getTop1(2);
+                ArrayList<Product> listLap = (ArrayList<Product>) dao.getTop1(1);
+
+                request.setAttribute("listPhone", listPhone);
+                request.setAttribute("listLap", listLap);
+                // mat hang ban chay nhat
+                ArrayList<Product> listPhonefe = (ArrayList<Product>) dao.getTop1ByCategory(2);
+                ArrayList<Product> listLapfe = (ArrayList<Product>) dao.getTop1ByCategory(1);
+
+                request.setAttribute("listPhonefe", listPhonefe);
+                request.setAttribute("listLapfe", listLapfe);
+
                 request.getRequestDispatcher("/WEB-INF/views/user/home.jsp").forward(request, response);
                 return;
             }
@@ -38,17 +50,14 @@ public class ProductServlet extends HttpServlet {
                         list = (ArrayList<Product>) dao.getProductsByCategory(2);
                         viewPath += "phone-list.jsp";
                         break;
-
                     case "laptop":
                         list = (ArrayList<Product>) dao.getProductsByCategory(1);
                         viewPath += "laptop-list.jsp";
                         break;
-
                     case "accessory":
                         list = (ArrayList<Product>) dao.getProductsByCategory(3);
                         viewPath += "accessory-list.jsp";
                         break;
-
                     default:
                         response.sendRedirect("products");
                         return;
@@ -82,11 +91,12 @@ public class ProductServlet extends HttpServlet {
                     // Kiểm tra map null để tránh lỗi JSP
                     if (product.getAttributesMap() == null) {
                         System.out.println("⚠️ attributesMap null → khởi tạo rỗng.");
-                        product.setAttributesMap(new java.util.HashMap<>());
+                        product.setAttributesMap(new HashMap<>());
                     }
 
                     request.setAttribute("product", product);
-                    request.getRequestDispatcher("/WEB-INF/views/user/product/product-detail/product-detail.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/views/user/product/product-detail/product-detail.jsp")
+                            .forward(request, response);
                     return;
 
                 } catch (NumberFormatException e) {
@@ -96,18 +106,21 @@ public class ProductServlet extends HttpServlet {
                 }
             }
 
-            // Nếu action không hợp lệ → quay lại home
+            // 🌀 Nếu action không hợp lệ → quay lại home
             response.sendRedirect("products");
 
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi tải sản phẩm: " + e.getMessage());
+            if (!response.isCommitted()) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                        "Lỗi khi tải sản phẩm: " + e.getMessage());
+            }
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Không dùng POST ở đây
+        // POST không dùng trong servlet này
     }
 }

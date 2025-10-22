@@ -91,4 +91,45 @@ public class ProductDAO extends DBUntils {
 
         return p;
     }
+// ✅ Featured product (sản phẩm mới nhất trong danh mục)
+public List<Product> getTop1(int categoryId) {
+    List<Product> list = new ArrayList<>();
+    String sql = "SELECT TOP 1 * FROM Product WHERE categoryId = ? ORDER BY createdAt DESC";
+
+    try (Connection con = DBUntils.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+        
+        ps.setInt(1, categoryId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            list.add(mapResultSetToProduct(rs));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
+// ✅ Trending product (sản phẩm bán chạy nhất trong danh mục)
+public List<Product> getTop1ByCategory(int categoryId) {
+    List<Product> list = new ArrayList<>();
+    String sql = "SELECT TOP 1 * FROM Product WHERE CategoryId = ? ORDER BY quantitySold DESC";
+
+    try (Connection con = DBUntils.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setInt(1, categoryId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            list.add(mapResultSetToProduct(rs));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return list;
+}
+
+
+
+    
 }
