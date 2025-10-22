@@ -1,15 +1,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@include file="/WEB-INF/views/includes/navbar.jsp" %>
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>Laptop List</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <body>
+        <%@include file="/WEB-INF/views/includes/navbar.jsp" %>
         <div class="container mt-5">
             <h2 class="text-center mb-4">💻 Laptops</h2>
             <c:if test="${empty list}">
@@ -31,7 +34,7 @@
             </div>
         </div>
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+          <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 
 </html>
