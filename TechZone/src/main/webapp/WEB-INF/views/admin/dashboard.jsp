@@ -96,112 +96,120 @@
         </style>
     </head>
     <body>
-        <div class="container mt-5">
-            <h4 class="fw-bold mb-4">Bảng điều khiển</h4>
+        <div class="container-fluid">
+            <div>
+                <%@include file="../includes/slide-bar-admin.jsp" %>
 
-            <!-- 4 ô thống kê -->
-            <div class="row g-3 mb-4">
-                <div class="col-md-3 col-sm-6">
-                    <div class="dashboard-card">
-                        <h4>$${allprice}k</h4>
-                        <p>Doanh thu</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="dashboard-card">
-                        <h4>${allbill}</h4>
-                        <p>Đơn hàng</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="dashboard-card">
-                        <h4>${allproduct}</h4>
-                        <p>Sản phẩm</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="dashboard-card">
-                        <h4>${allaccount}</h4>
-                        <p>Người dùng</p>
-                    </div>
-                </div>
             </div>
+            <div style="margin: 0 0 50px 280px;">
+                <div class="container mt-5">
+                    <h4 class="fw-bold mb-4">Bảng điều khiển</h4>
 
-            <!-- Hàng biểu đồ -->
-            <div class="row g-3 mb-4">
-                <div class="col-md-6">
-                    <div class="chart-box text-center">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <p class="fw-semibold mb-0">Doanh thu theo loại</p>
-                            <p class="text-secondary small mb-0">%</p>
+                    <!-- 4 ô thống kê -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="dashboard-card">
+                                <h4>$${allprice}k</h4>
+                                <p>Doanh thu</p>
+                            </div>
                         </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="dashboard-card">
+                                <h4>${allbill}</h4>
+                                <p>Đơn hàng</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="dashboard-card">
+                                <h4>${allproduct}</h4>
+                                <p>Sản phẩm</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="dashboard-card">
+                                <h4>${allaccount}</h4>
+                                <p>Người dùng</p>
+                            </div>
+                        </div>
+                    </div>
 
-                        <!-- Biểu đồ tròn -->
-                        <div class="d-flex flex-column align-items-center">
-                            <div class="pie-chart mb-3" style="background: ${pieGradient};"></div>
+                    <!-- Hàng biểu đồ -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="chart-box text-center">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <p class="fw-semibold mb-0">Doanh thu theo loại</p>
+                                    <p class="text-secondary small mb-0">%</p>
+                                </div>
 
-                            <div class="d-flex flex-column align-items-center text-secondary small">
-                                <c:forEach var="i" items="${listtotal}">
-                                    <span>
-                                        <span class="legend-color" style="background:#3b82f6;"></span> 
-                                        ${i.name} - ${i.total}%
-                                    </span>
-                                </c:forEach>
+                                <!-- Biểu đồ tròn -->
+                                <div class="d-flex flex-column align-items-center">
+                                    <div class="pie-chart mb-3" style="background: ${pieGradient};"></div>
+
+                                    <div class="d-flex flex-column align-items-center text-secondary small">
+                                        <c:forEach var="i" items="${listtotal}">
+                                            <span>
+                                                <span class="legend-color" style="background:#3b82f6;"></span> 
+                                                ${i.name} - ${i.total}%
+                                            </span>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
+                        <!-- Biểu đồ cột giữ nguyên -->
+                        <div class="col-md-6">
+                            <div class="chart-box">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="fw-semibold mb-0">Trạng thái đơn hàng</p>
+                                </div>
+                                <div class="bar-chart">
+                                    <div class="bar" style="height: ${processing}px;"></div>
+                                    <div class="bar" style="height: ${pending}px;"></div>
+                                    <div class="bar" style="height: ${completed}px;"></div>
+                                    <div class="bar" style="height: ${cancel}px;"></div>
+                                </div>
+                                <div class="d-flex justify-content-around text-secondary mt-2 small">
+                                    <span>Đang xử lý</span>
+                                    <span>Đang giao</span>
+                                    <span>Hoàn thành</span>
+                                    <span>Đã hủy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Bảng sản phẩm bán chạy -->
+                    <div class="table-box">
+                        <div class="d-flex justify-content-between mb-3">
+                            <p class="fw-semibold mb-0">Sản phẩm bán chạy</p>
+                            <p class="fw-semibold mb-0">Doanh thu</p>
+                        </div>
+                        <table class="table mb-0">
+                            <thead>
+                                <tr class="text-secondary small">
+                                    <th>Sản phẩm</th>
+                                    <th>Số lượng</th>
+                                    <th>Lượt bán</th>
+                                    <th>Doanh thu</th>
+                                </tr>
+                            </thead>
+                            <c:forEach var="i" items="${listall}">
+                                <tbody>
+                                    <tr>
+                                        <td>${i.getName()}</td>
+                                        <td>${i.sales}</td>
+                                        <td>${i.sumquantity}</td>
+                                        <td>${i.allprice}đ</td>
+                                    </tr>
+                                </tbody>
+                            </c:forEach>
+                        </table>
                     </div>
                 </div>
-
-                <!-- Biểu đồ cột giữ nguyên -->
-                <div class="col-md-6">
-                    <div class="chart-box">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <p class="fw-semibold mb-0">Trạng thái đơn hàng</p>
-                        </div>
-                        <div class="bar-chart">
-                            <div class="bar" style="height: ${processing}px;"></div>
-                            <div class="bar" style="height: ${pending}px;"></div>
-                            <div class="bar" style="height: ${completed}px;"></div>
-                            <div class="bar" style="height: ${cancel}px;"></div>
-                        </div>
-                        <div class="d-flex justify-content-around text-secondary mt-2 small">
-                            <span>Đang xử lý</span>
-                            <span>Đang giao</span>
-                            <span>Hoàn thành</span>
-                            <span>Đã hủy</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Bảng sản phẩm bán chạy -->
-            <div class="table-box">
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="fw-semibold mb-0">Sản phẩm bán chạy</p>
-                    <p class="fw-semibold mb-0">Doanh thu</p>
-                </div>
-                <table class="table mb-0">
-                    <thead>
-                        <tr class="text-secondary small">
-                            <th>Sản phẩm</th>
-                            <th>Số lượng</th>
-                            <th>Lượt bán</th>
-                            <th>Doanh thu</th>
-                        </tr>
-                    </thead>
-                    <c:forEach var="i" items="${listall}">
-                        <tbody>
-                            <tr>
-                                <td>${i.getName()}</td>
-                                <td>${i.sales}</td>
-                                <td>${i.sumquantity}</td>
-                                <td>${i.allprice}đ</td>
-                            </tr>
-                        </tbody>
-                    </c:forEach>
-                </table>
             </div>
         </div>
     </body>
