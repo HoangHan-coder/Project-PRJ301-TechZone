@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import model.Accounts;
 import model.OrderList;
 import model.Orders;
-import model.Product;
+import dto.OrderItemDTO;
 
 /**
  *
@@ -82,9 +82,9 @@ public class OderListDAO extends DBContext{
         return null;
     }
 
-    public List<Product> getProductsByOrderId(int orderId) {
+    public List<OrderItemDTO> getProductsByOrderId(int orderId) {
         try {
-            List<Product> list = new ArrayList<>();
+            List<OrderItemDTO> list = new ArrayList<>();
             String sql = "SELECT p.ProductId, p.ProductName, p.ProductPrice, p.LinkImg, "
                     + "p.stock, r.UnitPrice, (r.Quantity * r.UnitPrice) AS Total "
                     + "FROM OrderItems r "
@@ -94,7 +94,7 @@ public class OderListDAO extends DBContext{
             st.setInt(1, orderId);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Product p = new Product();
+                OrderItemDTO p = new OrderItemDTO();
                 p.setProductId(rs.getInt("ProductId"));
                 p.setProductName(rs.getString("ProductName"));
                 p.setProductPrice(rs.getBigDecimal("ProductPrice").doubleValue());

@@ -1,4 +1,5 @@
 com\techzone\techzone\JakartaRestConfiguration.class
+<<<<<<< HEAD
 model\Orderlist.class
 controller\VoucherServlet.class
 controller\ProductServlet.class
@@ -10,3 +11,11 @@ model\Category.class
 controller\Login.class
 controller\Register.class
 dao\ProductDAO.class
+=======
+com\techzone\techzone\resources\JakartaEE10Resource.class
+controller\OrderServlet.class
+model\Product.class
+controller\Login.class
+model\Voucher.class
+controller\Register.class
+>>>>>>> tam

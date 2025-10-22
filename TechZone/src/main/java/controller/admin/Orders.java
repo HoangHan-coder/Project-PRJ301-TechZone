@@ -17,6 +17,8 @@ import java.util.List;
 import model.Accounts;
 import model.OrderList;
 import model.Product;
+import model.DetailOrder;
+import dto.OrderItemDTO;
 
 /**
  *
@@ -76,7 +78,7 @@ public class Orders extends HttpServlet {
             case "detail":
                 String id = request.getParameter("id");
                 model.Orders orders = order.getOrderInfoById(Integer.parseInt(id));
-                List<Product> products = order.getProductsByOrderId(Integer.parseInt(id));
+                List<OrderItemDTO> products = order.getProductsByOrderId(Integer.parseInt(id));
                 Accounts account = order.getAccountByOrderId(Integer.parseInt(id));
                 request.setAttribute("account", account);
                 request.setAttribute("order", orders);
