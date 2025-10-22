@@ -129,7 +129,6 @@
         </style>
     </head>
     <body>
-
         <h2>Chi tiết đơn hàng <span style="color:#2563eb;">#${order.orderCode}</span></h2>
 
         <div class="card">
@@ -181,19 +180,11 @@
                 <tbody>
                     <c:forEach var="p" items="${products}">
                         <tr>
-<<<<<<< HEAD
                             <td><img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" style="width:100px; height:auto;"></td>
                             <td>${p.getProductName()}</td>
                             <td>${p.quantity}</td>
                             <td>${p.productPrice}₫</td>
                             <td>${p.getTotal()}</td>
-=======
-                            <td><img src="${p.linkImg}" alt="${p.productName}"></td>
-                            <td>${p.getProductName()}</td>
-                            <td>${p.quantity}</td>
-                            <td>${p.productPrice}₫</td>
-                            <td>${p.getTotal()}₫</td>
->>>>>>> parent of 884cbb5 (update something)
                         </tr>
                     </c:forEach>
                 </tbody>

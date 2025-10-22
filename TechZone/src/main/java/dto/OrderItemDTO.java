@@ -66,7 +66,7 @@ public class OrderItemDTO {
     }
 
     public String getLinkImg() {
-        return linkImg;
+        return "/"+linkImg;
     }
 
     public void setLinkImg(String linkImg) {

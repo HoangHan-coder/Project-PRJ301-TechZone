@@ -69,6 +69,7 @@ public class Orders extends HttpServlet {
             throws ServletException, IOException {
         String view = request.getParameter("view");
         OderListDAO order = new OderListDAO();
+        if(view == null) view = "list";
         switch (view) {
             case "list":
                 List<Orderlist> list = order.getAll();
@@ -84,7 +85,7 @@ public class Orders extends HttpServlet {
                 request.setAttribute("order", orders);
                 request.setAttribute("products", products);
                 BigDecimal totalAmount = BigDecimal.ZERO;
-                for (Product p : products) {
+                for (OrderItemDTO p : products) {
                     BigDecimal lineTotal = p.getProductPrice().multiply(BigDecimal.valueOf(p.getQuantity()));
                     totalAmount = totalAmount.add(lineTotal);
                 }
