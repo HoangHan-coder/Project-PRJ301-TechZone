@@ -21,16 +21,13 @@ import model.Product;
  *
  * @author letan
  */
-public class ProductDB {
+public class ProductDB extends DBContext{
 
     protected Connection connect;
 
     public ProductDB() {
-        try {
-            this.connect = DBUntils.getConnection();
-        } catch (ClassNotFoundException | SQLException e) {
-            System.out.println(e);
-        }
+        this.connect = this.getConnection();
+       
     }
 
     public ArrayList<Product> getAll() {
