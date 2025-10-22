@@ -13,9 +13,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import model.Accounts;
-import model.OrderList;
+import model.DetailOrder;
+import model.Orderlist;
 import model.Product;
 import model.DetailOrder;
 import dto.OrderItemDTO;
@@ -67,11 +69,9 @@ public class Orders extends HttpServlet {
             throws ServletException, IOException {
         String view = request.getParameter("view");
         OderListDAO order = new OderListDAO();
-        if(view==null) view="list";
-        
         switch (view) {
             case "list":
-                List<OrderList> list = order.getAll();
+                List<Orderlist> list = order.getAll();
                 request.setAttribute("list", list);
                 request.getRequestDispatcher("/WEB-INF/views/admin/Orders/list.jsp").forward(request, response);
                 break;
@@ -85,7 +85,7 @@ public class Orders extends HttpServlet {
                 request.setAttribute("products", products);
                 BigDecimal totalAmount = BigDecimal.ZERO;
                 for (Product p : products) {
-                    BigDecimal lineTotal = BigDecimal.valueOf(p.getProductPrice()).multiply(BigDecimal.valueOf(p.getStock()));
+                    BigDecimal lineTotal = p.getProductPrice().multiply(BigDecimal.valueOf(p.getQuantity()));
                     totalAmount = totalAmount.add(lineTotal);
                 }
                 request.setAttribute("totalamount", totalAmount);

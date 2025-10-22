@@ -4,7 +4,7 @@
  */
 package dao;
 
-import db.DBContext;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Accounts;
-import model.OrderList;
+import model.DetailOrder;
+import model.Orderlist;
 import model.Orders;
 import dto.OrderItemDTO;
 
@@ -25,21 +26,21 @@ public class OderListDAO extends DBContext{
 
 
 
-    public List<OrderList> getAll() {
+    public List<Orderlist> getAll() {
         try {
             String sql = "SELECT o.OrderId, o.OrderCode, a.FullName,o.TotalAmount,o.PaymentStatus,o.Status FROM Orders o\n"
                     + "JOIN Accounts a ON a.AccountId = o.AccountId";
             PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
-            List<OrderList> list = new ArrayList<>();
+            List<Orderlist> list = new ArrayList<>();
             while (rs.next()) {
-                OrderList order = new OrderList(rs.getInt("OrderId"), rs.getString("OrderCode"), rs.getString("FullName"), rs.getDouble("TotalAmount"),
+                Orderlist order = new Orderlist(rs.getInt("OrderId"), rs.getString("OrderCode"), rs.getString("FullName"), rs.getDouble("TotalAmount"),
                         rs.getString("PaymentStatus"), rs.getString("Status"));
                 list.add(order);
 
             }
             return list;
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -76,7 +77,7 @@ public class OderListDAO extends DBContext{
                 return order;
             }
             return null;
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -86,7 +87,7 @@ public class OderListDAO extends DBContext{
         try {
             List<OrderItemDTO> list = new ArrayList<>();
             String sql = "SELECT p.ProductId, p.ProductName, p.ProductPrice, p.LinkImg, "
-                    + "p.stock, r.UnitPrice, (r.Quantity * r.UnitPrice) AS Total "
+                    + "r.Quantity, r.UnitPrice, (r.Quantity * r.UnitPrice) AS Total "
                     + "FROM OrderItems r "
                     + "JOIN Product p ON p.ProductId = r.ProductId "
                     + "WHERE r.OrderId = ?";
@@ -97,14 +98,14 @@ public class OderListDAO extends DBContext{
                 OrderItemDTO p = new OrderItemDTO();
                 p.setProductId(rs.getInt("ProductId"));
                 p.setProductName(rs.getString("ProductName"));
-                p.setProductPrice(rs.getBigDecimal("ProductPrice").doubleValue());
+                p.setProductPrice(rs.getBigDecimal("ProductPrice"));
                 p.setLinkImg(rs.getString("LinkImg"));
-                p.setStock(rs.getInt("stock"));
+                p.setQuantity(rs.getInt("Quantity"));
                 // Có thể thêm field phụ nếu bạn muốn hiển thị UnitPrice và Total
                 list.add(p);
             }
             return list;
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -128,13 +129,13 @@ public class OderListDAO extends DBContext{
                 acc.setPhone(rs.getString("Phone"));
                 return acc;
             }
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
-    public int updateProccessing(int id, String status)  {
+    public int updateProccessing(int id, String status) {
         try {
             String sql = "UPDATE Orders \n"
                     + "   SET Status = ?\n"
@@ -143,7 +144,7 @@ public class OderListDAO extends DBContext{
             st.setString(1, status.toUpperCase());
             st.setInt(2, id);
             return st.executeUpdate();
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -158,7 +159,7 @@ public class OderListDAO extends DBContext{
             st.setString(1, status.toUpperCase());
             st.setInt(2, id);
             return st.executeUpdate();
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -172,12 +173,12 @@ public class OderListDAO extends DBContext{
             st.setString(1, status.toUpperCase());
             st.setInt(2, id);
             return st.executeUpdate();
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
     }
-    public int updateDelete(int id, String status)  {
+    public int updateDelete(int id, String status) {
         try {
             String sql = "UPDATE Orders \n"
                     + "   SET isDeleted = ?\n"
@@ -186,7 +187,7 @@ public class OderListDAO extends DBContext{
             st.setString(1, status);
             st.setInt(2, id);
             return st.executeUpdate();
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;

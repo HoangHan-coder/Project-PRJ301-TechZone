@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\ProductDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\DetailOrder.java
@@ -24,11 +25,14 @@ D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ProductServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\until\Pagination.java
 =======
+=======
+>>>>>>> parent of 884cbb5 (update something)
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\resources\JakartaEE10Resource.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\dao\StatisticalDAO.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\Accounts.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\Category.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\Voucher.java
+<<<<<<< HEAD
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\HomeServet.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderServlet.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\AllCategory.java
@@ -37,10 +41,27 @@ D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\Product.jav
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Login.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Register.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\dao\DBContext.java
+=======
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ListVoucher.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\HomeServet.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderServlet.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\AllCategory.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\dao\DBUntils.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orderlist.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\dao\VoucherDB.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\Product.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Login.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ProductServlet.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Register.java
+D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\dao\ProductDB.java
+>>>>>>> parent of 884cbb5 (update something)
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Orders.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orders.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\model\DetailOrder.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OderListDAO.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\JakartaRestConfiguration.java
 D:\Study\PRJ301\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Dashboard.java
+<<<<<<< HEAD
 >>>>>>> tam
+=======
+>>>>>>> parent of 884cbb5 (update something)

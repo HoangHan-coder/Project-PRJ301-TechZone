@@ -181,11 +181,19 @@
                 <tbody>
                     <c:forEach var="p" items="${products}">
                         <tr>
+<<<<<<< HEAD
                             <td><img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" style="width:100px; height:auto;"></td>
                             <td>${p.getProductName()}</td>
                             <td>${p.quantity}</td>
                             <td>${p.productPrice}₫</td>
                             <td>${p.getTotal()}</td>
+=======
+                            <td><img src="${p.linkImg}" alt="${p.productName}"></td>
+                            <td>${p.getProductName()}</td>
+                            <td>${p.quantity}</td>
+                            <td>${p.productPrice}₫</td>
+                            <td>${p.getTotal()}₫</td>
+>>>>>>> parent of 884cbb5 (update something)
                         </tr>
                     </c:forEach>
                 </tbody>
