@@ -4,6 +4,7 @@
     Author     : letan
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
@@ -46,11 +47,6 @@
                 width: 160px;
                 height: 160px;
                 border-radius: 50%;
-                background: conic-gradient(
-                    #3b82f6 0% 50%,     /* A */
-                    #60a5fa 50% 80%,    /* B */
-                    #93c5fd 80% 100%    /* C */
-                    );
                 box-shadow: 0 2px 6px rgba(0,0,0,0.1);
                 position: relative;
             }
@@ -113,25 +109,24 @@
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="dashboard-card">
-                        <h4>1,245</h4>
+                        <h4>${allbill}</h4>
                         <p>Đơn hàng</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="dashboard-card">
-                        <h4>1,560</h4>
+                        <h4>${allproduct}</h4>
                         <p>Sản phẩm</p>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="dashboard-card">
-                        <h4>2,453</h4>
+                        <h4>${allaccount}</h4>
                         <p>Người dùng</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Hàng biểu đồ -->
             <!-- Hàng biểu đồ -->
             <div class="row g-3 mb-4">
                 <div class="col-md-6">
@@ -143,13 +138,18 @@
 
                         <!-- Biểu đồ tròn -->
                         <div class="d-flex flex-column align-items-center">
-                            <div class="pie-chart mb-3"></div>
-                            <div class="d-flex flex-column align-items-start text-secondary small">
-                                <span><span class="legend-color" style="background:#3b82f6;"></span> Sản phẩm A - 50%</span>
-                                <span><span class="legend-color" style="background:#60a5fa;"></span> Sản phẩm B - 30%</span>
-                                <span><span class="legend-color" style="background:#93c5fd;"></span> Sản phẩm C - 20%</span>
+                            <div class="pie-chart mb-3" style="background: ${pieGradient};"></div>
+
+                            <div class="d-flex flex-column align-items-center text-secondary small">
+                                <c:forEach var="i" items="${listtotal}">
+                                    <span>
+                                        <span class="legend-color" style="background:#3b82f6;"></span> 
+                                        ${i.name} - ${i.total}%
+                                    </span>
+                                </c:forEach>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -160,10 +160,10 @@
                             <p class="fw-semibold mb-0">Trạng thái đơn hàng</p>
                         </div>
                         <div class="bar-chart">
-                            <div class="bar" style="height: 180px;"></div>
-                            <div class="bar" style="height: 140px;"></div>
-                            <div class="bar" style="height: 100px;"></div>
-                            <div class="bar" style="height: 60px;"></div>
+                            <div class="bar" style="height: ${processing}px;"></div>
+                            <div class="bar" style="height: ${pending}px;"></div>
+                            <div class="bar" style="height: ${completed}px;"></div>
+                            <div class="bar" style="height: ${cancel}px;"></div>
                         </div>
                         <div class="d-flex justify-content-around text-secondary mt-2 small">
                             <span>Đang xử lý</span>
@@ -186,22 +186,21 @@
                     <thead>
                         <tr class="text-secondary small">
                             <th>Sản phẩm</th>
+                            <th>Số lượng</th>
                             <th>Lượt bán</th>
                             <th>Doanh thu</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>MacBook Pro</td>
-                            <td>232</td>
-                            <td>$43,100</td>
-                        </tr>
-                        <tr>
-                            <td>iPhone 12</td>
-                            <td>198</td>
-                            <td>$39,600</td>
-                        </tr>
-                    </tbody>
+                    <c:forEach var="i" items="${listall}">
+                        <tbody>
+                            <tr>
+                                <td>${i.getName()}</td>
+                                <td>${i.sales}</td>
+                                <td>${i.sumquantity}</td>
+                                <td>${i.allprice}đ</td>
+                            </tr>
+                        </tbody>
+                    </c:forEach>
                 </table>
             </div>
         </div>

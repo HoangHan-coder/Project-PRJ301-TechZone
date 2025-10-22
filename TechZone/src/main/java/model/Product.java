@@ -13,6 +13,7 @@ import java.util.Map;
  * @author letan
  */
 public class Product {
+
     private int productId;
     private String linkImg;
     private String productName;
@@ -27,7 +28,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int productId, String linkImg, String productName, BigDecimal productPrice, Map<String, String> productAttributes, int categoryId, boolean isDeleted, LocalDateTime timeCreate, int quantity,  String descriptionProduct) {
+    public Product(int productId, String linkImg, String productName, BigDecimal productPrice, Map<String, String> productAttributes, int categoryId, boolean isDeleted, LocalDateTime timeCreate, int quantity, String descriptionProduct) {
         this.productId = productId;
         this.linkImg = linkImg;
         this.productName = productName;
@@ -88,7 +89,6 @@ public class Product {
         this.productPrice = productPrice;
     }
 
-
     public int getCategoryId() {
         return categoryId;
     }
@@ -121,5 +121,11 @@ public class Product {
         this.quantity = quantity;
     }
 
-    
+    public BigDecimal getTotal() {
+        if (productPrice != null) {
+            return productPrice.multiply(BigDecimal.valueOf(quantity));
+        }
+        return BigDecimal.ZERO;
+    }
+
 }

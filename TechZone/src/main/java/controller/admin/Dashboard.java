@@ -4,7 +4,8 @@
  */
 package controller.admin;
 
-import dao.OrdersDAO;
+import dao.StatisticalDAO;
+import model.AllCategory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,12 +13,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Category;
 
 /**
  *
  * @author letan
  */
-@WebServlet(name = "Admin", urlPatterns = {"/admin"})
+@WebServlet(name = "Admin", urlPatterns = {"/admin/report"})
 public class Dashboard extends HttpServlet {
 
     /**
@@ -58,16 +61,45 @@ public class Dashboard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        OrdersDAO order = new OrdersDAO();
+        StatisticalDAO order = new StatisticalDAO();
 
-        String type = request.getParameter("type");
-        double result = order.getTotal();
-        switch (type) {
-            case "dashboard":
-                request.setAttribute("allprice", result);
-                request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
-                break;
+        double alltotal = order.getTotal();
+        int allbill = order.getTotalBill();
+        int allproduct = order.getTotalProduct();
+        int allaccount = order.getTotalAccount();
+        request.setAttribute("allprice", alltotal);
+        request.setAttribute("allbill", allbill);
+        request.setAttribute("allproduct", allproduct);
+        request.setAttribute("allaccount", allaccount);
+        List<Category> list = order.getTotalCategory();
+        String[] colors = {"#3b82f6", "#60a5fa", "#93c5fd", "#2563eb", "#1e40af"};
+        StringBuilder gradient = new StringBuilder("conic-gradient(");
+        double current = 0;
+        for (int i = 0; i < list.size(); i++) {
+            double next = current + list.get(i).getTotal();
+            gradient.append(colors[i % colors.length])
+                    .append(" ")
+                    .append(current)
+                    .append("% ")
+                    .append(next)
+                    .append("%");
+            if (i < list.size() - 1) {
+                gradient.append(", ");
+            }
+            current = next;
+            request.setAttribute("per" + i + "", list.get(i).getTotal());
         }
+        // Gửi sang JSP
+        request.setAttribute("listtotal", list);
+        request.setAttribute("pieGradient", gradient.toString() + ")");
+        request.setAttribute("completed", order.getCompleted());
+        request.setAttribute("processing", order.getProcessing());
+        request.setAttribute("cancel", order.getCancel());
+        request.setAttribute("pending", order.getPending());
+        List<AllCategory> category = order.getAll();
+        request.setAttribute("listall", category);
+        request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
+
     }
 
     /**
