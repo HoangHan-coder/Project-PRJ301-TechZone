@@ -1,10 +1,14 @@
+<<<<<<< HEAD
 until\Pagination.class
 dao\ProductDB.class
+=======
+>>>>>>> Khang
 com\techzone\techzone\JakartaRestConfiguration.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
 controller\VoucherServlet.class
 controller\ProductServlet.class
 controller\OrderServlet.class
+<<<<<<< HEAD
 dao\DBContext.class
 dao\StatisticalDAO.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
@@ -30,4 +34,12 @@ controller\admin\Dashboard.class
 controller\Login.class
 dao\OderListDAO.class
 controller\HomeServet.class
+=======
+model\Product.class
+controller\Login.class
+model\Voucher.class
+controller\Register.class
+dao\ProductDAO.class
+db\DBUntils.class
+>>>>>>> Khang
 controller\ListVoucher.class
