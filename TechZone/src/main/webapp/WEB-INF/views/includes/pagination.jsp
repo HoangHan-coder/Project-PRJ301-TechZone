@@ -30,7 +30,7 @@
                 </c:forEach>
                 <c:choose>
 
-                <c:when test="${currentPage > totalPage-1}">
+                <c:when test="${currentPage > totalPage-4}">
                     <li class="page-item">
                         <a class="page-link disabled" href="<%= request.getContextPath()%>/${servletPath}?page=${currentPage + 1}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
