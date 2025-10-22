@@ -19,22 +19,12 @@ import model.Category;
  *
  * @author letan
  */
-public class StatisticalDAO {
-
-    protected Connection connect;
-
-    public StatisticalDAO() {
-        try {
-            connect = DBUntils.getConnection();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(VoucherDB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+public class StatisticalDAO extends DBContext{
 
     public double getTotal() {
         try {
             String sql = "SELECT SUM(o.TotalAmount) AS TongTien FROM Orders o WHERE o.Status = 'COMPLETED'";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 return rs.getDouble("TongTien");
@@ -49,7 +39,7 @@ public class StatisticalDAO {
     public int getTotalBill() {
         try {
             String sql = "SELECT COUNT(*) AS TongBill FROM Orders o WHERE o.Status = 'COMPLETED'";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 return rs.getInt("TongBill");
@@ -64,7 +54,7 @@ public class StatisticalDAO {
     public int getTotalProduct() {
         try {
             String sql = "SELECT COUNT(*) AS TongProduct FROM Product p WHERE p.isDeleted = 'False' ";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 return rs.getInt("TongProduct");
@@ -79,7 +69,7 @@ public class StatisticalDAO {
     public int getTotalAccount() {
         try {
             String sql = "SELECT COUNT(*) AS TongProduct FROM AccountRoles p WHERE p.RoleId = 2 ";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 return rs.getInt("TongProduct");
@@ -96,7 +86,7 @@ public class StatisticalDAO {
             List<Category> list = new ArrayList<>();
             String sql = "SELECT c.Name,COUNT(*) AS Total FROM Category c JOIN Product p ON c.CategoryId = p.CategoryId\n"
                     + "GROUP BY c.Name";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Category category = new Category(rs.getString("Name"), rs.getInt("Total"));
@@ -112,7 +102,7 @@ public class StatisticalDAO {
     public int getCompleted() {
         try {
             String sql = "SELECT COUNT(*) AS TongStatus FROM Orders p WHERE p.Status = 'COMPLETED' ";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 return rs.getInt("TongStatus");
@@ -126,7 +116,7 @@ public class StatisticalDAO {
     public int getCancel() {
         try {
             String sql = "SELECT COUNT(*) AS TongStatus FROM Orders p WHERE p.Status = 'CANCEL' ";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 return rs.getInt("TongStatus");
@@ -141,7 +131,7 @@ public class StatisticalDAO {
     public int getPending() {
         try {
             String sql = "SELECT COUNT(*) AS TongStatus FROM Orders p WHERE p.Status = 'COMPLETED' ";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 return rs.getInt("TongStatus");
@@ -156,7 +146,7 @@ public class StatisticalDAO {
     public int getProcessing() {
         try {
             String sql = "SELECT COUNT(*) AS TongStatus FROM Orders p WHERE p.Status = 'PROCESSING' ";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 return rs.getInt("TongStatus");
@@ -177,7 +167,7 @@ public class StatisticalDAO {
                     + "JOIN Orders r on r.OrderId = o.OrderId\n"
                     + "where r.Status = 'COMPLETED'\n"
                     + "GROUP BY c.Name ";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             List<AllCategory> list = new ArrayList<>();
             while (rs.next()) {

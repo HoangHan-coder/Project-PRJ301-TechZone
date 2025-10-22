@@ -22,23 +22,15 @@ import model.Product;
  *
  * @author letan
  */
-public class OderListDAO {
+public class OderListDAO extends DBContext{
 
-    protected Connection connect;
 
-    public OderListDAO() {
-        try {
-            connect = DBUntils.getConnection();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(VoucherDB.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     public List<Orderlist> getAll() {
         try {
             String sql = "SELECT o.OrderId, o.OrderCode, a.FullName,o.TotalAmount,o.PaymentStatus,o.Status FROM Orders o\n"
                     + "JOIN Accounts a ON a.AccountId = o.AccountId";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             List<Orderlist> list = new ArrayList<>();
             while (rs.next()) {
@@ -62,7 +54,7 @@ public class OderListDAO {
                     + "FROM Orders o "
                     + "JOIN Accounts a ON a.AccountId = o.AccountId "
                     + "WHERE o.OrderId = ?";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             st.setInt(1, orderId);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
@@ -99,7 +91,7 @@ public class OderListDAO {
                     + "FROM OrderItems r "
                     + "JOIN Product p ON p.ProductId = r.ProductId "
                     + "WHERE r.OrderId = ?";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             st.setInt(1, orderId);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -125,7 +117,7 @@ public class OderListDAO {
                     + "FROM Accounts a "
                     + "JOIN Orders o ON o.AccountId = a.AccountId "
                     + "WHERE o.OrderId = ?";
-            PreparedStatement ps = connect.prepareStatement(sql);
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
             ps.setInt(1, orderId);
             ResultSet rs = ps.executeQuery();
 
@@ -148,7 +140,7 @@ public class OderListDAO {
             String sql = "UPDATE Orders \n"
                     + "   SET Status = ?\n"
                     + " WHERE OrderId = ?";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             st.setString(1, status.toUpperCase());
             st.setInt(2, id);
             return st.executeUpdate();
@@ -163,7 +155,7 @@ public class OderListDAO {
             String sql = "UPDATE Orders \n"
                     + "   SET Status = ?\n"
                     + " WHERE OrderId = ?";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             st.setString(1, status.toUpperCase());
             st.setInt(2, id);
             return st.executeUpdate();
@@ -177,7 +169,7 @@ public class OderListDAO {
             String sql = "UPDATE Orders \n"
                     + "   SET Status = ?\n"
                     + " WHERE OrderId = ?";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             st.setString(1, status.toUpperCase());
             st.setInt(2, id);
             return st.executeUpdate();
@@ -191,7 +183,7 @@ public class OderListDAO {
             String sql = "UPDATE Orders \n"
                     + "   SET isDeleted = ?\n"
                     + " WHERE OrderId = ?";
-            PreparedStatement st = connect.prepareStatement(sql);
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
             st.setString(1, status);
             st.setInt(2, id);
             return st.executeUpdate();
