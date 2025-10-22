@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @author letan
  */
-public class Product {
+public class OrderItemDTO {
 
     private int productId;
     private String linkImg;
@@ -25,10 +25,10 @@ public class Product {
     private int quantity;
     private String descriptionProduct;
 
-    public Product() {
+    public OrderItemDTO() {
     }
 
-    public Product(int productId, String linkImg, String productName, BigDecimal productPrice, Map<String, String> productAttributes, int categoryId, boolean isDeleted, LocalDateTime timeCreate, int quantity, String descriptionProduct) {
+    public OrderItemDTO(int productId, String linkImg, String productName, BigDecimal productPrice, Map<String, String> productAttributes, int categoryId, boolean isDeleted, LocalDateTime timeCreate, int quantity, String descriptionProduct) {
         this.productId = productId;
         this.linkImg = linkImg;
         this.productName = productName;

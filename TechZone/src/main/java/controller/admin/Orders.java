@@ -18,7 +18,7 @@ import java.util.List;
 import model.Accounts;
 import model.DetailOrder;
 import model.Orderlist;
-import model.Product;
+import dto.OrderItemDTO;
 
 /**
  *
@@ -76,13 +76,13 @@ public class Orders extends HttpServlet {
             case "detail":
                 String id = request.getParameter("id");
                 model.Orders orders = order.getOrderInfoById(Integer.parseInt(id));
-                List<Product> products = order.getProductsByOrderId(Integer.parseInt(id));
+                List<OrderItemDTO> products = order.getProductsByOrderId(Integer.parseInt(id));
                 Accounts account = order.getAccountByOrderId(Integer.parseInt(id));
                 request.setAttribute("account", account);
                 request.setAttribute("order", orders);
                 request.setAttribute("products", products);
                 BigDecimal totalAmount = BigDecimal.ZERO;
-                for (Product p : products) {
+                for (OrderItemDTO p : products) {
                     BigDecimal lineTotal = p.getProductPrice().multiply(BigDecimal.valueOf(p.getQuantity()));
                     totalAmount = totalAmount.add(lineTotal);
                 }

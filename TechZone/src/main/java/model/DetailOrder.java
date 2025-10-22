@@ -4,6 +4,7 @@
  */
 package model;
 
+import dto.OrderItemDTO;
 import java.util.List;
 
 /**
@@ -11,23 +12,23 @@ import java.util.List;
  * @author letan
  */
 public class DetailOrder {
-    private List<Product> product;
+    private List<OrderItemDTO> product;
     private List<Orders> order;
     private List<Accounts> account;
     public DetailOrder() {
     }
 
-    public DetailOrder(List<Product> product, List<Orders> order, List<Accounts> account) {
+    public DetailOrder(List<OrderItemDTO> product, List<Orders> order, List<Accounts> account) {
         this.product = product;
         this.order = order;
         this.account = account;
     }
 
-    public List<Product> getProduct() {
+    public List<OrderItemDTO> getProduct() {
         return product;
     }
 
-    public void setProduct(List<Product> product) {
+    public void setProduct(List<OrderItemDTO> product) {
         this.product = product;
     }
 

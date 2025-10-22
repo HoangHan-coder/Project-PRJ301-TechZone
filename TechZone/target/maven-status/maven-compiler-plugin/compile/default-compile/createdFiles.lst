@@ -1,12 +1,7 @@
 com\techzone\techzone\JakartaRestConfiguration.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
-dao\VoucherDB.class
-controller\ProductServlet.class
 controller\OrderServlet.class
 model\Product.class
 controller\Login.class
 model\Voucher.class
 controller\Register.class
-dao\ProductDAO.class
-db\DBUntils.class
-controller\ListVoucher.class
