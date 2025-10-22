@@ -22,14 +22,15 @@ public class Accounts {
     public Accounts() {
     }
 
-//    public Accounts(int id, String userName, String passWord, String fullName, String email, String phone) {
-//        this.id = id;
-//        this.userName = userName;
-//        this.passWord = passWord;
-//        this.fullName = fullName;
-//        this.email = email;
-//        this.phone = phone;
-//    }
+    public Accounts(int id, String userName, String passWord, String fullName, String email, String phone, String roleName) {
+        this.id = id;
+        this.userName = userName;
+        this.passWord = passWord;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.roleName = roleName;
+    }
 
     public Accounts(int id, String userName, String fullName, String email, String phone, String roleName) {
         this.id = id;

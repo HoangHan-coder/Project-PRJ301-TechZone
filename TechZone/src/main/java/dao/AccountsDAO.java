@@ -5,12 +5,14 @@
 package dao;
 
 import db.DBContext;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Accounts;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -101,28 +103,6 @@ public class AccountsDAO extends DBContext {
 
     }
 
-//    public Accounts getById(int id) {
-//        try {
-//            String sql = "SELECT AccountId,username, FullName, email, phone FROM Accounts where AccountId=?";
-//            PreparedStatement st = this.getConnection().prepareStatement(sql);
-//            st.setInt(1, id);
-//            ResultSet rs = st.executeQuery();
-//
-//            if (rs.next()) {
-//                int accoutId = rs.getInt("AccountId");
-//                String userName = rs.getString("username");
-//                String name = rs.getString("fullName");
-//                String email = rs.getString("email");
-//                String phone = rs.getString("phone");
-//                Accounts account = new Accounts(accoutId, userName, name, email, phone);
-//                return account;
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return null;
-//    }
-
     public int update(Accounts account) {
         String sql = "UPDATE Accounts SET fullName = ?, email=?, phone=?\n"
                 + " WHERE AccountId = ?";
@@ -152,25 +132,47 @@ public class AccountsDAO extends DBContext {
         }
     }
 
-    public int create(Accounts account) {
+    public int create(Accounts account, int roleId) {
+        int newId = -1;
         try {
-            String query = "insert into Accounts (Username, FullName, Email, PasswordHash,Phone)"
-                    + " values(?,?,?,?,?)";
-            PreparedStatement st = this.getConnection().prepareStatement(query);
+            Connection conn = this.getConnection();
+            conn.setAutoCommit(false);
 
+            // Insert account
+            PreparedStatement st = conn.prepareStatement(
+                    "INSERT INTO Accounts (Username, PasswordHash, FullName, Email, Phone) VALUES (?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+            );
             st.setString(1, account.getUserName());
-            st.setString(2, account.getFullName());
-            st.setString(3, account.getEmail());
-            st.setString(4, account.getPassWord());
+            st.setString(2, account.getPassWord());
+            st.setString(3, account.getFullName());
+            st.setString(4, account.getEmail());
             st.setString(5, account.getPhone());
-            return st.executeUpdate();
+            st.executeUpdate();
+
+            ResultSet rs = st.getGeneratedKeys();
+            if (rs.next()) {
+                newId = rs.getInt(1);
+            }
+            rs.close();
+            st.close();
+
+            // Insert role
+            st = conn.prepareStatement("INSERT INTO AccountRoles (AccountId, RoleId) VALUES (?, ?)");
+            st.setInt(1, newId);
+            st.setInt(2, roleId);
+            st.executeUpdate();
+            st.close();
+
+            conn.commit();
+            conn.setAutoCommit(true);
 
         } catch (SQLException ex) {
             Logger.getLogger(AccountsDAO.class
                     .getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
-
+        return newId;
     }
 
     public List<Accounts> getByRole(String roleName) {

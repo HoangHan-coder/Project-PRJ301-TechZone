@@ -5,6 +5,7 @@ com\techzone\techzone\resources\JakartaEE10Resource.class
 dao\AccountsDAO.class
 dao\VoucherDB.class
 controller\ProductServlet.class
+dao\RoleDAO.class
 controller\OrderServlet.class
 dao\DBUntils.class
 model\Accounts.class
