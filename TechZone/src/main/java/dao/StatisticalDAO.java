@@ -4,8 +4,8 @@
  */
 package dao;
 
+import db.DBContext;
 import model.AllCategory;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ public class StatisticalDAO extends DBContext{
             while (rs.next()) {
                 return rs.getDouble("TongTien");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StatisticalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0.0;
@@ -44,7 +44,7 @@ public class StatisticalDAO extends DBContext{
             while (rs.next()) {
                 return rs.getInt("TongBill");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StatisticalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -59,7 +59,7 @@ public class StatisticalDAO extends DBContext{
             while (rs.next()) {
                 return rs.getInt("TongProduct");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StatisticalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -74,7 +74,7 @@ public class StatisticalDAO extends DBContext{
             while (rs.next()) {
                 return rs.getInt("TongProduct");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StatisticalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -93,7 +93,7 @@ public class StatisticalDAO extends DBContext{
                 list.add(category);
             }
             return list;
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StatisticalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -107,7 +107,7 @@ public class StatisticalDAO extends DBContext{
             while (rs.next()) {
                 return rs.getInt("TongStatus");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StatisticalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -121,7 +121,7 @@ public class StatisticalDAO extends DBContext{
             while (rs.next()) {
                 return rs.getInt("TongStatus");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StatisticalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -136,7 +136,7 @@ public class StatisticalDAO extends DBContext{
             while (rs.next()) {
                 return rs.getInt("TongStatus");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StatisticalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -151,7 +151,7 @@ public class StatisticalDAO extends DBContext{
             while (rs.next()) {
                 return rs.getInt("TongStatus");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StatisticalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -176,7 +176,7 @@ public class StatisticalDAO extends DBContext{
                 list.add(category);
             }
             return list;
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StatisticalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

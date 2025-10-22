@@ -5,6 +5,7 @@
 package dao;
 
 
+import db.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,7 +51,7 @@ public class VoucherDAO extends DBContext{
                 
             }
             
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -81,7 +82,7 @@ public class VoucherDAO extends DBContext{
                 );
             }
             
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -116,7 +117,7 @@ public class VoucherDAO extends DBContext{
             statement.setInt(9, voucher.getMaxUsage());
             
             return statement.executeUpdate();            
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -149,7 +150,7 @@ public class VoucherDAO extends DBContext{
             statement.setInt(8, voucher.getMaxUsage());
             statement.setInt(9, voucherId);
             return statement.executeUpdate();            
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -164,7 +165,7 @@ public class VoucherDAO extends DBContext{
             PreparedStatement  statement = this.getConnection().prepareStatement(sql);
             statement.setInt(1, id);
             return statement.executeUpdate();
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -179,7 +180,7 @@ public class VoucherDAO extends DBContext{
                 return rs.getInt(1);
             }
             
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
@@ -210,7 +211,7 @@ public class VoucherDAO extends DBContext{
                 ));
                 
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listVoucher;

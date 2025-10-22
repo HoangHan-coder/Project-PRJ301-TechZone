@@ -28,9 +28,9 @@ public class Product {
     }
 
     public Product(int productId, String linkImg, String productName, double productPrice,
-                   String productAttributes, int categoryId, int stock, int quantitySold,
-                   String descriptionProduct, boolean isDeleted,
-                   Timestamp createdAt, Timestamp updatedAt, byte[] rowVersion) {
+            String productAttributes, int categoryId, int stock, int quantitySold,
+            String descriptionProduct, boolean isDeleted,
+            Timestamp createdAt, Timestamp updatedAt, byte[] rowVersion) {
         this.productId = productId;
         this.linkImg = linkImg;
         this.productName = productName;
@@ -50,47 +50,110 @@ public class Product {
     }
 
     // ===================== GETTER/SETTER =====================
-    public int getProductId() { return productId; }
-    public void setProductId(int productId) { this.productId = productId; }
+    public int getProductId() {
+        return productId;
+    }
 
-    public String getLinkImg() { return linkImg; }
-    public void setLinkImg(String linkImg) { this.linkImg = linkImg; }
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
 
-    public String getProductName() { return productName; }
-    public void setProductName(String productName) { this.productName = productName; }
+    public String getLinkImg() {
+        return "/"+linkImg;
+    }
 
-    public double getProductPrice() { return productPrice; }
-    public void setProductPrice(double productPrice) { this.productPrice = productPrice; }
+    public void setLinkImg(String linkImg) {
+        this.linkImg = linkImg;
+    }
 
-    public String getProductAttributes() { return productAttributes; }
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public String getProductAttributes() {
+        return productAttributes;
+    }
+
     public void setProductAttributes(String productAttributes) {
         this.productAttributes = productAttributes;
         this.attributesMap = parseAttributes(productAttributes); // ✅ parse tự động khi set
     }
 
-    public int getCategoryId() { return categoryId; }
-    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
+    public int getCategoryId() {
+        return categoryId;
+    }
 
-    public int getStock() { return stock; }
-    public void setStock(int stock) { this.stock = stock; }
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 
-    public int getQuantitySold() { return quantitySold; }
-    public void setQuantitySold(int quantitySold) { this.quantitySold = quantitySold; }
+    public int getStock() {
+        return stock;
+    }
 
-    public String getDescriptionProduct() { return descriptionProduct; }
-    public void setDescriptionProduct(String descriptionProduct) { this.descriptionProduct = descriptionProduct; }
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 
-    public boolean isIsDeleted() { return isDeleted; }
-    public void setIsDeleted(boolean isDeleted) { this.isDeleted = isDeleted; }
+    public int getQuantitySold() {
+        return quantitySold;
+    }
 
-    public Timestamp getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    public void setQuantitySold(int quantitySold) {
+        this.quantitySold = quantitySold;
+    }
 
-    public Timestamp getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
+    public String getDescriptionProduct() {
+        return descriptionProduct;
+    }
 
-    public byte[] getRowVersion() { return rowVersion; }
-    public void setRowVersion(byte[] rowVersion) { this.rowVersion = rowVersion; }
+    public void setDescriptionProduct(String descriptionProduct) {
+        this.descriptionProduct = descriptionProduct;
+    }
+
+    public boolean isIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public byte[] getRowVersion() {
+        return rowVersion;
+    }
+
+    public void setRowVersion(byte[] rowVersion) {
+        this.rowVersion = rowVersion;
+    }
 
     // ✅ Truy cập dạng map
     public Map<String, String> getAttributesMap() {
@@ -126,4 +189,5 @@ public class Product {
         }
         return map;
     }
+    
 }

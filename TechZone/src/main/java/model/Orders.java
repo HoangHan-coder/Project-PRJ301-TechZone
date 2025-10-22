@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
  * @author letan
  */
 public class Orders {
+
     private int orderId;             // Mã đơn hàng
     private int accountId;           // ID người dùng
     private String orderCode;        // Mã code đơn hàng
@@ -25,11 +26,12 @@ public class Orders {
     private boolean isDeleted;       // Cờ xóa mềm (soft delete)
 
     // ======= Constructors =======
-    public Orders() {}
+    public Orders() {
+    }
 
     public Orders(int orderId, int accountId, String orderCode, LocalDateTime orderTime, double totalAmount,
-                 double shippingFee, String status, String shippingAddress, String paymentMethod,
-                 String paymentStatus, Integer voucherId, boolean isDeleted) {
+            double shippingFee, String status, String shippingAddress, String paymentMethod,
+            String paymentStatus, Integer voucherId, boolean isDeleted) {
         this.orderId = orderId;
         this.accountId = accountId;
         this.orderCode = orderCode;

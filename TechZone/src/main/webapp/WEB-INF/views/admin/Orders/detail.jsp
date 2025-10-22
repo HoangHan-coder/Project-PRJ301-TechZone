@@ -181,11 +181,11 @@
                 <tbody>
                     <c:forEach var="p" items="${products}">
                         <tr>
-                            <td><img src="${p.linkImg}" alt="${p.productName}"></td>
+                            <td><img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}"></td>
                             <td>${p.getProductName()}</td>
-                            <td>${p.quantity}</td>
+                            <td>${p.stock}</td>
                             <td>${p.productPrice}₫</td>
-                            <td>${p.getTotal()}₫</td>
+                            <td>100000₫</td>
                         </tr>
                     </c:forEach>
                 </tbody>

@@ -9,7 +9,7 @@ package model;
  *
  * @author letan
  */
-public class Orderlist {
+public class OrderList {
     private int orderid;
     private String ordercode;
     private String fullname;
@@ -17,10 +17,10 @@ public class Orderlist {
     private String payment;
     private String status;
 
-    public Orderlist() {
+    public OrderList() {
     }
 
-    public Orderlist(int orderid, String ordercode, String fullname, double totalamount, String payment, String status) {
+    public OrderList(int orderid, String ordercode, String fullname, double totalamount, String payment, String status) {
         this.orderid = orderid;
         this.ordercode = ordercode;
         this.fullname = fullname;
