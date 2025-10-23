@@ -211,9 +211,11 @@ public class VoucherServlet extends HttpServlet {
         int voucherId = Integer.parseInt(request.getParameter("voucherId"));
         VoucherDAO voucherDAO = new VoucherDAO();
         int result = voucherDAO.deleteVoucher(voucherId);
-        System.out.println(voucherId);
+        
         if (result == 1) {
+            
             String success = "Xóa thành công!";
+            System.out.println(success);
             response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=remove&success=" + success);
         } else {
             String removeError = "Xóa không thành công!";

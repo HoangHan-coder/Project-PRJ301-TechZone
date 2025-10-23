@@ -95,15 +95,15 @@ public List<Product> getTop1(int categoryId) {
     List<Product> list = new ArrayList<>();
     String sql = "SELECT TOP 1 * FROM Product WHERE categoryId = ? ORDER BY createdAt DESC";
 
-    try (Connection con = this.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql)) {
-        
+    try {
+        Connection con = this.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, categoryId);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             list.add(mapResultSetToProduct(rs));
         }
-    } catch (Exception e) {
+    } catch (SQLException e) {
         e.printStackTrace();
     }
     return list;
@@ -114,15 +114,15 @@ public List<Product> getTop1ByCategory(int categoryId) {
     List<Product> list = new ArrayList<>();
     String sql = "SELECT TOP 1 * FROM Product WHERE CategoryId = ? ORDER BY quantitySold DESC";
 
-    try (Connection con = this.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql)) {
-
+    try {
+        Connection con = this.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, categoryId);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             list.add(mapResultSetToProduct(rs));
         }
-    } catch (Exception e) {
+    } catch (SQLException e) {
         e.printStackTrace();
     }
     return list;
