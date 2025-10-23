@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\ProductDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\DetailOrder.java
@@ -44,3 +45,9 @@ D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\RoleD
 D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ProductServlet.java
 D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\VoucherDB.java
 >>>>>>> Ngan
+=======
+D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderServlet.java
+D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\resources\JakartaEE10Resource.java
+D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\JakartaRestConfiguration.java
+D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CartServlet.java
+>>>>>>> My
