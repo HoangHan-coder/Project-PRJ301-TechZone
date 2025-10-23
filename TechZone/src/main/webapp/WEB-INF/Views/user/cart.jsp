@@ -1,0 +1,227 @@
+<%-- 
+    Tài liệu: Trang Giỏ Hàng
+    Ngày tạo: Sep 15, 2025, 4:26:22 PM
+    Tác giả: NgKaitou
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <title>Giỏ Hàng</title>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+        <style>
+            .mau-chu-shopee { /* Đổi từ .text-shopee */
+                color: #0044cc;
+                ;
+            }
+            .nut-nen-shopee { /* Đổi từ .btn-shopee */
+                background-color: #0044cc;
+                ;
+                color: white;
+            }
+            .o-tim-kiem-placeholder::placeholder { /* Đổi từ .search-input::placeholder */
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+<<<<<<< HEAD:TechZone/src/main/webapp/WEB-INF/Views/user/cart/cart.jsp
+        <nav class="navbar navbar-expand-lg navbar-light bg-light py-2 thanh-dieu-huong">
+            <div class="container-fluid d-flex justify-content-between align-items-center px-5">        
+=======
+        <!-- Thanh điều hướng (Navbar) -->
+<!--        <nav class="navbar navbar-expand-lg navbar-light bg-light py-2">
+            <div class="container-fluid d-flex justify-content-between align-items-center px-5">       
+                 Logo Shopee 
+>>>>>>> origin/main-core:TechZone/src/main/webapp/WEB-INF/Views/user/cart.jsp
+                <a href="#" class="navbar-logo d-flex align-items-center text-decoration-none">
+                    <div class="d-flex align-items-end">
+                        <span class="fs-4 fw-bold mau-chu-shopee">Gizmos</span> <span class="ms-2 fs-5 text-dark">| Giỏ Hàng</span>
+                    </div>
+                </a>
+<<<<<<< HEAD:TechZone/src/main/webapp/WEB-INF/Views/user/cart/cart.jsp
+                <form class="d-flex ms-auto thanh-tim-kiem" style="width: 50%;"> <div class="input-group">
+                        <input type="text" class="form-control o-tim-kiem-placeholder" placeholder="SĂN DEAL BIODERMA CHÍNH HÃNG">
+                        <button class="btn nut-nen-shopee" type="submit"> <i class="bi bi-search"></i>
+=======
+                 Ô tìm kiếm 
+                <form class="d-flex ms-auto search-form" style="width: 50%;">
+                    <div class="input-group">
+                        <input type="text" class="form-control search-input"
+                               placeholder="SĂN DEAL BIODERMA CHÍNH HÃNG">
+                        <button class="btn btn-shopee" type="submit">
+                            <i class="bi bi-search"></i>
+>>>>>>> origin/main-core:TechZone/src/main/webapp/WEB-INF/Views/user/cart.jsp
+                        </button>
+                    </div>
+                </form>
+            </div>
+<<<<<<< HEAD:TechZone/src/main/webapp/WEB-INF/Views/user/cart/cart.jsp
+        </nav>
+=======
+        </nav>-->
+        <div>
+            <jsp:include page="/WEB-INF/views/user/navbar.jsp"/>
+        </div>
+        <!-- Tiêu đề giỏ hàng -->
+>>>>>>> origin/main-core:TechZone/src/main/webapp/WEB-INF/Views/user/cart.jsp
+        <div class="container-fluid my-4">
+            <div class="row align-items-center bg-white py-3 border rounded shadow-sm tieu-de-bang-san-pham"> <div class="col-6 d-flex align-items-center">
+                    <input type="checkbox" class="me-3">
+                    <span class="fw-bold">Sản Phẩm</span>
+                </div>
+                <div class="col-6">
+                    <div class="row text-center text-secondary">
+                        <div class="col">Đơn Giá</div>
+                        <div class="col">Số Lượng</div>
+                        <div class="col">Số Tiền</div>
+                        <div class="col">Thao Tác</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid d-flex justify-content-between align-items-center px-5 py-3">
+            <a href="#" class="logo d-flex align-items-center text-decoration-none">
+                <input type="checkbox" class="me-3">
+                <div class="d-flex align-items-end">
+                    <span class="fs-4 fw-bold mau-chu-shopee" style="color: #0044cc;">Yêu thích</span> <span class="ms-2 fs-5 text-dark">| Apple Flagship Store </span>
+                </div>
+            </a>
+        </div>
+
+        <li class="list-group-item">
+                        <div class="row g-0">
+                            <div class="col-md-2">
+                                <img src="https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m0sg8p9yk2y5ef_tn"
+                                    class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-10">
+                                <div class="card-body">
+                                    <h5 class="card-title">Đế Tản Nhiệt Laptop Cooler Master Notepal L1, Chống
+                                        ồn, giữ
+                                        Cho
+                                        Laptop Mát Mẻ, Tương thích 17 Inch | Bảo Hành 2 Năm</h5>
+                                    <p class="card-text position-relative">x1<span
+                                            class="position-absolute  top-0 end-0">379.000₫</span></p>
+                                    </p>
+                                </div>
+                            </div>
+         </li>
+        <div class="d-flex align-items-center p-3 border-bottom voucher-cua-hang"> <div class="d-flex align-items-center">
+                <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/cart/293cb84a6429a3426672.svg" alt="Voucher Icon" height="20" class="me-2">
+                <span class="mb-0 fw-bold fs-5" style="color: #0044cc;">Voucher giảm đến 500k</span>
+                <a href="#" class="text-primary text-decoration-none ms-3">Xem thêm voucher</a>
+
+            </div>
+        </div>
+        <div class="d-flex align-items-center p-3 border-bottom voucher-van-chuyen"> <div class="d-flex align-items-center">
+                <img src="https://down-vn.img.susercontent.com/file/sg-11134270-7rfid-m30kymxdm90kc6.webp" alt="Voucher Icon" height="20" class="me-2">
+                <span class="mb-0 fw-bold fs-5" style="color: #0044cc;">Giảm 500.000đ phí vận chuyển đơn tối thiểu 0đ</span>
+                <a href="#" class="text-primary text-decoration-none ms-3">Tìm hiểu thêm</a>
+
+            </div>
+        </div>
+<<<<<<< HEAD:TechZone/src/main/webapp/WEB-INF/Views/user/cart/cart.jsp
+        <div class="cart-container p-3">
+            <div class="d-flex justify-content-between align-items-center p-3 dong-voucher-shopee"> <div class="d-flex justify-content-center align-items-center">
+                    <img src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/cart/293cb84a6429a3426672.svg" alt="Voucher Icon" height="20" class="me-2">
+                    <span class="text-dark fw-bold"> Shoppe Voucher </span>
+                </div>
+                <div > 
+                    <a href="#" class="text-primary text-decoration-none">Chọn hoặc nhập mã</a>         
+                </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center p-3 dong-coin-shopee"> <div class="d-flex align-items-center">
+
+                </div>
+                <div>
+                    <span class="me-2">Bạn chưa chọn sản phẩm</span> <span class="mau-chu-shopee">-0đ </span> </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center p-3 thanh-thanh-toan"> <div class="d-flex align-items-center">
+                    <div class="form-check me-3">
+                        <input class="form-check-input" type="checkbox" id="chon-tat-ca"> <label class="form-check-lable" for="chon-tat-ca"> Chọn Tất Cả
+                        </label>
+                    </div>
+                    <a href="#" class="text-muted text-decoration-none me-3">Xóa</a>
+                    <a href="#" class="text-danger text-decoration-none">Lưu vào mục đã thích</a>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="me-3">
+                        Tổng cộng (0 Sản phẩm): 
+                        <span class="text-danger fw-bold fs-5" id="tong-tien">0<sup>đ</sup>
+                        </span>
+                    </span>
+                    <button class="btn fw-bold" style="background-color: #004aad; color: white;" data-bs-toggle="modal" data-bs-target="#modal-dia-chi">Mua Hàng</button>
+                </div>
+            </div>        
+        </div>
+
+        <hr>
+
+        <div class="modal fade" id="modal-dia-chi" tabindex="-1" aria-labelledby="tieu-de-modal-dia-chi" aria-hidden="true"> 
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tieu-de-modal-dia-chi">Địa chỉ mới (dùng thông tin trước sáp nhập)</h5> 
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted">Để đặt hàng, vui lòng thêm địa chỉ nhận hàng</p>
+                        <form id="form-them-dia-chi"> 
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <input type="text" class="form-control" placeholder="Họ và tên" id="ten-nguoi-nhan" required> </div>
+                                <div class="col">
+                                    <input type="tel" class="form-control" placeholder="Số điện thoại" id="sdt-nguoi-nhan" required> </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <select class="form-select text-muted" id="chon-tinh-thanh"> 
+                                    <option selected>Tỉnh/ Thành phố, Quận/Huyện, Phường/Xã</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <input type="text" class="form-control" placeholder="Địa chỉ cụ thể" id="dia-chi-chi-tiet" required> 
+                            </div>
+
+                            <div class="text-center py-5 mb-3 border bg-light text-muted khu-vuc-ban-do" style="min-height: 150px;"> 
+                                <button type="button" class="btn btn-outline-secondary">
+                                    <i class="bi bi-plus"></i> Thêm vị trí
+                                </button>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Loại địa chỉ:</label>
+                                <div class="d-flex">
+                                    <button type="button" class="btn btn-outline-dark me-2">Nhà Riêng</button>
+                                    <button type="button" class="btn btn-outline-dark">Văn Phòng</button>
+                                </div>
+                            </div>
+
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="dat-lam-mac-dinh"> 
+                                <label class="form-check-label text-muted" for="dat-lam-mac-dinh"> Đặt làm địa chỉ mặc định </label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Trở Lại</button>
+                        <button type="button" class="btn nut-nen-shopee" id="btn-hoan-thanh">Hoàn thành</button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+=======
+     <jsp:include page="/WEB-INF/views/user/footer.jsp"/>
+>>>>>>> origin/main-core:TechZone/src/main/webapp/WEB-INF/Views/user/cart.jsp
+    </body>
+</html>

@@ -4,14 +4,19 @@
  */
 package controller;
 
+<<<<<<< HEAD
 import dao.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+=======
+import java.io.IOException;
+>>>>>>> origin/main-core
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+<<<<<<< HEAD
 import java.util.List;
 import model.Order;
 
@@ -48,6 +53,16 @@ public class OrderServlet extends HttpServlet {
         }
     }
 
+=======
+
+/**
+ *
+ * @author NgKaitou
+ */
+@WebServlet(name = "Order", urlPatterns = {"/order"})
+public class OrderServlet extends HttpServlet {
+
+>>>>>>> origin/main-core
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -60,6 +75,7 @@ public class OrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+<<<<<<< HEAD
         
         OrderDAO order = new OrderDAO();
         List<Order> list = order.getAll();
@@ -67,6 +83,18 @@ public class OrderServlet extends HttpServlet {
        request.getRequestDispatcher("/WEB-INF/views/user/cart/order.jsp").forward(request, response);
        
        
+=======
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "order-list";
+        }
+
+        if (action.equalsIgnoreCase("order-detail")) {
+            request.getRequestDispatcher("/WEB-INF/views/user/order-detail.jsp").forward(request, response);
+        } else if (action.equalsIgnoreCase("order-list")) {
+            request.getRequestDispatcher("/WEB-INF/views/user/order-list.jsp").forward(request, response);
+        }
+>>>>>>> origin/main-core
     }
 
     /**
@@ -80,7 +108,11 @@ public class OrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+<<<<<<< HEAD
         processRequest(request, response);
+=======
+
+>>>>>>> origin/main-core
     }
 
     /**
