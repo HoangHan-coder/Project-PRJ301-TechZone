@@ -4,63 +4,76 @@
  */
 package model;
 
-import java.time.LocalDateTime;
-
 /**
  *
- * @author letan
+ * @author pc
  */
 public class Accounts {
 
-    private int accountId;
-    private String username;
-    private String passwordHash;
+    private int id;
+    private String userName;
+    private String passWord;
     private String fullName;
     private String email;
     private String phone;
     private boolean isDeleted;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String roleName;
 
     public Accounts() {
     }
 
-    public Accounts(int accountId, String username, String passwordHash, String fullName, String email, String phone,
-            boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.accountId = accountId;
-        this.username = username;
-        this.passwordHash = passwordHash;
+    public Accounts(int id, String userName, String passWord, String fullName, String email, String phone, String roleName) {
+        this.id = id;
+        this.userName = userName;
+        this.passWord = passWord;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.roleName = roleName;
+    }
+
+    public Accounts(int id, String userName, String fullName, String email, String phone, String roleName) {
+        this.id = id;
+        this.userName = userName;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.roleName = roleName;
+    }
+
+    public Accounts(int id, String userName, String passWord, String fullName, String email, String phone, boolean isDeleted, String roleName) {
+        this.id = id;
+        this.userName = userName;
+        this.passWord = passWord;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
         this.isDeleted = isDeleted;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.roleName = roleName;
     }
 
-    // Getter và Setter
-    public int getAccountId() {
-        return accountId;
+    public int getId() {
+        return id;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassWord() {
+        return passWord;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
 
     public String getFullName() {
@@ -87,27 +100,25 @@ public class Accounts {
         this.phone = phone;
     }
 
-    public boolean isDeleted() {
+    public boolean isIsDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    @Override
+    public String toString() {
+        return "Accounts{" + "id=" + id + ", userName=" + userName + ", passWord=" + passWord + ", fullName=" + fullName + ", email=" + email + ", phone=" + phone + '}';
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }
