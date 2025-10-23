@@ -5,13 +5,14 @@
 --%>
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Home 12 Clone</title>
+        <title>TechZone</title>
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <style>
@@ -162,7 +163,6 @@
     </head>
     <body>
         <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
-
         <!-- Bootstrap Carousel -->
         <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
             <!-- Indicators -->
@@ -172,7 +172,6 @@
             </div>
 
             <!-- Slides -->
-
 
             <!-- Nút điều hướng -->
             <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
@@ -259,7 +258,7 @@
                     </c:forEach>
                     <div class="col-md-4">
                         <div class="category-card p-4 text-center bg-white">
-                            <img src="#”alt="Category 3" class="img-fluid mb-3">
+                            <img src="#" alt="Category 3" class="img-fluid mb-3">
                             <h5>TV & Audio</h5>
                         </div>
                     </div>
@@ -307,7 +306,11 @@
                 </div>
             </div>
         </section>
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> tam
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
