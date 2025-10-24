@@ -69,7 +69,7 @@
             <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
                 <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=phone">SMARTPHONE</a></li>
                 <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=laptop">LAPTOP</a></li>
-                <li><a class="dropdown-item" href="#">ACCESSORY</a></li>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/products?category=accessory">ACCESSORY</a></li>
             </ul>
         </div>
         <!-- Search Bar -->

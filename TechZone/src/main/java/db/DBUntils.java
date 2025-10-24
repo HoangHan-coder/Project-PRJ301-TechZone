@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * @author letan
  */
 public class DBUntils {
-    private static final String DB_NAME = "TechZoneDB";
+    private static final String DB_NAME = "TechZoneDBV1";
     private static final String DB_USER_NAME = "sa";
     private static final String DB_PASSWORD = "123";
 
