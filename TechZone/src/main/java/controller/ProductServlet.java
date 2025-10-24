@@ -5,8 +5,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import model.Product;
 
 @WebServlet(name = "ProductServlet", urlPatterns = {"/products"})
@@ -21,21 +23,22 @@ public class ProductServlet extends HttpServlet {
         String category = request.getParameter("category");
 
         try {
-            // 🏠 1️⃣ Không có action/category → hiển thị trang chủ
+            // 🏠 1️⃣ Trang chủ (nếu không có action hoặc category)
             if (action == null && category == null) {
-                // mat hang them moi nhat
+                List<Product> list = dao.getAllProducts();
                 ArrayList<Product> listPhone = (ArrayList<Product>) dao.getTop1(2);
                 ArrayList<Product> listLap = (ArrayList<Product>) dao.getTop1(1);
-
+                ArrayList<Product> listAccessory = (ArrayList<Product>) dao.getTop1(3);
                 request.setAttribute("listPhone", listPhone);
                 request.setAttribute("listLap", listLap);
-                // mat hang ban chay nhat
+                request.setAttribute("listAccessory", listAccessory);
                 ArrayList<Product> listPhonefe = (ArrayList<Product>) dao.getTop1ByCategory(2);
                 ArrayList<Product> listLapfe = (ArrayList<Product>) dao.getTop1ByCategory(1);
-
+                ArrayList<Product> listAccessoryFe = (ArrayList<Product>) dao.getTop1(3);
                 request.setAttribute("listPhonefe", listPhonefe);
                 request.setAttribute("listLapfe", listLapfe);
-
+                request.setAttribute("listAccessoryFe", listAccessoryFe);
+                request.setAttribute("list", list);
                 request.getRequestDispatcher("/WEB-INF/views/user/home.jsp").forward(request, response);
                 return;
             }
@@ -73,7 +76,6 @@ public class ProductServlet extends HttpServlet {
                 String id = request.getParameter("id");
 
                 if (id == null || id.isEmpty()) {
-                    System.out.println("⚠️ Không có ID trong request!");
                     response.sendRedirect("products");
                     return;
                 }
@@ -83,14 +85,11 @@ public class ProductServlet extends HttpServlet {
                     Product product = dao.getProductById(productId);
 
                     if (product == null) {
-                        System.out.println("❌ Không tìm thấy sản phẩm với ID = " + id);
                         response.sendRedirect("products");
                         return;
                     }
 
-                    // Kiểm tra map null để tránh lỗi JSP
                     if (product.getAttributesMap() == null) {
-                        System.out.println("⚠️ attributesMap null → khởi tạo rỗng.");
                         product.setAttributesMap(new HashMap<>());
                     }
 
@@ -100,13 +99,12 @@ public class ProductServlet extends HttpServlet {
                     return;
 
                 } catch (NumberFormatException e) {
-                    System.out.println("❌ ID không hợp lệ: " + id);
                     response.sendRedirect("products");
                     return;
                 }
             }
 
-            // 🌀 Nếu action không hợp lệ → quay lại home
+            // 🌀 Mặc định quay lại trang chủ
             response.sendRedirect("products");
 
         } catch (Exception e) {
@@ -121,6 +119,32 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // POST không dùng trong servlet này
+
+        String action = request.getParameter("action");
+
+        if ("filter".equals(action)) {
+            ProductDAO dao = new ProductDAO();
+
+            int cateid = Integer.parseInt(request.getParameter("cateid"));
+            String brand = request.getParameter("brand");
+
+            List<Product> listFilter;
+
+            // ✅ Nếu brand null hoặc rỗng thì lấy tất cả sản phẩm trong category
+            if (brand == null || brand.trim().isEmpty()) {
+                listFilter = dao.getProductsByCategory(cateid);
+            } else {
+                listFilter = dao.getFilterBrand(cateid, brand);
+            }
+
+            request.setAttribute("list", listFilter);
+
+            // ✅ Trả về HTML fragment để AJAX cập nhật phần sản phẩm
+            request.getRequestDispatcher("/WEB-INF/views/user/product/product-list/filter-result.jsp")
+                    .forward(request, response);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/product");
+        }
     }
+
 }
