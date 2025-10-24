@@ -1,6 +1,6 @@
 package controller;
 
-import dao.AccountsDAO;
+import dao.AccountDAO;
 import java.io.IOException;
 import java.util.List;
 import jakarta.servlet.ServletException;
@@ -16,7 +16,7 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String view = request.getParameter("view");
-        AccountsDAO dao = new AccountsDAO();
+        AccountDAO dao = new AccountDAO();
 
         if (view == null || view.equals("list")) {
             String pageParam = request.getParameter("page");
@@ -40,7 +40,7 @@ public class AdminServlet extends HttpServlet {
         } else if (view.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Account acc = dao.getById(id);
-            
+
             request.setAttribute("account", acc);
             request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
         } else if (view.equals("delete")) {
@@ -64,7 +64,7 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        AccountsDAO dao = new AccountsDAO();
+        AccountDAO dao = new AccountDAO();
 
         if ("update".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
@@ -72,7 +72,44 @@ public class AdminServlet extends HttpServlet {
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
             String roleName = request.getParameter("role");
+            boolean hasError = false;
 
+            // fullName
+            if (fullName == null || fullName.trim().isEmpty()) {
+                request.setAttribute("fullNameError", "Họ tên không được để trống");
+                hasError = true;
+            }
+
+            // email
+            if (email == null || email.trim().isEmpty()) {
+                request.setAttribute("emailError", "Email không được để trống");
+                hasError = true;
+            } else if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                request.setAttribute("emailError", "Email không đúng định dạng");
+                hasError = true;
+            }
+
+            // phone
+            if (phone == null || phone.trim().isEmpty()) {
+                request.setAttribute("phoneError", "Số điện thoại không được để trống");
+                hasError = true;
+            } else if (!phone.matches("^[0-9]{10}$")) {
+                request.setAttribute("phoneError", "Số điện thoại phải gồm 10 chữ số");
+                hasError = true;
+            }
+
+            // Nếu có lỗi, giữ data và forward lại
+            if (hasError) {
+                Account temp = new Account();
+                temp.setAccountId(id);
+                temp.setFullName(fullName);
+                temp.setEmail(email);
+                temp.setPhone(phone);
+                temp.setRoleName(roleName);
+                request.setAttribute("account", temp);
+                request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
+                return;
+            }
             Account account = new Account();
             account.setAccountId(id);
             account.setFullName(fullName);
@@ -84,11 +121,10 @@ public class AdminServlet extends HttpServlet {
             if (result == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin?view=list");
             } else {
-                response.sendRedirect(request.getContextPath() + "/admin?view=update&id=" + account.getAccountId());
+                response.sendRedirect(request.getContextPath() + "/admin?view=update&id=" + id);
             }
 
         } else if ("create".equals(action)) {
-
             String userName = request.getParameter("userName");
             String passWord = request.getParameter("passWordHarh");
             String fullName = request.getParameter("fullName");
@@ -96,12 +132,56 @@ public class AdminServlet extends HttpServlet {
             String phone = request.getParameter("phone");
             String roleName = request.getParameter("role");
 
-            // Validate
-            if (userName == null || userName.trim().isEmpty()
-                    || passWord == null || passWord.trim().isEmpty()
-                    || fullName == null || fullName.trim().isEmpty()) {
+            boolean hasError = false;
 
-                request.setAttribute("error", "Username, Password và Họ & tên không được để trống!");
+            // Validate
+            if (userName == null || userName.trim().isEmpty()) {
+                request.setAttribute("usernameError", "Username không được để trống");
+                hasError = true;
+            } // ✅ Validate trùng username
+            else if (dao.existsUsername(userName)) {
+                request.setAttribute("usernameError", "Username đã tồn tại, vui lòng chọn tên khác");
+                hasError = true;
+            }
+
+            if (passWord == null || passWord.trim().isEmpty()) {
+                request.setAttribute("passwordError", "Password không được để trống");
+                hasError = true;
+            } else if (!passWord.matches("^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$")) {
+                request.setAttribute("passwordError", "Password phải ≥ 8 ký tự, có số và ký tự đặc biệt");
+                hasError = true;
+            }
+
+            if (fullName == null || fullName.trim().isEmpty()) {
+                request.setAttribute("fullNameError", "Họ tên không được để trống");
+                hasError = true;
+            }
+
+            if (email != null && !email.isEmpty()) {
+                if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                    request.setAttribute("emailError", "Email không đúng định dạng");
+                    hasError = true;
+                }
+            }
+            if (phone != null && !phone.isEmpty()) {
+                if (!phone.matches("^[0-9]{10}$")) {
+                    request.setAttribute("phoneError", "Số điện thoại phải gồm 10 chữ số");
+                    hasError = true;
+                }
+            }
+
+            // Giữ lại dữ liệu user đã nhập
+            request.setAttribute("userName", userName);
+            request.setAttribute("fullName", fullName);
+            request.setAttribute("email", email);
+            request.setAttribute("phone", phone);
+            request.setAttribute("roleName", roleName);
+
+            int nextId = dao.getNextId(); // bạn đã có hàm này từ ban đầu
+            request.setAttribute("accountId", nextId);
+
+            // Nếu có lỗi → quay lại form
+            if (hasError) {
                 request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
                 return;
             }
@@ -114,13 +194,9 @@ public class AdminServlet extends HttpServlet {
             account.setPhone(phone);
             account.setRoleName(roleName);
 
-            int result = dao.create(account);
-            if (result == 1) {
-                response.sendRedirect(request.getContextPath() + "/admin?view=list");
-            } else {
-                response.sendRedirect(request.getContextPath() + "/admin?view=create&id=" + account.getAccountId());
-            }
+            dao.create(account);
 
+            response.sendRedirect(request.getContextPath() + "/admin?view=list");
         }
     }
 

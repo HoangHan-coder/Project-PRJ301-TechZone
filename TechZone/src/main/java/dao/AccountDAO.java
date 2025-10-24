@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author pc
  */
-public class AccountsDAO extends DBContext {
+public class AccountDAO extends DBContext {
 
     private final int SIZE = 30;
 
@@ -63,7 +63,7 @@ public class AccountsDAO extends DBContext {
             }
             return list;
         } catch (SQLException ex) {
-            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -81,7 +81,7 @@ public class AccountsDAO extends DBContext {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         int totalPage = (int) Math.ceil((double) totalRows / SIZE);
@@ -101,7 +101,7 @@ public class AccountsDAO extends DBContext {
             return 1;
 
         } catch (SQLException ex) {
-            Logger.getLogger(AccountsDAO.class
+            Logger.getLogger(AccountDAO.class
                     .getName()).log(Level.SEVERE, null, ex);
             return 1;
         }
@@ -129,7 +129,7 @@ public class AccountsDAO extends DBContext {
                 return account;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -145,7 +145,7 @@ public class AccountsDAO extends DBContext {
             st.setInt(5, account.getAccountId());
             return st.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }
@@ -158,7 +158,7 @@ public class AccountsDAO extends DBContext {
             return st.executeUpdate();
 
         } catch (SQLException ex) {
-            Logger.getLogger(AccountsDAO.class
+            Logger.getLogger(AccountDAO.class
                     .getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
@@ -180,7 +180,7 @@ public class AccountsDAO extends DBContext {
             return statement.executeUpdate();
 
         } catch (SQLException ex) {
-            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
     }
@@ -207,14 +207,29 @@ public class AccountsDAO extends DBContext {
                     Account account = new Account(accoutId, userName, name, email, phone, roleName);
                     list.add(account);
                 } catch (SQLException ex) {
-                    Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             return list;
         } catch (SQLException ex) {
-            Logger.getLogger(AccountsDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public boolean existsUsername(String username) {
+
+        try {
+            String sql = "SELECT 1 FROM Accounts WHERE Username= ?";
+
+            PreparedStatement statement = this.getConnection().prepareStatement(sql);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            return rs.next();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
 }

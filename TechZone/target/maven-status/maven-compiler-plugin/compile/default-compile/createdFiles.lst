@@ -2,10 +2,10 @@ dao\ProductDB.class
 db\TestDBContext.class
 com\techzone\techzone\JakartaRestConfiguration.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
-dao\AccountsDAO.class
 dao\VoucherDB.class
 controller\ProductServlet.class
 controller\OrderServlet.class
+dao\AccountDAO.class
 dao\DBUntils.class
 model\Product.class
 dao\ProductDB$1.class
@@ -14,6 +14,5 @@ model\Voucher.class
 db\DBContext.class
 controller\Register.class
 model\Account.class
-controller\AdminServlet.class
 controller\HomeServet.class
 controller\ListVoucher.class
