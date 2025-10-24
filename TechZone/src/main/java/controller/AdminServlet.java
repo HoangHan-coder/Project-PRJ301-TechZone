@@ -1,6 +1,6 @@
 package controller;
 
-import dao.AccountsDAO;
+import dao.AccountDAO;
 import java.io.IOException;
 import java.util.List;
 import jakarta.servlet.ServletException;
@@ -16,7 +16,7 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String view = request.getParameter("view");
-        AccountsDAO dao = new AccountsDAO();
+        AccountDAO dao = new AccountDAO();
 
         if (view == null || view.equals("list")) {
             String pageParam = request.getParameter("page");
@@ -35,14 +35,14 @@ public class AdminServlet extends HttpServlet {
             List<Account> list = dao.getAccounts(page);
             request.setAttribute("accounts", list);
             request.setAttribute("currentPage", page);
-            request.getRequestDispatcher("/WEB-INF/Views/admin/account-management.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/admin/account-management.jsp").forward(request, response);
 
         } else if (view.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Account acc = dao.getById(id);
             
             request.setAttribute("account", acc);
-            request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/admin/update-profile.jsp").forward(request, response);
         } else if (view.equals("delete")) {
             int id = Integer.parseInt(request.getParameter("id"));
             int result = dao.delete(id);
@@ -55,7 +55,7 @@ public class AdminServlet extends HttpServlet {
         } else if (view.equals("create")) {
             int nextId = dao.getNextId();
             request.setAttribute("nextId", nextId);
-            request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
         }
     }
 
@@ -64,7 +64,7 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        AccountsDAO dao = new AccountsDAO();
+        AccountDAO dao = new AccountDAO();
 
         if ("update".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
@@ -102,7 +102,7 @@ public class AdminServlet extends HttpServlet {
                     || fullName == null || fullName.trim().isEmpty()) {
 
                 request.setAttribute("error", "Username, Password và Họ & tên không được để trống!");
-                request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
                 return;
             }
 
