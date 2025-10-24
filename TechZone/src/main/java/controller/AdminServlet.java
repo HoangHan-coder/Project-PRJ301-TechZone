@@ -35,14 +35,14 @@ public class AdminServlet extends HttpServlet {
             List<Account> list = dao.getAccounts(page);
             request.setAttribute("accounts", list);
             request.setAttribute("currentPage", page);
-            request.getRequestDispatcher("/WEB-INF/Views/admin/account-management.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/admin/account-management.jsp").forward(request, response);
 
         } else if (view.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Account acc = dao.getById(id);
 
             request.setAttribute("account", acc);
-            request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/admin/update-profile.jsp").forward(request, response);
         } else if (view.equals("delete")) {
             int id = Integer.parseInt(request.getParameter("id"));
             int result = dao.delete(id);
@@ -55,7 +55,7 @@ public class AdminServlet extends HttpServlet {
         } else if (view.equals("create")) {
             int nextId = dao.getNextId();
             request.setAttribute("nextId", nextId);
-            request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
         }
     }
 
@@ -107,7 +107,7 @@ public class AdminServlet extends HttpServlet {
                 temp.setPhone(phone);
                 temp.setRoleName(roleName);
                 request.setAttribute("account", temp);
-                request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/admin/update-profile.jsp").forward(request, response);
                 return;
             }
             Account account = new Account();
@@ -182,7 +182,7 @@ public class AdminServlet extends HttpServlet {
 
             // Nếu có lỗi → quay lại form
             if (hasError) {
-                request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
                 return;
             }
 
