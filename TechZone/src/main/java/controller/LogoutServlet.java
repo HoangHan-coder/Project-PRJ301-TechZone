@@ -4,7 +4,6 @@
  */
 package controller;
 
-import dao.AuthDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,14 +11,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author acer
  */
-@WebServlet(name = "Register", urlPatterns = {"/register"})
-public class Register extends HttpServlet {
+@WebServlet(name = "LogoutServlet", urlPatterns = {"/logout"})
+public class LogoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +37,10 @@ public class Register extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Register</title>");
+            out.println("<title>Servlet LogoutServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Register at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,8 +59,12 @@ public class Register extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-//        System.out.println("text");
-        request.getRequestDispatcher("/WEB-INF/Views/user/register.jsp").forward(request, response);
+            HttpSession session = request.getSession(false); // lấy session nếu có
+        if (session != null) {
+            session.invalidate(); // hủy session
+        }
+
+       response.sendRedirect(getServletContext().getContextPath() + "/login");
     }
 
     /**
@@ -76,25 +79,6 @@ public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-        request.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json;charset=UTF-8");
-        String username = request.getParameter("name");
-        String password = request.getParameter("password");
-        String phone = request.getParameter("phone");
-
-        AuthDAO account = new AuthDAO();
-        
-      
-        PrintWriter out = response.getWriter();
-        if (account.register(username, password, phone) == 1) {
-            
-            String json = "{ \"success\": true, \"message\":\"User registered successfully!\" }";
-            out.print(json);
-        } else {
-            String json = "{ \"success\": false, \"message\":\"register failure\" }";
-            out.print(json);
-        }
-        out.flush();
     }
 
     /**

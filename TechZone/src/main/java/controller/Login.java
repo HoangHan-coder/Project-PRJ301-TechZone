@@ -4,6 +4,8 @@
  */
 package controller;
 
+import dao.AuthDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +13,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 
 /**
  *
@@ -58,7 +62,7 @@ public class Login extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-    request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Views/user/login.jsp").forward(request, response);
     }
 
     /**
@@ -72,8 +76,30 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+      
+            AuthDAO userdao = new AuthDAO();
+            if (userdao.login(username, password) != null) {
+                if (userdao.login(username, password).getAccountroles().equals("Admin")) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("admin", userdao.login(username, password));
+                    response.sendRedirect(getServletContext().getContextPath() + "/admin");
+                } else {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("user", userdao.login(username, password));
+                    response.sendRedirect(getServletContext().getContextPath() + "/products");
+                }
+                
+
+            } else {
+                response.sendRedirect(getServletContext().getContextPath() + "/login");
+            }
+
+        
     }
+    
 
     /**
      * Returns a short description of the servlet.
