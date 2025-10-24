@@ -27,7 +27,7 @@
                                     <div class="mb-3">
                                         <label class="form-label">Username</label>
                                         <input type="text" class="form-control" value="${account.userName}"  readonly>
-                                        <input type="hidden" name="id" value="${account.id}">
+                                        <input type="hidden" name="id" value="${account.accountId}">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Họ và tên</label>
@@ -43,11 +43,24 @@
                                             <input type="text" name="phone" class="form-control editable" value="${account.phone}" readonly>
                                         </div>
                                     </div>
+                                    <p>Vai trò</p>
+                                    <div class="form-check">
+                                        <input class="form-check-input role-radio" type="radio" name="role" value="Customer"
+                                               ${account.roleName == 'Customer' ? 'checked' : ''} onclick="return false;">
+                                        <label class="form-check-label">Customer</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input role-radio" type="radio" name="role" value="Admin"
+                                               ${account.roleName == 'Admin' ? 'checked' : ''} onclick="return false;">
+                                        <label class="form-check-label">Admin</label>
+                                    </div>
                                     <div class="d-flex gap-2">
                                         <button type="button" id="editBtn" class="btn btn-primary" onclick="enableEdit()">Chỉnh sửa thông tin</button>
                                         <button type="submit" id="saveBtn" class="btn btn-success d-none">Lưu</button>
                                         <button type="reset" id="cancelBtn" class="btn btn-secondary d-none" onclick="cancelEdit()">Hủy</button>
                                     </div>
+
+
                                 </form>
                             </c:if>
                         </div>
@@ -66,6 +79,7 @@
                                                     fields[i].removeAttribute("readonly");
                                                 }
 
+                                                document.querySelectorAll('.role-radio').forEach(r => r.onclick = false);
                                                 document.getElementById("editBtn").classList.add("d-none");
                                                 document.getElementById("saveBtn").classList.remove("d-none");
                                                 document.getElementById("cancelBtn").classList.remove("d-none");
@@ -76,11 +90,12 @@
                                                 for (let i = 0; i < fields.length; i++) {
                                                     fields[i].setAttribute("readonly", true);
                                                 }
-
+                                                document.querySelectorAll('.role-radio').forEach(r => r.onclick = true);
                                                 document.getElementById("editBtn").classList.remove("d-none");
                                                 document.getElementById("saveBtn").classList.add("d-none");
                                                 document.getElementById("cancelBtn").classList.add("d-none");
                                             }
+
     </script>
 
 </body>

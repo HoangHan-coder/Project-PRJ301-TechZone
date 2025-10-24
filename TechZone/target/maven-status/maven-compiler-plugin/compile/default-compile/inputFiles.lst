@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\AdminServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\db\TestDBContext.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Login.java
@@ -32,3 +33,23 @@ D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OderListDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Dashboard.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\until\Pagination.java
+=======
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\AdminServlet.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Voucher.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Product.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\JakartaRestConfiguration.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\HomeServet.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\AccountsDAO.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Register.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\db\TestDBContext.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderServlet.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\db\DBContext.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\ProductDB.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ListVoucher.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\DBUntils.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Account.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\resources\JakartaEE10Resource.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Login.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ProductServlet.java
+D:\KI_4\PRJ\PRJ_project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\VoucherDB.java
+>>>>>>> Ngan
