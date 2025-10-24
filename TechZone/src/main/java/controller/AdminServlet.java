@@ -40,7 +40,7 @@ public class AdminServlet extends HttpServlet {
         } else if (view.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Account acc = dao.getById(id);
-            
+
             request.setAttribute("account", acc);
             request.getRequestDispatcher("/WEB-INF/views/admin/update-profile.jsp").forward(request, response);
         } else if (view.equals("delete")) {
@@ -72,7 +72,44 @@ public class AdminServlet extends HttpServlet {
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
             String roleName = request.getParameter("role");
+            boolean hasError = false;
 
+            // fullName
+            if (fullName == null || fullName.trim().isEmpty()) {
+                request.setAttribute("fullNameError", "Họ tên không được để trống");
+                hasError = true;
+            }
+
+            // email
+            if (email == null || email.trim().isEmpty()) {
+                request.setAttribute("emailError", "Email không được để trống");
+                hasError = true;
+            } else if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                request.setAttribute("emailError", "Email không đúng định dạng");
+                hasError = true;
+            }
+
+            // phone
+            if (phone == null || phone.trim().isEmpty()) {
+                request.setAttribute("phoneError", "Số điện thoại không được để trống");
+                hasError = true;
+            } else if (!phone.matches("^[0-9]{10}$")) {
+                request.setAttribute("phoneError", "Số điện thoại phải gồm 10 chữ số");
+                hasError = true;
+            }
+
+            // Nếu có lỗi, giữ data và forward lại
+            if (hasError) {
+                Account temp = new Account();
+                temp.setAccountId(id);
+                temp.setFullName(fullName);
+                temp.setEmail(email);
+                temp.setPhone(phone);
+                temp.setRoleName(roleName);
+                request.setAttribute("account", temp);
+                request.getRequestDispatcher("/WEB-INF/views/admin/update-profile.jsp").forward(request, response);
+                return;
+            }
             Account account = new Account();
             account.setAccountId(id);
             account.setFullName(fullName);
@@ -84,43 +121,82 @@ public class AdminServlet extends HttpServlet {
             if (result == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin?view=list");
             } else {
-                response.sendRedirect(request.getContextPath() + "/admin?view=update&id=" + account.getAccountId());
+                response.sendRedirect(request.getContextPath() + "/admin?view=update&id=" + id);
             }
 
         } else if ("create".equals(action)) {
-
+            // 1. Lấy dữ liệu từ form (chú ý tên 'name' của input trong JSP)
             String userName = request.getParameter("userName");
-            String passWord = request.getParameter("passWordHarh");
+            String password = request.getParameter("passWordHarh"); // input trong form
             String fullName = request.getParameter("fullName");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
             String roleName = request.getParameter("role");
 
-            // Validate
-            if (userName == null || userName.trim().isEmpty()
-                    || passWord == null || passWord.trim().isEmpty()
-                    || fullName == null || fullName.trim().isEmpty()) {
+            boolean hasError = false;
 
-                request.setAttribute("error", "Username, Password và Họ & tên không được để trống!");
+            // 2. Validate dữ liệu
+            if (userName == null || userName.trim().isEmpty()) {
+                request.setAttribute("usernameError", "Username không được để trống");
+                hasError = true;
+            } else if (dao.existsUsername(userName)) {
+                request.setAttribute("usernameError", "Username đã tồn tại, vui lòng chọn tên khác");
+                hasError = true;
+            }
+
+            if (password == null || password.trim().isEmpty()) {
+                request.setAttribute("passwordError", "Password không được để trống");
+                hasError = true;
+            } else if (!password.matches("^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$")) {
+                request.setAttribute("passwordError", "Password phải ≥ 8 ký tự, có số và ký tự đặc biệt");
+                hasError = true;
+            }
+
+            if (fullName == null || fullName.trim().isEmpty()) {
+                request.setAttribute("fullNameError", "Họ tên không được để trống");
+                hasError = true;
+            }
+
+            if (email != null && !email.isEmpty() && !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                request.setAttribute("emailError", "Email không đúng định dạng");
+                hasError = true;
+            }
+
+            if (phone != null && !phone.isEmpty() && !phone.matches("^[0-9]{10}$")) {
+                request.setAttribute("phoneError", "Số điện thoại phải gồm 10 chữ số");
+                hasError = true;
+            }
+
+            // 3. Giữ lại dữ liệu đã nhập
+            request.setAttribute("userName", userName);
+            request.setAttribute("fullName", fullName);
+            request.setAttribute("email", email);
+            request.setAttribute("phone", phone);
+            request.setAttribute("roleName", roleName);
+            request.setAttribute("accountId", dao.getNextId());
+
+            // 4. Nếu có lỗi, quay lại form
+            if (hasError) {
                 request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
                 return;
             }
 
+            // 5. Hash mật khẩu trước khi lưu
+            String hashedPassword = dao.hashMd5(password);
+
+            // 6. Tạo Account và lưu
             Account account = new Account();
             account.setUserName(userName);
-            account.setPassWordHarh(passWord); // Hash trước khi lưu nếu muốn
+            account.setPassWordHarh(hashedPassword); // lưu hash
             account.setFullName(fullName);
             account.setEmail(email);
             account.setPhone(phone);
             account.setRoleName(roleName);
 
-            int result = dao.create(account);
-            if (result == 1) {
-                response.sendRedirect(request.getContextPath() + "/admin?view=list");
-            } else {
-                response.sendRedirect(request.getContextPath() + "/admin?view=create&id=" + account.getAccountId());
-            }
+            dao.create(account);
 
+            // 7. Redirect sau khi tạo xong
+            response.sendRedirect(request.getContextPath() + "/admin?view=list");
         }
     }
 

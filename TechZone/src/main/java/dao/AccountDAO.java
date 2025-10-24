@@ -5,6 +5,8 @@
 package dao;
 
 import db.DBContext;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -184,6 +186,24 @@ public class AccountDAO extends DBContext {
         }
         return 0;
     }
+    
+    public String hashMd5(String raw) {
+        raw = raw + "h";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] mess = md.digest(raw.getBytes());
+           
+            StringBuilder sb = new StringBuilder();
+            for (byte b: mess) {
+                sb.append(String.format("%02x", b));
+            }
+           
+            return sb.toString();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(AuthDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+    }
 
     public List<Account> getByRole(String roleName) {
         try {
@@ -216,5 +236,22 @@ public class AccountDAO extends DBContext {
         }
         return null;
     }
+
+    public boolean existsUsername(String username) {
+
+        try {
+            String sql = "SELECT 1 FROM Accounts WHERE Username= ?";
+
+            PreparedStatement statement = this.getConnection().prepareStatement(sql);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            return rs.next();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    
 
 }
