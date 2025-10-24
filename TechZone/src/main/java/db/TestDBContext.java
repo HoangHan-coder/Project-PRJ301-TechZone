@@ -9,7 +9,7 @@ import db.DBContext;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import model.Accounts;
+import model.Account;
 
 /**
  *
@@ -31,9 +31,9 @@ public class TestDBContext {
 //        }
 
         AccountsDAO dao = new AccountsDAO();
-        List<Accounts> product = dao.getAccounts(0);
+        List<Account> product = dao.getAccounts(0);
         if (product != null && !product.isEmpty()) {
-            for (Accounts a : product) {
+            for (Account a : product) {
                 System.out.println(a);
             }
         } else {

@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Password</label>
-                                    <input type="text" class="form-control" name="passWord">
+                                    <input type="text" class="form-control" name="passWordHarh">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Họ và tên</label>

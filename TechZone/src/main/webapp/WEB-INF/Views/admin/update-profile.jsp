@@ -20,14 +20,14 @@
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <c:if test="${account == null}"> 
-                                <div> khong tim thay Account voi id <%=request.getParameter("id")%></div>
+                                <div> khong tim thay Account voi id <%=request.getParameter("accountId")%></div>
                             </c:if>
                             <c:if test ="${account != null}">
                                 <form action="${pageContext.request.contextPath}/admin?action=update" method="post">
                                     <div class="mb-3">
                                         <label class="form-label">Username</label>
                                         <input type="text" class="form-control" value="${account.userName}"  readonly>
-                                        <input type="hidden" name="id" value="${account.id}">
+                                        <input type="hidden" name="id" value="${account.accountId}">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Họ và tên</label>
@@ -43,11 +43,20 @@
                                             <input type="text" name="phone" class="form-control editable" value="${account.phone}" readonly>
                                         </div>
                                     </div>
-                                    <div class="d-flex gap-2">
-                                        <button type="button" id="editBtn" class="btn btn-primary" onclick="enableEdit()">Chỉnh sửa thông tin</button>
-                                        <button type="submit" id="saveBtn" class="btn btn-success d-none">Lưu</button>
-                                        <button type="reset" id="cancelBtn" class="btn btn-secondary d-none" onclick="cancelEdit()">Hủy</button>
-                                    </div>
+                                            <p>Vai trò</p>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" 
+                                                       name="role" id="radioDefault1" value="ADMIN"
+                                                       ${account.roleName == 'ADMIN' ? 'checked' : ''}>
+                                                <label class="form-check-label" for="radioDefault1">Admin</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                       name="role" id="radioDefault2" value="CUSTOMER"
+                                                       ${account.roleName == 'CUSTOMER' ? 'checked' : ''}>
+                                                <label class="form-check-label" for="radioDefault2">Customer</label>
+                                            </div>
                                 </form>
                             </c:if>
                         </div>

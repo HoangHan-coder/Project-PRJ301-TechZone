@@ -1,31 +1,22 @@
 package controller;
 
 import dao.AccountsDAO;
-import dao.RoleDAO;
 import java.io.IOException;
 import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import model.Accounts;
+import model.Account;
 
 @WebServlet(name = "AdminServlet", urlPatterns = {"/admin"})
 public class AdminServlet extends HttpServlet {
-
-    private AccountsDAO accountsDAO;
-    private RoleDAO roleDAO;
-
-    @Override
-    public void init() throws ServletException {
-        accountsDAO = new AccountsDAO();
-        roleDAO = new RoleDAO();
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String view = request.getParameter("view");
+        AccountsDAO dao = new AccountsDAO();
 
         if (view == null || view.equals("list")) {
             String pageParam = request.getParameter("page");
@@ -33,20 +24,27 @@ public class AdminServlet extends HttpServlet {
             if (pageParam != null) {
                 try {
                     page = Integer.parseInt(pageParam);
-                    if (page < 1) page = 1;
+                    if (page < 1) {
+                        page = 1;
+                    }
                 } catch (NumberFormatException e) {
                     page = 1;
                 }
             }
 
-            List<Accounts> list = accountsDAO.getAccounts(page);
+            List<Account> list = dao.getAccounts(page);
             request.setAttribute("accounts", list);
             request.setAttribute("currentPage", page);
             request.getRequestDispatcher("/WEB-INF/Views/admin/account-management.jsp").forward(request, response);
 
+        } else if (view.equals("update")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            Account acc = dao.getById(id);
+            request.setAttribute("account", acc);
+            request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
         } else if (view.equals("delete")) {
             int id = Integer.parseInt(request.getParameter("id"));
-            int result = accountsDAO.delete(id);
+            int result = dao.delete(id);
             if (result == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin?view=list&delete=1");
             } else {
@@ -54,7 +52,7 @@ public class AdminServlet extends HttpServlet {
             }
 
         } else if (view.equals("create")) {
-            int nextId = accountsDAO.getNextId();
+            int nextId = dao.getNextId();
             request.setAttribute("nextId", nextId);
             request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
         }
@@ -65,30 +63,33 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
+        AccountsDAO dao = new AccountsDAO();
 
         if ("update".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
             String fullName = request.getParameter("fullName");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
+            String roleName = request.getParameter("role");
 
-            Accounts account = new Accounts();
-            account.setId(id);
+            Account account = new Account();
+            account.setAccountId(id);
             account.setFullName(fullName);
             account.setEmail(email);
             account.setPhone(phone);
+            account.setRoleName(roleName);
 
-            int result = accountsDAO.update(account);
+            int result = dao.update(account);
             if (result == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin?view=list");
             } else {
-                response.sendRedirect(request.getContextPath() + "/admin?view=update&id=" + account.getId());
+                response.sendRedirect(request.getContextPath() + "/admin?view=update&id=" + account.getAccountId());
             }
 
         } else if ("create".equals(action)) {
 
             String userName = request.getParameter("userName");
-            String passWord = request.getParameter("passWord");
+            String passWord = request.getParameter("passWordHarh");
             String fullName = request.getParameter("fullName");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
@@ -104,23 +105,21 @@ public class AdminServlet extends HttpServlet {
                 return;
             }
 
-            Accounts account = new Accounts();
+            Account account = new Account();
             account.setUserName(userName);
-            account.setPassWord(passWord); // Hash trước khi lưu nếu muốn
+            account.setPassWordHarh(passWord); // Hash trước khi lưu nếu muốn
             account.setFullName(fullName);
             account.setEmail(email);
             account.setPhone(phone);
+            account.setRoleName(roleName);
 
-            // Lấy roleId và tạo account
-            int roleId = roleDAO.getRoleIdByName(roleName);
-            int newId = accountsDAO.create(account, roleId);
-
-            if (newId > 0) {
-                response.sendRedirect(request.getContextPath() + "/admin?view=list&created=1");
+            int result = dao.create(account);
+            if (result == 1) {
+                response.sendRedirect(request.getContextPath() + "/admin?view=list");
             } else {
-                request.setAttribute("error", "Không thể tạo Account!");
-                request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/admin?view=create&id=" + account.getAccountId());
             }
+
         }
     }
 

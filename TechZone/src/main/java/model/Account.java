@@ -4,60 +4,56 @@
  */
 package model;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author pc
  */
-public class Accounts {
+public class Account {
 
-    private int id;
+    private int accountId;
     private String userName;
-    private String passWord;
+    private String passWordHarh;
     private String fullName;
     private String email;
     private String phone;
     private boolean isDeleted;
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
     private String roleName;
 
-    public Accounts() {
+    public Account() {
     }
 
-    public Accounts(int id, String userName, String passWord, String fullName, String email, String phone, String roleName) {
-        this.id = id;
+    public Account(int accountId, String userName, String passWordHarh, String fullName, String email, String phone, boolean isDeleted, LocalDateTime createdAt, LocalDateTime updateAt, String roleName) {
+        this.accountId = accountId;
         this.userName = userName;
-        this.passWord = passWord;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.roleName = roleName;
-    }
-
-    public Accounts(int id, String userName, String fullName, String email, String phone, String roleName) {
-        this.id = id;
-        this.userName = userName;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.roleName = roleName;
-    }
-
-    public Accounts(int id, String userName, String passWord, String fullName, String email, String phone, boolean isDeleted, String roleName) {
-        this.id = id;
-        this.userName = userName;
-        this.passWord = passWord;
+        this.passWordHarh = passWordHarh;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
         this.isDeleted = isDeleted;
+        this.createdAt = createdAt;
+        this.updateAt = updateAt;
         this.roleName = roleName;
     }
 
-    public int getId() {
-        return id;
+    public Account(int accountId, String userName, String passWordHarh, String email, String phone, String roleName) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.passWordHarh = passWordHarh;
+        this.email = email;
+        this.phone = phone;
+        this.roleName = roleName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     public String getUserName() {
@@ -68,12 +64,12 @@ public class Accounts {
         this.userName = userName;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassWordHarh() {
+        return passWordHarh;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassWordHarh(String passWordHarh) {
+        this.passWordHarh = passWordHarh;
     }
 
     public String getFullName() {
@@ -108,17 +104,28 @@ public class Accounts {
         this.isDeleted = isDeleted;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(LocalDateTime updateAt) {
+        this.updateAt = updateAt;
+    }
+
     public String getRoleName() {
         return roleName;
     }
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
-    }
-
-    @Override
-    public String toString() {
-        return "Accounts{" + "id=" + id + ", userName=" + userName + ", passWord=" + passWord + ", fullName=" + fullName + ", email=" + email + ", phone=" + phone + '}';
     }
 
 }
