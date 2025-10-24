@@ -4,8 +4,7 @@
     Author     : letan
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -129,81 +128,89 @@
         </style>
     </head>
     <body>
-        <h2>Chi tiết đơn hàng <span style="color:#2563eb;">#${order.orderCode}</span></h2>
+        <div class="container-fluid">
+            <div>
+                <%@include file="../../includes/slide-bar-admin.jsp" %>
 
-        <div class="card">
-            <h3>Thông tin đơn hàng</h3>
-            <div class="info-row"><b>Ngày đặt:</b> ${order.orderTime}</div>
-            <div class="info-row">
-                <b>Trạng thái:</b> 
-                <c:choose>
-                    <c:when test="${order.status == 'PROCESSING'}">
-                        Đang xử lý
-                    </c:when>
-                    <c:when test="${order.status == 'PENDING'}">
-                        Đang chờ xử lý
-                    </c:when>
-                    <c:when test="${order.status == 'COMPLETED'}">
-                        Đã giao
-                    </c:when>
-                    <c:when test="${order.status == 'CANCEL'}">
-                        Đã hủy
-                    </c:when>
-                    <c:otherwise>
-                        Không xác định
-                    </c:otherwise>
-                </c:choose>
             </div>
+            <div style="margin: 0 0 50px 280px;">
+                <h2>Chi tiết đơn hàng <span style="color:#2563eb;">#${order.orderCode}</span></h2>
 
-            <div class="info-row"><b>Phương thức thanh toán:</b> ${order.paymentMethod}</div>
-        </div>
+                <div class="card">
+                    <h3>Thông tin đơn hàng</h3>
+                    <div class="info-row"><b>Ngày đặt:</b> ${order.orderTime}</div>
+                    <div class="info-row">
+                        <b>Trạng thái:</b> 
+                        <c:choose>
+                            <c:when test="${order.status == 'PROCESSING'}">
+                                Đang xử lý
+                            </c:when>
+                            <c:when test="${order.status == 'PENDING'}">
+                                Đang chờ xử lý
+                            </c:when>
+                            <c:when test="${order.status == 'COMPLETED'}">
+                                Đã giao
+                            </c:when>
+                            <c:when test="${order.status == 'CANCEL'}">
+                                Đã hủy
+                            </c:when>
+                            <c:otherwise>
+                                Không xác định
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
 
-        <div class="card">
-            <h3>Thông tin khách hàng</h3>
-            <div class="info-row"><b>Tên:</b> ${account.fullName}</div>
-            <div class="info-row"><b>Số điện thoại:</b> ${account.phone}</div>
-            <div class="info-row"><b>Địa chỉ giao hàng:</b> ${order.shippingAddress}</div>
-        </div>
+                    <div class="info-row"><b>Phương thức thanh toán:</b> ${order.paymentMethod}</div>
+                </div>
 
-        <div class="card">
-            <h3>Danh sách sản phẩm</h3>
-            <table class="product-table">
-                <thead>
-                    <tr>
-                        <th>Ảnh</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Số lượng</th>
-                        <th>Giá</th>
-                        <th>Tổng</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="p" items="${products}">
-                        <tr>
-                            <td><img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" style="width:100px; height:auto;"></td>
-                            <td>${p.getProductName()}</td>
-                            <td>${p.quantity}</td>
-                            <td>${p.productPrice}₫</td>
-                            <td>${p.getTotal()}</td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
+                <div class="card">
+                    <h3>Thông tin khách hàng</h3>
+                    <div class="info-row"><b>Tên:</b> ${account.fullName}</div>
+                    <div class="info-row"><b>Số điện thoại:</b> ${account.phone}</div>
+                    <div class="info-row"><b>Địa chỉ giao hàng:</b> ${order.shippingAddress}</div>
+                </div>
 
-            <div class="total">Tổng cộng: ${totalamount}₫</div>
-        </div>
+                <div class="card">
+                    <h3>Danh sách sản phẩm</h3>
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th>Ảnh</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Giá</th>
+                                <th>Tổng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="p" items="${products}">
+                                <tr>
+                                    <td><img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" style="width:100px; height:auto;"></td>
+                                    <td>${p.getProductName()}</td>
+                                    <td>${p.quantity}</td>
+                                    <td>${p.productPrice}₫</td>
+                                    <td>${p.getTotal()}đ</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+
+                    <div class="total">Tổng cộng: ${totalamount}₫</div>
+                </div>
 
 
-        <div class="actions">
-            <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=processing&id=${order.orderId}">
-                <button class="btn btn-confirm"><i class="fa-solid fa-check"></i> Xác nhận đơn</button>
-            </form>
-            <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
-                <button class="btn btn-ship"><i class="fa-solid fa-truck"></i> Giao hàng</button>
-            </form>
-            <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=cancel&id=${order.orderId}">
-                <button class="btn btn-cancel"><i class="fa-solid fa-times"></i> Hủy đơn</button>
-            </form>
+                <div class="actions">
+                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=processing&id=${order.orderId}">
+                        <button class="btn btn-success"><i class="fa-solid fa-check"></i> Xác nhận đơn</button>
+                    </form>
+                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
+                        <button class="btn btn-info"><i class="fa-solid fa-truck"></i> Giao hàng</button>
+                    </form>
+                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=cancel&id=${order.orderId}">
+                        <button class="btn btn-danger"><i class="fa-solid fa-times"></i> Hủy đơn</button>
+                    </form>
+                </div>
+            </div>
         </div>
 
     </body>
