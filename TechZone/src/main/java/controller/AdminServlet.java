@@ -177,6 +177,8 @@ public class AdminServlet extends HttpServlet {
 
             // 4. Nếu có lỗi, quay lại form
             if (hasError) {
+                request.setAttribute("error", "Username, Password và Họ & tên không được để trống!");
+
                 request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
                 return;
             }

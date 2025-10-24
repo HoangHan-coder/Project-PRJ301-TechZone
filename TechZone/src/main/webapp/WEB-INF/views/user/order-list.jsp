@@ -49,6 +49,9 @@
 </head>
 
 <body>
+    <div>
+        <jsp:include page="/WEB-INF/Views/user/navbar.jsp"/>
+    </div>
     <div class="history-order">
         <div class="container-fluid">
             <ul class="nav nav-underline">
@@ -186,5 +189,6 @@
             </div>
         </div>
     </div>
+    <jsp:include page="/WEB-INF/Views/user/footer.jsp"/>
 </body>
 </html>

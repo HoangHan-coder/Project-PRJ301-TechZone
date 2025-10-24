@@ -4,53 +4,84 @@
  */
 package model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  *
  * @author NgKaitou
  */
 public class Voucher {
+
+    private int voucherId;
     private String imgPath;
     private String code;
-    private String discountValue;
+    private BigDecimal discountValue;
+    private String discountType;
     private Timestamp startDate;
     private Timestamp endDate;
     private String status;
-    private String condition;
-    private String maxUsage;
-    private String minUsage;
-    private String currentUsage;
+    private BigDecimal minOrderValue;
+    private int maxUsage;
+    private int currentUsage;
 
     public Voucher() {
     }
 
-    public Voucher(String imgPath, String code, String discountValue, Timestamp startDate, Timestamp endDate, String status, String condition, String maxUsage, String currentUsage) {
-        this.imgPath = "/" + imgPath;
+    public Voucher(String code, BigDecimal discountValue, String discountType, Timestamp startDate, Timestamp endDate, BigDecimal minOrderValue, int maxUsage) {
         this.code = code;
         this.discountValue = discountValue;
+        this.discountType = discountType;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.status = status;
-        this.condition = condition.substring(9);
-        this.currentUsage = currentUsage;
-    }
-    
-    public Voucher(String imgPath, String code, String discountValue, Timestamp startDate, Timestamp endDate, String status, String condition, String maxUsage, String minUsage, String currentUsage) {
-        this.imgPath = "/" + imgPath;
-        this.code = code;
-        this.discountValue = discountValue;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = status;
-        this.condition = condition;
+        this.minOrderValue = minOrderValue;
         this.maxUsage = maxUsage;
-        this.minUsage = minUsage;
+        this.currentUsage = 0;
+    }
+
+    public Voucher(int voucherId, String imgPath, String code, BigDecimal discountValue, String discountType, Timestamp startDate, Timestamp endDate, String status, BigDecimal minOrderValue, int maxUsage, int currentUsage) {
+        this.voucherId = voucherId;
+        this.imgPath = imgPath;
+        this.code = code;
+        this.discountValue = discountValue;
+        this.discountType = discountType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.minOrderValue = minOrderValue;
+        this.maxUsage = maxUsage;
         this.currentUsage = currentUsage;
     }
 
+    public boolean isExpired() {
+        LocalDateTime now = LocalDateTime.now();
+        return (now.isAfter(endDate.toLocalDateTime()));
+    }
+
+    public boolean isNotStart() {
+        LocalDateTime now = LocalDateTime.now();
+        return (now.isBefore(startDate.toLocalDateTime()));
+    }
+
+    public int getVoucherId() {
+        return voucherId;
+    }
+
+    public void setVoucherId(int voucherId) {
+        this.voucherId = voucherId;
+    }
+
+    public String getDiscountType() {
+        return discountType;
+    }
+
+    public void setDiscountType(String discountType) {
+        this.discountType = discountType;
+    }
+
     public String getImgPath() {
-        return imgPath;
+        return "/" + imgPath;
     }
 
     public void setImgPath(String imgPath) {
@@ -65,14 +96,19 @@ public class Voucher {
         this.code = code;
     }
 
-    public String getDiscountValue() {
-        if(this.discountValue.length() > 3) {
-            return   discountValue + " VND";
-        }
-        return  discountValue;
+    public BigDecimal getDiscountValue() {
+        return this.discountValue;
     }
 
-    public void setDiscountValue(String discountValue) {
+    public String getDiscountValueToString() {
+        if (this.discountType.equals("PERCENT")) {
+            return discountValue.intValue() + "%";
+        } else {
+            return discountValue.intValue() + "VND";
+        }
+    }
+
+    public void setDiscountValue(BigDecimal discountValue) {
         this.discountValue = discountValue;
     }
 
@@ -93,6 +129,19 @@ public class Voucher {
     }
 
     public String getStatus() {
+        if (this.status.equals("DISABLED")) {
+            this.setStatus("DISABLED");
+        } else if (this.isExpired()) {
+            this.setStatus("EXPIRED");
+        } else if (this.isNotStart()) {
+            this.setStatus("UPCOMING");
+        } else {
+            this.setStatus("ACTIVE");
+        }
+
+        if (this.getMaxUsage() <= 0) {
+            this.setStatus("DISABLED");
+        }
         return status;
     }
 
@@ -100,37 +149,32 @@ public class Voucher {
         this.status = status;
     }
 
-    public String getCondition() {
-        return condition;
+    public BigDecimal getMinOrderValue() {
+        return minOrderValue;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public String getMinOrderValueToString() {
+        return minOrderValue.intValue() + "VND";
     }
 
-    public String getMaxUsage() {
+    public void setMinOrderValue(BigDecimal MinOrderValue) {
+        this.minOrderValue = MinOrderValue;
+    }
+
+    public int getMaxUsage() {
         return maxUsage;
     }
 
-    public void setMaxUsage(String maxUsage) {
+    public void setMaxUsage(int maxUsage) {
         this.maxUsage = maxUsage;
     }
 
-    public String getMinUsage() {
-        return minUsage;
-    }
-
-    public void setMinUsage(String minUsage) {
-        this.minUsage = minUsage;
-    }
-
-    public String getCurrentUsage() {
+    public int getCurrentUsage() {
         return currentUsage;
     }
 
-    public void setCurrentUsage(String currentUsage) {
+    public void setCurrentUsage(int currentUsage) {
         this.currentUsage = currentUsage;
     }
-    
-    
+
 }
