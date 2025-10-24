@@ -30,7 +30,7 @@
                             <label for="discountValue" class="form-label">Giá trị giảm</label>
                             <input type="number" class="form-control" id="discountValue" name="discountValue" required>
                             <c:if test="${not empty requestScope.errors.discountValueError}">
-                                 <p class="text-danger my-2">${requestScope.errors.discountValueError}</p>
+                                <p class="text-danger my-2">${requestScope.errors.discountValueError}</p>
                             </c:if>
                         </div>
                         <div class="col-md-4 position-relative">
@@ -44,14 +44,14 @@
                             <label for="minOrderValue" class="form-label">Điều kiện</label>
                             <input type="text" class="form-control" id="minOrderValue" name="minOrderValue">
                             <c:if test="${not empty requestScope.errors.minOrderValueError}">
-                                 <p class="text-danger my-2">${requestScope.errors.minOrderValueError}</p>
+                                <p class="text-danger my-2">${requestScope.errors.minOrderValueError}</p>
                             </c:if>
                         </div>
                         <div class="col-md-4 position-relative">
                             <label for="startDate" class="form-label">Ngày bắt đầu</label>
                             <input type="datetime-local" class="form-control" id="startDate" name="startDate" required>
                             <c:if test="${not empty requestScope.errors.startDateError}">
-                                 <p class="text-danger my-2">${requestScope.errors.startDateError}</p>
+                                <p class="text-danger my-2">${requestScope.errors.startDateError}</p>
                             </c:if>
                         </div>
                         <div class="col-md-4 position-relative">
@@ -62,7 +62,7 @@
                             <label for="maxUsage" class="form-label">Số lượng</label>
                             <input type="number" class="form-control" id="maxUsage" name="maxUsage" required>
                             <c:if test="${not empty requestScope.errors.maxUsage}">
-                                 <p class="text-danger my-2">${requestScope.errors.maxUsage}</p>
+                                <p class="text-danger my-2">${requestScope.errors.maxUsage}</p>
                             </c:if>
                         </div>
                         <div class="col-12">

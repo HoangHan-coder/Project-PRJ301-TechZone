@@ -4,12 +4,12 @@
  */
 package db;
 
-import dao.AccountsDAO;
+import dao.AccountDAO;
 import db.DBContext;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import model.Accounts;
+import model.Account;
 
 /**
  *
@@ -30,10 +30,10 @@ public class TestDBContext {
 //            e.printStackTrace();
 //        }
 
-        AccountsDAO dao = new AccountsDAO();
-        List<Accounts> product = dao.getAccounts(0);
+        AccountDAO dao = new AccountDAO();
+        List<Account> product = dao.getAccounts(0);
         if (product != null && !product.isEmpty()) {
-            for (Accounts a : product) {
+            for (Account a : product) {
                 System.out.println(a);
             }
         } else {
