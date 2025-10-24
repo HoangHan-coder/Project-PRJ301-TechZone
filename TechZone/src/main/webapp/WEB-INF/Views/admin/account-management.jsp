@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%--<%@include file="../Includes/navbar-admin.jsp" %>--%>
+<%@include file="../Includes/navbar-admin.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!-- Content -->
@@ -43,14 +43,14 @@
                             <td>${a.fullName}</td>
                             <td>${a.email}</td>
                             <td>${a.phone}</td>
-                            <td>Ad</td>
+                            <td>${a.roleName}</td>
                             <td class="text-center">
-                                <a class="text-decoration-none" href="${pageContext.request.contextPath}/admin?view=update&id=${a.id}">
+                                <a class="text-decoration-none" href="${pageContext.request.contextPath}/admin?view=update&id=${a.accountId}">
                                     <i class="bi bi-eye me-2" style="cursor: pointer;"></i>
                                 </a>
                                 <a class="text-decoration-none"
-                                   href="${pageContext.request.contextPath}/admin?view=delete&id=${a.id}"
-                                   onclick="return confirm('Bạn có chắc chắn muốn xóa Account với ID = ${a.id} này không?');">
+                                   href="${pageContext.request.contextPath}/admin?view=delete&id=${a.accountId}"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa Account với ID = ${a.accountId} này không?');">
                                     <i class="bi bi-trash text-danger" style="cursor: pointer;"></i>
                                 </a>
 

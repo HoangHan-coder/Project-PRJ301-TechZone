@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.AuthDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 
 /**
  *
@@ -58,7 +60,8 @@ public class Register extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
- request.getRequestDispatcher("/WEB-INF/views/user/register.jsp").forward(request, response);
+//        System.out.println("text");
+        request.getRequestDispatcher("/WEB-INF/Views/user/register.jsp").forward(request, response);
     }
 
     /**
@@ -72,7 +75,26 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+        String username = request.getParameter("name");
+        String password = request.getParameter("password");
+        String phone = request.getParameter("phone");
+
+        AuthDAO account = new AuthDAO();
+        
+      
+        PrintWriter out = response.getWriter();
+        if (account.register(username, password, phone) == 1) {
+            
+            String json = "{ \"success\": true, \"message\":\"User registered successfully!\" }";
+            out.print(json);
+        } else {
+            String json = "{ \"success\": false, \"message\":\"register failure\" }";
+            out.print(json);
+        }
+        out.flush();
     }
 
     /**

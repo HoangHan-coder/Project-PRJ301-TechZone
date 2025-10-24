@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dao.AccountsDAO;
+import dao.AuthDAO;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.sql.SQLException;
+
 
 /**
  *
@@ -79,16 +79,16 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        try {
-            AccountsDAO userdao = new AccountsDAO();
+      
+            AuthDAO userdao = new AuthDAO();
             if (userdao.login(username, password) != null) {
                 if (userdao.login(username, password).getAccountroles().equals("Admin")) {
                     HttpSession session = request.getSession();
-                    session.setAttribute("admin", userdao.login(username, password).getAccountroles());
+                    session.setAttribute("admin", userdao.login(username, password));
                     response.sendRedirect(getServletContext().getContextPath() + "/admin");
                 } else {
                     HttpSession session = request.getSession();
-                    session.setAttribute("user", userdao.login(username, password).getAccountroles());
+                    session.setAttribute("user", userdao.login(username, password));
                     response.sendRedirect(getServletContext().getContextPath() + "/products");
                 }
                 
@@ -97,12 +97,9 @@ public class Login extends HttpServlet {
                 response.sendRedirect(getServletContext().getContextPath() + "/login");
             }
 
-        } catch (SQLException ex) {
-            System.getLogger(Login.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        } catch (ClassNotFoundException ex) {
-            System.getLogger(Login.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        }
+        
     }
+    
 
     /**
      * Returns a short description of the servlet.

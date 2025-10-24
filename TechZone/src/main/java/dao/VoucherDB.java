@@ -4,6 +4,7 @@
  */
 package dao;
 
+import db.DBContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,15 +18,11 @@ import model.Voucher;
  *
  * @author NgKaitou
  */
-public class VoucherDB {
+public class VoucherDB extends DBContext{
     protected Connection connect;
 
     public VoucherDB() {
-        try {
-            connect = DBUntils.getConnection();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(VoucherDB.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        connect = this.getConnection();
     }
     
     

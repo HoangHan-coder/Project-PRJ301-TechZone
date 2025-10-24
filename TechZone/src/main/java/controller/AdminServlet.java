@@ -1,90 +1,132 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
+import dao.AccountDAO;
+import dao.AccountDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+import model.Account;
 
-/**
- *
- * @author acer
- */
 @WebServlet(name = "AdminServlet", urlPatterns = {"/admin"})
 public class AdminServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AdminServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AdminServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
-request.getRequestDispatcher("/WEB-INF/Views/admin/account-management.jsp").forward(request, response);
+
+        String view = request.getParameter("view");
+        AccountDAO dao = new AccountDAO();
+
+        if (view == null || view.equals("list")) {
+            String pageParam = request.getParameter("page");
+            int page = 1;
+            if (pageParam != null) {
+                try {
+                    page = Integer.parseInt(pageParam);
+                    if (page < 1) {
+                        page = 1;
+                    }
+                } catch (NumberFormatException e) {
+                    page = 1;
+                }
+            }
+
+            List<Account> list = dao.getAccounts(page);
+            request.setAttribute("accounts", list);
+            request.setAttribute("currentPage", page);
+            request.getRequestDispatcher("/WEB-INF/Views/admin/account-management.jsp").forward(request, response);
+
+        } else if (view.equals("update")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            Account acc = dao.getById(id);
+            
+            request.setAttribute("account", acc);
+            request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
+        } else if (view.equals("delete")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            int result = dao.delete(id);
+            if (result == 1) {
+                response.sendRedirect(request.getContextPath() + "/admin?view=list&delete=1");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/admin?view=list&delete=0");
+            }
+
+        } else if (view.equals("create")) {
+            int nextId = dao.getNextId();
+            request.setAttribute("nextId", nextId);
+            request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
+        }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
 
-        
+        String action = request.getParameter("action");
+        AccountDAO dao = new AccountDAO();
+
+        if ("update".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String fullName = request.getParameter("fullName");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String roleName = request.getParameter("role");
+
+            Account account = new Account();
+            account.setAccountId(id);
+            account.setFullName(fullName);
+            account.setEmail(email);
+            account.setPhone(phone);
+            account.setRoleName(roleName);
+
+            int result = dao.update(account);
+            if (result == 1) {
+                response.sendRedirect(request.getContextPath() + "/admin?view=list");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/admin?view=update&id=" + account.getAccountId());
+            }
+
+        } else if ("create".equals(action)) {
+
+            String userName = request.getParameter("userName");
+            String passWord = request.getParameter("passWordHarh");
+            String fullName = request.getParameter("fullName");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String roleName = request.getParameter("role");
+
+            // Validate
+            if (userName == null || userName.trim().isEmpty()
+                    || passWord == null || passWord.trim().isEmpty()
+                    || fullName == null || fullName.trim().isEmpty()) {
+
+                request.setAttribute("error", "Username, Password và Họ & tên không được để trống!");
+                request.getRequestDispatcher("/WEB-INF/Views/admin/create-user.jsp").forward(request, response);
+                return;
+            }
+
+            Account account = new Account();
+            account.setUserName(userName);
+            account.setPassWordHarh(passWord); // Hash trước khi lưu nếu muốn
+            account.setFullName(fullName);
+            account.setEmail(email);
+            account.setPhone(phone);
+            account.setRoleName(roleName);
+
+            int result = dao.create(account);
+            if (result == 1) {
+                response.sendRedirect(request.getContextPath() + "/admin?view=list");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/admin?view=create");
+            }
+
+        }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Admin management servlet";
+    }
 }

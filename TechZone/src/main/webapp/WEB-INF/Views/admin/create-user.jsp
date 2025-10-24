@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Password</label>
-                                    <input type="text" class="form-control" name="passWord">
+                                    <input type="text" class="form-control" name="passWordHarh">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Họ và tên</label>
@@ -47,6 +47,16 @@
                                         <input type="text" name="phone" class="form-control">
                                     </div>
                                 </div>
+                                <p>Vai trò</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="role" id="radioDefault1" value="Admin">
+                                    <label class="form-check-label" for="radioDefault1">Admin</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="role" id="radioDefault2" value="Customer" checked>
+                                    <label class="form-check-label" for="radioDefault2">Customer</label>
+                                </div>
+                                <br>
                                 <div class="d-flex gap-2">
                                     <button type="submit" id="saveBtn" class="btn btn-success">Lưu</button>
                                     <button type="reset" id="cancelBtn" class="btn btn-secondary" >Hủy</button>
