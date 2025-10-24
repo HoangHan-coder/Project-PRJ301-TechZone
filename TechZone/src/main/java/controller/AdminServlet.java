@@ -125,8 +125,9 @@ public class AdminServlet extends HttpServlet {
             }
 
         } else if ("create".equals(action)) {
+            // 1. Lấy dữ liệu từ form (chú ý tên 'name' của input trong JSP)
             String userName = request.getParameter("userName");
-            String passWord = request.getParameter("passWordHarh");
+            String password = request.getParameter("passWordHarh"); // input trong form
             String fullName = request.getParameter("fullName");
             String email = request.getParameter("email");
             String phone = request.getParameter("phone");
@@ -134,20 +135,19 @@ public class AdminServlet extends HttpServlet {
 
             boolean hasError = false;
 
-            // Validate
+            // 2. Validate dữ liệu
             if (userName == null || userName.trim().isEmpty()) {
                 request.setAttribute("usernameError", "Username không được để trống");
                 hasError = true;
-            } // ✅ Validate trùng username
-            else if (dao.existsUsername(userName)) {
+            } else if (dao.existsUsername(userName)) {
                 request.setAttribute("usernameError", "Username đã tồn tại, vui lòng chọn tên khác");
                 hasError = true;
             }
 
-            if (passWord == null || passWord.trim().isEmpty()) {
+            if (password == null || password.trim().isEmpty()) {
                 request.setAttribute("passwordError", "Password không được để trống");
                 hasError = true;
-            } else if (!passWord.matches("^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$")) {
+            } else if (!password.matches("^(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$")) {
                 request.setAttribute("passwordError", "Password phải ≥ 8 ký tự, có số và ký tự đặc biệt");
                 hasError = true;
             }
@@ -157,38 +157,37 @@ public class AdminServlet extends HttpServlet {
                 hasError = true;
             }
 
-            if (email != null && !email.isEmpty()) {
-                if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-                    request.setAttribute("emailError", "Email không đúng định dạng");
-                    hasError = true;
-                }
-            }
-            if (phone != null && !phone.isEmpty()) {
-                if (!phone.matches("^[0-9]{10}$")) {
-                    request.setAttribute("phoneError", "Số điện thoại phải gồm 10 chữ số");
-                    hasError = true;
-                }
+            if (email != null && !email.isEmpty() && !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                request.setAttribute("emailError", "Email không đúng định dạng");
+                hasError = true;
             }
 
-            // Giữ lại dữ liệu user đã nhập
+            if (phone != null && !phone.isEmpty() && !phone.matches("^[0-9]{10}$")) {
+                request.setAttribute("phoneError", "Số điện thoại phải gồm 10 chữ số");
+                hasError = true;
+            }
+
+            // 3. Giữ lại dữ liệu đã nhập
             request.setAttribute("userName", userName);
             request.setAttribute("fullName", fullName);
             request.setAttribute("email", email);
             request.setAttribute("phone", phone);
             request.setAttribute("roleName", roleName);
+            request.setAttribute("accountId", dao.getNextId());
 
-            int nextId = dao.getNextId(); // bạn đã có hàm này từ ban đầu
-            request.setAttribute("accountId", nextId);
-
-            // Nếu có lỗi → quay lại form
+            // 4. Nếu có lỗi, quay lại form
             if (hasError) {
                 request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
                 return;
             }
 
+            // 5. Hash mật khẩu trước khi lưu
+            String hashedPassword = dao.hashMd5(password);
+
+            // 6. Tạo Account và lưu
             Account account = new Account();
             account.setUserName(userName);
-            account.setPassWordHarh(passWord); // Hash trước khi lưu nếu muốn
+            account.setPassWordHarh(hashedPassword); // lưu hash
             account.setFullName(fullName);
             account.setEmail(email);
             account.setPhone(phone);
@@ -196,6 +195,7 @@ public class AdminServlet extends HttpServlet {
 
             dao.create(account);
 
+            // 7. Redirect sau khi tạo xong
             response.sendRedirect(request.getContextPath() + "/admin?view=list");
         }
     }
