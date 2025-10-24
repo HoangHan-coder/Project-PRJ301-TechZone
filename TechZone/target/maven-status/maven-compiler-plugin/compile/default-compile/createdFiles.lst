@@ -1,30 +1,15 @@
-<<<<<<< HEAD
 dao\StatisticalDAO.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
 dao\OrderDAO.class
 controller\CartServlet.class
+dao\AuthDAO.class
 dao\AccountDAO.class
 model\Orders.class
+filter\AuthFilter.class
 controller\OrderdetailServlet.class
 model\Product.class
-=======
-com\techzone\techzone\JakartaRestConfiguration.class
-com\techzone\techzone\resources\JakartaEE10Resource.class
-dao\AuthDAO.class
-dao\VoucherDB.class
-controller\ProductServlet.class
-controller\OrderServlet.class
-dao\AccountDAO.class
-model\AccountUsers.class
-filter\AuthFilter.class
-model\Product.class
-controller\Login.class
-controller\LogoutServlet.class
->>>>>>> DatVT
 model\Voucher.class
-db\DBContext.class
 controller\Register.class
-<<<<<<< HEAD
 dao\VoucherDAO.class
 model\Account.class
 controller\AdminServlet.class
@@ -39,17 +24,13 @@ controller\OrderServlet.class
 model\AllCategory.class
 controller\admin\Orders.class
 dto\OrderItemDTO.class
+model\AccountUsers.class
 model\Order.class
 model\Orderdetail.class
 model\Category.class
 controller\admin\Dashboard.class
 controller\Login.class
+controller\LogoutServlet.class
 dao\OderListDAO.class
 db\DBContext.class
 dao\ProductDAO.class
-=======
-dao\ProductDAO.class
-model\Account.class
-controller\AdminServlet.class
-controller\ListVoucher.class
->>>>>>> DatVT

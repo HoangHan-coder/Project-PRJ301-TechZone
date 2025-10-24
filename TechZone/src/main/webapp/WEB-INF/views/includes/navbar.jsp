@@ -22,7 +22,9 @@
     <div class="container d-flex justify-content-between align-items-center py-2">
         <!-- Logo + Menu -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
-            <a class="navbar-brand fw-bold fs-2" href="${pageContext.request.contextPath}/products" >Gizmos<span style="color: orange">.</span></a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/products" style="width: 140px">
+                <img src="${pageContext.request.contextPath}/assets/images/logo.png" style="width: 100%;" alt="logo" />
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" 
                     aria-label="Toggle navigation">

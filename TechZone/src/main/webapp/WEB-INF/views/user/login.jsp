@@ -114,7 +114,7 @@
         <body>
             <header>
                 <div>
-                    <jsp:include page="/WEB-INF/Views/user/navbar.jsp"/>
+                    <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
                 </div>
             </header>
             <!-- Navbar -->
@@ -180,7 +180,7 @@
 
 
             <!-- Footer -->
-             <jsp:include page="/WEB-INF/Views/user/footer.jsp"/>
+             <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
             <script>
 
             </script>
