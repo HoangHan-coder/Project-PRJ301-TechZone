@@ -121,7 +121,7 @@ public class AccountsDAO extends DBContext {
             if (rs.next()) {
                 int accoutId = rs.getInt("AccountId");
                 String userName = rs.getString("username");
-                String name = rs.getString("fullName");
+                String name = rs.getString("FullName");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone");
                 String roleName = rs.getString("RoleName");
@@ -141,7 +141,7 @@ public class AccountsDAO extends DBContext {
             st.setString(1, account.getFullName());
             st.setString(2, account.getEmail());
             st.setString(3, account.getPhone());
-            st.setString(5, account.getRoleName());
+            st.setString(4, account.getRoleName());
             st.setInt(5, account.getAccountId());
             return st.executeUpdate();
         } catch (SQLException ex) {

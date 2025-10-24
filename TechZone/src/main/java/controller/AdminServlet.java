@@ -40,6 +40,7 @@ public class AdminServlet extends HttpServlet {
         } else if (view.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Account acc = dao.getById(id);
+            
             request.setAttribute("account", acc);
             request.getRequestDispatcher("/WEB-INF/Views/admin/update-profile.jsp").forward(request, response);
         } else if (view.equals("delete")) {

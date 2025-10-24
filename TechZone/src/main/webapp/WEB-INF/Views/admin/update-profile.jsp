@@ -20,7 +20,7 @@
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <c:if test="${account == null}"> 
-                                <div> khong tim thay Account voi id <%=request.getParameter("accountId")%></div>
+                                <div> khong tim thay Account voi id <%=request.getParameter("id")%></div>
                             </c:if>
                             <c:if test ="${account != null}">
                                 <form action="${pageContext.request.contextPath}/admin?action=update" method="post">
@@ -43,20 +43,24 @@
                                             <input type="text" name="phone" class="form-control editable" value="${account.phone}" readonly>
                                         </div>
                                     </div>
-                                            <p>Vai trò</p>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" 
-                                                       name="role" id="radioDefault1" value="ADMIN"
-                                                       ${account.roleName == 'ADMIN' ? 'checked' : ''}>
-                                                <label class="form-check-label" for="radioDefault1">Admin</label>
-                                            </div>
+                                    <p>Vai trò</p>
+                                    <div class="form-check">
+                                        <input class="form-check-input role-radio" type="radio" name="role" value="Customer"
+                                               ${account.roleName == 'Customer' ? 'checked' : ''} onclick="return false;">
+                                        <label class="form-check-label">Customer</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input role-radio" type="radio" name="role" value="Admin"
+                                               ${account.roleName == 'Admin' ? 'checked' : ''} onclick="return false;">
+                                        <label class="form-check-label">Admin</label>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button type="button" id="editBtn" class="btn btn-primary" onclick="enableEdit()">Chỉnh sửa thông tin</button>
+                                        <button type="submit" id="saveBtn" class="btn btn-success d-none">Lưu</button>
+                                        <button type="reset" id="cancelBtn" class="btn btn-secondary d-none" onclick="cancelEdit()">Hủy</button>
+                                    </div>
 
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio"
-                                                       name="role" id="radioDefault2" value="CUSTOMER"
-                                                       ${account.roleName == 'CUSTOMER' ? 'checked' : ''}>
-                                                <label class="form-check-label" for="radioDefault2">Customer</label>
-                                            </div>
+
                                 </form>
                             </c:if>
                         </div>
@@ -75,6 +79,7 @@
                                                     fields[i].removeAttribute("readonly");
                                                 }
 
+                                                document.querySelectorAll('.role-radio').forEach(r => r.onclick = false);
                                                 document.getElementById("editBtn").classList.add("d-none");
                                                 document.getElementById("saveBtn").classList.remove("d-none");
                                                 document.getElementById("cancelBtn").classList.remove("d-none");
@@ -85,11 +90,12 @@
                                                 for (let i = 0; i < fields.length; i++) {
                                                     fields[i].setAttribute("readonly", true);
                                                 }
-
+                                                document.querySelectorAll('.role-radio').forEach(r => r.onclick = true);
                                                 document.getElementById("editBtn").classList.remove("d-none");
                                                 document.getElementById("saveBtn").classList.add("d-none");
                                                 document.getElementById("cancelBtn").classList.add("d-none");
                                             }
+
     </script>
 
 </body>

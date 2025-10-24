@@ -49,11 +49,11 @@
                                 </div>
                                 <p>Vai trò</p>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="role" id="radioDefault1" value="ADMIN">
+                                    <input class="form-check-input" type="radio" name="role" id="radioDefault1" value="Admin">
                                     <label class="form-check-label" for="radioDefault1">Admin</label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="role" id="radioDefault2" value="CUSTOMER" checked>
+                                    <input class="form-check-input" type="radio" name="role" id="radioDefault2" value="Customer" checked>
                                     <label class="form-check-label" for="radioDefault2">Customer</label>
                                 </div>
                                 <br>

@@ -39,15 +39,26 @@ public class Account {
         this.roleName = roleName;
     }
 
-    public Account(int accountId, String userName, String passWordHarh, String email, String phone, String roleName) {
+    public Account(int accountId, String userName, String fullName, String email, String phone, String roleName) {
         this.accountId = accountId;
         this.userName = userName;
-        this.passWordHarh = passWordHarh;
+        this.fullName = fullName;
         this.email = email;
         this.phone = phone;
         this.roleName = roleName;
     }
 
+    public Account(int accountId, String userName, String passWordHarh, String fullName, String email, String phone, String roleName) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.passWordHarh = passWordHarh;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.roleName = roleName;
+    }
+
+    
     public int getAccountId() {
         return accountId;
     }
