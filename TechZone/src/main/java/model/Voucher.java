@@ -129,6 +129,9 @@ public class Voucher {
     }
 
     public String getStatus() {
+        if(this.status == null) {
+            this.setStatus("ACTIVE");
+        }
         if (this.status.equals("DISABLED")) {
             this.setStatus("DISABLED");
         } else if (this.isExpired()) {

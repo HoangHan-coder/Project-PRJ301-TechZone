@@ -16,17 +16,29 @@ public class Account {
     private String fullName;
     private String email;
     private String phone;
+    private String roleName;
     private boolean isDeleted;
 
     public Account() {
     }
 
-    public Account(int accountId, String userName, String fullName, String email, String phone) {
+    public Account(int accountId, String userName, String passWord, String fullName, String email, String phone, String roleName, boolean isDeleted) {
         this.accountId = accountId;
         this.userName = userName;
+        this.passWord = passWord;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
+        this.roleName = roleName;
+        this.isDeleted = isDeleted;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public int getAccountId() {
