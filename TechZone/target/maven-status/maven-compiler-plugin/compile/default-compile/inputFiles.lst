@@ -1,38 +1,26 @@
-<<<<<<< HEAD
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\AdminServlet.java
-<<<<<<< HEAD
-D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\db\TestDBContext.java
+D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\AccountRole.java
+D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\CartDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Login.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\VoucherDAO.java
+D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\CartItemDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OrderDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\AuthDAO.java
-=======
-D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\AccountRole.java
-D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Login.java
-D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\VoucherDAO.java
-D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OrderDAO.java
->>>>>>> HanNH
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orderdetail.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Orders.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\VoucherServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Register.java
-<<<<<<< HEAD
+D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\until\Normalization.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\AccountUsers.java
-=======
->>>>>>> HanNH
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ProductServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\db\DBContext.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\ProductDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Order.java
-<<<<<<< HEAD
-D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Voucher.java
-=======
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Role.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Voucher.java
-D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\AccountsDAO.java
->>>>>>> HanNH
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dto\OrderItemDTO.java
+D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CartItemServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CartServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\JakartaRestConfiguration.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\filter\AuthFilter.java
@@ -40,57 +28,16 @@ D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Product.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\AllCategory.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\LogoutServlet.java
+D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\CartItem.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orders.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Account.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderdetailServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\resources\JakartaEE10Resource.java
-<<<<<<< HEAD
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\AccountDAO.java
+D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Cart.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Category.java
-=======
-D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Category.java
-D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\RoleDAO.java
->>>>>>> HanNH
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\StatisticalDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CheckoutServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OderListDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Dashboard.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\until\Pagination.java
-=======
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orderlist.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CartItemServlet.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Register.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OrderDAO.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\resources\JakartaEE10Resource.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\ProductDAO.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Dashboard.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orders.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\until\Pagination.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Order.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OderListDAO.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\CartItem.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\VoucherServlet.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Orders.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orderdetail.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\AccountRole.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\CartDAO.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Product.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CartServlet.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ProductServlet.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\DetailOrder.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\AllCategory.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Voucher.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\CartItemDAO.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\db\DBContext.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Cart.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\JakartaRestConfiguration.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CheckoutServlet.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderdetailServlet.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Category.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Account.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderServlet.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\StatisticalDAO.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\dto\OrderItemDTO.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Login.java
-D:\PRJ301\project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\VoucherDAO.java
->>>>>>> My
