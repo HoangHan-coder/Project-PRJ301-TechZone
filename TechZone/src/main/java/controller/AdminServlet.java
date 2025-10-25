@@ -53,7 +53,7 @@ public class AdminServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/views/admin/account-management.jsp")
                     .forward(request, response);
             return;
-        }  else if (view.equals("update")) {
+        } else if (view.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Account acc = dao.getById(id);
 
@@ -175,7 +175,7 @@ public class AdminServlet extends HttpServlet {
             if (fullName == null || fullName.trim().isEmpty()) {
                 request.setAttribute("fullNameError", "Họ tên không được để trống");
                 hasError = true;
-            } else if (!fullName.matches("^[A-Za-zÀ-ỹ\\s]+$")){
+            } else if (!fullName.matches("^[A-Za-zÀ-ỹ\\s]+$")) {
                 request.setAttribute("fullNameError", "Họ và tên chỉ chứa chữ cái và khoảng trống");
             } else {
                 fullName = Arrays.stream(fullName.trim().toLowerCase().split("\\s+"))
