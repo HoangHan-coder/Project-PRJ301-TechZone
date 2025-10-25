@@ -35,6 +35,7 @@ public class Account {
         this.phone = phone;
         this.roleName = roleName;
     }
+    
 
     public Account(int accountId, String userName, String passWord, String fullName, String email, String phone, String roleName, boolean isDeleted) {
         this.accountId = accountId;
