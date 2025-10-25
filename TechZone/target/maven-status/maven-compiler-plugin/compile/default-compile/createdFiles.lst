@@ -2,17 +2,26 @@ dao\StatisticalDAO.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
 dao\OrderDAO.class
 controller\CartServlet.class
+<<<<<<< HEAD
 dao\AuthDAO.class
 dao\AccountDAO.class
 model\Orders.class
 filter\AuthFilter.class
 controller\OrderdetailServlet.class
+=======
+model\Orders.class
+controller\OrderdetailServlet.class
+model\Role.class
+>>>>>>> HanNH
 model\Product.class
 model\Voucher.class
 controller\Register.class
 dao\VoucherDAO.class
 model\Account.class
+<<<<<<< HEAD
 controller\AdminServlet.class
+=======
+>>>>>>> HanNH
 until\Pagination.class
 db\TestDBContext.class
 com\techzone\techzone\JakartaRestConfiguration.class
@@ -24,7 +33,11 @@ controller\OrderServlet.class
 model\AllCategory.class
 controller\admin\Orders.class
 dto\OrderItemDTO.class
+<<<<<<< HEAD
 model\AccountUsers.class
+=======
+model\AccountRole.class
+>>>>>>> HanNH
 model\Order.class
 model\Orderdetail.class
 model\Category.class
