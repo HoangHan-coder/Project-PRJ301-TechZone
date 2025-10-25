@@ -6,7 +6,9 @@ import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import java.util.stream.Collectors;
 import model.Account;
+import java.util.Arrays;
 
 @WebServlet(name = "AdminServlet", urlPatterns = {"/admin"})
 public class AdminServlet extends HttpServlet {
@@ -142,6 +144,10 @@ public class AdminServlet extends HttpServlet {
             } else if (dao.existsUsername(userName)) {
                 request.setAttribute("usernameError", "Username đã tồn tại, vui lòng chọn tên khác");
                 hasError = true;
+            } else {
+                userName = Arrays.stream(userName.trim().toLowerCase().split("\\s+"))
+                        .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
+                        .collect(Collectors.joining(" "));
             }
 
             if (password == null || password.trim().isEmpty()) {
@@ -155,6 +161,12 @@ public class AdminServlet extends HttpServlet {
             if (fullName == null || fullName.trim().isEmpty()) {
                 request.setAttribute("fullNameError", "Họ tên không được để trống");
                 hasError = true;
+            } else if (!fullName.matches("^[A-Za-zÀ-ỹ\\s]+$")){
+                request.setAttribute("fullNameError", "Họ và tên chỉ chứa chữ cái và khoảng trống");
+            } else {
+                fullName = Arrays.stream(fullName.trim().toLowerCase().split("\\s+"))
+                        .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
+                        .collect(Collectors.joining(" "));
             }
 
             if (email != null && !email.isEmpty() && !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
@@ -193,10 +205,16 @@ public class AdminServlet extends HttpServlet {
             account.setPhone(phone);
             account.setRoleName(roleName);
 
-            dao.create(account);
-
-            // 7. Redirect sau khi tạo xong
-            response.sendRedirect(request.getContextPath() + "/admin?view=list");
+            try {
+                dao.create(account);
+                // 7. Redirect về list sau khi tạo thành công
+                response.sendRedirect(request.getContextPath() + "/admin?view=list");
+            } catch (Exception ex) {
+                // log lỗi
+                ex.printStackTrace();
+                request.setAttribute("usernameError", "Lỗi server khi tạo tài khoản, thử lại sau");
+                request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
+            }
         }
     }
 
