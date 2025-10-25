@@ -243,16 +243,19 @@ public class VoucherDAO extends DBContext {
         return false;
     }
 
-    public List<Voucher> getByVouCode(String keyWord) {
-        List<Voucher> listVou = new ArrayList<>();
-        String sql = "SELECT * FROM Vouchers WHERE Code = %?%";
+    public List<Voucher> getByVouCode(String keyword) {
+        List<Voucher> listVoucher = new ArrayList<>();
+        if (keyword == null) {
+            keyword = "";
+        }
         try {
-            PreparedStatement ps = this.getConnection().prepareStatement(sql);
-            ps.setString(1, keyWord);
+            String sql = "select * from Vouchers WHERE Code = ? ";
+            PreparedStatement pt = this.getConnection().prepareStatement(sql);
+            pt.setString(1, keyword);
 
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = pt.executeQuery();
             while (rs.next()) {
-                listVou.add(new Voucher(
+                listVoucher.add(new Voucher(
                         rs.getInt("VoucherId"),
                         rs.getString("imgPath"),
                         rs.getString("code"),
@@ -265,11 +268,26 @@ public class VoucherDAO extends DBContext {
                         rs.getInt("maxUsage"),
                         rs.getInt("currentUsage")
                 ));
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listVou;
+        return listVoucher;
+    }
+    
+    public int useVoucher(Voucher voucher, double totalPrice) {
+        if (voucher.getMinOrderValue().doubleValue() < totalPrice || voucher.getMaxUsage() <= 0) return 0;
+        String sql = "UPDAte Vouchers set MaxUsage = MaxUsage - 1, CurrentUsage = CurrentUsage + 1 Where Code = ?";
+        try {
+            
+            PreparedStatement statement = this.getConnection().prepareStatement(sql);
+            statement.setInt(1, voucher.getVoucherId());
+            return statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
 }

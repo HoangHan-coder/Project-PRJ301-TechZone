@@ -32,10 +32,10 @@
                 </c:if>
                 <div class="container my-4 ">
                     <div class="row">
-                        <form class="col-md-9 px-0 me-3" action="${pageContext.request.contextPath}/voucher?action=search" method="POST">
-                            <input class="form-control" type="text" name="keyword">
+                        <form class="col-md-10 px-0" action="${pageContext.request.contextPath}/voucher?action=search" method="POST">
+                            <input class="form-control" type="text" name="keyword" placeholder="Nhập voucher code...">
                         </form>
-                        <div class="col-md-2"><a href="${pageContext.request.contextPath}/voucher?view=create" class="btn btn-primary">Thêm voucher mới</a></div>
+                        <div class="col-md-2"><a href="${pageContext.request.contextPath}/voucher?view=create" class="btn btn-primary float-end  ">Thêm voucher mới</a></div>
                     </div>
                 </div>
 
@@ -104,10 +104,15 @@
                             </div>
                         </div>
                     </c:forEach>
-
                     </tbody>
                 </table>
-                <%@include file="../../includes/pagination.jsp" %>
+                <c:if test="${empty listVoucher}" >
+                    <p>Không có voucher được tìm thấy!</p>
+                </c:if>
+                <c:if test="${not empty listVoucher}" >
+                    <%@include file="../../includes/pagination.jsp" %>
+                </c:if>
+
             </div>
         </div>
     </body>

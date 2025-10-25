@@ -86,6 +86,9 @@ public class VoucherServlet extends HttpServlet {
                 case "remove":
                     removeVoucher(request, response);
                     break;
+                case "search":
+                    searchVoucher(request, response);
+                    break;
                 default:
                     throw new AssertionError();
             }
@@ -155,6 +158,17 @@ public class VoucherServlet extends HttpServlet {
         getAllVoucher(request, response);
     }
 
+    private void searchVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String success = request.getParameter("success");
+        String keyword = request.getParameter("keyword").trim();
+
+        VoucherDAO db = new VoucherDAO();
+        List<Voucher> listVoucher = db.getByVouCode(keyword);
+        request.setAttribute("listVoucher", listVoucher);
+        request.setAttribute("success", success);
+        request.getRequestDispatcher("/WEB-INF/views/admin/voucher/list-voucher.jsp").forward(request, response);
+    }
+    
     private void createVoucher(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String vocherCodeRaw = request.getParameter("vocherCode");
@@ -355,5 +369,7 @@ public class VoucherServlet extends HttpServlet {
         }
         return null;
     }
+
+   
 
 }
