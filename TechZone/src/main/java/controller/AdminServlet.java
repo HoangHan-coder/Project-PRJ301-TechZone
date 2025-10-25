@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import model.Account;
 import java.util.Arrays;
@@ -21,6 +22,9 @@ public class AdminServlet extends HttpServlet {
         AccountDAO dao = new AccountDAO();
 
         if (view == null || view.equals("list")) {
+            String keyword = request.getParameter("keyword");
+            String role = request.getParameter("role");
+
             String pageParam = request.getParameter("page");
             int page = 1;
             if (pageParam != null) {
@@ -34,12 +38,22 @@ public class AdminServlet extends HttpServlet {
                 }
             }
 
-            List<Account> list = dao.getAccounts(page);
+            List<Account> list = dao.filterAccounts(keyword, role);
+            if (list == null) {
+                list = new ArrayList<>();
+            }
+
+            // Gán attribute cho JSP
             request.setAttribute("accounts", list);
             request.setAttribute("currentPage", page);
-            request.getRequestDispatcher("/WEB-INF/views/admin/account-management.jsp").forward(request, response);
+            request.setAttribute("keyword", keyword != null ? keyword : "");
+            request.setAttribute("role", role != null ? role : "");
 
-        } else if (view.equals("update")) {
+            // Forward sang JSP
+            request.getRequestDispatcher("/WEB-INF/views/admin/account-management.jsp")
+                    .forward(request, response);
+            return;
+        }  else if (view.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Account acc = dao.getById(id);
 
