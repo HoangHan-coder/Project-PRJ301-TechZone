@@ -221,7 +221,7 @@ public class VoucherDAO extends DBContext {
             ps.setString(1, voucherCode);
 
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 v = new Voucher(
                         rs.getInt("VoucherId"),
                         rs.getString("imgPath"),
@@ -242,4 +242,34 @@ public class VoucherDAO extends DBContext {
         }
         return false;
     }
+
+    public List<Voucher> getByVouCode(String keyWord) {
+        List<Voucher> listVou = new ArrayList<>();
+        String sql = "SELECT * FROM Vouchers WHERE Code = %?%";
+        try {
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
+            ps.setString(1, keyWord);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listVou.add(new Voucher(
+                        rs.getInt("VoucherId"),
+                        rs.getString("imgPath"),
+                        rs.getString("code"),
+                        rs.getBigDecimal("discountValue"),
+                        rs.getString("discountType"),
+                        rs.getTimestamp("startDate"),
+                        rs.getTimestamp("endDate"),
+                        rs.getString("status"),
+                        rs.getBigDecimal("minOrderValue"),
+                        rs.getInt("maxUsage"),
+                        rs.getInt("currentUsage")
+                ));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listVou;
+    }
+
 }

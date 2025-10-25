@@ -30,9 +30,17 @@
                 <c:if test="${not empty requestScope.updateError}">
                     <p class="text-danger my-2">${requestScope.updateError}</p>
                 </c:if>
-                <div class="float-end my-4 me-3"><a href="${pageContext.request.contextPath}/voucher?view=create" class="btn btn-primary">Thêm voucher mới</a></div>
+                <div class="container my-4 ">
+                    <div class="row">
+                        <form class="col-md-9 px-0 me-3" action="${pageContext.request.contextPath}/voucher?action=search" method="POST">
+                            <input class="form-control" type="text" name="keyword">
+                        </form>
+                        <div class="col-md-2"><a href="${pageContext.request.contextPath}/voucher?view=create" class="btn btn-primary">Thêm voucher mới</a></div>
+                    </div>
+                </div>
 
-                <table class="table table-bordered mt-5">
+
+                <table class="table table-bordered mt-3">
                     <thead>
                         <tr class="table-secondary">
                             <th scope="col">ID</th>
