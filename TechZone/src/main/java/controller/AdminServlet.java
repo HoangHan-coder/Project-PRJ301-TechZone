@@ -19,6 +19,7 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String view = request.getParameter("view");
+        String ajax = request.getParameter("ajax");
         AccountDAO dao = new AccountDAO();
 
         if (view == null || view.equals("list")) {
@@ -45,6 +46,11 @@ public class AdminServlet extends HttpServlet {
 
             // Gán attribute cho JSP
             request.setAttribute("accounts", list);
+            if ("1".equals(ajax)) {
+                request.getRequestDispatcher("/WEB-INF/views/admin/account-results.jsp")
+                        .forward(request, response);
+                return;
+            }
             request.setAttribute("currentPage", page);
             request.setAttribute("keyword", keyword != null ? keyword : "");
             request.setAttribute("role", role != null ? role : "");

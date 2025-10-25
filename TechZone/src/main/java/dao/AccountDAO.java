@@ -227,7 +227,7 @@ public class AccountDAO extends DBContext {
         );
 
         if (keyword != null && !keyword.trim().isEmpty()) {
-            sql.append(" AND (Username LIKE ? OR FullName LIKE ?)");
+            sql.append(" AND (LOWER(Username) LIKE ? OR LOWER(FullName) LIKE ?)");
         }
         if (role != null && !role.trim().isEmpty()) {
             sql.append(" AND RoleName = ?");
@@ -237,9 +237,11 @@ public class AccountDAO extends DBContext {
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql.toString());
             int index = 1;
+            
             if (keyword != null && !keyword.trim().isEmpty()) {
-                ps.setString(index++, "%" + keyword + "%");
-                ps.setString(index++, "%" + keyword + "%");
+                String kw = "%" + keyword.trim().toLowerCase() + "%"; // chuyển về chữ thường
+                ps.setString(index++, kw);
+                ps.setString(index++, kw);
             }
             if (role != null && !role.trim().isEmpty()) {
                 ps.setString(index++, role);
@@ -256,6 +258,7 @@ public class AccountDAO extends DBContext {
                         rs.getString("RoleName")
                 );
                 a.setIsDeleted(rs.getBoolean("IsDeleted"));
+                
                 Timestamp createdAt = rs.getTimestamp("CreatedAt");
                 if (createdAt != null) {
                     a.setCreatedAt(createdAt.toLocalDateTime());
