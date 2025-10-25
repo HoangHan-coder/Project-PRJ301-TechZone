@@ -6,6 +6,7 @@ controller\CartServlet.class
 dao\AuthDAO.class
 model\Cart.class
 dao\CartDAO.class
+dao\AccountDAO.class
 model\Orders.class
 controller\CartItemServlet.class
 filter\AuthFilter.class
@@ -16,6 +17,7 @@ model\Voucher.class
 controller\Register.class
 dao\VoucherDAO.class
 model\Account.class
+controller\AdminServlet.class
 until\Pagination.class
 com\techzone\techzone\JakartaRestConfiguration.class
 controller\CheckoutServlet.class

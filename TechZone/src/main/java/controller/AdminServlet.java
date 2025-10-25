@@ -213,7 +213,7 @@ public class AdminServlet extends HttpServlet {
             // 6. Tạo Account và lưu
             Account account = new Account();
             account.setUserName(userName);
-            account.setPassWordHarh(hashedPassword); // lưu hash
+            account.setPassWord(hashedPassword); // lưu hash
             account.setFullName(fullName);
             account.setEmail(email);
             account.setPhone(phone);

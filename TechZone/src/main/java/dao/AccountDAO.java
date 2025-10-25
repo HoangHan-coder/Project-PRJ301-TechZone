@@ -57,7 +57,7 @@ public class AccountDAO extends DBContext {
 
                 Account account = new Account(accountId, userName, name, email, phone, roleName);
                 account.setIsDeleted(isDeleted);
-                account.setCreatedAt(createdAt.toLocalDateTime());
+//                account.setCreatedAt(createdAt.toLocalDateTime());
 
                 list.add(account);
             }
@@ -170,7 +170,7 @@ public class AccountDAO extends DBContext {
                     + "VALUES (?,?,?,?,?,?)";
             PreparedStatement statement = this.getConnection().prepareStatement(query);
             statement.setString(1, account.getUserName());
-            statement.setString(2, account.getPassWordHarh());
+            statement.setString(2, account.getPassWord());
             statement.setString(3, account.getFullName());
             statement.setString(4, account.getEmail());
             statement.setString(5, account.getPhone());
@@ -254,10 +254,10 @@ public class AccountDAO extends DBContext {
                         rs.getString("RoleName")
                 );
                 a.setIsDeleted(rs.getBoolean("IsDeleted"));
-                Timestamp createdAt = rs.getTimestamp("CreatedAt");
-                if (createdAt != null) {
-                    a.setCreatedAt(createdAt.toLocalDateTime());
-                }
+//                Timestamp createdAt = rs.getTimestamp("CreatedAt");
+//                if (createdAt != null) {
+//                    a.setCreatedAt(createdAt.toLocalDateTime());
+//                }
                 list.add(a);
             }
         } catch (Exception e) {
