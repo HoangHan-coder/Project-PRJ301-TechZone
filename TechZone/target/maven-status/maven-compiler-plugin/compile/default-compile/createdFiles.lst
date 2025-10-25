@@ -1,7 +1,9 @@
 dao\StatisticalDAO.class
+model\CartItem.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
 dao\OrderDAO.class
 controller\CartServlet.class
+<<<<<<< HEAD
 <<<<<<< HEAD
 dao\AuthDAO.class
 dao\AccountDAO.class
@@ -13,31 +15,50 @@ model\Orders.class
 controller\OrderdetailServlet.class
 model\Role.class
 >>>>>>> HanNH
+=======
+model\Cart.class
+dao\CartDAO.class
+model\Orders.class
+controller\CartItemServlet.class
+controller\OrderdetailServlet.class
+>>>>>>> My
 model\Product.class
 model\Voucher.class
 controller\Register.class
 dao\VoucherDAO.class
 model\Account.class
 <<<<<<< HEAD
+<<<<<<< HEAD
 controller\AdminServlet.class
 =======
 >>>>>>> HanNH
+=======
+>>>>>>> My
 until\Pagination.class
 db\TestDBContext.class
 com\techzone\techzone\JakartaRestConfiguration.class
 controller\CheckoutServlet.class
+<<<<<<< HEAD
+=======
+model\DetailOrder.class
+>>>>>>> My
 model\Orderlist.class
 controller\VoucherServlet.class
 controller\ProductServlet.class
 controller\OrderServlet.class
+dao\CartItemDAO.class
 model\AllCategory.class
 controller\admin\Orders.class
 dto\OrderItemDTO.class
+<<<<<<< HEAD
 <<<<<<< HEAD
 model\AccountUsers.class
 =======
 model\AccountRole.class
 >>>>>>> HanNH
+=======
+model\AccountRole.class
+>>>>>>> My
 model\Order.class
 model\Orderdetail.class
 model\Category.class
