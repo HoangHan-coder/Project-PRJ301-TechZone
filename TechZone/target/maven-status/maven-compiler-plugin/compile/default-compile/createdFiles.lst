@@ -3,20 +3,45 @@ model\CartItem.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
 dao\OrderDAO.class
 controller\CartServlet.class
+<<<<<<< HEAD
 model\Cart.class
 dao\CartDAO.class
 model\Orders.class
 controller\CartItemServlet.class
 controller\OrderdetailServlet.class
+=======
+<<<<<<< HEAD
+dao\AuthDAO.class
+dao\AccountDAO.class
+model\Orders.class
+filter\AuthFilter.class
+controller\OrderdetailServlet.class
+=======
+model\Orders.class
+controller\OrderdetailServlet.class
+model\Role.class
+>>>>>>> HanNH
+>>>>>>> origin/main-core
 model\Product.class
 model\Voucher.class
 controller\Register.class
 dao\VoucherDAO.class
 model\Account.class
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+controller\AdminServlet.class
+=======
+>>>>>>> HanNH
+>>>>>>> origin/main-core
 until\Pagination.class
+db\TestDBContext.class
 com\techzone\techzone\JakartaRestConfiguration.class
 controller\CheckoutServlet.class
+<<<<<<< HEAD
 model\DetailOrder.class
+=======
+>>>>>>> origin/main-core
 model\Orderlist.class
 controller\VoucherServlet.class
 controller\ProductServlet.class
@@ -25,12 +50,21 @@ dao\CartItemDAO.class
 model\AllCategory.class
 controller\admin\Orders.class
 dto\OrderItemDTO.class
+<<<<<<< HEAD
 model\AccountRole.class
+=======
+<<<<<<< HEAD
+model\AccountUsers.class
+=======
+model\AccountRole.class
+>>>>>>> HanNH
+>>>>>>> origin/main-core
 model\Order.class
 model\Orderdetail.class
 model\Category.class
 controller\admin\Dashboard.class
 controller\Login.class
+controller\LogoutServlet.class
 dao\OderListDAO.class
 db\DBContext.class
 dao\ProductDAO.class
