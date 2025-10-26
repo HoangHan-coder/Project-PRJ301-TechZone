@@ -25,55 +25,67 @@ import java.util.logging.Logger;
  */
 public class AccountDAO extends DBContext {
 
-    private final int SIZE = 30;
+    private final int SIZE = 12;
 
-    public List<Account> getAccounts(int page) {
-        try {
-            if (page < 1) {
-                page = 1; // tránh OFFSET âm
-            }
-            List<Account> list = new ArrayList<>();
-            String query = "SELECT AccountId, Username, PasswordHash, FullName, "
-                    + "Email, Phone, RoleName, IsDeleted, CreatedAt, UpdatedAt "
-                    + "FROM Accounts "
-                    + "WHERE IsDeleted = 0 "
-                    + "ORDER BY AccountId "
-                    + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    public List<Account> filterAccounts(int page, String keyword, String role) {
+        List<Account> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+                "SELECT AccountId, Username, PasswordHash, FullName, Email, Phone, RoleName,"
+                + " IsDeleted, CreatedAt, UpdatedAt FROM Accounts WHERE IsDeleted = 0"
+        );
 
-            PreparedStatement statement = this.getConnection().prepareStatement(query);
-            int offset = (page - 1) * SIZE;
-            statement.setInt(1, offset);
-            statement.setInt(2, SIZE);
-
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                int accountId = rs.getInt("AccountId");
-                String userName = rs.getString("Username");
-                String name = rs.getString("FullName");
-                String email = rs.getString("Email");
-                String phone = rs.getString("Phone");
-                String roleName = rs.getString("RoleName");
-                boolean isDeleted = rs.getBoolean("IsDeleted");
-                Timestamp createdAt = rs.getTimestamp("CreatedAt");
-                Timestamp updatedAt = rs.getTimestamp("UpdatedAt");
-
-                Account account = new Account(accountId, userName, name, email, phone, roleName);
-                account.setIsDeleted(isDeleted);
-                account.setCreatedAt(createdAt.toLocalDateTime());
-
-                list.add(account);
-            }
-            return list;
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append(" AND (LOWER(Username) LIKE ? OR LOWER(FullName) LIKE ?)");
         }
-        return null;
+        if (role != null && !role.trim().isEmpty()) {
+            sql.append(" AND RoleName = ?");
+        }
+        sql.append(" ORDER BY AccountId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        try {
+            PreparedStatement ps = this.getConnection().prepareStatement(sql.toString());
+            int index = 1;
+
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                String kw = "%" + keyword.trim().toLowerCase() + "%"; // chuyển về chữ thường
+                ps.setString(index++, kw);
+                ps.setString(index++, kw);
+            }
+            if (role != null && !role.trim().isEmpty()) {
+                ps.setString(index++, role);
+            }
+
+            ps.setInt(index++, (page - 1) * SIZE);
+            ps.setInt(index, SIZE);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Account a = new Account(
+                        rs.getInt("AccountId"),
+                        rs.getString("Username"),
+                        rs.getString("FullName"),
+                        rs.getString("Email"),
+                        rs.getString("Phone"),
+                        rs.getString("RoleName")
+                );
+                a.setIsDeleted(rs.getBoolean("IsDeleted"));
+
+                Timestamp createdAt = rs.getTimestamp("CreatedAt");
+                if (createdAt != null) {
+                    a.setCreatedAt(createdAt.toLocalDateTime());
+                }
+                list.add(a);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Thêm in lỗi SQL
+        }
+        return list;
     }
 
     public int getTotalPages() {
         int totalRows = 0;
         try {
-            String sql = "SELECT COUNT(*) FROM Accounts";
+            String sql = "SELECT COUNT(AccountId) FROM Accounts WHERE IsDeleted =0";
 
             PreparedStatement statement = this.getConnection().prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
@@ -86,8 +98,8 @@ public class AccountDAO extends DBContext {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        int totalPage = (int) Math.ceil((double) totalRows / SIZE);
-        return totalPage;
+        int totalPages = (int) Math.ceil((double) totalRows / SIZE);
+        return totalPages;
 
     }
 
@@ -217,58 +229,6 @@ public class AccountDAO extends DBContext {
             Logger.getLogger(AuthDAO.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         }
-    }
-
-    public List<Account> filterAccounts(String keyword, String role) {
-        List<Account> list = new ArrayList<>();
-        StringBuilder sql = new StringBuilder(
-                "SELECT AccountId, Username, PasswordHash, FullName, Email, Phone, RoleName,"
-                + " IsDeleted, CreatedAt, UpdatedAt FROM Accounts WHERE IsDeleted = 0"
-        );
-
-        if (keyword != null && !keyword.trim().isEmpty()) {
-            sql.append(" AND (LOWER(Username) LIKE ? OR LOWER(FullName) LIKE ?)");
-        }
-        if (role != null && !role.trim().isEmpty()) {
-            sql.append(" AND RoleName = ?");
-        }
-        sql.append(" ORDER BY AccountId");
-
-        try {
-            PreparedStatement ps = this.getConnection().prepareStatement(sql.toString());
-            int index = 1;
-            
-            if (keyword != null && !keyword.trim().isEmpty()) {
-                String kw = "%" + keyword.trim().toLowerCase() + "%"; // chuyển về chữ thường
-                ps.setString(index++, kw);
-                ps.setString(index++, kw);
-            }
-            if (role != null && !role.trim().isEmpty()) {
-                ps.setString(index++, role);
-            }
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Account a = new Account(
-                        rs.getInt("AccountId"),
-                        rs.getString("Username"),
-                        rs.getString("FullName"),
-                        rs.getString("Email"),
-                        rs.getString("Phone"),
-                        rs.getString("RoleName")
-                );
-                a.setIsDeleted(rs.getBoolean("IsDeleted"));
-                
-                Timestamp createdAt = rs.getTimestamp("CreatedAt");
-                if (createdAt != null) {
-                    a.setCreatedAt(createdAt.toLocalDateTime());
-                }
-                list.add(a);
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Thêm in lỗi SQL
-        }
-        return list;
     }
 
 }

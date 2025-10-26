@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import model.Account;
 import java.util.Arrays;
+import until.Pagination;
 
 @WebServlet(name = "AdminServlet", urlPatterns = {"/admin"})
 public class AdminServlet extends HttpServlet {
@@ -39,10 +40,14 @@ public class AdminServlet extends HttpServlet {
                 }
             }
 
-            List<Account> list = dao.filterAccounts(keyword, role);
+            List<Account> list = dao.filterAccounts(page, keyword, role);
             if (list == null) {
                 list = new ArrayList<>();
             }
+
+            Pagination p = new Pagination();
+            int totalRow = dao.getTotalPages();
+            p.handlePagintation(request, page, totalRow, "account");
 
             // Gán attribute cho JSP
             request.setAttribute("accounts", list);
@@ -51,6 +56,8 @@ public class AdminServlet extends HttpServlet {
                         .forward(request, response);
                 return;
             }
+
+            request.setAttribute("totalPages", totalRow);
             request.setAttribute("currentPage", page);
             request.setAttribute("keyword", keyword != null ? keyword : "");
             request.setAttribute("role", role != null ? role : "");

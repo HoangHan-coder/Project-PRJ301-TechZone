@@ -66,20 +66,45 @@
                 </table>
             </div>
         </div>
+        <!-- PHÂN TRANG -->
+        <nav>
+            <ul class="pagination justify-content-center mt-4">
+
+                <!-- Nút về trang đầu -->
+                <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                    <a class="page-link"  href="${pageContext.request.contextPath}/admin?page=1&keyword=${keyword}&role=${role}">First</a>
+                </li>
+
+                <!-- Nút Previous -->
+                <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                    <a class="page-link"href="${pageContext.request.contextPath}/admin?page=${currentPage - 1}&keyword=${keyword}&role=${role}" >Previous</a>
+                </li>
+
+                <!-- Nút Next -->
+                <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="${pageContext.request.contextPath}/admin?page=${currentPage + 1}&keyword=${keyword}&role=${role}"">Next</a>
+                </li>
+
+                <!-- Nút trang cuối -->
+                <li class="page-item ${currentPage == totalPages || totalPages == 0 ? 'disabled' : ''}">
+                    <a class="page-link"  href="${pageContext.request.contextPath}/admin?page=${totalPages}&keyword=${keyword}&role=${role}">Last</a>
+                </li>
+            </ul>
+        </nav>
     </form>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        
+
         document.getElementById("keyword").addEventListener("keypress", function (e) {
             if (e.key === "Enter") {
-                e.preventDefault(); 
+                e.preventDefault();
                 document.getElementById("filterForm").submit();
             }
         });
 
-        
+
         document.getElementById("role").addEventListener("change", function () {
             document.getElementById("filterForm").submit();
         });
