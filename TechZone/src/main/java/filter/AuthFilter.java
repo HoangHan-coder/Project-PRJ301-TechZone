@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author acer
  */
-@WebFilter(filterName = "AuthFilter", urlPatterns = {"/products"})
+@WebFilter(filterName = "AuthFilter", urlPatterns = {"/admin"})
 public class AuthFilter implements Filter {
     
     
@@ -41,7 +41,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession(false); // lấy session nếu có
-        if (session == null || session.getAttribute("user") == null) {
+        if (session == null || session.getAttribute("account") == null) {
             resp.sendRedirect(req.getContextPath() + "/login");
         } else {
             chain.doFilter(request, response);

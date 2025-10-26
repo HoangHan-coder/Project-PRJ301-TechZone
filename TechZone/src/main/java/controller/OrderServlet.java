@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.AccountUsers;
 import model.OrderItem;
 
 /**
@@ -48,9 +49,9 @@ public class OrderServlet extends HttpServlet {
 
     private void getListOrder(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        String username = (String) request.getSession().getAttribute("username");
+        AccountUsers username = (AccountUsers) request.getSession().getAttribute("account");
         OrderItemDAO orderItemDAO = new OrderItemDAO();
-        List<OrderItem> listOrder = orderItemDAO.getOrderItemByUsername("user7");
+        List<OrderItem> listOrder = orderItemDAO.getOrderItemByUsername(username.getUsername());
         request.setAttribute("listOrder", listOrder);
         request.getRequestDispatcher("/WEB-INF/views/user/order/order-list.jsp").forward(request, response);
     }

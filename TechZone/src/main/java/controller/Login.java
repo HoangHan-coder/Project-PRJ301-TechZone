@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
+import model.AccountUsers;
 
 /**
  *
@@ -79,27 +79,23 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-      
-            AuthDAO userdao = new AuthDAO();
-            if (userdao.login(username, password) != null) {
-                if (userdao.login(username, password).getAccountroles().equals("Admin")) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("admin", userdao.login(username, password));
-                    response.sendRedirect(getServletContext().getContextPath() + "/admin");
-                } else {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", userdao.login(username, password));
-                    response.sendRedirect(getServletContext().getContextPath() + "/products");
-                }
-                
-
+        AuthDAO userdao = new AuthDAO();
+        AccountUsers accountUsers = userdao.login(username, password);
+        HttpSession session = request.getSession();
+        session.setAttribute("account", accountUsers);
+        if (accountUsers != null) {
+            if (accountUsers.getAccountroles().equals("Admin")) {
+                response.sendRedirect(getServletContext().getContextPath() + "/admin");
             } else {
-                response.sendRedirect(getServletContext().getContextPath() + "/login");
+                response.sendRedirect(getServletContext().getContextPath() + "/products");
             }
 
-        
+        } else {
+            System.out.println("_________________------------>");
+            response.sendRedirect(getServletContext().getContextPath() + "/login");
+        }
+
     }
-    
 
     /**
      * Returns a short description of the servlet.
