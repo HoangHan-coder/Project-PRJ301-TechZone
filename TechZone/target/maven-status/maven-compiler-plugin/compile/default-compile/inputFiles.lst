@@ -2,6 +2,7 @@ D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\AccountRole.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Login.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\VoucherDAO.java
+D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\OrderItem.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OrderDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orderdetail.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Orders.java
@@ -18,6 +19,8 @@ D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dto\OrderItemDTO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CartServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\JakartaRestConfiguration.java
+D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OrderItemDAO.java
+D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\OrderCore.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orderlist.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\Product.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\model\AllCategory.java

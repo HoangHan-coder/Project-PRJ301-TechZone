@@ -150,7 +150,7 @@
                                     <span class="status pending">Đang chờ xử lý</span>
                                 </c:when>
                                 <c:when test="${i.status == 'PROCESSING'}">
-                                    <span class="status processing">Đang xử lý</span>
+                                    <span class="status processing">Đang giao hàng</span>
                                 </c:when>
                                 <c:when test="${i.status == 'COMPLETED'}">
                                     <span class="status completed">Đã giao</span>

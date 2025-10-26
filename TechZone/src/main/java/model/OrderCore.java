@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  * @author NgKaitou
  */
 public class OrderCore {
+
     private int orderId;
     private Account account;
     private String orderCode;
@@ -26,6 +27,7 @@ public class OrderCore {
     private boolean isDeaded;
 
     public OrderCore() {
+
     }
 
     public OrderCore(int orderId, Account account, String orderCode, LocalDateTime orderTime, BigDecimal totalAmount, BigDecimal shippingFee, String status, String shippingAddress, String PaymentMethod, String paymentStatus, Voucher voucher, boolean isDeaded) {
@@ -42,8 +44,6 @@ public class OrderCore {
         this.voucher = voucher;
         this.isDeaded = isDeaded;
     }
-    
-    
 
     public int getOrderId() {
         return orderId;
@@ -94,7 +94,19 @@ public class OrderCore {
     }
 
     public String getStatus() {
-        return status;
+        switch (this.status) {
+            case "PROCESSING":
+                return "Đang chờ xử lý";
+            case "PENDING":
+                return "Đang giao hàng";
+            case "COMPLETED":
+                return "Đã giao";
+            case "CANCEL":
+                return "Hủy giao";
+
+            default:
+                return "Đang chờ xử lý";
+        }
     }
 
     public void setStatus(String status) {
@@ -140,6 +152,5 @@ public class OrderCore {
     public void setIsDeaded(boolean isDeaded) {
         this.isDeaded = isDeaded;
     }
-    
-    
+
 }

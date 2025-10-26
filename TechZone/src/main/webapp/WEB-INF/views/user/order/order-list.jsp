@@ -87,11 +87,11 @@
                                 <p class="fw-bold m-2">TechZone Store</p>
                                 <p class="m-2"><span class="text-success">${orderItem.order.status}</span></p>
                             </li>
-                            <li class="list-group-item">
+                            <li class="list-group-item" style="height: 200px">
                                 <div class="row g-0">
                                     <div class="col-md-2">
                                         <img src="${pageContext.request.contextPath}${orderItem.product.linkImg}"
-                                             class="img-fluid rounded-start" alt="...">
+                                             class="img-fluid rounded-start w-100" alt="..." style="height: 180px;">
                                     </div>
                                     <div class="col-md-10">
                                         <div class="card-body">
@@ -105,8 +105,7 @@
                             <li class="list-group-item d-flex flex-column align-items-end">
                                 <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger">${orderItem.totalPrice}</span></p>
                                 <div class="m-2">
-                                    <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua
-                                        lại</button>
+                                    <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua lại</button>
                                     <button type="button" class="btn btn-light ">Liên hệ người bán</button>
                                 </div>
                             </li>

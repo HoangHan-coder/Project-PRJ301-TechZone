@@ -34,7 +34,7 @@
                         </div>
                         <div class="col-md-4 position-relative">
                             <label for="discountValue" class="form-label">Giá trị giảm</label>
-                            <input type="number" class="form-control" id="discountValue" name="discountValue" required>
+                            <input type="text" class="form-control" id="discountValue" name="discountValue" required>
                             <c:choose>
                                 <c:when test="${not empty requestScope.errorMap.disValErrPos}">
                                     <p class="text-danger my-2">${requestScope.errorMap.disValErrPos}</p>
