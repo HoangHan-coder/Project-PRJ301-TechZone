@@ -31,11 +31,17 @@ dto\OrderItemDTO.class
 model\AccountUsers.class
 model\Order.class
 model\Orderdetail.class
+<<<<<<< HEAD
 until\Normalization.class
+=======
+model\OrderItem.class
+>>>>>>> HanNH
 model\Category.class
 controller\admin\Dashboard.class
 controller\Login.class
 controller\LogoutServlet.class
 dao\OderListDAO.class
 db\DBContext.class
+model\OrderCore.class
+dao\OrderItemDAO.class
 dao\ProductDAO.class

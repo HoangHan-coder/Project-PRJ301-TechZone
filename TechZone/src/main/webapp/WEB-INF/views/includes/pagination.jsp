@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <nav aria-label="Page navigation example">
+    <c:if test="${startPage >= 1}">
         <ul class="pagination">
             <c:choose>
                 <c:when test="${currentPage < 5}">
@@ -47,4 +48,5 @@
             </c:choose>
 
         </ul>
-    </nav>
+    </c:if>
+</nav>

@@ -19,7 +19,7 @@
 
     <body>
         <div>
-            <jsp:include page="/WEB-INF/views/user/navbar.jsp"/>
+            <jsp:include page="/WEB-INF/views/includes/header.jsp"/>
         </div>
         
         
@@ -108,7 +108,7 @@
 
             </div>
         </div>
-         <jsp:include page="/WEB-INF/views/user/footer.jsp"/>
+         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
     </body>
 
 </html>
