@@ -15,21 +15,23 @@ import java.util.logging.Logger;
  * @author NgKaitou
  */
 public class DBContext {
+    
+    private Connection conn;
+    private final String DB_URL = "jdbc:sqlserver://127.0.0.1:1433;databaseName=TechZoneDB;encrypt=false";
+    private final String DB_USER = "sa";
+    private final String DB_PWD = "1234";
 
-    private static final String DB_NAME = "TechZoneDB";
-    private static final String DB_USER_NAME = "sa";
-    private static final String DB_PASSWORD = "123456";
-
-    public Connection getConnection() {
-        Connection conn = null;
+    public DBContext() {
         try {
-
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=" + DB_NAME + ";encrypt=true;trustServerCertificate=true";
-            conn = DriverManager.getConnection(url, DB_USER_NAME, DB_PASSWORD);
+            this.conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PWD);
+            System.out.println("conected!");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public Connection getConnection() {
         return conn;
     }
 }

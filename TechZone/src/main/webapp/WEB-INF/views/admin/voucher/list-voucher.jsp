@@ -27,9 +27,6 @@
                 <c:if test="${not empty requestScope.removeError}">
                     <p class="text-danger my-2">${requestScope.removeError}</p>
                 </c:if>
-                <c:if test="${not empty requestScope.updateError}">
-                    <p class="text-danger my-2">${requestScope.updateError}</p>
-                </c:if>
                 <div class="float-end my-4 me-3"><a href="${pageContext.request.contextPath}/voucher?view=create" class="btn btn-primary">Thêm voucher mới</a></div>
 
                 <table class="table table-bordered mt-5">
@@ -59,12 +56,12 @@
                                 <td>${voucher.currentUsage}/${voucher.maxUsage}</td>
                                 <td class="text-center d-flex gap-3 justify-content-center">
                                     <a href="<c:url value="/voucher?view=update&voucherCode=${voucher.code}"></c:url>" class="text-decoration-none">
-                                            <i class="bi bi-eye me-2 text-dark" style="cursor: pointer;"></i>
-                                        </a>
-                                        <button style="border: none;background-color: #ffffff;"
-                                                class="btn btn-danger btn-sm" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#deleteModal-${voucher.voucherId}">
+                                        <i class="bi bi-eye me-2 text-dark" style="cursor: pointer;"></i>
+                                    </a>
+                                    <button style="border: none;background-color: #ffffff;"
+                                            class="btn btn-danger btn-sm" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#deleteModal-${voucher.voucherId}">
                                         <i class="bi bi-trash text-danger" style="cursor: pointer;"></i>
                                     </button>
 
@@ -95,7 +92,7 @@
                                 </div>
                             </div>
                         </div>
-                    </c:forEach>
+                        </c:forEach>
 
                     </tbody>
                 </table>

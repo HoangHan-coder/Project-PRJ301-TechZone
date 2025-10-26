@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.*;
 import model.Product;
 
+
 public class ProductDAO extends DBContext {
 
     // ✅ Lấy tất cả sản phẩm (dành cho user)
@@ -12,13 +13,16 @@ public class ProductDAO extends DBContext {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE IsDeleted = 0";
 
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (Connection con = this.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 list.add(mapResultSetToProduct(rs));
             }
         } catch (Exception e) {
             e.printStackTrace();
+        
         }
 
         return list;
@@ -28,7 +32,8 @@ public class ProductDAO extends DBContext {
     public Product getProductById(int id) {
         String sql = "SELECT * FROM Product WHERE ProductId = ? AND IsDeleted = 0";
 
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = this.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -49,7 +54,8 @@ public class ProductDAO extends DBContext {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE CategoryId = ? AND IsDeleted = 0";
 
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = this.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, categoryId);
             ResultSet rs = ps.executeQuery();
@@ -85,58 +91,14 @@ public class ProductDAO extends DBContext {
         return p;
     }
 // ✅ Featured product (sản phẩm mới nhất trong danh mục)
-
-    public List<Product> getTop1(int categoryId) {
-        List<Product> list = new ArrayList<>();
-        String sql = "SELECT TOP 1 * FROM Product WHERE categoryId = ? ORDER BY createdAt DESC";
-
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, categoryId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(mapResultSetToProduct(rs));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-// ✅ Trending product (sản phẩm bán chạy nhất trong danh mục)
-    public List<Product> getTop1ByCategory(int categoryId) {
-        List<Product> list = new ArrayList<>();
-        String sql = "SELECT TOP 1 * FROM Product WHERE CategoryId = ? ORDER BY quantitySold DESC";
-
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, categoryId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(mapResultSetToProduct(rs));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    public List<Product> getFilterBrand(int categoryId, String brand) {
+public List<Product> getTop1(int categoryId) {
     List<Product> list = new ArrayList<>();
-    String sql = "SELECT * FROM product WHERE CategoryId = ?";
-
-    if (brand != null && !brand.isEmpty()) {
-        sql += " AND JSON_VALUE(ProductAttributes, '$.brand') = ?";
-    }
+    String sql = "SELECT TOP 1 * FROM Product WHERE categoryId = ? ORDER BY createdAt DESC";
 
     try (Connection con = this.getConnection();
          PreparedStatement ps = con.prepareStatement(sql)) {
-
+        
         ps.setInt(1, categoryId);
-        if (brand != null && !brand.isEmpty()) {
-            ps.setString(2, brand);
-        }
-
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             list.add(mapResultSetToProduct(rs));
@@ -144,9 +106,29 @@ public class ProductDAO extends DBContext {
     } catch (Exception e) {
         e.printStackTrace();
     }
+    return list;
+}
 
+// ✅ Trending product (sản phẩm bán chạy nhất trong danh mục)
+public List<Product> getTop1ByCategory(int categoryId) {
+    List<Product> list = new ArrayList<>();
+    String sql = "SELECT TOP 1 * FROM Product WHERE CategoryId = ? ORDER BY quantitySold DESC";
+
+    try (Connection con = this.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+
+        ps.setInt(1, categoryId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            list.add(mapResultSetToProduct(rs));
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
     return list;
 }
 
 
+
+    
 }

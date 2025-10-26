@@ -38,7 +38,7 @@ public class OrderServlet extends HttpServlet {
         if (action.equalsIgnoreCase("order-detail")) {
             request.getRequestDispatcher("/WEB-INF/views/user/order-detail.jsp").forward(request, response);
         } else if (action.equalsIgnoreCase("order-list")) {
-            request.getRequestDispatcher("/WEB-INF/Views/user/order-list.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/user/order-list.jsp").forward(request, response);
         }
     }
 
