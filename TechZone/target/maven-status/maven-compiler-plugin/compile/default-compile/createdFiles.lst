@@ -31,11 +31,8 @@ dto\OrderItemDTO.class
 model\AccountUsers.class
 model\Order.class
 model\Orderdetail.class
-<<<<<<< HEAD
-until\Normalization.class
-=======
 model\OrderItem.class
->>>>>>> HanNH
+until\Normalization.class
 model\Category.class
 controller\admin\Dashboard.class
 controller\Login.class
