@@ -5,7 +5,6 @@
 package dao;
 
 import db.DBContext;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,11 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Accounts;
-import model.DetailOrder;
 import model.Orderlist;
 import model.Orders;
 import dto.OrderItemDTO;
+import model.Account;
 
 /**
  *
@@ -69,7 +67,7 @@ public class OderListDAO extends DBContext{
                 order.setStatus(rs.getString("Status"));
                 order.setShippingAddress(rs.getString("ShippingAddress"));
                 // Gắn thông tin account
-                Accounts acc = new Accounts();
+                Account acc = new Account();
                 acc.setAccountId(rs.getInt("AccountId"));
                 acc.setFullName(rs.getString("FullName"));
                 acc.setPhone(rs.getString("Phone"));
@@ -112,7 +110,7 @@ public class OderListDAO extends DBContext{
         return null;
     }
 
-    public Accounts getAccountByOrderId(int orderId) {
+    public Account getAccountByOrderId(int orderId) {
         try {
             String sql = "SELECT a.AccountId, a.FullName, a.Email, a.Phone "
                     + "FROM Accounts a "
@@ -123,7 +121,7 @@ public class OderListDAO extends DBContext{
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                Accounts acc = new Accounts();
+                Account acc = new Account();
                 acc.setAccountId(rs.getInt("AccountId"));
                 acc.setFullName(rs.getString("FullName"));
                 acc.setEmail(rs.getString("Email"));

@@ -29,7 +29,7 @@
                     <li class="nav-item fs-4 text">
                         <p class="m-0 opacity-75" style="cursor: pointer;"><a name="action" href="http://localhost:8080/TechZone/order?action=order-list" class="text-black" style="text-decoration: none;"><i class="bi bi-chevron-left"></i>Trở lại</a></p>
                     </li>
-                    <div class="d-flex justify-content-end gap-4">
+                    <div class="d-flex justify-content-end gap-4" >
                         <li class="nav-item">
                             <p class="m-0">MÃ ĐƠN HÀNG. 2507132YN042CK</p>
                         </li>
