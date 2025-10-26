@@ -49,6 +49,7 @@
                 transition: 0.2s;
             }
 
+            /* Cột hành động */
             .actions i {
                 margin: 0 6px;
                 cursor: pointer;
@@ -58,19 +59,23 @@
             .actions .fa-eye {
                 color: #2563eb;
             }
+
             .actions .fa-trash {
                 color: #dc2626;
             }
+
             .actions i:hover {
                 transform: scale(1.1);
             }
 
+            /* Trạng thái */
             .status {
                 font-weight: 600;
                 padding: 6px 12px;
                 border-radius: 20px;
                 display: inline-block;
             }
+
             .paid {
                 background: #dcfce7;
                 color: #166534;
@@ -79,30 +84,20 @@
                 background: #fee2e2;
                 color: #991b1b;
             }
-            .pending {
+            .shipping {
                 background: #fef9c3;
                 color: #92400e;
             }
-            .processing {
-                background: #e0f2fe;
-                color: #075985;
-            }
-            .completed {
+            .delivered {
                 background: #dbeafe;
                 color: #1e3a8a;
             }
-            .cancel {
-                background: #fee2e2;
-                color: #991b1b;
-            }
-
             h2 {
                 font-size: 24px;
                 font-weight: 700;
                 color: #111827;
                 margin-bottom: 25px;
             }
-
             .btn-delete {
                 background: none;
                 border: none;
@@ -113,60 +108,15 @@
                 color: darkred;
             }
 
-            /* PHÂN TRANG */
-            .pagination {
-                display: flex;
-                list-style: none;
-                gap: 8px;
-                padding: 0;
-                margin: 0;
-                margin-top: 20px;
-            }
-
-            .pagination a {
-                display: block;
-                padding: 8px 14px;
-                border: 1px solid #f1c40f;
-                border-radius: 8px;
-                color: #8d6e00;
-                text-decoration: none;
-                background-color: #fffbea;
-                font-size: 15px;
-                transition: all 0.25s ease;
-            }
-
-            .pagination a:hover {
-                background-color: #ffd54f;
-                color: #5d4037;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            }
-
-            .pagination .active a {
-                background-color: #fbc02d;
-                color: white;
-                font-weight: 600;
-                pointer-events: none;
-            }
-
-            .pagination .disabled a {
-                color: #ccc;
-                border-color: #eee;
-                background-color: #fafafa;
-                pointer-events: none;
-            }
-
         </style>
     </head>
     <body>
-        <div class="container-fluid">
+        <div class="container-fluid"> 
             <div>
                 <%@include file="../../includes/slide-bar-admin.jsp" %>
             </div>
-
             <div style="margin: 0 0 50px 280px;">
-                <h2 style="text-align: center; margin-bottom: 40px">
-                    <span style="color:#2563eb;">Danh sách sản phẩm</span>
-                </h2>
+                <h2 style="text-align: center; margin-bottom: 40px"> <span style="color:#2563eb;">Danh sách sản phẩm</span></h2>
 
                 <table class="order-table">
                     <thead>
@@ -186,6 +136,7 @@
                                 <td>${i.fullname}</td>
                                 <td>${i.totalamount}₫</td>
 
+                                <!-- Trạng thái thanh toán -->
                                 <td>
                                     <c:choose>
                                         <c:when test="${i.payment == 'Paid'}">
@@ -197,6 +148,7 @@
                                     </c:choose>
                                 </td>
 
+                                <!-- Trạng thái đơn hàng -->
                                 <td>
                                     <c:choose>
                                         <c:when test="${i.status == 'PENDING'}">
@@ -231,24 +183,14 @@
                                 </td>
                             </tr>
                         </c:forEach>
+
+
                     </tbody>
                 </table>
-
-                <!-- ✅ PHÂN TRANG -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item disabled"><a href="#">‹ Trước</a></li>
-                        <li class="page-item active"><a href="#">1</a></li>
-                        <li class="page-item"><a href="#">2</a></li>
-                        <li class="page-item"><a href="#">3</a></li>
-                        <li class="page-item"><a href="#">4</a></li>
-                        <li class="page-item"><a href="#">Tiếp ›</a></li>
-                    </ul>
-                </nav>
-
             </div>
         </div>
+
+
     </body>
 </html>
-
 
