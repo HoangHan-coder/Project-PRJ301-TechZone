@@ -54,7 +54,7 @@ public class Product {
     public void setProductId(int productId) { this.productId = productId; }
 
     public String getLinkImg() { return linkImg; }
-    public void setLinkImg(String linkImg) { this.linkImg = linkImg; }
+    public void setLinkImg(String linkImg) { this.linkImg = "/" + linkImg; }
 
     public String getProductName() { return productName; }
     public void setProductName(String productName) { this.productName = productName; }
