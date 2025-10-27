@@ -3,6 +3,7 @@
     Created on : 19 Sept 2025, 16:44:44
     Author     : PC
 --%>
+
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -14,6 +15,8 @@
         <title>Home 12 Clone</title>
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/list.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
         <style>
             .hero {
                 background-color: #f8f9fa;
@@ -162,7 +165,9 @@
     </head>
     <body>
         <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
-        <jsp:include page="/WEB-INF/views/user/product/product-list/product-filter.jsp"/>
+        <div class="container mt-4">
+            <jsp:include page="/WEB-INF/views/user/product/product-list/product-filter.jsp" />
+        </div>
         <!-- Bootstrap Carousel -->
         <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
             <!-- Indicators -->
@@ -185,154 +190,154 @@
             </button>
         </div>
         <!-- Categories -->
-<section class="categories py-5 bg-light">
-    <div class="container">
-        <h2 class="mb-4 text-center fw-bold">Shop By Categories</h2>
-        <div class="row g-4">
+        <section class="categories py-5 bg-light">
+            <div class="container">
+                <h2 class="mb-4 text-center fw-bold">Shop By Categories</h2>
+                <div class="row g-4">
 
-            <!-- Điện thoại -->
-            <div class="col-md-4">
-                <a href="products?category=phone" class="text-decoration-none text-dark">
-                    <div class="category-card p-4 text-center bg-white rounded shadow-sm">
-                        <img src="assets/images/phones/iphone_01.jpg" alt="Phone Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
-                        <h5>Smartphones & Tablets</h5>
+                    <!-- Điện thoại -->
+                    <div class="col-md-4">
+                        <a href="products?category=phone" class="text-decoration-none text-dark">
+                            <div class="category-card p-4 text-center bg-white rounded shadow-sm">
+                                <img src="assets/images/phones/iphone_01.jpg" alt="Phone Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
+                                <h5>Smartphones & Tablets</h5>
+                            </div>
+                        </a>
                     </div>
-                </a>
+
+                    <!-- Laptop -->
+                    <div class="col-md-4">
+                        <a href="products?category=laptop" class="text-decoration-none text-dark">
+                            <div class="category-card p-4 text-center bg-white rounded shadow-sm">
+                                <img src="assets/images/laptops/acer_01.jpg" alt="Laptop Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
+                                <h5>Laptops</h5>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Linh kiện -->
+                    <div class="col-md-4">
+                        <a href="products?category=accessory" class="text-decoration-none text-dark">
+                            <div class="category-card p-4 text-center bg-white rounded shadow-sm">
+                                <img src="assets/images/accessories/anker_charger_04.jpg" alt="Accessory Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
+                                <h5>Accessories</h5>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
             </div>
+        </section>
 
-            <!-- Laptop -->
-            <div class="col-md-4">
-                <a href="products?category=laptop" class="text-decoration-none text-dark">
-                    <div class="category-card p-4 text-center bg-white rounded shadow-sm">
-                        <img src="assets/images/laptops/acer_01.jpg" alt="Laptop Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
-                        <h5>Laptops</h5>
-                    </div>
-                </a>
+        <!-- Featured Products -->
+        <section class="featured py-5 bg-light">
+            <div class="container">
+                <h2 class="mb-4 text-center fw-bold">Featured Products</h2>
+                <div class="row g-3">
+
+                    <!-- top san pham dien thoai -->
+                    <c:forEach var="p" items="${listPhonefe}">
+                        <div class="col-md-4">
+                            <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
+                                <a href="products?action=detail&id=${p.productId}">
+                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <h5 class="fw-bold">${p.productName}</h5>
+                                    <p class="text-danger mb-0">
+                                        <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                    <!-- Top san pham laptop -->
+                    <c:forEach var="p" items="${listLapfe}">
+                        <div class="col-md-4">
+                            <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
+                                <a href="products?action=detail&id=${p.productId}">
+                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <h5 class="fw-bold">${p.productName}</h5>
+                                    <p class="text-danger mb-0">
+                                        <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                    <!-- top san pham access -->
+                    <c:forEach var="p" items="${listAccessoryFe}">
+                        <div class="col-md-4">
+                            <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
+                                <a href="products?action=detail&id=${p.productId}">
+                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <h5 class="fw-bold">${p.productName}</h5>
+                                    <p class="text-danger mb-0">
+                                        <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                </div>
             </div>
+        </section>
 
-            <!-- Linh kiện -->
-            <div class="col-md-4">
-                <a href="products?category=accessory" class="text-decoration-none text-dark">
-                    <div class="category-card p-4 text-center bg-white rounded shadow-sm">
-                        <img src="assets/images/accessories/anker_charger_04.jpg" alt="Accessory Category" class="img-fluid mb-3" style="height:180px; object-fit:cover;">
-                        <h5>Accessories</h5>
-                    </div>
-                </a>
+        <!-- Trending Products -->
+        <section class="Trending py-5 bg-light">
+            <div class="container">
+                <h2 class="mb-4 text-center fw-bold">Trending Products</h2>
+                <div class="row g-3">
+
+                    <!--  Top sản phẩm smartphone -->
+                    <c:forEach var="p" items="${listPhone}">
+                        <div class="col-md-4">
+                            <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
+                                <a href="products?action=detail&id=${p.productId}">
+                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <h5 class="fw-bold">${p.productName}</h5>
+                                    <p class="text-danger mb-0">
+                                        <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                    <!--  Top sản phẩm laptop -->
+                    <c:forEach var="p" items="${listLap}">
+                        <div class="col-md-4">
+                            <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
+                                <a href="products?action=detail&id=${p.productId}">
+                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <h5 class="fw-bold">${p.productName}</h5>
+                                    <p class="text-danger mb-0">
+                                        <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                    <!--  Top sản phẩm Acces -->
+                    <c:forEach var="p" items="${listAccessory}">
+                        <div class="col-md-4">
+                            <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
+                                <a href="products?action=detail&id=${p.productId}">
+                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <h5 class="fw-bold">${p.productName}</h5>
+                                    <p class="text-danger mb-0">
+                                        <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                </div>
             </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- Featured Products -->
-<section class="featured py-5 bg-light">
-    <div class="container">
-        <h2 class="mb-4 text-center fw-bold">Featured Products</h2>
-        <div class="row g-3">
-
-            <!-- top san pham dien thoai -->
-            <c:forEach var="p" items="${listPhonefe}">
-                <div class="col-md-4">
-                    <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                        <a href="products?action=detail&id=${p.productId}">
-                            <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
-                            <h5 class="fw-bold">${p.productName}</h5>
-                            <p class="text-danger mb-0">
-                                <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </c:forEach>
-
-            <!-- Top san pham laptop -->
-            <c:forEach var="p" items="${listLapfe}">
-                <div class="col-md-4">
-                    <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                        <a href="products?action=detail&id=${p.productId}">
-                            <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
-                            <h5 class="fw-bold">${p.productName}</h5>
-                            <p class="text-danger mb-0">
-                                <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </c:forEach>
-
-            <!-- top san pham access -->
-            <c:forEach var="p" items="${listAccessoryFe}">
-                <div class="col-md-4">
-                    <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                        <a href="products?action=detail&id=${p.productId}">
-                            <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
-                            <h5 class="fw-bold">${p.productName}</h5>
-                            <p class="text-danger mb-0">
-                                <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </c:forEach>
-
-        </div>
-    </div>
-</section>
-
-<!-- Trending Products -->
-<section class="Trending py-5 bg-light">
-    <div class="container">
-        <h2 class="mb-4 text-center fw-bold">Trending Products</h2>
-        <div class="row g-3">
-
-            <!--  Top sản phẩm smartphone -->
-            <c:forEach var="p" items="${listPhone}">
-                <div class="col-md-4">
-                    <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                        <a href="products?action=detail&id=${p.productId}">
-                            <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
-                            <h5 class="fw-bold">${p.productName}</h5>
-                            <p class="text-danger mb-0">
-                                <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </c:forEach>
-
-            <!--  Top sản phẩm laptop -->
-            <c:forEach var="p" items="${listLap}">
-                <div class="col-md-4">
-                    <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                        <a href="products?action=detail&id=${p.productId}">
-                            <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
-                            <h5 class="fw-bold">${p.productName}</h5>
-                            <p class="text-danger mb-0">
-                                <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </c:forEach>
-
-            <!--  Top sản phẩm Acces -->
-            <c:forEach var="p" items="${listAccessory}">
-                <div class="col-md-4">
-                    <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                        <a href="products?action=detail&id=${p.productId}">
-                            <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
-                            <h5 class="fw-bold">${p.productName}</h5>
-                            <p class="text-danger mb-0">
-                                <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </c:forEach>
-
-        </div>
-    </div>
-</section>
+        </section>
 
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

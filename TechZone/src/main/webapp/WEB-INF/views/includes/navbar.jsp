@@ -75,14 +75,22 @@
             </ul>
         </div>
         <!-- Search Bar -->
-        <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" role="search">
-            <div class="input-group" style="max-width: 600px; width: 100%;">           
-                <input class="form-control border-0" type="search" placeholder="Search products" aria-label="Search">
-                <button class="btn btn-light" type="submit">
+        <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" 
+              action="products" method="post">
+            <input type="hidden" name="action" value="search">
+            <div class="input-group" style="max-width: 600px; width: 100%;">
+                <input class="form-control border-0" 
+                       type="search" 
+                       name="txtSearch" 
+                       placeholder="Search products..." 
+                       aria-label="Search" 
+                       required>
+                <button class="btn btn-light border-0" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </form>
+
 
         <!-- Icons -->
         <div class="d-flex align-items-center text-white">
