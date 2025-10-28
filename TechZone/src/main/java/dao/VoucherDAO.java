@@ -167,6 +167,23 @@ public class VoucherDAO extends DBContext {
         return 0;
     }
 
+    public int getTotalRow(String keyword) {
+        try {
+            String sql = "SELECT Count(VoucherId) as totalRow FROM Vouchers WHERE Code LIKE ? ";
+            PreparedStatement statement = this.getConnection().prepareStatement(sql);
+            statement.setString(1, "%" + keyword + "%");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    
     public int getTotalRow() {
         try {
             String sql = "SELECT Count(VoucherId) as totalRow FROM Vouchers";
@@ -243,15 +260,18 @@ public class VoucherDAO extends DBContext {
         return false;
     }
 
-    public List<Voucher> getByVouCode(String keyword) {
+    public List<Voucher> getByVouCode(String keyword, int page) {
         List<Voucher> listVoucher = new ArrayList<>();
+        int index = (page - 1) * 12;
         if (keyword == null) {
             keyword = "";
         }
         try {
-            String sql = "select * from Vouchers WHERE Code = ? ";
+            String sql = "select * from Vouchers WHERE Code LIKE ? order by VoucherId "
+                    + "offset ? rows fetch next 12 rows only";
             PreparedStatement pt = this.getConnection().prepareStatement(sql);
-            pt.setString(1, keyword);
+            pt.setString(1, "%" + keyword + "%");
+            pt.setInt(2, index);
 
             ResultSet rs = pt.executeQuery();
             while (rs.next()) {
