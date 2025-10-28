@@ -20,6 +20,7 @@ controller\CheckoutServlet.class
 model\Orderlist.class
 controller\VoucherServlet.class
 controller\ProductServlet.class
+controller\SearchServlet.class
 controller\OrderServlet.class
 model\AllCategory.class
 controller\admin\Orders.class

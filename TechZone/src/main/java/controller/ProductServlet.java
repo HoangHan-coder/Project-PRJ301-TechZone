@@ -121,57 +121,6 @@ response.setContentType("text/html;charset=UTF-8");
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-request.setCharacterEncoding("UTF-8");
-response.setCharacterEncoding("UTF-8");
-response.setContentType("text/html;charset=UTF-8");
 
-
-        String action = request.getParameter("action");
-        ProductDAO dao = new ProductDAO();
-
-        if ("filter".equals(action)) {
-            int cateid = Integer.parseInt(request.getParameter("cateid"));
-            String brand = request.getParameter("brand");
-
-            List<Product> list;
-
-     
-            if (brand == null || brand.trim().isEmpty()) {
-                list = dao.getProductsByCategory(cateid);
-            } else {
-                list = dao.getFilterBrand(cateid, brand);
-            }
-
-            request.setAttribute("list", list);
-
-   
-            request.getRequestDispatcher("/WEB-INF/views/user/product/product-list/filter-result.jsp")
-                    .forward(request, response);
-
-        } else if ("search".equals(action)) {
-            String txtSearch = request.getParameter("txtSearch");
-            List<Product> list = dao.getAllProductsSearch(txtSearch);
-
-            ArrayList<Product> listPhone = (ArrayList<Product>) dao.getTop1(2);
-            ArrayList<Product> listLap = (ArrayList<Product>) dao.getTop1(1);
-            ArrayList<Product> listAccessory = (ArrayList<Product>) dao.getTop1(3);
-            ArrayList<Product> listPhonefe = (ArrayList<Product>) dao.getTop1ByCategory(2);
-            ArrayList<Product> listLapfe = (ArrayList<Product>) dao.getTop1ByCategory(1);
-            ArrayList<Product> listAccessoryFe = (ArrayList<Product>) dao.getTop1(3);
-
-            request.setAttribute("listPhone", listPhone);
-            request.setAttribute("listLap", listLap);
-            request.setAttribute("listAccessory", listAccessory);
-            request.setAttribute("listPhonefe", listPhonefe);
-            request.setAttribute("listLapfe", listLapfe);
-            request.setAttribute("listAccessoryFe", listAccessoryFe);
-
-            request.setAttribute("list", list);
-            request.setAttribute("txtSearch", txtSearch);
-
-            request.getRequestDispatcher("/WEB-INF/views/user/home.jsp").forward(request, response);
-        } else {
-            response.sendRedirect(request.getContextPath() + "/products");
-        }
-    }
+}
 }

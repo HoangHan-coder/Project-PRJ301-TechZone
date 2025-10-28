@@ -34,10 +34,8 @@
             <div class="collapse navbar-collapse my-navbar" id="mainNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link active fw-bold" href="${pageContext.request.contextPath}/products">Home</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Pages</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold" href="Shop.jsp">Shop</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Blog</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Landing</a></li>
+
+
                 </ul>
             </div>
             <!-- Contact Info -->
@@ -76,7 +74,7 @@
         </div>
         <!-- Search Bar -->
         <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" 
-              action="products" method="post">
+              action="search" method="post">
             <input type="hidden" name="action" value="search">
             <div class="input-group" style="max-width: 600px; width: 100%;">
                 <input class="form-control border-0" 

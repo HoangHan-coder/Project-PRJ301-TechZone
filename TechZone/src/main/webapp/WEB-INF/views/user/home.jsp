@@ -165,9 +165,7 @@
     </head>
     <body>
         <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
-        <div class="container mt-4">
-            <jsp:include page="/WEB-INF/views/user/product/product-list/product-filter.jsp" />
-        </div>
+        
         <!-- Bootstrap Carousel -->
         <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
             <!-- Indicators -->
