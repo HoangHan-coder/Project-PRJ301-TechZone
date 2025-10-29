@@ -13,6 +13,11 @@ filter\AuthFilter.class
 controller\OrderdetailServlet.class
 model\Product.class
 model\Voucher.class
+<<<<<<< HEAD
+=======
+db\DBContext.class
+controller\ProfileServlet.class
+>>>>>>> DatVT
 controller\Register.class
 dao\VoucherDAO.class
 model\Account.class

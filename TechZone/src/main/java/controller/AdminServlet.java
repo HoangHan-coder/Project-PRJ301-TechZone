@@ -72,6 +72,8 @@ public class AdminServlet extends HttpServlet {
             int nextId = dao.getNextId();
             request.setAttribute("nextId", nextId);
             request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
+        } else if(view.equals("product")){
+            request.getRequestDispatcher("/WEB-INF/views/admin/product/admin-product.jsp").forward(request, response);
         }
     }
 

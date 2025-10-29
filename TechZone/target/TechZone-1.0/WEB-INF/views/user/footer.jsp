@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <style>
     .hero {
         background-color: #f8f9fa;
@@ -149,7 +149,7 @@
     }
 </style>
 <!-- Footer Gizmos -->
-<footer style="background-color: #212529 !important;">
+<footer class="footer-nav" style="background-color: #212529 !important;">
     <section class="newsletter" style="background-color: #212529 !important;">
         <div class="container">
             <div class="row align-items-center">

@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <style>
     .input-group .form-select,
     .input-group .form-control,
@@ -16,7 +16,7 @@
         box-shadow: none !important;
     }
 </style>
-
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!-- Top Navbar -->
 <div class="bg-light border-bottom">
     <div class="container d-flex justify-content-between align-items-center py-2">
@@ -43,7 +43,7 @@
                 <i class="bi bi-headset me-2 fs-2"></i>
                 <div>
                     <div class="fw-bold fs-4">+0916973161</div>
-                    <small class="text-muted">KhangPD.CE191105@gmail.com</small>
+                    <small class="text-muted" ">KhangPD.CE191105@gmail.com</small>
                 </div>
             </div>
         </nav>
