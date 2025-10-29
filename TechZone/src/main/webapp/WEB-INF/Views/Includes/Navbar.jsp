@@ -16,13 +16,15 @@
         box-shadow: none !important;
     }
 </style>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
 <!-- Top Navbar -->
 <div class="bg-light border-bottom">
     <div class="container d-flex justify-content-between align-items-center py-2">
         <!-- Logo + Menu -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
-            <a class="navbar-brand fw-bold fs-2" href="Home.jsp" >Gizmos<span style="color: orange">.</span></a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/products" style="width: 140px">
+                <img src="${pageContext.request.contextPath}/assets/images/logo.png" style="width: 100%;" alt="logo" />
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" 
                     aria-label="Toggle navigation">
@@ -53,9 +55,9 @@
 <nav class="navbar navbar-expand-lg" style="background-color: #285dde; height: 70px"> 
     <div class="container-fluid d-flex justify-content-between align-items-center">
 
-        <!-- Nút bấm Shop By Categories -->
+        <!-- N�t b?m Shop By Categories -->
         <div class="dropdown">
-            <!-- Nút bấm -->
+            <!-- N�t b?m -->
             <a class="d-flex align-items-center text-white fw-bold me-3 text-decoration-none dropdown-toggle" 
                href="#" id="categoriesDropdown" role="button" 
                data-bs-toggle="dropdown" aria-expanded="false">
@@ -63,11 +65,11 @@
                 <span>Shop By Categories</span>
             </a>
 
-            <!-- Menu xổ xuống -->
+            <!-- Menu x? xu?ng -->
             <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                <li><a class="dropdown-item" href="#">Weekly Bestsellers</a></li>
-                <li><a class="dropdown-item" href="#">Featured Products</a></li>
-                <li><a class="dropdown-item" href="#">New Arrivals</a></li>
+                <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=phone">SMARTPHONE</a></li>
+                <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=laptop">LAPTOP</a></li>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/products?category=accessory">ACCESSORY</a></li>
             </ul>
         </div>
         <!-- Search Bar -->
@@ -91,7 +93,7 @@
         <!-- Icons -->
         <div class="d-flex align-items-center text-white">
             <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-arrow-left-right"></i></a>
-            <a href="${pageContext.request.contextPath}/profile" class="text-white mx-2 fs-5"><i class="bi bi-person"></i></a>
+            <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-person"></i></a>
             <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-heart"></i></a>
 
             <!-- Cart with badge -->

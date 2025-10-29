@@ -17,13 +17,15 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+request.setCharacterEncoding("UTF-8");
+response.setCharacterEncoding("UTF-8");
+response.setContentType("text/html;charset=UTF-8");
         ProductDAO dao = new ProductDAO();
         String action = request.getParameter("action");
         String category = request.getParameter("category");
 
         try {
-            // 🏠 1️⃣ Trang chủ (nếu không có action hoặc category)
+     
             if (action == null && category == null) {
                 List<Product> list = dao.getAllProducts();
                 ArrayList<Product> listPhone = (ArrayList<Product>) dao.getTop1(2);
@@ -43,23 +45,23 @@ public class ProductServlet extends HttpServlet {
                 return;
             }
 
-            // 📱 2️⃣ Lọc theo danh mục
+     
             if (category != null) {
                 ArrayList<Product> list;
-                String viewPath = "/WEB-INF/views/user/product/product-list/";
+                String viewPath = "";
 
                 switch (category) {
                     case "phone":
                         list = (ArrayList<Product>) dao.getProductsByCategory(2);
-                        viewPath += "phone-list.jsp";
+                        viewPath += "/WEB-INF/views/user/product/product-list/phone-list.jsp";
                         break;
                     case "laptop":
                         list = (ArrayList<Product>) dao.getProductsByCategory(1);
-                        viewPath += "laptop-list.jsp";
+                        viewPath += "/WEB-INF/views/user/product/product-list/laptop-list.jsp";
                         break;
                     case "accessory":
                         list = (ArrayList<Product>) dao.getProductsByCategory(3);
-                        viewPath += "accessory-list.jsp";
+                        viewPath += "/WEB-INF/views/user/product/product-list/accessory-list.jsp";
                         break;
                     default:
                         response.sendRedirect("products");
@@ -71,7 +73,7 @@ public class ProductServlet extends HttpServlet {
                 return;
             }
 
-            // 🔍 3️⃣ Xem chi tiết sản phẩm
+    
             if ("detail".equalsIgnoreCase(action)) {
                 String id = request.getParameter("id");
 
@@ -104,7 +106,7 @@ public class ProductServlet extends HttpServlet {
                 }
             }
 
-            // 🌀 Mặc định quay lại trang chủ
+      
             response.sendRedirect("products");
 
         } catch (Exception e) {
@@ -120,31 +122,5 @@ public class ProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String action = request.getParameter("action");
-
-        if ("filter".equals(action)) {
-            ProductDAO dao = new ProductDAO();
-
-            int cateid = Integer.parseInt(request.getParameter("cateid"));
-            String brand = request.getParameter("brand");
-
-            List<Product> listFilter;
-
-            // ✅ Nếu brand null hoặc rỗng thì lấy tất cả sản phẩm trong category
-            if (brand == null || brand.trim().isEmpty()) {
-                listFilter = dao.getProductsByCategory(cateid);
-            } else {
-                listFilter = dao.getFilterBrand(cateid, brand);
-            }
-
-            request.setAttribute("list", listFilter);
-
-            // ✅ Trả về HTML fragment để AJAX cập nhật phần sản phẩm
-            request.getRequestDispatcher("/WEB-INF/views/user/product/product-list/filter-result.jsp")
-                    .forward(request, response);
-        } else {
-            response.sendRedirect(request.getContextPath() + "/product");
-        }
-    }
-
+}
 }
