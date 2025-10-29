@@ -7,14 +7,12 @@ package dao;
 import db.DBContext;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +57,7 @@ public class AccountDAO extends DBContext {
 
                 Account account = new Account(accountId, userName, name, email, phone, roleName);
                 account.setIsDeleted(isDeleted);
-                account.setCreatedAt(createdAt.toLocalDateTime());
+//                account.setCreatedAt(createdAt.toLocalDateTime());
 
                 list.add(account);
             }
@@ -154,14 +152,13 @@ public class AccountDAO extends DBContext {
 
     public int delete(int id) {
         try {
-            String sql = "UPDATE Accounts SET IsDeleted = 1 WHERE AccountId = ?";
+            String sql = "UPDATE Accounts SET IsDeleted = 1 WHERE AccountId = ? AND IsDeleted = 0";
             PreparedStatement st = this.getConnection().prepareStatement(sql);
             st.setInt(1, id);
-            return st.executeUpdate();
-
+            int result = st.executeUpdate();
+            return result;
         } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
             return 0;
         }
     }
@@ -186,56 +183,6 @@ public class AccountDAO extends DBContext {
         }
         return 0;
     }
-    
-    public String hashMd5(String raw) {
-        raw = raw + "h";
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] mess = md.digest(raw.getBytes());
-           
-            StringBuilder sb = new StringBuilder();
-            for (byte b: mess) {
-                sb.append(String.format("%02x", b));
-            }
-           
-            return sb.toString();
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(AuthDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return "";
-        }
-    }
-
-    public List<Account> getByRole(String roleName) {
-        try {
-            List<Account> list = new ArrayList<>();
-            String sql = "SELECT a.AccountId, a.FullName, a.Username, a.Email, a.Phone, r.RoleName "
-                    + "FROM Accounts a "
-                    + "JOIN AccountRoles ar ON a.AccountId = ar.AccountId "
-                    + "JOIN Roles r ON ar.RoleId = r.RoleId "
-                    + "WHERE a.IsDeleted = 0 AND r.RoleName = ?";
-
-            PreparedStatement statement = this.getConnection().prepareStatement(sql);
-            statement.setString(1, roleName);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                try {
-                    int accoutId = rs.getInt("AccountId");
-                    String userName = rs.getString("username");
-                    String name = rs.getString("fullName");
-                    String email = rs.getString("email");
-                    String phone = rs.getString("phone");
-                    Account account = new Account(accoutId, userName, name, email, phone, roleName);
-                    list.add(account);
-                } catch (SQLException ex) {
-                    Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            return list;
-        } catch (SQLException ex) {
-            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
 
     public boolean existsUsername(String username) {
 
@@ -251,7 +198,72 @@ public class AccountDAO extends DBContext {
         }
         return false;
     }
-    
-    
+
+    public String hashMd5(String raw) {
+        raw = raw + "h";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] mess = md.digest(raw.getBytes());
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b : mess) {
+                sb.append(String.format("%02x", b));
+            }
+
+            return sb.toString();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(AuthDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+    }
+
+    public List<Account> filterAccounts(String keyword, String role) {
+        List<Account> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+                "SELECT AccountId, Username, PasswordHash, FullName, Email, Phone, RoleName,"
+                + " IsDeleted, CreatedAt, UpdatedAt FROM Accounts WHERE IsDeleted = 0"
+        );
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append(" AND (Username LIKE ? OR FullName LIKE ?)");
+        }
+        if (role != null && !role.trim().isEmpty()) {
+            sql.append(" AND RoleName = ?");
+        }
+        sql.append(" ORDER BY AccountId");
+
+        try {
+            PreparedStatement ps = this.getConnection().prepareStatement(sql.toString());
+            int index = 1;
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(index++, "%" + keyword + "%");
+                ps.setString(index++, "%" + keyword + "%");
+            }
+            if (role != null && !role.trim().isEmpty()) {
+                ps.setString(index++, role);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Account a = new Account(
+                        rs.getInt("AccountId"),
+                        rs.getString("Username"),
+                        rs.getString("FullName"),
+                        rs.getString("Email"),
+                        rs.getString("Phone"),
+                        rs.getString("RoleName")
+                );
+                a.setIsDeleted(rs.getBoolean("IsDeleted"));
+                Timestamp createdAt = rs.getTimestamp("CreatedAt");
+                if (createdAt != null) {
+                    a.setCreatedAt(createdAt.toLocalDateTime());
+                }
+                list.add(a);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Thêm in lỗi SQL
+        }
+        return list;
+    }
 
 }

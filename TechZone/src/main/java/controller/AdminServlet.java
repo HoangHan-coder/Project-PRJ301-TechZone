@@ -6,7 +6,10 @@ import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import model.Account;
+import java.util.Arrays;
 
 @WebServlet(name = "AdminServlet", urlPatterns = {"/admin"})
 public class AdminServlet extends HttpServlet {
@@ -19,6 +22,9 @@ public class AdminServlet extends HttpServlet {
         AccountDAO dao = new AccountDAO();
 
         if (view == null || view.equals("list")) {
+            String keyword = request.getParameter("keyword");
+            String role = request.getParameter("role");
+
             String pageParam = request.getParameter("page");
             int page = 1;
             if (pageParam != null) {
@@ -32,11 +38,21 @@ public class AdminServlet extends HttpServlet {
                 }
             }
 
-            List<Account> list = dao.getAccounts(page);
+            List<Account> list = dao.filterAccounts(keyword, role);
+            if (list == null) {
+                list = new ArrayList<>();
+            }
+
+            // Gán attribute cho JSP
             request.setAttribute("accounts", list);
             request.setAttribute("currentPage", page);
-            request.getRequestDispatcher("/WEB-INF/views/admin/account-management.jsp").forward(request, response);
+            request.setAttribute("keyword", keyword != null ? keyword : "");
+            request.setAttribute("role", role != null ? role : "");
 
+            // Forward sang JSP
+            request.getRequestDispatcher("/WEB-INF/views/admin/account-management.jsp")
+                    .forward(request, response);
+            return;
         } else if (view.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Account acc = dao.getById(id);
@@ -56,6 +72,8 @@ public class AdminServlet extends HttpServlet {
             int nextId = dao.getNextId();
             request.setAttribute("nextId", nextId);
             request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
+        } else if(view.equals("product")){
+            request.getRequestDispatcher("/WEB-INF/views/admin/product/admin-product.jsp").forward(request, response);
         }
     }
 
@@ -142,6 +160,10 @@ public class AdminServlet extends HttpServlet {
             } else if (dao.existsUsername(userName)) {
                 request.setAttribute("usernameError", "Username đã tồn tại, vui lòng chọn tên khác");
                 hasError = true;
+            } else {
+                userName = Arrays.stream(userName.trim().toLowerCase().split("\\s+"))
+                        .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
+                        .collect(Collectors.joining(" "));
             }
 
             if (password == null || password.trim().isEmpty()) {
@@ -155,6 +177,12 @@ public class AdminServlet extends HttpServlet {
             if (fullName == null || fullName.trim().isEmpty()) {
                 request.setAttribute("fullNameError", "Họ tên không được để trống");
                 hasError = true;
+            } else if (!fullName.matches("^[A-Za-zÀ-ỹ\\s]+$")) {
+                request.setAttribute("fullNameError", "Họ và tên chỉ chứa chữ cái và khoảng trống");
+            } else {
+                fullName = Arrays.stream(fullName.trim().toLowerCase().split("\\s+"))
+                        .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
+                        .collect(Collectors.joining(" "));
             }
 
             if (email != null && !email.isEmpty() && !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
@@ -193,10 +221,16 @@ public class AdminServlet extends HttpServlet {
             account.setPhone(phone);
             account.setRoleName(roleName);
 
-            dao.create(account);
-
-            // 7. Redirect sau khi tạo xong
-            response.sendRedirect(request.getContextPath() + "/admin?view=list");
+            try {
+                dao.create(account);
+                // 7. Redirect về list sau khi tạo thành công
+                response.sendRedirect(request.getContextPath() + "/admin?view=list");
+            } catch (Exception ex) {
+                // log lỗi
+                ex.printStackTrace();
+                request.setAttribute("usernameError", "Lỗi server khi tạo tài khoản, thử lại sau");
+                request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
+            }
         }
     }
 

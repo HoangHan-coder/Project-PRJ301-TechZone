@@ -4,8 +4,8 @@
 
 <!-- Content -->
 <div class="content">
-    <form action="${pageContext.request.contextPath}/admin" method="post">
-        <input type="hidden" name="action" value="user">
+    <form action="${pageContext.request.contextPath}/admin" method="get" id="filterForm">
+        <input type="hidden" name="view" value="list">
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1>Người dùng</h1>
@@ -15,28 +15,32 @@
 
         <!-- Tìm kiếm + Lọc -->
         <div class="d-flex mb-3">
-            <input type="text" class="form-control me-2" placeholder="Tìm kiếm...">
-            <select class="form-select" style="max-width:200px;">
-                <option selected>Lọc theo vai trò</option>
-                <option value="Admin">Admin</option>
-                <option value="Customer">Customer</option>
-            </select>
-        </div>
+            <input type="text" name="keyword" class="form-control me-2"
+                   placeholder="Tìm kiếm Tên tài khoản hoặc Họ và tên"
+                   value="${keyword}" 
+                   onkeyup="submitSearch()" />
+            <select class="form-select" style="max-width:200px;" name="role"
+                    onchange="document.getElementById('filterForm').submit()">
+                <option value="">Lọc theo vai trò</option>
+                <option value="Admin" <c:if test="${role=='Admin'}">selected</c:if>>Admin</option>
+                <option value="Customer" <c:if test="${role=='Customer'}">selected</c:if>>Customer</option>
+                </select>
+            </div>
 
         <!-- Bảng -->
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>Tên tài khoản</th>
-                        <th>Họ&Tên</th>
-                        <th>Email</th>
-                        <th>SDT</th>
-                        <th>Vai trò</th>
-                        <th class="text-center">Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tên tài khoản</th>
+                            <th>Họ & Tên</th>
+                            <th>Email</th>
+                            <th>SDT</th>
+                            <th>Vai trò</th>
+                            <th class="text-center">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     <c:forEach var="a" items="${accounts}">
                         <tr>
                             <td>${a.userName}</td>
@@ -63,5 +67,8 @@
     </form>
 </div>
 
-</body>
-</html>
+<script>
+    function submitSearch() {
+        document.getElementById('filterForm').submit();
+    }
+</script>

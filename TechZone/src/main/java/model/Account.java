@@ -26,7 +26,24 @@ public class Account {
     public Account() {
     }
 
-    public Account(int accountId, String userName, String passWordHarh, String fullName, String email, String phone, boolean isDeleted, LocalDateTime createdAt, LocalDateTime updateAt, String roleName) {
+    public Account(int accountId, String userName) {
+        this.accountId = accountId;
+        this.userName = userName;
+    }
+
+    public Account(int accountId, String userName, String fullName, String email, String phone, String roleName) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.roleName = roleName;
+    }
+
+    
+    
+    public Account(int accountId, String userName, String passWordHarh, String fullName, String email, String phone,
+            boolean isDeleted, LocalDateTime createdAt, LocalDateTime updateAt, String roleName) {
         this.accountId = accountId;
         this.userName = userName;
         this.passWordHarh = passWordHarh;
@@ -39,7 +56,17 @@ public class Account {
         this.roleName = roleName;
     }
 
-    public Account(int accountId, String userName, String fullName, String email, String phone, String roleName) {
+
+    public Account(int accountId, String userName, String fullName, String phone, boolean isDeleted) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.isDeleted = isDeleted;
+    }
+
+    public Account(int accountId, String userName, String passWord, String fullName, String email, String phone,
+            String roleName, boolean isDeleted) {
         this.accountId = accountId;
         this.userName = userName;
         this.fullName = fullName;
@@ -48,7 +75,8 @@ public class Account {
         this.roleName = roleName;
     }
 
-    public Account(int accountId, String userName, String passWordHarh, String fullName, String email, String phone, String roleName) {
+    public Account(int accountId, String userName, String passWordHarh, String fullName, String email, String phone,
+            String roleName) {
         this.accountId = accountId;
         this.userName = userName;
         this.passWordHarh = passWordHarh;
@@ -58,7 +86,6 @@ public class Account {
         this.roleName = roleName;
     }
 
-    
     public int getAccountId() {
         return accountId;
     }

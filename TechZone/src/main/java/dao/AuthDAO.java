@@ -85,4 +85,10 @@ public class AuthDAO extends DBContext{
         
         
     }
+    
+    public int updateAccount(String name, String fullname, String email, String phone){
+        
+        return 0;
+        
+    }
 }
