@@ -62,4 +62,29 @@ public class OrderItemDAO extends DBContext {
         return listOrderItems;
     }
 
+    public OrderItem getById(int id) {
+        String sql = "SELECT Accounts.AccountId, Accounts.Username, Accounts.FullName, Accounts.Phone, Accounts.IsDeleted as accountIsDeleted, OrderItems.OrderItemId, OrderItems.ProductNameSnapshot, OrderItems.UnitPrice, OrderItems.Quantity, OrderItems.TotalPrice, Orders.OrderCode, \n"
+                + "                  Orders.OrderTime, Orders.TotalAmount, Orders.ShippingFee, Orders.Status AS orderStatus, Orders.ShippingAddress, Orders.PaymentMethod, Orders.PaymentStatus, Orders.IsDeleted AS orderIsDead, Vouchers.Code AS voucherCode, Vouchers.DiscountValue, \n"
+                + "                  Vouchers.DiscountType, Product.LinkImg\n"
+                + "FROM     Accounts INNER JOIN\n"
+                + "                  Orders ON Accounts.AccountId = Orders.AccountId INNER JOIN\n"
+                + "                  OrderItems ON Orders.OrderId = OrderItems.OrderId INNER JOIN\n"
+                + "                  Product ON OrderItems.ProductId = Product.ProductId INNER JOIN\n"
+                + "                  Vouchers ON Orders.VoucherId = Vouchers.VoucherId\n"
+                + "WHERE Accounts.IsDeleted = 0 AND  Orders.IsDeleted = 0 AND OrderItems.OrderItemId = ?;";
+
+        try {
+            PreparedStatement statement = this.getConnection().prepareStatement(sql);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            
+            Account account = new Account(rs.getInt("AccountId"), rs.getString("Username"), rs.getString("FullName"), rs.getString("Phone"), rs.getBoolean("accountIsDeleted"));
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
+    }
+
 }
