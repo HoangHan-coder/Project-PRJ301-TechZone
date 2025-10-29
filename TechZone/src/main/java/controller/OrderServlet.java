@@ -34,6 +34,9 @@ public class OrderServlet extends HttpServlet {
             case "order-list":
                 getListOrder(request, response);
                 break;
+            case "order-detail":
+                getOrderDetail(request, response);
+                break;
             default:
                 throw new AssertionError();
         }
@@ -51,9 +54,14 @@ public class OrderServlet extends HttpServlet {
             throws ServletException, IOException {
         AccountUsers username = (AccountUsers) request.getSession().getAttribute("account");
         OrderItemDAO orderItemDAO = new OrderItemDAO();
-        List<OrderItem> listOrder = orderItemDAO.getOrderItemByUsername(username.getUsername());
+        List<OrderItem> listOrder = orderItemDAO.getOrderItemByUsername("user7");
         request.setAttribute("listOrder", listOrder);
         request.getRequestDispatcher("/WEB-INF/views/user/order/order-list.jsp").forward(request, response);
+    }
+
+    private void getOrderDetail(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
     }
 
 }

@@ -10,7 +10,6 @@ dao\AccountDAO.class
 model\Orders.class
 controller\CartItemServlet.class
 filter\AuthFilter.class
-controller\OrderdetailServlet.class
 model\Product.class
 model\Voucher.class
 controller\Register.class
