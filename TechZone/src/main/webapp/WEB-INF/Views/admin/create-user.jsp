@@ -19,7 +19,7 @@
                     <h3 class="mb-4">Thêm tài khoản</h3>
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <form action="${pageContext.request.contextPath}/admin?action=create" method="post" id="accountForm"> 
+                            <form action="${pageContext.request.contextPath}/admin/account?action=create" method="post" id="accountForm"> 
                                 <div class="mb-3">
                                     <label class="form-label">AccountId</label>
                                     <input type="text" id="accountId" class="form-control"
@@ -91,74 +91,101 @@
         </div>
     </div>
     <script>
-       document.addEventListener("DOMContentLoaded", function () {
-    const username = document.querySelector("[name='userName']");
-    const password = document.querySelector("[name='passWordHarh']");
-    const fullName = document.querySelector("[name='fullName']");
-    const email = document.querySelector("[name='email']");
-    const phone = document.querySelector("[name='phone']");
-    const form = document.getElementById("accountForm");
+        document.addEventListener("DOMContentLoaded", function () {
+            const username = document.querySelector("[name='userName']");
+            const password = document.querySelector("[name='passWordHarh']");
+            const fullName = document.querySelector("[name='fullName']");
+            const email = document.querySelector("[name='email']");
+            const phone = document.querySelector("[name='phone']");
+            const form = document.getElementById("accountForm");
 
-    function clearError(id) {
-        document.getElementById(id).textContent = "";
-    }
-    function setError(id, message) {
-        document.getElementById(id).textContent = message;
-    }
+            function clearError(id) {
+                document.getElementById(id).textContent = "";
+            }
+            function setError(id, message) {
+                document.getElementById(id).textContent = message;
+            }
 
 
-    username.addEventListener("input", function () {
-        if (username.value.trim() !== "") clearError("usernameError");
-    });
-    username.addEventListener("blur", function () {
-        if (username.value.trim() === "") setError("usernameError", "Username không được để trống");
-    });
+            username.addEventListener("input", function () {
+                if (username.value.trim() !== "")
+                    clearError("usernameError");
+            });
+            username.addEventListener("blur", function () {
+                if (username.value.trim() === "")
+                    setError("usernameError", "Username không được để trống");
+            });
 
-   
-    password.addEventListener("input", function () {
-        if (password.value.length >= 8) clearError("passwordError");
-    });
-    password.addEventListener("blur", function () {
-        if (password.value.length < 8) setError("passwordError", "Password phải >= 8 ký tự");
-    });
 
-   
-    fullName.addEventListener("input", function () {
-        if (fullName.value.trim() !== "") clearError("fullNameError");
-    });
-    fullName.addEventListener("blur", function () {
-        if (fullName.value.trim() === "") setError("fullNameError", "Họ và tên không được để trống");
-    });
+            password.addEventListener("input", function () {
+                if (password.value.length >= 8)
+                    clearError("passwordError");
+            });
+            password.addEventListener("blur", function () {
+                if (password.value.length < 8)
+                    setError("passwordError", "Password phải >= 8 ký tự");
+            });
 
-    
-    email.addEventListener("input", function () {
-        if (email.value.trim() !== "" && email.value.includes("@")) clearError("email-error");
-    });
-    email.addEventListener("blur", function () {
-        if (email.value.trim() === "" || !email.value.includes("@")) setError("email-error", "Email không hợp lệ");
-    });
 
-   
-    phone.addEventListener("input", function () {
-        if (phone.value.trim() !== "" && !isNaN(phone.value)) clearError("phone-Error");
-        else setError("phone-Error", "SĐT không được để trống");
-    });
-    phone.addEventListener("blur", function () {
-        if (phone.value.trim() === "" || isNaN(phone.value)) setError("phone-Error", "SĐT phải là số");
-    });
+            fullName.addEventListener("input", function () {
+                if (fullName.value.trim() !== "")
+                    clearError("fullNameError");
+            });
+            fullName.addEventListener("blur", function () {
+                if (fullName.value.trim() === "")
+                    setError("fullNameError", "Họ và tên không được để trống");
+            });
 
-    
-    form.addEventListener("submit", function (e) {
-        let valid = true;
-        if (username.value.trim() === "") { setError("usernameError", "Username không được để trống"); valid = false; }
-        if (password.value.length < 8) { setError("passwordError", "Password phải >= 8 ký tự"); valid = false; }
-        if (fullName.value.trim() === "") { setError("fullNameError", "Họ và tên không được để trống"); valid = false; }
-        if (email.value.trim() === "" || !email.value.includes("@")) { setError("email-error", "Email không hợp lệ"); valid = false; }
-        if (phone.value.trim() === "" || isNaN(phone.value)) { setError("phone-Error", "SĐT phải là số"); valid = false; }
 
-        if (!valid) e.preventDefault();
-    });
-});
+            email.addEventListener("input", function () {
+                if (email.value.trim() !== "" && email.value.includes("@"))
+                    clearError("email-error");
+            });
+            email.addEventListener("blur", function () {
+                if (email.value.trim() === "" || !email.value.includes("@"))
+                    setError("email-error", "Email không hợp lệ");
+            });
+
+
+            phone.addEventListener("input", function () {
+                if (phone.value.trim() !== "" && !isNaN(phone.value))
+                    clearError("phone-Error");
+                else
+                    setError("phone-Error", "SĐT không được để trống");
+            });
+            phone.addEventListener("blur", function () {
+                if (phone.value.trim() === "" || isNaN(phone.value))
+                    setError("phone-Error", "SĐT phải là số");
+            });
+
+
+            form.addEventListener("submit", function (e) {
+                let valid = true;
+                if (username.value.trim() === "") {
+                    setError("usernameError", "Username không được để trống");
+                    valid = false;
+                }
+                if (password.value.length < 8) {
+                    setError("passwordError", "Password phải >= 8 ký tự");
+                    valid = false;
+                }
+                if (fullName.value.trim() === "") {
+                    setError("fullNameError", "Họ và tên không được để trống");
+                    valid = false;
+                }
+                if (email.value.trim() === "" || !email.value.includes("@")) {
+                    setError("email-error", "Email không hợp lệ");
+                    valid = false;
+                }
+                if (phone.value.trim() === "" || isNaN(phone.value)) {
+                    setError("phone-Error", "SĐT phải là số");
+                    valid = false;
+                }
+
+                if (!valid)
+                    e.preventDefault();
+            });
+        });
     </script>
 
 

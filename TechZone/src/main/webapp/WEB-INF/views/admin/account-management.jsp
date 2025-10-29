@@ -4,12 +4,12 @@
 
 <!-- Content -->
 <div class="content">
-    <form action="${pageContext.request.contextPath}/admin" method="get" id="filterForm">
+    <form action="${pageContext.request.contextPath}/admin/account" method="get" id="filterForm">
         <input type="hidden" name="view" value="list">
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1>Người dùng</h1>
-            <a class="text-decoration-none btn btn-primary" href="${pageContext.request.contextPath}/admin?view=create">Thêm người dùng mới
+            <a class="text-decoration-none btn btn-primary" href="${pageContext.request.contextPath}/admin/account?view=create">Thêm người dùng mới
             </a>
         </div>
 
@@ -50,11 +50,11 @@
                                 <td>${a.phone}</td>
                                 <td>${a.roleName}</td>
                                 <td class="text-center">
-                                    <a class="text-decoration-none" href="${pageContext.request.contextPath}/admin?view=update&id=${a.accountId}">
+                                    <a class="text-decoration-none" href="${pageContext.request.contextPath}/admin/account?view=update&id=${a.accountId}">
                                         <i class="bi bi-eye me-2" style="cursor: pointer;"></i>
                                     </a>
                                     <a class="text-decoration-none"
-                                       href="${pageContext.request.contextPath}/admin?view=delete&id=${a.accountId}"
+                                       href="${pageContext.request.contextPath}/admin/account?view=delete&id=${a.accountId}"
                                        onclick="return confirm('Bạn có chắc chắn muốn xóa Account với ID = ${a.accountId} này không?');">
                                         <i class="bi bi-trash text-danger" style="cursor: pointer;"></i>
                                     </a>
@@ -72,22 +72,22 @@
 
                 <!-- Nút về trang đầu -->
                 <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                    <a class="page-link"  href="${pageContext.request.contextPath}/admin?page=1&keyword=${keyword}&role=${role}">First</a>
+                    <a class="page-link"  href="${pageContext.request.contextPath}/admin/account?page=1&keyword=${keyword}&role=${role}">First</a>
                 </li>
 
                 <!-- Nút Previous -->
                 <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                    <a class="page-link"href="${pageContext.request.contextPath}/admin?page=${currentPage - 1}&keyword=${keyword}&role=${role}" >Previous</a>
+                    <a class="page-link"href="${pageContext.request.contextPath}/admin/account?page=${currentPage - 1}&keyword=${keyword}&role=${role}" >Previous</a>
                 </li>
 
                 <!-- Nút Next -->
                 <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                    <a class="page-link" href="${pageContext.request.contextPath}/admin?page=${currentPage + 1}&keyword=${keyword}&role=${role}"">Next</a>
+                    <a class="page-link" href="${pageContext.request.contextPath}/admin/account?page=${currentPage + 1}&keyword=${keyword}&role=${role}"">Next</a>
                 </li>
 
                 <!-- Nút trang cuối -->
                 <li class="page-item ${currentPage == totalPages || totalPages == 0 ? 'disabled' : ''}">
-                    <a class="page-link"  href="${pageContext.request.contextPath}/admin?page=${totalPages}&keyword=${keyword}&role=${role}">Last</a>
+                    <a class="page-link"  href="${pageContext.request.contextPath}/admin/account?page=${totalPages}&keyword=${keyword}&role=${role}">Last</a>
                 </li>
             </ul>
         </nav>

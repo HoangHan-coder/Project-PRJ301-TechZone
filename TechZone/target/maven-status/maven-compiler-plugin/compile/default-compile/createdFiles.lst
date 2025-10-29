@@ -14,7 +14,6 @@ dao\VoucherDAO.class
 model\Account.class
 controller\AdminServlet.class
 until\Pagination.class
-db\TestDBContext.class
 com\techzone\techzone\JakartaRestConfiguration.class
 controller\CheckoutServlet.class
 model\Orderlist.class
