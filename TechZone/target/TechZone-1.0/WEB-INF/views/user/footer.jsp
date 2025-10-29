@@ -145,7 +145,7 @@
     }
     
     .footer-nav{
-        transform: translateY(90px);
+        transform: translateY(200px);
     }
 </style>
 <!-- Footer Gizmos -->

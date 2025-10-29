@@ -11,7 +11,7 @@
         <title>Gizmos</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-          
+
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <style>
@@ -34,7 +34,7 @@
                 margin-bottom: 30px;
             }
 
-            #user,#password,#phone{
+            #user,#password,#phone,#con-password{
 
                 margin-left: 30px;
                 width: 450px;
@@ -44,6 +44,8 @@
                 border: 1px solid #ccc;
                 border-radius: 5px;
             }
+            
+            
 
             .login form label{
                 margin-left: 20px;
@@ -122,9 +124,9 @@
         <!-- Hero -->
 
 
-               <!--
+        <!--
 
--->        <div class="form">
+        -->        <div class="form">
             <div class="login">
                 <h1>REGISTER</h1>
                 <form>
@@ -137,7 +139,14 @@
                     <p id="pass"></p>
 
                     <br>
+                    
+                    <label id="lab" for="password" class="form-label">confirm-password</label>
+                    <input class="form-control" id="con-password" type="text"placeholder="Enter your password" required="please enter your password" onblur="checkConfirmPassword()">
+                    <p id="pass1"></p>
 
+                    <br>
+                    
+                    
                     <label id="lab" for="phone" class="form-label">phone</label>
                     <input class="form-control" id="phone" type="text" name="phone" placeholder="Enter your phone" required="please enter your phone" onblur="checkPhone()">
                     <p id="numberphone"></p>
@@ -146,9 +155,9 @@
                     <p id="error"></p>
                 </form>
 
-                </div>
+            </div>
             <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-<!--                 Indicators -->
+                <!--                 Indicators -->
                 <div class="carousel-indicators custom-indicators">
                     <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></button>
                     <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1"></button>
@@ -156,7 +165,7 @@
                     <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3"></button>
                 </div>
 
-<!--                 Slides -->
+                <!--                 Slides -->
                 <div class="carousel-inner frame">
                     <div class="carousel-item active">
                         <img src="assets/headphone.png" class="d-block w-100" alt="Ảnh 1">
@@ -170,7 +179,7 @@
 
                 </div>
 
-<!--                 Arrows -->
+                <!--                 Arrows -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
                 </button>
@@ -182,7 +191,7 @@
 
 
         </div>
-        
+
 
 
         <!-- Footer -->
@@ -198,7 +207,7 @@
             }
 
             function checkPassword() {
-               const password = document.getElementById("password").value;
+                const password = document.getElementById("password").value;
                 if (password === "") {
                     document.getElementById("pass").innerHTML = "Please enter your password, cannot empty";
                 } else {
@@ -211,42 +220,83 @@
                 if (phone === "") {
                     document.getElementById("numberphone").innerHTML = "Please enter your phone, cannot empty";
                 } else {
-                    document.getElementById("numberphone").innerHTML = "";
+                    if(validatePhone()){
+                        document.getElementById("numberphone").innerHTML = "";
+                    } else {
+                        document.getElementById("numberphone").innerHTML = "numberphone is not valid, please enter your phone again such as +84912345678 or 0912345678";
+                    }
+                    
                 }
             }
 
+            function validatePhone() {
+                const phone = document.getElementById("phone").value.trim();
 
+                const regexVN = /^(0|\+84)(3|5|7|8|9)\d{8}$/;
+                const regexINT = /^\+[1-9]\d{7,14}$/;
+
+                if (regexVN.test(phone) || regexINT.test(phone)) {
+
+                    return true; 
+                } else {
+
+                    return false; 
+                }
+            }
+
+            function checkConfirmPassword() {
+                const con_pass = document.getElementById("con-password").value;
+                const password = document.getElementById("password").value;
+                if (con_pass === "") {
+                    document.getElementById("pass1").innerHTML = "Please enter your phone, cannot empty";
+                } else {
+                    if(con_pass === password){
+                    document.getElementById("pass1").innerHTML = "";
+                } else {
+                    document.getElementById("pass1").innerHTML = "password is not correct, please enter to confirm password again";
+                }
+                }
+                
+                
+            }
+            
+            
             async function register() {
                 const username = document.getElementById("user").value;
                 const password = document.getElementById("password").value;
                 const phone = document.getElementById("phone").value;
                 if (username !== "" && password !== "" && phone !== "") {
-                    if (password.length >= 8) {
-                        try {
-                            const res = await fetch("http://localhost:8080/TechZone/register", {
-                                method: "POST",
-                                headers: {"Content-Type": "application/x-www-form-urlencoded"},
-                                body: `name=\${encodeURIComponent(username)}&password=\${encodeURIComponent(password)}&phone=\${encodeURIComponent(phone)}`
-                            });
+                    if (validatePhone()) {
+                        if (password.length >= 8) {
+                            try {
+                                const res = await fetch("http://localhost:8080/TechZone/register", {
+                                    method: "POST",
+                                    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                                    body: `name=\${encodeURIComponent(username)}&password=\${encodeURIComponent(password)}&phone=\${encodeURIComponent(phone)}`
+                                });
 
-                            const data = await res.json();
+                                const data = await res.json();
 
-                            if (data.success) {
-                                alert(data.message + " ,Hello: " + username);
+                                if (data.success) {
+                                    alert(data.message + " ,Hello: " + username);
 
-                                // ✅ Chuyển hướng sang trang Home (dashboard.html)
-                                window.location.href = "${pageContext.request.contextPath}/login";
-                            } else {
-                                alert("register failed: ");
+                                    // ✅ Chuyển hướng sang trang Home (dashboard.html)
+                                    window.location.href = "${pageContext.request.contextPath}/login";
+                                } else {
+                                    alert("register failed: ");
+                                }
+                            } catch (err) {
+                                console.error("Fetch error:", err);
+                                document.getElementById("error").innerHTML = "Error: cannot connect to server.";
+
                             }
-                        } catch (err) {
-                            console.error("Fetch error:", err);
-                            document.getElementById("error").innerHTML = "Error: cannot connect to server.";
-
+                        } else {
+                            document.getElementById("error").innerHTML = "error, password must be greater than or equal 8 character";
                         }
                     } else {
-                        document.getElementById("error").innerHTML = "error, password must be greater than or equal 8 character";
+                        document.getElementById("error").innerHTML = "numberphone is not valid, please enter your phone again such as +84912345678 or 0912345678";
                     }
+
 
                 } else {
                     document.getElementById("error").innerHTML = "error, please, you must enter your information such as email, password, phone";
@@ -255,8 +305,8 @@
 
             }
         </script>
-<!--         Bootstrap JS -->
+        <!--         Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </body><!--
---></html>
+    --></html>
 

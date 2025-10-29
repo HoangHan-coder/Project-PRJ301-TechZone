@@ -20,7 +20,7 @@
 
     <body>
         <div>
-            <jsp:include page="/WEB-INF/views/user/navbar.jsp"/>
+            <jsp:include page="/WEB-INF/Views/user/navbar.jsp"/>
         </div>
         <div class="container shadow-lg p-3 mb-5 bg-body-tertiary rounded my-5" style="width: 930px;">
             <ul class="nav d-flex justify-content-between ">
@@ -70,7 +70,7 @@
                 </div>
             </div>
         </div>
-         <jsp:include page="/WEB-INF/views/user/footer.jsp"/>
+         <jsp:include page="/WEB-INF/Views/user/footer.jsp"/>
     </body>
 
 </html>

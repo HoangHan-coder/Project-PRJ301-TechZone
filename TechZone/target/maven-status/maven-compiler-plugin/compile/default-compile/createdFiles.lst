@@ -12,6 +12,7 @@ controller\Login.class
 controller\LogoutServlet.class
 model\Voucher.class
 db\DBContext.class
+controller\ProfileServlet.class
 controller\Register.class
 dao\ProductDAO.class
 model\Account.class
