@@ -25,6 +25,10 @@ public class Accounts {
     public Accounts() {
     }
 
+    public Accounts(String fullName) {
+        this.fullName = fullName;
+    }
+
     public Accounts(int accountId, String username, String passwordHash, String fullName, String email, String phone,
             boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.accountId = accountId;

@@ -27,6 +27,12 @@ public class Product {
     public Product() {
     }
 
+    public Product(String productName) {
+        this.productName = productName;
+    }
+
+
+
     public Product(int productId, String linkImg, String productName, double productPrice,
                    String productAttributes, int categoryId, int stock, int quantitySold,
                    String descriptionProduct, boolean isDeleted,

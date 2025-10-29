@@ -21,6 +21,7 @@ import model.Orderlist;
 import model.Product;
 import model.DetailOrder;
 import dto.OrderItemDTO;
+import until.Pagination;
 
 /**
  *
@@ -69,10 +70,19 @@ public class Orders extends HttpServlet {
             throws ServletException, IOException {
         String view = request.getParameter("view");
         OderListDAO order = new OderListDAO();
-        if(view == null) view = "list";
+        Pagination page = new Pagination();
+        if (view == null) {
+            view = "list";
+        }
         switch (view) {
             case "list":
-                List<Orderlist> list = order.getAll();
+                String page1 = request.getParameter("page");
+                if (page1 == null) {
+                    page1 = "1";
+                }
+                page.handlePagintation(request, Integer.parseInt(page1), order.getAll().size(), "/admin/order");
+                int totalpage = Integer.parseInt(request.getAttribute("totalPage") + "");
+                List<Orderlist> list = order.getPage(Integer.parseInt(page1), 10);
                 request.setAttribute("list", list);
                 request.getRequestDispatcher("/WEB-INF/views/admin/Orders/list.jsp").forward(request, response);
                 break;
@@ -124,7 +134,7 @@ public class Orders extends HttpServlet {
                     order.updateCancel(Integer.parseInt(id), type);
                     break;
                 case "delete":
-                       System.out.println("Dele");
+                    System.out.println("Dele");
                     order.updateDelete(Integer.parseInt(id), "True");
                     break;
                 default:

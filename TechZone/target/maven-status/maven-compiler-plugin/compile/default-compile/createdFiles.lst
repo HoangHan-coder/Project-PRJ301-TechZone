@@ -1,6 +1,7 @@
 dao\StatisticalDAO.class
 com\techzone\techzone\resources\JakartaEE10Resource.class
 model\Orders.class
+dao\FeedBackDAO.class
 model\Product.class
 model\Voucher.class
 controller\Register.class
@@ -8,6 +9,7 @@ dao\VoucherDAO.class
 until\Pagination.class
 com\techzone\techzone\JakartaRestConfiguration.class
 model\DetailOrder.class
+model\FeedBack.class
 model\Orderlist.class
 controller\VoucherServlet.class
 controller\ProductServlet.class
@@ -15,6 +17,7 @@ controller\OrderServlet.class
 model\AllCategory.class
 controller\admin\Orders.class
 dto\OrderItemDTO.class
+controller\admin\feedback.class
 model\Accounts.class
 model\Category.class
 controller\admin\Dashboard.class
