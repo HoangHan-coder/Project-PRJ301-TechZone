@@ -12,11 +12,7 @@ controller\CartItemServlet.class
 filter\AuthFilter.class
 model\Product.class
 model\Voucher.class
-<<<<<<< HEAD
-=======
-db\DBContext.class
 controller\ProfileServlet.class
->>>>>>> DatVT
 controller\Register.class
 dao\VoucherDAO.class
 model\Account.class
@@ -27,6 +23,7 @@ controller\CheckoutServlet.class
 model\Orderlist.class
 controller\VoucherServlet.class
 controller\ProductServlet.class
+controller\SearchServlet.class
 controller\OrderServlet.class
 dao\CartItemDAO.class
 model\AllCategory.class
