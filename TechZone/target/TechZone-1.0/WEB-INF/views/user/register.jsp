@@ -115,7 +115,7 @@
     <body>
         <header>
             <div>
-                <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
+                <jsp:include page="/WEB-INF/views/includes/header.jsp"/>
             </div>
         </header>
         <!-- Navbar -->

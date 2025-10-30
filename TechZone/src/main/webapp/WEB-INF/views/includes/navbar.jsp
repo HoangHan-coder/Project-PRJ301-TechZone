@@ -1,4 +1,5 @@
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
     .input-group .form-select,
     .input-group .form-control,
@@ -16,7 +17,6 @@
         box-shadow: none !important;
     }
 </style>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!-- Top Navbar -->
 <div class="bg-light border-bottom">
     <div class="container d-flex justify-content-between align-items-center py-2">
@@ -32,8 +32,10 @@
             <div class="collapse navbar-collapse my-navbar" id="mainNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link active fw-bold" href="${pageContext.request.contextPath}/products">Home</a></li>
-
-
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Pages</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="Shop.jsp">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Landing</a></li>
                 </ul>
             </div>
             <!-- Contact Info -->
@@ -41,7 +43,7 @@
                 <i class="bi bi-headset me-2 fs-2"></i>
                 <div>
                     <div class="fw-bold fs-4">+0916973161</div>
-                    <small class="text-muted" ">KhangPD.CE191105@gmail.com</small>
+                    <small class="text-muted">KhangPD.CE191105@gmail.com</small>
                 </div>
             </div>
         </nav>
