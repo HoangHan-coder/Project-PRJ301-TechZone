@@ -31,9 +31,17 @@
 
             <div class="collapse navbar-collapse my-navbar" id="mainNav">
                 <ul class="navbar-nav">
+<<<<<<< HEAD
+                    <li class="nav-item"><a class="nav-link active fw-bold" href="Home.jsp">Home</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Pages</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="Shop.jsp">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Landing</a></li>
+=======
                     <li class="nav-item"><a class="nav-link active fw-bold" href="${pageContext.request.contextPath}/products">Home</a></li>
 
 
+>>>>>>> origin/main-core
                 </ul>
             </div>
             <!-- Contact Info -->
@@ -71,6 +79,18 @@
             </ul>
         </div>
         <!-- Search Bar -->
+<<<<<<< HEAD
+        <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" role="search">
+            <div class="input-group" style="max-width: 600px; width: 100%;">
+                <select class="form-select border-0 border-end" style="max-width: 180px;">
+                    <option selected>All Categories</option>
+                    <option value="1">Electronics</option>
+                    <option value="2">Fashion</option>
+                    <option value="3">Home</option>
+                </select>
+                <input class="form-control border-0" type="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+                <button class="btn btn-light" type="submit">
+=======
         <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" 
               action="search" method="post">
             <input type="hidden" name="action" value="search">
@@ -82,11 +102,11 @@
                        aria-label="Search" 
                        required>
                 <button class="btn btn-light border-0" type="submit">
+>>>>>>> origin/main-core
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </form>
-
 
         <!-- Icons -->
         <div class="d-flex align-items-center text-white">
