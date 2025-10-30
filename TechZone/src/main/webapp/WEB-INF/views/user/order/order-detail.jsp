@@ -4,7 +4,6 @@
     Author     : NgKaitou
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,29 +47,30 @@
                     <div class="card-body">
 
                         <h5 class="card-title">Địa chỉ nhận hàng</h5>
-                        <p class="card-text">Họ tên: ${orderItem.order.account.fullName}</p>
-                        <p class="card-text">Số điện thoại: ${orderItem.order.account.phone}</p>
-                        <p class="card-text">Địa chỉ: ${orderItem.order.shippingAddress}</p>
+                        <p class="card-text">(+84) 706 622 248</p>
+                        <p class="card-text">170/77 Đ. Hoàng Quốc Việt, An Bình, Ninh Kiều, Cần Thơ, Phường An Bình, Quận
+                            Ninh Kiều, Cần Thơ</p>
                     </div>
                 </div>
                 <div class="card my-3">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <p class="m-0">TechZone</p>
+                        <p class="m-0">ZIYOULANG</p>
                         <p class="m-0"><i class="bi bi-exclamation-circle"></i></p>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
                             <div class="row g-0" style="height: 240px;">
                                 <div class="col-md-2 h-100">
-                                    <img src="<c:url value="${orderItem.product.linkImg}"></c:url>" class="img-fluid rounded-start" alt="..." style="height: 64px;width: 64px;">
+                                    <img src="./image.png" class="img-fluid rounded-start h-100" alt="...">
                                 </div>
                                 <div class="col-md-10">
                                     <div class="card-body">
-                                        <h5 class="card-title">${orderItem.productNameSnapshot}</h5>
-                                        <p class="card-text d-flex justify-content-between fs-5 text">
-                                          
-                                            <span class="text-danger">${orderItem.unitPrice}</span></p>
-                                        <p class="card-text fs-5 text-black"><small class="text-body-secondary">X${orderItem.quantity}</small></p>
+                                        <h5 class="card-title">Switch Bàn Phím Cơ Gaming ZiyouLang Công Tắc Phím Attack
+                                            Shark Blue Switch/
+                                            Red Switch/ Yellow Switch/White Switch 3 Pin</h5>
+                                        <p class="card-text d-flex justify-content-between fs-5 text"><span>Phân loại hàng: Combo 5
+                                                Xanh Đậm</span><span class="text-danger">60.000₫</span></p>
+                                        <p class="card-text fs-5 text-black"><small class="text-body-secondary">X4</small></p>
                                     </div>
                                 </div>
                             </div>
@@ -80,19 +80,23 @@
                         <tbody>
                             <tr>
                                 <td>Tổng tiền hàng</td>
-                                <td>${orderItem.totalPrice}₫</td>
+                                <td>56.000₫</td>
                             </tr>
                             <tr>
                                 <td>Phí vận chuyển</td>
-                                <td>${orderItem.order.shippingFee}₫</td>
+                                <td>28.700₫</td>
                             </tr>
                             <tr>
-                                <td>Voucher từ TechZone</td>
-                                <td>${orderItem.order.voucher.discountValue}</td>
+                                <td>Giảm giá phí vận chuyển <i class="bi bi-exclamation-circle"></i></td>
+                                <td>-28.700₫</td>
+                            </tr>
+                            <tr>
+                                <td>Voucher từ Shopee</td>
+                                <td>-25.000₫</td>
                             </tr>
                             <tr>
                                 <td>Thành tiền</td>
-                                <td class="fs-4 text text-danger">${orderItem.order.totalAmount}₫</td>
+                                <td class="fs-4 text text-danger">31.000₫</td>
                             </tr>
                             <tr>
                                 <td>Phương thức Thanh toán</td>

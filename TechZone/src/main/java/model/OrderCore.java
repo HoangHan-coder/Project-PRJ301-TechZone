@@ -77,16 +77,16 @@ public class OrderCore {
         this.orderTime = orderTime;
     }
 
-    public int getTotalAmount() {
-        return totalAmount.toBigInteger().intValue();
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
     }
 
     public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 
-    public int getShippingFee() {
-        return shippingFee.toBigInteger().intValue();
+    public BigDecimal getShippingFee() {
+        return shippingFee;
     }
 
     public void setShippingFee(BigDecimal shippingFee) {

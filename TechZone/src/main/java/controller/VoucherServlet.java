@@ -161,25 +161,14 @@ public class VoucherServlet extends HttpServlet {
     private void searchVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String success = request.getParameter("success");
         String keyword = request.getParameter("keyword").trim();
-        String pageRaw = request.getParameter("page");
 
-        int currentPage;
-        try {
-            currentPage = Integer.parseInt(pageRaw);
-        } catch (NumberFormatException ex) {
-            currentPage = 1;
-        }
-         
-        Pagination p = new Pagination();
         VoucherDAO db = new VoucherDAO();
-        List<Voucher> listVoucher = db.getByVouCode(keyword, currentPage);
-        int totalPage = db.getTotalRow(keyword);
+        List<Voucher> listVoucher = db.getByVouCode(keyword);
         request.setAttribute("listVoucher", listVoucher);
         request.setAttribute("success", success);
-        p.handlePagintation(request, currentPage, totalPage, "voucher");
         request.getRequestDispatcher("/WEB-INF/views/admin/voucher/list-voucher.jsp").forward(request, response);
     }
-
+    
     private void createVoucher(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String vocherCodeRaw = request.getParameter("vocherCode");
@@ -380,5 +369,7 @@ public class VoucherServlet extends HttpServlet {
         }
         return null;
     }
+
+   
 
 }
