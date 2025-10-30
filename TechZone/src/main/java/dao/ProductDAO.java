@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.*;
 import model.Product;
 
+
 public class ProductDAO extends DBContext {
 
 // lay het
@@ -12,13 +13,16 @@ public class ProductDAO extends DBContext {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE IsDeleted = 0";
 
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (Connection con = this.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 list.add(mapResultSetToProduct(rs));
             }
         } catch (Exception e) {
             e.printStackTrace();
+        
         }
 
         return list;
@@ -28,7 +32,8 @@ public class ProductDAO extends DBContext {
     public Product getProductById(int id) {
         String sql = "SELECT * FROM Product WHERE ProductId = ? AND IsDeleted = 0";
 
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = this.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -49,7 +54,8 @@ public class ProductDAO extends DBContext {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE CategoryId = ? AND IsDeleted = 0";
 
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = this.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, categoryId);
             ResultSet rs = ps.executeQuery();
@@ -147,6 +153,8 @@ public class ProductDAO extends DBContext {
 
         return list;
     }
+    return list;
+}
 
     public List<Product> getAllProductsSearch(String txt) {
         List<Product> list = new ArrayList<>();
@@ -167,4 +175,6 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+
+    
 }

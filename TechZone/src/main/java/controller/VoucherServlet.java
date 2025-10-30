@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -100,7 +101,6 @@ public class VoucherServlet extends HttpServlet {
 
     private void getAllVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pageRaw = request.getParameter("page");
-        String success = request.getParameter("success");
         int currentPage;
         try {
             currentPage = Integer.parseInt(pageRaw);
@@ -113,7 +113,7 @@ public class VoucherServlet extends HttpServlet {
         List<Voucher> listVoucher = db.getVoucherList(currentPage);
         p.handlePagintation(request, currentPage, totalRow, "voucher");
         request.setAttribute("listVoucher", listVoucher);
-        request.setAttribute("success", success);
+
         request.getRequestDispatcher("/WEB-INF/views/admin/voucher/list-voucher.jsp").forward(request, response);
     }
 
@@ -143,6 +143,7 @@ public class VoucherServlet extends HttpServlet {
         }
         VoucherDAO db = new VoucherDAO();
         Voucher v = db.getByVoucherCode(voucherCode);
+
         request.setAttribute("voucher", v);
         System.out.println(v.getCode());
         request.getSession().removeAttribute("errors");
@@ -224,13 +225,12 @@ public class VoucherServlet extends HttpServlet {
         int voucherId = Integer.parseInt(request.getParameter("voucherId"));
         VoucherDAO voucherDAO = new VoucherDAO();
         int result = voucherDAO.deleteVoucher(voucherId);
-
+        System.out.println(voucherId);
         if (result == 1) {
-            String success = "Delete successfully!";
-            System.out.println(success);
+            String success = "Xóa thành công!";
             response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=remove&success=" + success);
         } else {
-            String removeError = "Delete failded!";
+            String removeError = "Xóa không thành công!";
             response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=remove&removeError=" + removeError);
         }
 
@@ -238,16 +238,6 @@ public class VoucherServlet extends HttpServlet {
 
     private void updateVoucher(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int voucherId = Integer.parseInt(request.getParameter("voucherId"));
-        String voucherCode = request.getParameter("voucherCode");
-        String discountValueRaw = request.getParameter("discountValue");
-        String discountType = request.getParameter("discountType");
-        String minOrderValueRaw = request.getParameter("minOrderValue");
-        String startDateRaw = request.getParameter("startDate");
-        LocalDateTime startDate = LocalDateTime.parse(startDateRaw);
-        String endDateRaw = request.getParameter("endDate");
-        LocalDateTime endDate = LocalDateTime.parse(endDateRaw);
-        String maxUsageRaw = request.getParameter("maxUsage");
 
         VoucherDAO voucherDAO = new VoucherDAO();
         BigDecimal discountValue = BigDecimal.ONE;

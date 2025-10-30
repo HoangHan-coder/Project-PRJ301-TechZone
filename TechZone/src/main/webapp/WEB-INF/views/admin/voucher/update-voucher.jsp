@@ -22,25 +22,16 @@
                 <h1><strong>Chỉnh sửa voucher</strong></h1>
                 <div class="my-5">
                     <form class="row g-3 needs-validation" action="${pageContext.request.contextPath}/voucher?action=update" method="post" >
-                        <input type="hidden" name="voucherId" value="${voucher.voucherId}"/>
                         <div class="col-md-12 position-relative">
                             <label for="vocherCode" class="form-label">Mã voucher</label>
-                            <input type="text" class="form-control" id="vocherCode" name="voucherCode"  value="${voucher.code}">
-                            <c:if test="${not empty requestScope.errorMap.vouCodExist}">
-                                <p class="text-danger my-2">${requestScope.errorMap.vouCodExist}</p>
-                            </c:if>
+                            <input type="text" class="form-control" id="vocherCode" name="vocherCode"  value="${voucher.code}">
                         </div>
                         <div class="col-md-4 position-relative">
                             <label for="discountValue" class="form-label">Giá trị giảm</label>
                             <input type="text" class="form-control" id="discountValue" name="discountValue" value="${voucher.discountValue}">
-                            <c:choose>
-                                <c:when test="${not empty requestScope.errorMap.disValErrPos}">
-                                    <p class="text-danger my-2">${requestScope.errorMap.disValErrPos}</p>
-                                </c:when>
-                                <c:when test="${not empty requestScope.errorMap.disValErrNumFmt}">
-                                    <p class="text-danger my-2">${requestScope.errorMap.disValErrNumFmt}</p>
-                                </c:when>
-                            </c:choose>
+                            <c:if test="${not empty requestScope.errors.discountValueError}">
+                                <p class="text-danger my-2">${requestScope.errors.discountValueError}</p>
+                            </c:if>
                         </div>
                         <div class="col-md-4 position-relative">
                             <label for="discountType" class="form-label">Loại giảm giá</label>
@@ -52,40 +43,27 @@
                         <div class="col-md-4 position-relative">
                             <label for="minOrderValue" class="form-label">Điều kiện</label>
                             <input type="text" class="form-control" id="minOrderValue" name="minOrderValue" value="${voucher.minOrderValue}">
-                            <c:choose>
-                                <c:when test="${not empty requestScope.errorMap.minOrdErrPos}">
-                                    <p class="text-danger my-2">${requestScope.errorMap.minOrdErrPos}</p>
-                                </c:when>
-                                <c:when test="${not empty requestScope.errorMap.minOrdErrNumFmt}">
-                                    <p class="text-danger my-2">${requestScope.errorMap.minOrdErrNumFmt}</p>
-                                </c:when>
-                            </c:choose>
+                            <c:if test="${not empty requestScope.errors.minOrderValueError}">
+                                <p class="text-danger my-2">${requestScope.errors.minOrderValueError}</p>
+                            </c:if>
                         </div>
                         <div class="col-md-4 position-relative">
                             <label for="startDate" class="form-label">Ngày bắt đầu</label>
                             <input type="datetime-local" class="form-control" id="startDate" name="startDate" value="<fmt:formatDate value='${voucher.startDate}' pattern='yyyy-MM-dd\'T\'HH:mm'/>">
-                            <c:if test="${not empty requestScope.errorMap.startDateErr}">
-                                <p class="text-danger my-2">${requestScope.errorMap.startDateErr}</p>
+                            <c:if test="${not empty requestScope.errors.startDateError}">
+                                <p class="text-danger my-2">${requestScope.errors.startDateError}</p>
                             </c:if>
                         </div>
                         <div class="col-md-4 position-relative">
                             <label for="endDate" class="form-label">Ngày kết thúc</label>
                             <input type="datetime-local" class="form-control" id="endDate" name="endDate" value="<fmt:formatDate value='${voucher.endDate}' pattern='yyyy-MM-dd\'T\'HH:mm'/>">
-                            <c:if test="${not empty requestScope.errorMap.endDateErr}">
-                                <p class="text-danger my-2">${requestScope.errorMap.endDateErr}</p>
-                            </c:if>
                         </div>
                         <div class="col-md-4 position-relative">
                             <label for="maxUsage" class="form-label">Số lượng</label>
                             <input type="text" class="form-control" id="maxUsage" name="maxUsage" value="${voucher.maxUsage}">
-                            <c:choose>
-                                <c:when test="${not empty requestScope.errorMap.maxUsageErrPos}">
-                                    <p class="text-danger my-2">${requestScope.errorMap.maxUsageErrPos}</p>
-                                </c:when>
-                                <c:when test="${not empty requestScope.errorMap.maxUsageErrNumFmt}">
-                                    <p class="text-danger my-2">${requestScope.errorMap.maxUsageErrNumFmt}</p>
-                                </c:when>
-                            </c:choose>
+                            <c:if test="${not empty requestScope.errors.maxUsage}">
+                                <p class="text-danger my-2">${requestScope.errors.maxUsage}</p>
+                            </c:if>
                         </div>
                         <div class="col-12">
                             <button class="btn btn-primary me-3" type="submit">Lưu voucher</button>

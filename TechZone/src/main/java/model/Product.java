@@ -27,12 +27,11 @@ public class Product {
     public Product() {
     }
 
-    public Product(String linkImg, String productName, double productPrice) {
-        this.linkImg = linkImg;
+    public Product(String productName) {
         this.productName = productName;
-        this.productPrice = productPrice;
     }
-    
+
+
 
     public Product(int productId, String linkImg, String productName, double productPrice,
                    String productAttributes, int categoryId, int stock, int quantitySold,
