@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> parent of 7078498 (from loc)
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\AdminServlet.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\CartDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Login.java
@@ -48,46 +44,3 @@ D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OderListDAO.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Dashboard.java
 D:\Documents\FPT_Education\FA25\PRJ301\Project\Project-PRJ301-TechZone\TechZone\src\main\java\until\Pagination.java
-<<<<<<< HEAD
-=======
-=======
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\VoucherDAO.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Dashboard.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\resources\JakartaEE10Resource.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\AllCategory.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orderlist.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CheckoutServlet.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ProductServlet.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OrderDAO.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CartServlet.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\AccountUsers.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Order.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\LogoutServlet.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\VoucherServlet.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\db\DBContext.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\JakartaRestConfiguration.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Orders.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orderdetail.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\db\TestDBContext.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Account.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\until\Pagination.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\AdminServlet.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\filter\AuthFilter.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\ProductDAO.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Product.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\AccountDAO.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderServlet.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Voucher.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OderListDAO.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Register.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\AuthDAO.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\StatisticalDAO.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orders.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\until\Normalization.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Login.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Category.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dto\OrderItemDTO.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderdetailServlet.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\SearchServlet.java
->>>>>>> Khang
->>>>>>> parent of 7078498 (from loc)
