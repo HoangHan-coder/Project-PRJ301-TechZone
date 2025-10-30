@@ -107,46 +107,7 @@
             .btn-delete:hover {
                 color: darkred;
             }
-            .pagination {
-                display: flex;
-                list-style: none;
-                gap: 8px;
-                padding: 0;
-                margin: 0;
-                margin-top: 20px;
-            }
 
-            .pagination a {
-                display: block;
-                padding: 8px 14px;
-                border: 1px solid #f1c40f;
-                border-radius: 8px;
-                color: #8d6e00;
-                text-decoration: none;
-                background-color: #fffbea;
-                font-size: 15px;
-                transition: all 0.25s ease;
-            }
-
-            .pagination a:hover {
-                background-color: #ffd54f;
-                color: #5d4037;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            }
-
-            .pagination .active a {
-                background-color: #fbc02d;
-                color: white;
-                font-weight: 600;
-                pointer-events: none;
-            }
-
-            .pagination .disabled a {
-                color: #ccc;
-                border-color: #eee;
-                background-color: #fafafa;
-                pointer-events: none;
-            }
         </style>
     </head>
     <body>
@@ -221,7 +182,6 @@
 
             </tbody>
         </table>
-
 
     </body>
 </html>

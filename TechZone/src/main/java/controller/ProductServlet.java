@@ -5,8 +5,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import model.Product;
 
 @WebServlet(name = "ProductServlet", urlPatterns = {"/products"})
@@ -25,19 +27,20 @@ response.setContentType("text/html;charset=UTF-8");
         try {
      
             if (action == null && category == null) {
-                // mat hang them moi nhat
+                List<Product> list = dao.getAllProducts();
                 ArrayList<Product> listPhone = (ArrayList<Product>) dao.getTop1(2);
                 ArrayList<Product> listLap = (ArrayList<Product>) dao.getTop1(1);
-
+                ArrayList<Product> listAccessory = (ArrayList<Product>) dao.getTop1(3);
                 request.setAttribute("listPhone", listPhone);
                 request.setAttribute("listLap", listLap);
-                // mat hang ban chay nhat
+                request.setAttribute("listAccessory", listAccessory);
                 ArrayList<Product> listPhonefe = (ArrayList<Product>) dao.getTop1ByCategory(2);
                 ArrayList<Product> listLapfe = (ArrayList<Product>) dao.getTop1ByCategory(1);
-
+                ArrayList<Product> listAccessoryFe = (ArrayList<Product>) dao.getTop1(3);
                 request.setAttribute("listPhonefe", listPhonefe);
                 request.setAttribute("listLapfe", listLapfe);
-
+                request.setAttribute("listAccessoryFe", listAccessoryFe);
+                request.setAttribute("list", list);
                 request.getRequestDispatcher("/WEB-INF/views/user/home.jsp").forward(request, response);
                 return;
             }
@@ -75,7 +78,6 @@ response.setContentType("text/html;charset=UTF-8");
                 String id = request.getParameter("id");
 
                 if (id == null || id.isEmpty()) {
-                    System.out.println("⚠️ Không có ID trong request!");
                     response.sendRedirect("products");
                     return;
                 }
@@ -85,14 +87,11 @@ response.setContentType("text/html;charset=UTF-8");
                     Product product = dao.getProductById(productId);
 
                     if (product == null) {
-                        System.out.println("❌ Không tìm thấy sản phẩm với ID = " + id);
                         response.sendRedirect("products");
                         return;
                     }
 
-                    // Kiểm tra map null để tránh lỗi JSP
                     if (product.getAttributesMap() == null) {
-                        System.out.println("⚠️ attributesMap null → khởi tạo rỗng.");
                         product.setAttributesMap(new HashMap<>());
                     }
 
@@ -102,7 +101,6 @@ response.setContentType("text/html;charset=UTF-8");
                     return;
 
                 } catch (NumberFormatException e) {
-                    System.out.println("❌ ID không hợp lệ: " + id);
                     response.sendRedirect("products");
                     return;
                 }

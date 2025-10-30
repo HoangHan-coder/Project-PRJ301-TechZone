@@ -13,15 +13,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import model.Accounts;
-import model.DetailOrder;
 import model.Orderlist;
-import model.Product;
-import model.DetailOrder;
 import dto.OrderItemDTO;
-import until.Pagination;
+import model.Account;
 
 /**
  *
@@ -70,19 +65,10 @@ public class Orders extends HttpServlet {
             throws ServletException, IOException {
         String view = request.getParameter("view");
         OderListDAO order = new OderListDAO();
-        Pagination page = new Pagination();
-        if (view == null) {
-            view = "list";
-        }
+        if(view == null) view = "list";
         switch (view) {
             case "list":
-                String page1 = request.getParameter("page");
-                if (page1 == null) {
-                    page1 = "1";
-                }
-                page.handlePagintation(request, Integer.parseInt(page1), order.getAll().size(), "/admin/order");
-                int totalpage = Integer.parseInt(request.getAttribute("totalPage") + "");
-                List<Orderlist> list = order.getPage(Integer.parseInt(page1), 10);
+                List<Orderlist> list = order.getAll();
                 request.setAttribute("list", list);
                 request.getRequestDispatcher("/WEB-INF/views/admin/Orders/list.jsp").forward(request, response);
                 break;
@@ -90,7 +76,7 @@ public class Orders extends HttpServlet {
                 String id = request.getParameter("id");
                 model.Orders orders = order.getOrderInfoById(Integer.parseInt(id));
                 List<OrderItemDTO> products = order.getProductsByOrderId(Integer.parseInt(id));
-                Accounts account = order.getAccountByOrderId(Integer.parseInt(id));
+                Account account = order.getAccountByOrderId(Integer.parseInt(id));
                 request.setAttribute("account", account);
                 request.setAttribute("order", orders);
                 request.setAttribute("products", products);
@@ -134,7 +120,7 @@ public class Orders extends HttpServlet {
                     order.updateCancel(Integer.parseInt(id), type);
                     break;
                 case "delete":
-                    System.out.println("Dele");
+                       System.out.println("Dele");
                     order.updateDelete(Integer.parseInt(id), "True");
                     break;
                 default:
