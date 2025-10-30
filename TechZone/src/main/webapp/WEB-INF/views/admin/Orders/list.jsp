@@ -164,20 +164,33 @@
                             </c:choose>
                         </td>
 
-                        <td class="actions">
-                            <div style="display: flex; justify-content: center">
-                                 <a href="${pageContext.request.contextPath}/admin/order?view=detail&id=${i.orderid}">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
-                            <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=delete&id=${i.orderid}">
-                                <button type="submit" class="btn-delete">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </form>
-                            </div>
-                        </td>
-                    </tr>
-                </c:forEach>
+                                    <td class="actions">
+                                        <div style="display: flex; justify-content: center">
+                                            <a href="${pageContext.request.contextPath}/admin/order?view=detail&id=${i.orderid}">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                            <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=delete&id=${i.orderid}">
+                                                <button type="submit" class="btn-delete">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:if>
+
+
+                    </tbody>
+                </table>
+                <c:if test="${!empty list}">
+                    <%@include file="../../includes/pagination.jsp" %>
+                </c:if>
+
+            </div>
+
+
+        </div>
 
 
             </tbody>
