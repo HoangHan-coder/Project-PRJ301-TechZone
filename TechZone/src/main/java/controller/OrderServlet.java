@@ -61,7 +61,11 @@ public class OrderServlet extends HttpServlet {
 
     private void getOrderDetail(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        
+        int orderItemId = Integer.parseInt(request.getParameter("orderItemId"));
+        OrderItemDAO orderItemDAO = new OrderItemDAO();
+        OrderItem orderItem =  orderItemDAO.getById(orderItemId);
+        request.setAttribute("orderItem", orderItem);
+        request.getRequestDispatcher("/WEB-INF/views/user/order/order-detail.jsp").forward(request, response);
     }
 
 }
