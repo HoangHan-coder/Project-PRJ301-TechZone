@@ -4,15 +4,12 @@
  */
 package controller;
 
-import dao.OrderItemDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.OrderItem;
 
 /**
  *
@@ -21,38 +18,52 @@ import model.OrderItem;
 @WebServlet(name = "Order", urlPatterns = {"/order"})
 public class OrderServlet extends HttpServlet {
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String view = request.getParameter("view");
-        if (view == null) {
-            view = "order-list";
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "order-list";
         }
 
-        switch (view) {
-            case "order-list":
-                getListOrder(request, response);
-                break;
-            default:
-                throw new AssertionError();
+        if (action.equalsIgnoreCase("order-detail")) {
+            request.getRequestDispatcher("/WEB-INF/views/user/order-detail.jsp").forward(request, response);
+        } else if (action.equalsIgnoreCase("order-list")) {
+            request.getRequestDispatcher("/WEB-INF/views/user/order-list.jsp").forward(request, response);
         }
     }
 
-
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
     }
 
-
-    private void getListOrder(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        String username = (String) request.getSession().getAttribute("username");
-        OrderItemDAO orderItemDAO = new OrderItemDAO();
-        List<OrderItem> listOrder = orderItemDAO.getOrderItemByUsername("user7");
-        request.setAttribute("listOrder", listOrder);
-        request.getRequestDispatcher("/WEB-INF/views/user/order/order-list.jsp").forward(request, response);
-    }
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 
 }

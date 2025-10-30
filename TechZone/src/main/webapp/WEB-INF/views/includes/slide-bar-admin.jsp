@@ -62,13 +62,13 @@
             <a href="#" class="nav-link"><i class="bi bi-box"></i> Sản phẩm</a>
         </li>
         <li class="nav-item mb-2">
-            <a href="${pageContext.request.contextPath}/admin/order?view=list" class="nav-link"><i class="bi bi-cart"></i> Đơn hàng</a>
+            <a href="${pageContext.request.contextPath}/admin/order?view=list&page=1" class="nav-link"><i class="bi bi-cart"></i> Đơn hàng</a>
         </li>
         <li class="nav-item mb-2">
             <a href="${pageContext.request.contextPath}/voucher" class="nav-link"><i class="bi bi-tag"></i> Khuyến mãi</a>
         </li>
         <li class="nav-item mb-2">
-            <a href="#" class="nav-link"><i class="bi bi-chat"></i> Phản hồi</a>
+            <a href="${pageContext.request.contextPath}/admin/feedback?page=1" class="nav-link"><i class="bi bi-chat"></i> Phản hồi</a>
         </li>
     </ul>
 </div>

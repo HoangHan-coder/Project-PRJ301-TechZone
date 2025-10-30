@@ -4,7 +4,7 @@
     Author     : acer
 --%>
 
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -114,7 +114,7 @@
         <body>
             <header>
                 <div>
-                    <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
+                    <jsp:include page="/WEB-INF/views/user/navbar.jsp"/>
                 </div>
             </header>
             <!-- Navbar -->
@@ -128,9 +128,9 @@
             <div class="form">
                 <div class="login">
                     <h1>LOGIN</h1>
-                    <form action="http://localhost:8080/TechZone/login" method="POST">
+                    <form>
                         <label id="lab" for="user" class="form-label">username</label>
-                        <input class="form-control" id="inputtext" type="text" name="username" placeholder="Enter your username" required="please enter your username">
+                        <input class="form-control" id="inputtext" type="text" name="name" placeholder="Enter your username" required="please enter your username">
                         <br>
                         <label id="lab" for="password" class="form-label">password</label>
                         <input class="form-control" id="inputtext" type="text" name="password" placeholder="Enter your password" required="please enter your password">
@@ -180,13 +180,11 @@
 
 
             <!-- Footer -->
-             <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
+             <jsp:include page="/WEB-INF/views/user/footer.jsp"/>
             <script>
 
             </script>
             <!-- Bootstrap JS -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
-                
-            </script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         </body>
     </html>

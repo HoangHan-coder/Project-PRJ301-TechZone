@@ -91,7 +91,7 @@
         <!-- Icons -->
         <div class="d-flex align-items-center text-white">
             <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-arrow-left-right"></i></a>
-            <a href="${pageContext.request.contextPath}/profile" class="text-white mx-2 fs-5"><i class="bi bi-person"></i></a>
+            <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-person"></i></a>
             <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-heart"></i></a>
 
             <!-- Cart with badge -->

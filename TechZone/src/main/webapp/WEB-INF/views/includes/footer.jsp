@@ -143,10 +143,6 @@
         font-size:20px;
         color:#fff;
     }
-    
-    .footer-nav{
-        transform: translateY(200px);
-    }
 </style>
 <!-- Footer Gizmos -->
 <footer style="background-color: #212529 !important;">
