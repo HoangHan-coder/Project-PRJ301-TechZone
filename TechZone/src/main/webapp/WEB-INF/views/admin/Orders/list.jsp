@@ -211,7 +211,7 @@
 
                                     <td class="actions">
                                         <div style="display: flex; justify-content: center">
-                                            <a href="${pageContext.request.contextPath}/admin/feedback?view=detail">
+                                            <a href="${pageContext.request.contextPath}/admin/order?view=detail&id=${i.orderid}">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
                                             <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=delete&id=${i.orderid}">
