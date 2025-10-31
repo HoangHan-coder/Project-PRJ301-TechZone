@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
 /**
  *
  * @author acer
@@ -68,7 +67,7 @@ public class Login extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request servlet reqsuest
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
@@ -79,27 +78,23 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-      
-            AuthDAO userdao = new AuthDAO();
-            if (userdao.login(username, password) != null) {
-                if (userdao.login(username, password).getAccountroles().equals("Admin")) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("admin", userdao.login(username, password));
-                    response.sendRedirect(getServletContext().getContextPath() + "/admin");
-                } else {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("user", userdao.login(username, password));
-                    response.sendRedirect(getServletContext().getContextPath() + "/products");
-                }
-                
-
+        AuthDAO userdao = new AuthDAO();
+        if (userdao.login(username, password) != null) {
+            if (userdao.login(username, password).getAccountroles().equals("Admin")) {
+                HttpSession session = request.getSession();
+                session.setAttribute("admin", userdao.login(username, password));
+                response.sendRedirect(getServletContext().getContextPath() + "/admin");
             } else {
-                response.sendRedirect(getServletContext().getContextPath() + "/login");
+                HttpSession session = request.getSession();
+                session.setAttribute("user", userdao.login(username, password));
+                response.sendRedirect(getServletContext().getContextPath() + "/products");
             }
 
-        
+        } else {
+            response.sendRedirect(getServletContext().getContextPath() + "/login");
+        }
+
     }
-    
 
     /**
      * Returns a short description of the servlet.
