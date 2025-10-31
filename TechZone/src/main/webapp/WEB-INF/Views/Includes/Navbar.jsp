@@ -22,7 +22,7 @@
     <div class="container d-flex justify-content-between align-items-center py-2">
         <!-- Logo + Menu -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
-            <a class="navbar-brand fw-bold fs-2" href="Home.jsp" >Gizmos<span style="color: orange">.</span></a>
+            <a class="navbar-brand fw-bold fs-2" href="${pageContext.request.contextPath}/products" >TechZone<span style="color: orange">.</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" 
                     aria-label="Toggle navigation">
@@ -75,12 +75,7 @@
         <!-- Search Bar -->
         <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" role="search">
             <div class="input-group" style="max-width: 600px; width: 100%;">
-                <select class="form-select border-0 border-end" style="max-width: 180px;">
-                    <option selected>All Categories</option>
-                    <option value="1">Electronics</option>
-                    <option value="2">Fashion</option>
-                    <option value="3">Home</option>
-                </select>
+               
                 <input class="form-control border-0" type="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
                 <button class="btn btn-light" type="submit">
                     <i class="bi bi-search"></i>
