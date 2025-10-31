@@ -11,13 +11,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        
+
     </head>
     <body>
 
         <div class="container-fluid">
             <div>
                 <%@include file="../../includes/slide-bar-admin.jsp" %>
+
             </div>
             <div style="margin-left: 280px; margin-top: 100px">
                 <h1><strong>Danh sách voucher</strong></h1>

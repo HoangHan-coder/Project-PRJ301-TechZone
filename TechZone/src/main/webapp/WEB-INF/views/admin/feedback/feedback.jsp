@@ -283,7 +283,7 @@
                     </table>
 
                         <c:if test="${!empty list}">
-                        <%@include file="../../includes/pagination.jsp" %>
+                            <%@include file="../../includes/pagination.jsp" %>
                     </c:if>
                 </div>
             </div>
