@@ -100,7 +100,7 @@
                     <c:forEach items="${list}" var="i">
                         <div class="col-md-4 mb-4">
                             <div class="card h-100 text-center shadow-sm">
-                                <img src="${i.linkImg}" class="card-img-top p-2" alt="${i.productName}">
+                                <img src="${pageContext.request.contextPath}${i.linkImg}" class="card-img-top p-2" alt="${i.productName}">
                                 <div class="card-body">
                                     <h5 class="card-title">${i.productName}</h5>
                                     <p class="card-text text-danger font-weight-bold">

@@ -238,7 +238,7 @@
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
                                 <a href="products?action=detail&id=${p.productId}">
-                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
                                         <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
@@ -253,7 +253,7 @@
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
                                 <a href="products?action=detail&id=${p.productId}">
-                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
                                         <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
@@ -268,7 +268,7 @@
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
                                 <a href="products?action=detail&id=${p.productId}">
-                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
                                         <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
@@ -293,7 +293,7 @@
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
                                 <a href="products?action=detail&id=${p.productId}">
-                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
                                         <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
@@ -308,7 +308,7 @@
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
                                 <a href="products?action=detail&id=${p.productId}">
-                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
                                         <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
@@ -323,7 +323,7 @@
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
                                 <a href="products?action=detail&id=${p.productId}">
-                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
                                         <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND

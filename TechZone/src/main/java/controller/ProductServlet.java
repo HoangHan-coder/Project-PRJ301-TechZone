@@ -1,5 +1,6 @@
 package controller;
 
+import dao.FeedBackDAO;
 import dao.ProductDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,6 +10,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import model.Account;
+import model.AccountUsers;
+import model.Feedback;
 import model.Product;
 
 @WebServlet(name = "ProductServlet", urlPatterns = {"/products"})
@@ -17,15 +21,15 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-request.setCharacterEncoding("UTF-8");
-response.setCharacterEncoding("UTF-8");
-response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
+        response.setContentType("text/html;charset=UTF-8");
         ProductDAO dao = new ProductDAO();
         String action = request.getParameter("action");
         String category = request.getParameter("category");
 
         try {
-     
+
             if (action == null && category == null) {
                 List<Product> list = dao.getAllProducts();
                 ArrayList<Product> listPhone = (ArrayList<Product>) dao.getTop1(2);
@@ -45,7 +49,6 @@ response.setContentType("text/html;charset=UTF-8");
                 return;
             }
 
-     
             if (category != null) {
                 ArrayList<Product> list;
                 String viewPath = "";
@@ -73,9 +76,12 @@ response.setContentType("text/html;charset=UTF-8");
                 return;
             }
 
-    
             if ("detail".equalsIgnoreCase(action)) {
                 String id = request.getParameter("id");
+                FeedBackDAO feedbackDAO = new FeedBackDAO();
+
+                List<Feedback> feedbacks = feedbackDAO.getFeedbackByProductId(Integer.parseInt(id));
+                request.setAttribute("feedbackList", feedbacks);
 
                 if (id == null || id.isEmpty()) {
                     response.sendRedirect("products");
@@ -91,6 +97,7 @@ response.setContentType("text/html;charset=UTF-8");
                         return;
                     }
 
+                    // Đảm bảo có attributesMap (để tránh NullPointerException)
                     if (product.getAttributesMap() == null) {
                         product.setAttributesMap(new HashMap<>());
                     }
@@ -106,7 +113,6 @@ response.setContentType("text/html;charset=UTF-8");
                 }
             }
 
-      
             response.sendRedirect("products");
 
         } catch (Exception e) {
@@ -121,6 +127,46 @@ response.setContentType("text/html;charset=UTF-8");
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        FeedBackDAO dao = new FeedBackDAO();
+        String productId_raw = request.getParameter("productId");
+        String subject = request.getParameter("subject");
+        String message = request.getParameter("message");
+        String rating_raw = request.getParameter("rating");
 
-}
+        // --- 2. Kiểm tra dữ liệu hợp lệ ---
+        if (productId_raw == null || rating_raw == null || productId_raw.isEmpty() || rating_raw.isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu thông tin đánh giá.");
+            return;
+        }
+
+        int productId = Integer.parseInt(productId_raw);
+        int rating = Integer.parseInt(rating_raw);
+
+        // --- 3. Lấy thông tin người dùng đang đăng nhập ---
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("account") == null) {
+            response.sendRedirect("login.jsp"); // Nếu chưa đăng nhập
+            return;
+        }
+
+        AccountUsers acc = (AccountUsers) session.getAttribute("account");
+        int accountId = acc.getId();
+
+        // Nếu bạn có logic để lấy orderId thật, thay thế dòng này:
+        Integer orderId = dao.getOrderIdByAccountAndProduct(accountId, productId);
+
+        if (orderId == null) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Bạn chỉ có thể đánh giá khi đã mua sản phẩm này.");
+         
+            return;
+        }
+
+
+        dao.addFeedback(accountId, productId, orderId, message, rating, subject);
+
+
+
+        // --- 5. Quay lại trang chi tiết sản phẩm ---
+        response.sendRedirect("products?action=detail&id=" + productId);
+    }
 }
