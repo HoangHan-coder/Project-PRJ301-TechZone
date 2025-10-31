@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import model.Account;
 import model.AccountUsers;
-import model.Feedback;
+import model.FeedBack;
 import model.Product;
 
 @WebServlet(name = "ProductServlet", urlPatterns = {"/products"})
@@ -80,7 +80,7 @@ public class ProductServlet extends HttpServlet {
                 String id = request.getParameter("id");
                 FeedBackDAO feedbackDAO = new FeedBackDAO();
 
-                List<Feedback> feedbacks = feedbackDAO.getFeedbackByProductId(Integer.parseInt(id));
+                List<FeedBack> feedbacks = feedbackDAO.getFeedbackByProductId(Integer.parseInt(id));
                 request.setAttribute("feedbackList", feedbacks);
 
                 if (id == null || id.isEmpty()) {
