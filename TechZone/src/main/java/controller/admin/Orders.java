@@ -70,7 +70,7 @@ public class Orders extends HttpServlet {
             case "list":
                 List<Orderlist> list = order.getAll();
                 request.setAttribute("list", list);
-                request.getRequestDispatcher("/WEB-INF/views/admin/Orders/list.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/admin/orders/list.jsp").forward(request, response);
                 break;
             case "detail":
                 String id = request.getParameter("id");
@@ -86,7 +86,7 @@ public class Orders extends HttpServlet {
                     totalAmount = totalAmount.add(lineTotal);
                 }
                 request.setAttribute("totalamount", totalAmount);
-                request.getRequestDispatcher("/WEB-INF/views/admin/Orders/detail.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/admin/orders/detail.jsp").forward(request, response);
                 break;
 
         }
