@@ -59,7 +59,7 @@ public class Register extends HttpServlet {
         String phone = request.getParameter("phone");
 
         AuthDAO account = new AuthDAO();
-        
+        // hello
       
         PrintWriter out = response.getWriter();
         if (account.register(username, password, phone) == 1) {
