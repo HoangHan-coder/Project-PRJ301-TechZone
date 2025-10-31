@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.AccountUsers;
 
-
 /**
  *
  * @author acer
@@ -80,28 +79,23 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-      // hello
-            AuthDAO userdao = new AuthDAO();
-            AccountUsers account = userdao.login(username, password);
-            if (account != null) {
-                HttpSession session = request.getSession();
-                    session.setAttribute("account", account);
-                if (account.getAccountroles().equals("Admin")) {
-                    
-                    response.sendRedirect(getServletContext().getContextPath() + "/admin");
-                } else {
-                    
-                    response.sendRedirect(getServletContext().getContextPath() + "/products");
-                }
-                
-
+        AuthDAO userdao = new AuthDAO();
+        AccountUsers accountUsers = userdao.login(username, password);
+        HttpSession session = request.getSession();
+        session.setAttribute("account", accountUsers);
+        if (accountUsers != null) {
+            if (accountUsers.getAccountroles().equals("Admin")) {
+                response.sendRedirect(getServletContext().getContextPath() + "/admin");
             } else {
-                response.sendRedirect(getServletContext().getContextPath() + "/login");
+                response.sendRedirect(getServletContext().getContextPath() + "/products");
             }
 
-        
+        } else {
+            System.out.println("_________________------------>");
+            response.sendRedirect(getServletContext().getContextPath() + "/login");
+        }
+
     }
-    
 
     /**
      * Returns a short description of the servlet.

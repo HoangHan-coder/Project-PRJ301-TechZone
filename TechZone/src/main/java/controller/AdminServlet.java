@@ -1,9 +1,6 @@
 package controller;
 
-import com.google.gson.Gson;
 import dao.AccountDAO;
-import dao.AdminProductDAO;
-import dao.ProductDAO;
 import java.io.IOException;
 import java.util.List;
 import jakarta.servlet.ServletException;
@@ -13,7 +10,6 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import model.Account;
 import java.util.Arrays;
-import model.Product;
 
 @WebServlet(name = "AdminServlet", urlPatterns = {"/admin"})
 public class AdminServlet extends HttpServlet {
@@ -24,8 +20,6 @@ public class AdminServlet extends HttpServlet {
 
         String view = request.getParameter("view");
         AccountDAO dao = new AccountDAO();
-        AdminProductDAO daoProductAd = new AdminProductDAO();
-        ProductDAO daoProduct = new ProductDAO();
 
         if (view == null || view.equals("list")) {
             String keyword = request.getParameter("keyword");
@@ -78,10 +72,6 @@ public class AdminServlet extends HttpServlet {
             int nextId = dao.getNextId();
             request.setAttribute("nextId", nextId);
             request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
-        } else if (view.equals("product")) {
-            List<Product> listpro = daoProductAd.getAllProducts();
-            request.setAttribute("listproductadmin", listpro);
-            request.getRequestDispatcher("/WEB-INF/views/admin/product/admin-product.jsp").forward(request, response);
         }
     }
 
@@ -91,7 +81,6 @@ public class AdminServlet extends HttpServlet {
 
         String action = request.getParameter("action");
         AccountDAO dao = new AccountDAO();
-        AdminProductDAO daoProductAd = new AdminProductDAO();
 
         if ("update".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
@@ -240,18 +229,6 @@ public class AdminServlet extends HttpServlet {
                 request.setAttribute("usernameError", "Lỗi server khi tạo tài khoản, thử lại sau");
                 request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
             }
-        } else if (action.equals("filter")) {
-            String category = request.getParameter("category");
-            String brand = request.getParameter("brand");
-            String sort = request.getParameter("sort");
-
-            List<Product> products = daoProductAd.filterProducts(category, brand, sort);
-
-            response.setContentType("application/json;charset=UTF-8");
-            Gson gson = new Gson();
-            String json = gson.toJson(products);
-            response.getWriter().write(json);
-
         }
     }
 

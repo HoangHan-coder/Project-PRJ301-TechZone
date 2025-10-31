@@ -40,7 +40,7 @@
                 </c:when>
                 <c:otherwise>
                     <li class="page-item">
-                        <a class="page-link" href="<%= request.getContextPath()%>/${servletPath}?page=${currentPage + 1}" aria-label="Next" onclick="increasePage()">
+                        <a class="page-link" href="<%= request.getContextPath()%>/${servletPath}?page=${currentPage + 1}" aria-label="Next" >
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

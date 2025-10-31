@@ -5,7 +5,6 @@
 package dao;
 
 import db.DBContext;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,17 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Account;
-import model.DetailOrder;
 import model.Orderlist;
 import model.Orders;
 import dto.OrderItemDTO;
+import model.Account;
 
 /**
  *
  * @author letan
  */
-public class OderListDAO extends DBContext {
+public class OderListDAO extends DBContext{
+
+
 
     public List<Orderlist> getAll() {
         try {
@@ -163,7 +163,6 @@ public class OderListDAO extends DBContext {
         }
         return 0;
     }
-
     public int updateCancel(int id, String status) {
         try {
             String sql = "UPDATE Orders \n"
@@ -178,7 +177,6 @@ public class OderListDAO extends DBContext {
         }
         return 0;
     }
-
     public int updateDelete(int id, String status) {
         try {
             String sql = "UPDATE Orders \n"
@@ -192,31 +190,5 @@ public class OderListDAO extends DBContext {
             Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
-    }
-
-    public List<Orderlist> getPage(int page, int totalpage) {
-        try {
-            int index = (page - 1) * 12;
-            List<Orderlist> list = new ArrayList<>();
-            String sql = "SELECT o.*, a.Fullname, a.Email\n"
-                    + "FROM Orders o\n"
-                    + "JOIN Accounts a ON o.AccountId = a.AccountId\n"
-                    + "ORDER BY o.OrderId\n" +
-            "OFFSET ? ROWS FETCH NEXT 12 ROWS ONLY";
-            PreparedStatement st = this.getConnection().prepareCall(sql);
-            st.setInt(1, index);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Orderlist order = new Orderlist(rs.getInt("OrderId"), rs.getString("OrderCode"), rs.getString("FullName"), rs.getDouble("TotalAmount"),
-                        rs.getString("PaymentStatus"), rs.getString("Status"));
-                list.add(order);
-
-            }
-            return list;
-        } catch (SQLException ex) {
-            Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
-        return null;
     }
 }

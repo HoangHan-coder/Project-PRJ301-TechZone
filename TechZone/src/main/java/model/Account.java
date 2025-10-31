@@ -8,41 +8,84 @@ import java.time.LocalDateTime;
 
 /**
  *
- * @author letan
+ * @author pc
  */
 public class Account {
 
     private int accountId;
-    private String username;
-    private String passwordHash;
+    private String userName;
+    private String passWordHarh;
     private String fullName;
     private String email;
     private String phone;
     private boolean isDeleted;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime updateAt;
+    private String roleName;
 
     public Account() {
     }
 
-    public Account(String fullName) {
-        this.fullName = fullName;
+    public Account(int accountId, String userName) {
+        this.accountId = accountId;
+        this.userName = userName;
     }
 
-    public Account(int accountId, String username, String passwordHash, String fullName, String email, String phone,
-            boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Account(int accountId, String userName, String fullName, String email, String phone, String roleName) {
         this.accountId = accountId;
-        this.username = username;
-        this.passwordHash = passwordHash;
+        this.userName = userName;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.roleName = roleName;
+    }
+
+    
+    
+    public Account(int accountId, String userName, String passWordHarh, String fullName, String email, String phone,
+            boolean isDeleted, LocalDateTime createdAt, LocalDateTime updateAt, String roleName) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.passWordHarh = passWordHarh;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
         this.isDeleted = isDeleted;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.updateAt = updateAt;
+        this.roleName = roleName;
     }
 
-    // Getter và Setter
+
+    public Account(int accountId, String userName, String fullName, String phone, boolean isDeleted) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.isDeleted = isDeleted;
+    }
+
+    public Account(int accountId, String userName, String passWord, String fullName, String email, String phone,
+            String roleName, boolean isDeleted) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.roleName = roleName;
+    }
+
+    public Account(int accountId, String userName, String passWordHarh, String fullName, String email, String phone,
+            String roleName) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.passWordHarh = passWordHarh;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.roleName = roleName;
+    }
+
     public int getAccountId() {
         return accountId;
     }
@@ -51,20 +94,20 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassWordHarh() {
+        return passWordHarh;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassWordHarh(String passWordHarh) {
+        this.passWordHarh = passWordHarh;
     }
 
     public String getFullName() {
@@ -91,12 +134,12 @@ public class Account {
         this.phone = phone;
     }
 
-    public boolean isDeleted() {
+    public boolean isIsDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -107,11 +150,20 @@ public class Account {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdateAt(LocalDateTime updateAt) {
+        this.updateAt = updateAt;
     }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
 }
