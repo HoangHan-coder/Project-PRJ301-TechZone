@@ -26,6 +26,10 @@ public class Account {
     public Account() {
     }
 
+    public Account(String fullName) {
+        this.fullName = fullName;
+    }
+
     public Account(int accountId, String userName) {
         this.accountId = accountId;
         this.userName = userName;
