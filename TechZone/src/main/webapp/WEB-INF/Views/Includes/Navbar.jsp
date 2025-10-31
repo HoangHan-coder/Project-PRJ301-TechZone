@@ -55,7 +55,7 @@
 <nav class="navbar navbar-expand-lg" style="background-color: #285dde; height: 70px"> 
     <div class="container-fluid d-flex justify-content-between align-items-center">
 
-        <!-- Nút bấm Shop By Categories -->
+        <!-- Nút bấm Shop By Categories -->  
         <div class="dropdown">
             <!-- Nút bấm -->
             <a class="d-flex align-items-center text-white fw-bold me-3 text-decoration-none dropdown-toggle" 

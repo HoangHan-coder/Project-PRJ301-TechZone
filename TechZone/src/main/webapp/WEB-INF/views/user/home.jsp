@@ -160,7 +160,7 @@
             }
         </style>
     </head>
-    <body>
+    <body>x
         <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
         <jsp:include page="/WEB-INF/views/user/product/product-list/product-filter.jsp"/>
         <!-- Bootstrap Carousel -->
