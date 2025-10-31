@@ -2,9 +2,11 @@
     Document   : product-detail
     Author     : Phung Dinh Khang
 --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -97,7 +99,7 @@
             <div class="row w-100">
                 <!-- Hình ảnh sản phẩm -->
                 <div class="col-md-5 mx-4 my-5 border rounded">
-                    <img src="${product.linkImg}" class="rounded w-100" alt="${product.productName}">
+                    <img src="${pageContext.request.contextPath}${product.linkImg}" class="rounded w-100" alt="${product.productName}">
                 </div>
 
                 <!-- Thông tin sản phẩm -->
@@ -152,24 +154,60 @@
             </div>
 
             <!-- Đánh giá -->
-            <div class=" w-100 review">
-                <form class="mx-3 mb-5">
+            <!-- Đánh giá -->
+            <div class="w-100 review">
+                <form class="mx-3 mb-5" action="products" method="post">
+                    <input type="hidden" name="productId" value="${product.productId}">
+
                     <p class="my-3 text-muted">Hãy chia sẻ cảm nhận của bạn về sản phẩm này!</p>
+
+                    <!-- Rating -->
                     <div class="rating my-3">
+                        <input type="hidden" name="rating" id="rating-value" value="0">
                         <i class="bi bi-star star" data-value="1"></i>
                         <i class="bi bi-star star" data-value="2"></i>
                         <i class="bi bi-star star" data-value="3"></i>
                         <i class="bi bi-star star" data-value="4"></i>
                         <i class="bi bi-star star" data-value="5"></i>
                     </div>
-                    <div class="form-floating mb-4">
-                        <textarea class="form-control" placeholder="Nhập nhận xét của bạn..." id="floatingTextarea2"
-                                  style="height: 100px"></textarea>
-                        <label for="floatingTextarea2">Bình luận</label>
+
+                    <!-- Subject -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Chủ đề phản hồi">
+                        <label for="subject">Chủ đề</label>
                     </div>
+
+                    <!-- Message -->
+                    <div class="form-floating mb-4">
+                        <textarea class="form-control" placeholder="Nhập nhận xét của bạn..." name="message" id="message" style="height: 100px"></textarea>
+                        <label for="message">Bình luận</label>
+                    </div>
+
                     <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
                 </form>
+
+                <!-- Danh sách feedback -->
+                <div class="mx-3 mt-4">
+                    <p class="text-muted">Số lượng feedback: ${fn:length(feedbackList)}</p>
+                    <h5>Phản hồi của khách hàng:</h5>
+                    <c:if test="${empty feedbackList}">
+                        <p class="text-muted">Chưa có phản hồi nào cho sản phẩm này.</p>
+                    </c:if>
+                        
+                    <c:forEach var="fb" items="${feedbackList}">
+                        <div class="border rounded p-3 mb-3">
+                            <strong>${fb.account.fullName}</strong>
+                            <span class="text-warning">${fb.rating}⭐</span>
+                            <p class="mb-1 fw-bold">${fb.subject}</p>
+                            <p class="mb-1">${fb.message}</p>
+                            <small class="text-muted">
+                                <fmt:formatDate value="${fb.createdAt}" pattern="dd/MM/yyyy HH:mm"/>
+                            </small>
+                        </div>
+                    </c:forEach>
+                </div>
             </div>
+
         </div>
 
         <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
@@ -192,9 +230,12 @@
             //        });
 
             // Rating sao
+            // Rating sao
             document.querySelectorAll(".star").forEach(star => {
                 star.addEventListener("click", () => {
                     const value = parseInt(star.dataset.value);
+                    document.getElementById("rating-value").value = value; // Gắn vào input hidden
+
                     document.querySelectorAll(".star").forEach(s => {
                         if (parseInt(s.dataset.value) <= value) {
                             s.classList.add("active");
@@ -206,6 +247,7 @@
                     });
                 });
             });
+
 
             // Nút tăng/giảm số lượng
             function increase() {

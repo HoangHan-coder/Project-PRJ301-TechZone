@@ -1,162 +1,85 @@
 package model;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import model.Account;
-import model.Orders;
-import model.Product;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-/**
- *
- * @author letan
- */
-public class FeedBack {
-
-    private Account account;
-    Product product;
+public class Feedback {
     private int feedbackId;
+    private Account account;             
+    private Product product;              
+    private Order order;                 
     private String subject;
     private String message;
-    private int rating;
+    private Integer rating;
     private boolean isPublic;
     private String status;
-    private Date createAt;
-    private Timestamp updateAt;
-    private int responseByAccountId;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
+    private Account responseBy;          
     private String responseMessage;
-    private Date responseAt;
+    private Timestamp responseAt;
 
-    public FeedBack() {
-    }
+    public Feedback() {}
 
-    public FeedBack(int feedbackId, Product product, String message, int rating, Date createAt, String responseMessage) {
-        this.product = product;
+    public Feedback(int feedbackId, Account account, Product product, Order order,
+                    String subject, String message, Integer rating, boolean isPublic,
+                    String status, Timestamp createdAt, Timestamp updatedAt,
+                    Account responseBy, String responseMessage, Timestamp responseAt) {
         this.feedbackId = feedbackId;
-        this.message = message;
-        this.rating = rating;
-        this.createAt = createAt;
-        this.responseMessage = responseMessage;
-
-    }
-
-    public FeedBack(Account account, Product product, int feedbackId, String message, int rating, boolean isPublic, String status, String responseMessage, Date responseAt) {
         this.account = account;
         this.product = product;
-        this.feedbackId = feedbackId;
-        this.message = message;
-        this.rating = rating;
-        this.isPublic = isPublic;
-        this.status = status;
-        this.responseMessage = responseMessage;
-        this.responseAt = responseAt;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public int getFeedbackId() {
-        return feedbackId;
-    }
-
-    public void setFeedbackId(int feedbackId) {
-        this.feedbackId = feedbackId;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
+        this.order = order;
         this.subject = subject;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
         this.message = message;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
         this.rating = rating;
-    }
-
-    public boolean isIsPublic() {
-        return isPublic;
-    }
-
-    public void setIsPublic(boolean isPublic) {
         this.isPublic = isPublic;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
-    }
-
-    public Timestamp getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(Timestamp updateAt) {
-        this.updateAt = updateAt;
-    }
-
-    public int getResponseByAccountId() {
-        return responseByAccountId;
-    }
-
-    public void setResponseByAccountId(int responseByAccountId) {
-        this.responseByAccountId = responseByAccountId;
-    }
-
-    public String getResponseMessage() {
-        return responseMessage;
-    }
-
-    public void setResponseMessage(String responseMessage) {
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.responseBy = responseBy;
         this.responseMessage = responseMessage;
-    }
-
-    public Date getResponseAt() {
-        return responseAt;
-    }
-
-    public void setResponseAt(Date responseAt) {
         this.responseAt = responseAt;
     }
 
+    // --- GETTER & SETTER ---
+    public int getFeedbackId() { return feedbackId; }
+    public void setFeedbackId(int feedbackId) { this.feedbackId = feedbackId; }
+
+    public Account getAccount() { return account; }
+    public void setAccount(Account account) { this.account = account; }
+
+    public Product getProduct() { return product; }
+    public void setProduct(Product product) { this.product = product; }
+
+    public Order getOrder() { return order; }
+    public void setOrder(Order order) { this.order = order; }
+
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
+
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
+
+    public Integer getRating() { return rating; }
+    public void setRating(Integer rating) { this.rating = rating; }
+
+    public boolean isPublic() { return isPublic; }
+    public void setPublic(boolean aPublic) { isPublic = aPublic; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public Timestamp getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+
+    public Timestamp getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
+
+    public Account getResponseBy() { return responseBy; }
+    public void setResponseBy(Account responseBy) { this.responseBy = responseBy; }
+
+    public String getResponseMessage() { return responseMessage; }
+    public void setResponseMessage(String responseMessage) { this.responseMessage = responseMessage; }
+
+    public Timestamp getResponseAt() { return responseAt; }
+    public void setResponseAt(Timestamp responseAt) { this.responseAt = responseAt; }
 }

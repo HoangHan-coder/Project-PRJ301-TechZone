@@ -22,7 +22,7 @@ public class Account {
     private LocalDateTime createdAt;
     private LocalDateTime updateAt;
     private String roleName;
-
+    
     public Account() {
     }
 
