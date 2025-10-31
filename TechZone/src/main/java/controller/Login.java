@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -72,9 +73,6 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<<<<<<< HEAD
-        processRequest(request, response);
-=======
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
@@ -98,7 +96,7 @@ public class Login extends HttpServlet {
             }
 
         
->>>>>>> DatVT
+
     }
 
     /**

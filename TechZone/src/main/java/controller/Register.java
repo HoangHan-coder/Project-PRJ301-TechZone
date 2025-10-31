@@ -72,9 +72,7 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<<<<<<< HEAD
-        processRequest(request, response);
-=======
+
 //        processRequest(request, response);
         request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=UTF-8");
@@ -95,7 +93,7 @@ public class Register extends HttpServlet {
             out.print(json);
         }
         out.flush();
->>>>>>> DatVT
+
     }
 
     /**
