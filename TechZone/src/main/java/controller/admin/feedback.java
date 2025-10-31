@@ -21,7 +21,7 @@ import until.Pagination;
  * @author letan
  */
 @WebServlet(name = "feelback", urlPatterns = {"/admin/feedback"})
-public class feedback extends HttpServlet {
+public class Feedback extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
