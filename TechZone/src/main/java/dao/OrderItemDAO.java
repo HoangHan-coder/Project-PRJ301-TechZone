@@ -34,7 +34,7 @@ public class OrderItemDAO extends DBContext {
                 + "FROM     Accounts INNER JOIN\n"
                 + "                  Orders ON Accounts.AccountId = Orders.AccountId INNER JOIN\n"
                 + "                  OrderItems ON Orders.OrderId = OrderItems.OrderId INNER JOIN\n"
-                + "                  Product ON OrderItems.ProductId = Product.ProductId INNER JOIN\n"
+                + "                  Product ON OrderItems.ProductId = Product.ProductId LEFT JOIN\n"
                 + "                  Vouchers ON Orders.VoucherId = Vouchers.VoucherId\n"
                 + "WHERE Accounts.Username = ?  AND Orders.IsDeleted = 0;";
 
@@ -71,7 +71,7 @@ public class OrderItemDAO extends DBContext {
                 + "FROM     Accounts INNER JOIN\n"
                 + "                  Orders ON Accounts.AccountId = Orders.AccountId INNER JOIN\n"
                 + "                  OrderItems ON Orders.OrderId = OrderItems.OrderId INNER JOIN\n"
-                + "                  Product ON OrderItems.ProductId = Product.ProductId INNER JOIN\n"
+                + "                  Product ON OrderItems.ProductId = Product.ProductId LEFT JOIN\n"
                 + "                  Vouchers ON Orders.VoucherId = Vouchers.VoucherId\n"
                 + "WHERE Accounts.IsDeleted = 0 AND  Orders.IsDeleted = 0 AND OrderItems.OrderItemId = ?;";
 
