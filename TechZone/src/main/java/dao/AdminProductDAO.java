@@ -63,7 +63,7 @@ public class AdminProductDAO extends DBContext{
             sql.append("");
             category = "";
         } else {
-            sql.append(" AND CategoryId = (select CategoryId from Category where Name = '?')");
+            sql.append(" AND CategoryId = (select CategoryId from Category where Name = ?)");
         }
         
     }
@@ -71,7 +71,7 @@ public class AdminProductDAO extends DBContext{
         sql.append(" AND JSON_VALUE(ProductAttributes, '$.brand') = ?");
     }
     if ("newest".equals(sort)) {
-        sql.append(" ORDER BY created_at DESC");
+        sql.append(" ORDER BY CreatedAt DESC");
     } 
 
     try (Connection con = this.getConnection();
