@@ -72,7 +72,30 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+<<<<<<< HEAD
         processRequest(request, response);
+=======
+//        processRequest(request, response);
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
+        String username = request.getParameter("name");
+        String password = request.getParameter("password");
+        String phone = request.getParameter("phone");
+
+        AuthDAO account = new AuthDAO();
+        // hello
+      
+        PrintWriter out = response.getWriter();
+        if (account.register(username, password, phone) == 1) {
+            
+            String json = "{ \"success\": true, \"message\":\"User registered successfully!\" }";
+            out.print(json);
+        } else {
+            String json = "{ \"success\": false, \"message\":\"register failure\" }";
+            out.print(json);
+        }
+        out.flush();
+>>>>>>> DatVT
     }
 
     /**

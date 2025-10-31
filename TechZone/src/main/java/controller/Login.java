@@ -72,7 +72,33 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+<<<<<<< HEAD
         processRequest(request, response);
+=======
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+      // hello
+            AuthDAO userdao = new AuthDAO();
+            AccountUsers account = userdao.login(username, password);
+            if (account != null) {
+                HttpSession session = request.getSession();
+                    session.setAttribute("account", account);
+                if (account.getAccountroles().equals("Admin")) {
+                    
+                    response.sendRedirect(getServletContext().getContextPath() + "/admin");
+                } else {
+                    
+                    response.sendRedirect(getServletContext().getContextPath() + "/products");
+                }
+                
+
+            } else {
+                response.sendRedirect(getServletContext().getContextPath() + "/login");
+            }
+
+        
+>>>>>>> DatVT
     }
 
     /**
