@@ -1,5 +1,6 @@
 package model;
 
+
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
@@ -133,4 +134,6 @@ public class Product {
         }
         return map;
     }
+    
+
 }

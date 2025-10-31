@@ -56,26 +56,26 @@ public class AdminProductDAO extends DBContext{
     
     public List<Product> filterProducts(String category, String brand, String sort) {
     List<Product> list = new ArrayList<>();
-    StringBuilder sql = new StringBuilder("SELECT * FROM Product WHERE IsDeleted = 0");
+   String sql = "SELECT * FROM Product WHERE IsDeleted = 0";
 
     if (category != null && !category.isEmpty()) {
         if(category.equals("all")){
-            sql.append("");
+            sql += "";
             category = "";
         } else {
-            sql.append(" AND CategoryId = (select CategoryId from Category where Name = ?)");
+            sql += " AND CategoryId = (select CategoryId from Category where Name = ?)";
         }
         
     }
     if (brand != null && !brand.isEmpty()) {
-        sql.append(" AND JSON_VALUE(ProductAttributes, '$.brand') = ?");
+        sql += " AND JSON_VALUE(ProductAttributes, '$.brand') = ?";
     }
     if ("newest".equals(sort)) {
-        sql.append(" ORDER BY CreatedAt DESC");
+        sql += " ORDER BY CreatedAt DESC";
     } 
 
     try (Connection con = this.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql.toString())) {
+         PreparedStatement ps = con.prepareStatement(sql)) {
 
         int index = 1;
         if (category != null && !category.isEmpty()) ps.setString(index++, category);
@@ -85,7 +85,7 @@ public class AdminProductDAO extends DBContext{
         while (rs.next()) {
             list.add(mapResultSetToProduct(rs));
         }
-
+        System.out.println(list);
     } catch (SQLException e) {
         e.printStackTrace();
     }
