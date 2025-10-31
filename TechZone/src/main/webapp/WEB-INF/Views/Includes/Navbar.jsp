@@ -1,4 +1,4 @@
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
     .input-group .form-select,
     .input-group .form-control,
@@ -16,7 +16,7 @@
         box-shadow: none !important;
     }
 </style>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
 <!-- Top Navbar -->
 <div class="bg-light border-bottom">
     <div class="container d-flex justify-content-between align-items-center py-2">
@@ -31,15 +31,11 @@
 
             <div class="collapse navbar-collapse my-navbar" id="mainNav">
                 <ul class="navbar-nav">
-
-                    <li class="nav-item"><a class="nav-link active fw-bold" href="${pageContext.request.contextPath}/products">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active fw-bold" href="Home.jsp">Home</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="#">Pages</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="Shop.jsp">Shop</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="#">Blog</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="#">Landing</a></li>
-
-
-
                 </ul>
             </div>
             <!-- Contact Info -->
@@ -47,7 +43,7 @@
                 <i class="bi bi-headset me-2 fs-2"></i>
                 <div>
                     <div class="fw-bold fs-4">+0916973161</div>
-                    <small class="text-muted" ">KhangPD.CE191105@gmail.com</small>
+                    <small class="text-muted">KhangPD.CE191105@gmail.com</small>
                 </div>
             </div>
         </nav>
@@ -77,17 +73,16 @@
             </ul>
         </div>
         <!-- Search Bar -->
-        <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" 
-              action="search" method="post">
-            <input type="hidden" name="action" value="search">
+        <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" role="search">
             <div class="input-group" style="max-width: 600px; width: 100%;">
-                <input class="form-control border-0" 
-                       type="search" 
-                       name="txtSearch" 
-                       placeholder="Search products..." 
-                       aria-label="Search" 
-                       required>
-                <button class="btn btn-light border-0" type="submit">
+                <select class="form-select border-0 border-end" style="max-width: 180px;">
+                    <option selected>All Categories</option>
+                    <option value="1">Electronics</option>
+                    <option value="2">Fashion</option>
+                    <option value="3">Home</option>
+                </select>
+                <input class="form-control border-0" type="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+                <button class="btn btn-light" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
@@ -96,7 +91,7 @@
         <!-- Icons -->
         <div class="d-flex align-items-center text-white">
             <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-arrow-left-right"></i></a>
-            <a href="${pageContext.request.contextPath}/profile" class="text-white mx-2 fs-5"><i class="bi bi-person"></i></a>
+            <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-person"></i></a>
             <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-heart"></i></a>
 
             <!-- Cart with badge -->

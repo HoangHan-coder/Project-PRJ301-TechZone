@@ -29,6 +29,16 @@ public class Voucher {
     public Voucher() {
     }
 
+    public Voucher(int voucherId, String code, BigDecimal discountValue, String discountType, String status) {
+        this.voucherId = voucherId;
+        this.code = code;
+        this.discountValue = discountValue;
+        this.discountType = discountType;
+        this.status = status;
+    }
+    
+    
+
     public Voucher(String code, BigDecimal discountValue, String discountType, Timestamp startDate, Timestamp endDate, BigDecimal minOrderValue, int maxUsage) {
         this.code = code;
         this.discountValue = discountValue;
@@ -39,9 +49,7 @@ public class Voucher {
         this.maxUsage = maxUsage;
         this.currentUsage = 0;
     }
-    
-    
-    
+
     public Voucher(int voucherId, String imgPath, String code, BigDecimal discountValue, String discountType, Timestamp startDate, Timestamp endDate, String status, BigDecimal minOrderValue, int maxUsage, int currentUsage) {
         this.voucherId = voucherId;
         this.imgPath = imgPath;
@@ -55,14 +63,14 @@ public class Voucher {
         this.maxUsage = maxUsage;
         this.currentUsage = currentUsage;
     }
-    
+
     public boolean isExpired() {
-        LocalDateTime now = LocalDateTime.now();        
+        LocalDateTime now = LocalDateTime.now();
         return (now.isAfter(endDate.toLocalDateTime()));
     }
-    
+
     public boolean isNotStart() {
-        LocalDateTime now = LocalDateTime.now();        
+        LocalDateTime now = LocalDateTime.now();
         return (now.isBefore(startDate.toLocalDateTime()));
     }
 
@@ -97,11 +105,10 @@ public class Voucher {
     public void setCode(String code) {
         this.code = code;
     }
-    
+
     public BigDecimal getDiscountValue() {
         return this.discountValue;
     }
-    
 
     public String getDiscountValueToString() {
         if (this.discountType.equals("PERCENT")) {
@@ -132,15 +139,20 @@ public class Voucher {
     }
 
     public String getStatus() {
-        if(this.isExpired()) {
+        if(this.status == null) {
+            this.setStatus("ACTIVE");
+        }
+        if (this.status.equals("DISABLED")) {
+            this.setStatus("DISABLED");
+        } else if (this.isExpired()) {
             this.setStatus("EXPIRED");
-        } else if(this.isNotStart()) {
+        } else if (this.isNotStart()) {
             this.setStatus("UPCOMING");
         } else {
             this.setStatus("ACTIVE");
         }
-        
-        if(this.getMaxUsage() <= 0) {
+
+        if (this.getMaxUsage() <= 0) {
             this.setStatus("DISABLED");
         }
         return status;
@@ -149,11 +161,11 @@ public class Voucher {
     public void setStatus(String status) {
         this.status = status;
     }
-    
+
     public BigDecimal getMinOrderValue() {
         return minOrderValue;
     }
-    
+
     public String getMinOrderValueToString() {
         return minOrderValue.intValue() + "VND";
     }
@@ -177,7 +189,5 @@ public class Voucher {
     public void setCurrentUsage(int currentUsage) {
         this.currentUsage = currentUsage;
     }
-    
-    
+
 }
-    

@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +86,9 @@ public class VoucherServlet extends HttpServlet {
                 case "remove":
                     removeVoucher(request, response);
                     break;
+                case "search":
+                    searchVoucher(request, response);
+                    break;
                 default:
                     throw new AssertionError();
             }
@@ -98,6 +100,7 @@ public class VoucherServlet extends HttpServlet {
 
     private void getAllVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pageRaw = request.getParameter("page");
+        String success = request.getParameter("success");
         int currentPage;
         try {
             currentPage = Integer.parseInt(pageRaw);
@@ -110,20 +113,39 @@ public class VoucherServlet extends HttpServlet {
         List<Voucher> listVoucher = db.getVoucherList(currentPage);
         p.handlePagintation(request, currentPage, totalRow, "voucher");
         request.setAttribute("listVoucher", listVoucher);
-
+        request.setAttribute("success", success);
         request.getRequestDispatcher("/WEB-INF/views/admin/voucher/list-voucher.jsp").forward(request, response);
     }
 
     private void getCreateVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String errString = (String) request.getSession().getAttribute("errors");
+        Map<String, String> errMap = splitError(errString);
+        request.setAttribute("errorMap", errMap);
+        request.getSession().removeAttribute("errors");
         request.getRequestDispatcher("/WEB-INF/views/admin/voucher/create-voucher.jsp").forward(request, response);
     }
 
     private void getUpdateVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String voucherCode = request.getParameter("voucherCode");
+        String errors = (String) request.getSession().getAttribute("errors");
+        System.out.println(errors);
+        if (errors != null) {
+            Map<String, String> errorMap = new HashMap<>();
+            String[] error = errors.split(",");
+            String[] errorDetail;
+            for (String err : error) {
+                errorDetail = err.split("-");
+                errorMap.put(errorDetail[0], errorDetail[1]);
+                System.out.println(errorDetail[0] + ": " + errorDetail[1]);
+            }
+            request.setAttribute("errorMap", errorMap);
+            System.out.println("Đã set errorMap");
+        }
         VoucherDAO db = new VoucherDAO();
         Voucher v = db.getByVoucherCode(voucherCode);
-
         request.setAttribute("voucher", v);
+        System.out.println(v.getCode());
+        request.getSession().removeAttribute("errors");
         request.getRequestDispatcher("/WEB-INF/views/admin/voucher/update-voucher.jsp").forward(request, response);
     }
 
@@ -134,6 +156,28 @@ public class VoucherServlet extends HttpServlet {
         request.setAttribute("success", success);
         request.setAttribute("removeError", removeError);
         getAllVoucher(request, response);
+    }
+
+    private void searchVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String success = request.getParameter("success");
+        String keyword = request.getParameter("keyword").trim();
+        String pageRaw = request.getParameter("page");
+
+        int currentPage;
+        try {
+            currentPage = Integer.parseInt(pageRaw);
+        } catch (NumberFormatException ex) {
+            currentPage = 1;
+        }
+         
+        Pagination p = new Pagination();
+        VoucherDAO db = new VoucherDAO();
+        List<Voucher> listVoucher = db.getByVouCode(keyword, currentPage);
+        int totalPage = db.getTotalRow(keyword);
+        request.setAttribute("listVoucher", listVoucher);
+        request.setAttribute("success", success);
+        p.handlePagintation(request, currentPage, totalPage, "voucher");
+        request.getRequestDispatcher("/WEB-INF/views/admin/voucher/list-voucher.jsp").forward(request, response);
     }
 
     private void createVoucher(HttpServletRequest request, HttpServletResponse response)
@@ -148,59 +192,28 @@ public class VoucherServlet extends HttpServlet {
         String endDateRaw = request.getParameter("endDate");
         LocalDateTime endDate = LocalDateTime.parse(endDateRaw);
         String maxUsageRaw = request.getParameter("maxUsage");
-        int maxUsage = 0;
-        double discountValue = 0;
-        double minOrderValue = 0;
 
-        Map<String, String> errors = new HashMap<>();
         VoucherDAO voucherDAO = new VoucherDAO();
-
-        try {
-            discountValue = Double.parseDouble(discountValueRaw);
-            if (discountValue <= 0) {
-                errors.put("discountValueError", "Giá trị giảm giá phải lớn hơn 0!");
-            }
-        } catch (NumberFormatException ex) {
-            errors.put("discountValueError", "Giá trị giảm giá không hợp lệ!");
-        }
-
-        try {
-            minOrderValue = Double.parseDouble(minOrderValueRaw);
-            if (minOrderValue <= 0) {
-                errors.put("minOrderValueError", "Giá trị tối thiểu phải lớn hơn 0!");
-            }
-        } catch (NumberFormatException ex) {
-            errors.put("minOrderValueError", "Giá trị tối thiểu không hợp lệ!");
-        }
-
-        try {
-            maxUsage = Integer.parseInt(maxUsageRaw);
-            if (maxUsage <= 0) {
-                errors.put("maxUsage", "Số lượng voucher phải lớn hơn 0!");
-            }
-        } catch (NumberFormatException ex) {
-            errors.put("maxUsage", "Số lượng voucher không hợp lệ!");
-        }
-
-        LocalDateTime now = LocalDateTime.now();
-        if (now.isAfter(startDate)) {
-            errors.put("startDateError", "Ngày bắt đầu không hợp lệ!");
-        }
-
-        if (!errors.isEmpty()) {
-            request.setAttribute("errors", errors);
-            request.getRequestDispatcher("/WEB-INF/views/admin/voucher/create-voucher.jsp").forward(request, response);
+        String errors = checkInput(voucherDAO, vocherCodeRaw, discountValueRaw, discountTypeRaw, minOrderValueRaw, startDate, endDate, maxUsageRaw).trim();
+        System.out.println(errors + "<-------------");
+        if (!errors.isEmpty() && errors.startsWith(",")) {
+            request.getSession().setAttribute("errors", errors.substring(1));
+            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=create");
             return;
         }
 
+        int maxUsage = Integer.parseInt(maxUsageRaw);
+        double discountValue = Double.parseDouble(discountValueRaw);
+        double minOrderValue = Double.parseDouble(minOrderValueRaw);
         Voucher v = new Voucher(vocherCodeRaw, BigDecimal.valueOf(discountValue), discountTypeRaw, Timestamp.valueOf(startDate), Timestamp.valueOf(endDate), BigDecimal.valueOf(minOrderValue), maxUsage);
         int result = voucherDAO.createVoucher(v);
         if (result == 1) {
-            System.out.println("------------------------>pass");
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher");
+            String success = "Create successfully!";
+            response.sendRedirect(getServletContext().getContextPath() + "/voucher?success=" + success);
 
         } else {
-            request.getRequestDispatcher("/WEB-INF/views/admin/voucher/create-voucher.jsp").forward(request, response);
+            request.getSession().setAttribute("createErr", "Create failded!");
+            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=create");
         }
 
     }
@@ -211,12 +224,13 @@ public class VoucherServlet extends HttpServlet {
         int voucherId = Integer.parseInt(request.getParameter("voucherId"));
         VoucherDAO voucherDAO = new VoucherDAO();
         int result = voucherDAO.deleteVoucher(voucherId);
-        System.out.println(voucherId);
+
         if (result == 1) {
-            String success = "Xóa thành công!";
+            String success = "Delete successfully!";
+            System.out.println(success);
             response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=remove&success=" + success);
         } else {
-            String removeError = "Xóa không thành công!";
+            String removeError = "Delete failded!";
             response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=remove&removeError=" + removeError);
         }
 
@@ -224,7 +238,147 @@ public class VoucherServlet extends HttpServlet {
 
     private void updateVoucher(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int voucherId = Integer.parseInt(request.getParameter("voucherId"));
+        String voucherCode = request.getParameter("voucherCode");
+        String discountValueRaw = request.getParameter("discountValue");
+        String discountType = request.getParameter("discountType");
+        String minOrderValueRaw = request.getParameter("minOrderValue");
+        String startDateRaw = request.getParameter("startDate");
+        LocalDateTime startDate = LocalDateTime.parse(startDateRaw);
+        String endDateRaw = request.getParameter("endDate");
+        LocalDateTime endDate = LocalDateTime.parse(endDateRaw);
+        String maxUsageRaw = request.getParameter("maxUsage");
 
+        VoucherDAO voucherDAO = new VoucherDAO();
+        BigDecimal discountValue = BigDecimal.ONE;
+        BigDecimal minOrderValue = BigDecimal.ONE;
+        String errors = "";
+        int maxUsage = 0;
+        if (voucherDAO.voucherCodeExist(voucherCode) && !voucherCode.equals(voucherCode)) {
+            errors += ",vouCodExist-Voucher code đã tồn tại!";
+        }
+
+        try {
+            discountValue = BigDecimal.valueOf(Double.parseDouble(discountValueRaw));
+            if (discountValue.doubleValue() <= 0) {
+                errors += ",disValErrPos-Giá trị giảm giá phải lớn hơn 0!";
+            }
+        } catch (NumberFormatException ex) {
+            errors += ",disValErrNumFmt-Giá trị giảm giá phải đúng định dạng số!";
+        }
+
+        try {
+            minOrderValue = BigDecimal.valueOf(Double.parseDouble(minOrderValueRaw));
+            if (minOrderValue.doubleValue() <= 0) {
+                errors += ",minOrdErrPos-Giá trị tối thiểu phải lớn hơn 0!";
+            }
+        } catch (NumberFormatException ex) {
+            errors += ",minOrdErrNumFmt-Giá trị tối thiểu phải đúng định dạng số!";
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isAfter(endDate)) {
+            errors += ",endDateErr-Ngày kết thúc voucher không hợp lệ!";
+        } else if (endDate.isBefore(startDate)) {
+            errors += ",endDateErr-Ngày kết thúc voucher không hợp phải sau ngày bắt đầu voucher";
+        }
+
+        try {
+            maxUsage = Integer.parseInt(maxUsageRaw);
+            if (maxUsage <= 0) {
+                errors += ",maxUsageErrPos-Số lượng voucher phải lớn hơn 0!";
+            }
+        } catch (NumberFormatException ex) {
+            errors += ",maxUsageErrNumFmt-Số lượng voucher phải đúng định dạng số!";
+        }
+
+        if (!errors.isEmpty() && errors.startsWith(",")) {
+            errors = errors.substring(1);
+            request.getSession().setAttribute("errors", errors);
+            System.out.println(voucherCode);
+            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=update&voucherCode=" + voucherCode);
+            return;
+        }
+
+        Voucher voucher = new Voucher(voucherCode, discountValue, discountType, Timestamp.valueOf(startDate), Timestamp.valueOf(endDate), minOrderValue, maxUsage);
+        int result = voucherDAO.updateVoucher(voucher, voucherId);
+
+        if (result == 1) {
+
+            String success = "Update successfully!";
+            System.out.println(success);
+            response.sendRedirect(getServletContext().getContextPath() + "/voucher?success=" + success);
+        } else {
+            System.out.println("---------------------------------------------------------------------------------------------------->failded");
+            String updateError = "Update failded!";
+            response.sendRedirect(getServletContext().getContextPath() + "/voucher?updateError=" + updateError);
+        }
+    }
+
+    private String checkInput(VoucherDAO voucherDAO, String voucherCode, String discountValueRaw, String discountType, String minOrderValueRaw, LocalDateTime startDate, LocalDateTime endDate, String maxUsageRaw) {
+        String errors = "";
+        BigDecimal discountValue, minOrderValue;
+        int maxUsage;
+        if (voucherDAO.voucherCodeExist(voucherCode)) {
+            errors += ",vouCodExist-Voucher code đã tồn tại!";
+        }
+
+        try {
+            discountValue = BigDecimal.valueOf(Double.parseDouble(discountValueRaw));
+            if (discountValue.doubleValue() <= 0) {
+                errors += ",disValErrPos-Giá trị giảm giá phải lớn hơn 0!";
+            } else if (discountType.equalsIgnoreCase("PERCENT") && discountValue.doubleValue() > 100) {
+                errors += ",disValErrPos-Giá trị giảm giá dạng phần trăm không được vượt quá 100%!";
+            }
+        } catch (NumberFormatException ex) {
+            errors += ",disValErrNumFmt-Giá trị giảm giá phải đúng định dạng số!";
+        }
+
+        try {
+            minOrderValue = BigDecimal.valueOf(Double.parseDouble(minOrderValueRaw));
+            if (minOrderValue.doubleValue() <= 0) {
+                errors += ",minOrdErrPos-Giá trị tối thiểu phải lớn hơn 0!";
+            }
+        } catch (NumberFormatException ex) {
+            errors += ",minOrdErrNumFmt-Giá trị tối thiểu phải đúng định dạng số!";
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        if (now.isAfter(startDate)) {
+            errors += ",startDateErr-Ngày bắt đầu không hợp lệ!";
+        }
+
+        if (now.isAfter(endDate)) {
+            errors += ",endDateErr-Ngày kết thúc voucher không hợp lệ!";
+        } else if (endDate.isBefore(startDate)) {
+            errors += ",endDateErr-Ngày kết thúc voucher không hợp phải sau ngày bắt đầu voucher";
+        }
+
+        try {
+            maxUsage = Integer.parseInt(maxUsageRaw);
+            if (maxUsage <= 0) {
+                errors += ",maxUsageErrPos-Số lượng voucher phải lớn hơn 0!";
+            }
+        } catch (NumberFormatException ex) {
+            errors += ",maxUsageErrNumFmt-Số lượng voucher phải đúng định dạng số!";
+        }
+        return errors;
+    }
+
+    private Map<String, String> splitError(String errors) {
+        Map<String, String> errorMap = new HashMap<>();
+        if (errors != null) {
+
+            String[] error = errors.split(",");
+            String[] errorDetail;
+            for (String err : error) {
+                errorDetail = err.split("-");
+                errorMap.put(errorDetail[0], errorDetail[1]);
+                System.out.println(errorDetail[0] + ": " + errorDetail[1]);
+            }
+            return errorMap;
+        }
+        return null;
     }
 
 }

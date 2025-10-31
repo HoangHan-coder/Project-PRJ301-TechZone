@@ -95,7 +95,11 @@
                                     </div>
                                     <div class="col-md-10">
                                         <div class="card-body">
-                                            <p class="card-title fw-bolder fs-3 text" style="cursor: pointer;">${orderItem.productNameSnapshot}</p>
+                                            <c:url value="/order" var="orderDetail">
+                                                <c:param name="view" value="order-detail"/>
+                                                <c:param name="orderItemId" value="${orderItem.orderItemId}"/>
+                                            </c:url>
+                                            <p class="card-title fw-bolder fs-3 text" style="cursor: pointer;"><a href="${orderDetail}">${orderItem.productNameSnapshot}</a></p>
                                             <p class="card-text position-relative">x${orderItem.quantity}<span
                                                     class="position-absolute  top-0 end-0">${orderItem.unitPrice}</span></p>
                                         </div>

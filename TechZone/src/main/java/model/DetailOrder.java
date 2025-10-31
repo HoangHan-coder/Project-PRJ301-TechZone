@@ -13,11 +13,11 @@ import java.util.List;
 public class DetailOrder {
     private List<Product> product;
     private List<Orders> order;
-    private List<Accounts> account;
+    private List<Account> account;
     public DetailOrder() {
     }
 
-    public DetailOrder(List<Product> product, List<Orders> order, List<Accounts> account) {
+    public DetailOrder(List<Product> product, List<Orders> order, List<Account> account) {
         this.product = product;
         this.order = order;
         this.account = account;
@@ -39,11 +39,11 @@ public class DetailOrder {
         this.order = order;
     }
 
-    public List<Accounts> getAccount() {
+    public List<Account> getAccount() {
         return account;
     }
 
-    public void setAccount(List<Accounts> account) {
+    public void setAccount(List<Account> account) {
         this.account = account;
     }
 

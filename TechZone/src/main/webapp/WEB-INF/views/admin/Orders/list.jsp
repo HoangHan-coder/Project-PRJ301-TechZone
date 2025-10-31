@@ -107,137 +107,81 @@
             .btn-delete:hover {
                 color: darkred;
             }
-            .pagination {
-                display: flex;
-                list-style: none;
-                gap: 8px;
-                padding: 0;
-                margin: 0;
-                margin-top: 20px;
-            }
 
-            .pagination a {
-                display: block;
-                padding: 8px 14px;
-                border: 1px solid #f1c40f;
-                border-radius: 8px;
-                color: #8d6e00;
-                text-decoration: none;
-                background-color: #fffbea;
-                font-size: 15px;
-                transition: all 0.25s ease;
-            }
-
-            .pagination a:hover {
-                background-color: #ffd54f;
-                color: #5d4037;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            }
-
-            .pagination .active a {
-                background-color: #fbc02d;
-                color: white;
-                font-weight: 600;
-                pointer-events: none;
-            }
-
-            .pagination .disabled a {
-                color: #ccc;
-                border-color: #eee;
-                background-color: #fafafa;
-                pointer-events: none;
-            }
         </style>
     </head>
     <body>
-        <div class="container-fluid"> 
-            <div>
-                <%@include file="../../includes/slide-bar-admin.jsp" %>
-            </div>
-            <div style="margin: 0 0 50px 280px;">
-                <h2 style="text-align: center; margin-bottom: 40px"> <span style="color:#2563eb;">Danh sách sản phẩm</span></h2>
+        <h2> <span style="color:#2563eb;">Danh sách sản phẩm</span></h2>
 
-                <table class="order-table">
-                    <thead>
-                        <tr>
-                            <th>Mã Đơn</th>
-                            <th>Khách hàng</th>
-                            <th>Tổng tiền</th>
-                            <th>Thanh toán</th>
-                            <th>Trạng thái</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:if test="${!empty list}">
-                            <c:forEach var="i" items="${list}">
-                                <tr>
-                                    <td>${i.ordercode}</td>
-                                    <td>${i.fullname}</td>
-                                    <td>${i.totalamount}₫</td>
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Mã Đơn</th>
+                    <th>Khách hàng</th>
+                    <th>Tổng tiền</th>
+                    <th>Thanh toán</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="i" items="${list}">
+                    <tr>
+                        <td>${i.ordercode}</td>
+                        <td>${i.fullname}</td>
+                        <td>${i.totalamount}₫</td>
 
-                                    <!-- Trạng thái thanh toán -->
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${i.payment == 'Paid'}">
-                                                <span class="status paid">Đã thanh toán</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span class="status unpaid">Chưa thanh toán</span>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
+                        <!-- Trạng thái thanh toán -->
+                        <td>
+                            <c:choose>
+                                <c:when test="${i.payment == 'Paid'}">
+                                    <span class="status paid">Đã thanh toán</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="status unpaid">Chưa thanh toán</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
 
-                                    <!-- Trạng thái đơn hàng -->
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${i.status == 'PENDING'}">
-                                                <span class="status pending">Đang chờ xử lý</span>
-                                            </c:when>
-                                            <c:when test="${i.status == 'PROCESSING'}">
-                                                <span class="status processing">Đang xử lý</span>
-                                            </c:when>
-                                            <c:when test="${i.status == 'COMPLETED'}">
-                                                <span class="status completed">Đã giao</span>
-                                            </c:when>
-                                            <c:when test="${i.status == 'CANCEL'}">
-                                                <span class="status cancel">Đã hủy</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span class="status unknown">Không xác định</span>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
+                        <!-- Trạng thái đơn hàng -->
+                        <td>
+                            <c:choose>
+                                <c:when test="${i.status == 'PENDING'}">
+                                    <span class="status pending">Đang chờ xử lý</span>
+                                </c:when>
+                                <c:when test="${i.status == 'PROCESSING'}">
+                                    <span class="status processing">Đang giao hàng</span>
+                                </c:when>
+                                <c:when test="${i.status == 'COMPLETED'}">
+                                    <span class="status completed">Đã giao</span>
+                                </c:when>
+                                <c:when test="${i.status == 'CANCEL'}">
+                                    <span class="status cancel">Đã hủy</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="status unknown">Không xác định</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
 
-                                    <td class="actions">
-                                        <div style="display: flex; justify-content: center">
-                                            <a href="${pageContext.request.contextPath}/admin/order?view=detail&id=${i.orderid}">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </a>
-                                            <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=delete&id=${i.orderid}">
-                                                <button type="submit" class="btn-delete">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </c:if>
+                        <td class="actions">
+                            <div style="display: flex; justify-content: center">
+                                 <a href="${pageContext.request.contextPath}/admin/order?view=detail&id=${i.orderid}">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=delete&id=${i.orderid}">
+                                <button type="submit" class="btn-delete">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
 
 
-                    </tbody>
-                </table>
-                <c:if test="${!empty list}">
-                    <%@include file="../../includes/pagination.jsp" %>
-                </c:if>
-
-            </div>
-
-
-        </div>
-
-
+            </tbody>
+        </table>
 
     </body>
 </html>

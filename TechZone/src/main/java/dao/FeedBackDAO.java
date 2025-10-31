@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Accounts;
+import model.Account;
 import model.FeedBack;
 import model.Orderlist;
 import model.Product;
@@ -55,7 +55,7 @@ public class FeedBackDAO extends DBContext {
             st.setInt(1, index);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Accounts account = new Accounts(rs.getString("Fullname"));
+                Account account = new Account(rs.getString("Fullname"));
                 Product product = new Product(rs.getString("ProductName"));
                 FeedBack feedback = new FeedBack(account, product, rs.getInt("FeedbackId"), rs.getString("Message"),
                         rs.getInt("Rating"), rs.getBoolean("isPublic"), rs.getString("Status"), rs.getString("ResponseMessage"),
@@ -117,7 +117,7 @@ public class FeedBackDAO extends DBContext {
             st.setInt(2, index);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Accounts account = new Accounts(rs.getString("Fullname"));
+                Account account = new Account(rs.getString("Fullname"));
                 Product product = new Product(rs.getString("ProductName"));
                 FeedBack feedback = new FeedBack(account, product, rs.getInt("FeedbackId"), rs.getString("Message"),
                         rs.getInt("Rating"), rs.getBoolean("isPublic"), rs.getString("Status"), rs.getString("ResponseMessage"),
@@ -153,7 +153,7 @@ public class FeedBackDAO extends DBContext {
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Accounts account = new Accounts(rs.getString("Fullname"));
+                Account account = new Account(rs.getString("Fullname"));
                 Product product = new Product(rs.getString("ProductName"));
                 FeedBack feedback = new FeedBack(
                         account,
@@ -204,7 +204,7 @@ public class FeedBackDAO extends DBContext {
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Accounts account = new Accounts(rs.getString("Fullname"));
+                Account account = new Account(rs.getString("Fullname"));
                 Product product = new Product(rs.getString("ProductName"));
                 FeedBack feedback = new FeedBack(
                         account,
