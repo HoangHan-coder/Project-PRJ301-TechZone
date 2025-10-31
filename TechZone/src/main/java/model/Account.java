@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  *
  * @author letan
  */
-public class Accounts {
+public class Account {
 
     private int accountId;
     private String username;
@@ -22,14 +22,14 @@ public class Accounts {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Accounts() {
+    public Account() {
     }
 
-    public Accounts(String fullName) {
+    public Account(String fullName) {
         this.fullName = fullName;
     }
 
-    public Accounts(int accountId, String username, String passwordHash, String fullName, String email, String phone,
+    public Account(int accountId, String username, String passwordHash, String fullName, String email, String phone,
             boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.accountId = accountId;
         this.username = username;

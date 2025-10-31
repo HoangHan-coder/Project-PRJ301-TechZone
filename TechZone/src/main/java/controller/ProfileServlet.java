@@ -16,34 +16,10 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author acer
  */
-@WebServlet(name = "Register", urlPatterns = {"/register"})
-public class Register extends HttpServlet {
+@WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
+public class ProfileServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Register</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Register at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -57,8 +33,18 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
-        request.getRequestDispatcher("/WEB-INF/views/user/register.jsp").forward(request, response);
+        String action = request.getParameter("action");
+        if(action == null || action.equals("annoucement")){
+            request.setAttribute("active profile", "true");
+            request.getRequestDispatcher("/WEB-INF/views/profile/profile.jsp").forward(request, response);
+        } else if (action.equals("voucher")){
+            request.setAttribute("active voucher", "true");
+             request.getRequestDispatcher("/WEB-INF/views/profile/voucher.jsp").forward(request, response);
+            
+        } else if(action.equals("setting")){
+            request.setAttribute("active account_profile", "true");
+            request.getRequestDispatcher("/WEB-INF/views/profile/account-profile.jsp").forward(request, response);
+        }
     }
 
     /**
@@ -72,7 +58,14 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        String name = request.getParameter("name");
+        String fullname = request.getParameter("fullname");
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
+        
+        
+        
     }
 
     /**

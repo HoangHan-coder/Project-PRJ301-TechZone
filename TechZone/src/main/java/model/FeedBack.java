@@ -2,7 +2,7 @@ package model;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import model.Accounts;
+import model.Account;
 import model.Orders;
 import model.Product;
 
@@ -16,7 +16,7 @@ import model.Product;
  */
 public class FeedBack {
 
-    private Accounts account;
+    private Account account;
     Product product;
     private int feedbackId;
     private String subject;
@@ -43,7 +43,7 @@ public class FeedBack {
 
     }
 
-    public FeedBack(Accounts account, Product product, int feedbackId, String message, int rating, boolean isPublic, String status, String responseMessage, Date responseAt) {
+    public FeedBack(Account account, Product product, int feedbackId, String message, int rating, boolean isPublic, String status, String responseMessage, Date responseAt) {
         this.account = account;
         this.product = product;
         this.feedbackId = feedbackId;
@@ -55,11 +55,11 @@ public class FeedBack {
         this.responseAt = responseAt;
     }
 
-    public Accounts getAccount() {
+    public Account getAccount() {
         return account;
     }
 
-    public void setAccount(Accounts account) {
+    public void setAccount(Account account) {
         this.account = account;
     }
 

@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import model.Accounts;
+import model.Account;
 import model.DetailOrder;
 import model.Orderlist;
 import model.Product;
@@ -90,7 +90,7 @@ public class Orders extends HttpServlet {
                 String id = request.getParameter("id");
                 model.Orders orders = order.getOrderInfoById(Integer.parseInt(id));
                 List<OrderItemDTO> products = order.getProductsByOrderId(Integer.parseInt(id));
-                Accounts account = order.getAccountByOrderId(Integer.parseInt(id));
+                Account account = order.getAccountByOrderId(Integer.parseInt(id));
                 request.setAttribute("account", account);
                 request.setAttribute("order", orders);
                 request.setAttribute("products", products);
