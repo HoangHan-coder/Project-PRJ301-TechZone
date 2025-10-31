@@ -4,6 +4,7 @@
     Author     : NgKaitou
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -60,17 +61,17 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <div class="row g-0" style="height: 240px;">
-                                <div class="col-md-2 h-100">
-                                    <img src="<c:url value="${orderItem.product.linkImg}"></c:url>" class="img-fluid rounded-start" alt="..." style="height: 64px;width: 64px;">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-auto d-flex align-items-center justify-content-center">
+                                    <img src="<c:url value="${orderItem.product.linkImg}"></c:url>" class="img-fluid rounded-start border" alt="..." style="width: 120px; height: 120px; object-fit: contain;">
                                 </div>
-                                <div class="col-md-10">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${orderItem.productNameSnapshot}</h5>
-                                        <p class="card-text d-flex justify-content-between fs-5 text">
-                                          
-                                            <span class="text-danger">${orderItem.unitPrice}</span></p>
-                                        <p class="card-text fs-5 text-black"><small class="text-body-secondary">X${orderItem.quantity}</small></p>
+                                <div class="col">
+                                    <div class="card-body p-0">
+                                        <p class="card-title fs-5 fw-semibold mb-1 text-truncate">${orderItem.productNameSnapshot}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-secondary">x${orderItem.quantity}</small>
+                                            <span class="text-danger fw-semibold"><fmt:formatNumber value="${orderItem.unitPrice}" type="number" maxFractionDigits="0"/>₫</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -80,19 +81,29 @@
                         <tbody>
                             <tr>
                                 <td>Tổng tiền hàng</td>
-                                <td>${orderItem.totalPrice}₫</td>
+                                <td><fmt:formatNumber value="${orderItem.totalPrice}" type="number" maxFractionDigits="0"/>₫</td>
                             </tr>
                             <tr>
                                 <td>Phí vận chuyển</td>
-                                <td>${orderItem.order.shippingFee}₫</td>
+                                <td><fmt:formatNumber value="${orderItem.order.shippingFee}" type="number" maxFractionDigits="0"/>₫</td>
                             </tr>
                             <tr>
                                 <td>Voucher từ TechZone</td>
-                                <td>${orderItem.order.voucher.discountValue}</td>
+                                <c:if test="${orderItem.order.voucher.discountValue == null}">
+                                    <td>Không có</td>
+                                </c:if>
+                                <c:if test="${orderItem.order.voucher.discountType == 'PERCENT'}">
+                                    <td>${orderItem.order.voucher.discountValue}</td>
+                                </c:if>
+                                <c:if test="${orderItem.order.voucher.discountType != 'PERCENT'}">
+                                    <td><fmt:formatNumber value="${orderItem.order.voucher.discountValue}" type="number" maxFractionDigits="0"/></td>
+                                </c:if>
+                                
+                                
                             </tr>
                             <tr>
                                 <td>Thành tiền</td>
-                                <td class="fs-4 text text-danger">${orderItem.order.totalAmount}₫</td>
+                                <td class="fs-4 text text-danger"><fmt:formatNumber value="${orderItem.order.totalAmount}" type="number" maxFractionDigits="0"/>₫</td>
                             </tr>
                             <tr>
                                 <td>Phương thức Thanh toán</td>

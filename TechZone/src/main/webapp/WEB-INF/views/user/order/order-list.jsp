@@ -80,42 +80,61 @@
                            aria-describedby="basic-addon1">
                 </div>
 
-                <c:forEach var="orderItem" items="${listOrder}">
-                    <div class="card my-3" style="width: 100%;">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between">
-                                <p class="fw-bold m-2">TechZone Store</p>
-                                <p class="m-2"><span class="text-success">${orderItem.order.status}</span></p>
-                            </li>
-                            <li class="list-group-item" style="height: 200px">
-                                <div class="row g-0">
-                                    <div class="col-md-2">
-                                        <img src="${pageContext.request.contextPath}${orderItem.product.linkImg}"
-                                             class="img-fluid rounded-start w-100" alt="..." style="height: 180px;">
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="card-body">
-                                            <c:url value="/order" var="orderDetail">
-                                                <c:param name="view" value="order-detail"/>
-                                                <c:param name="orderItemId" value="${orderItem.orderItemId}"/>
-                                            </c:url>
-                                            <p class="card-title fw-bolder fs-3 text" style="cursor: pointer;"><a href="${orderDetail}">${orderItem.productNameSnapshot}</a></p>
-                                            <p class="card-text position-relative">x${orderItem.quantity}<span
-                                                    class="position-absolute  top-0 end-0">${orderItem.unitPrice}</span></p>
+                <c:choose>
+                    <c:when test="${not empty listOrder}">
+                        <c:forEach var="orderItem" items="${listOrder}">
+                            <div class="card my-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <p class="fw-bold m-2">TechZone Store</p>
+                                        <p class="m-2"><span class="text-success">${orderItem.order.status}</span></p>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="row g-3 align-items-center">
+                                            <div class="col-auto d-flex align-items-center justify-content-center">
+                                                <img src="${pageContext.request.contextPath}${orderItem.product.linkImg}"
+                                                     class="img-fluid rounded-start border" alt="..." style="width: 120px; height: 120px; object-fit: contain;">
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-body p-0">
+                                                    <c:url value="/order" var="orderDetail">
+                                                        <c:param name="view" value="order-detail"/>
+                                                        <c:param name="orderItemId" value="${orderItem.orderItemId}"/>
+                                                    </c:url>
+                                                    <p class="card-title fs-5 fw-semibold mb-1 text-truncate" style="cursor: pointer;"><a class="text-decoration-none text-dark" href="${orderDetail}">${orderItem.productNameSnapshot}</a></p>
+                                                    <div class="d-flex justify-content-between align-items-center"><small class="text-secondary">x${orderItem.quantity}</small><span class="text-danger fw-semibold">${orderItem.unitPrice}</span></div>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </li>
+                                    <li class="list-group-item d-flex flex-column align-items-end">
+                                        <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger">${orderItem.totalPrice}</span></p>
+                                        <div class="m-2">
+                                            <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua lại</button>
+                                            <button type="button" class="btn btn-light ">Liên hệ người bán</button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="card my-3">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <p class="fw-bold m-2">TechZone Store</p>
+                                    <p class="m-2"><span class="text-secondary">—</span></p>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="d-flex flex-column justify-content-center align-items-center py-5" style="min-height: 280px;">
+                                        <i class="bi bi-box-seam fs-1 text-secondary"></i>
+                                        <p class="mt-2 mb-0 text-secondary">Không có sản phẩm</p>
                                     </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item d-flex flex-column align-items-end">
-                                <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger">${orderItem.totalPrice}</span></p>
-                                <div class="m-2">
-                                    <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua lại</button>
-                                    <button type="button" class="btn btn-light ">Liên hệ người bán</button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </c:forEach>
+                                </li>
+                            </ul>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>

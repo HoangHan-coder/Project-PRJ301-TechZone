@@ -96,7 +96,7 @@
 
             <!-- Cart with badge -->
             <div class="position-relative mx-2">
-                <a href="#" class="text-white fs-5"><i class="bi bi-cart"></i></a>
+                <a href="http://localhost:8080/TechZone/order" class="text-white fs-5"><i class="bi bi-cart"></i></a>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     0
                 </span>

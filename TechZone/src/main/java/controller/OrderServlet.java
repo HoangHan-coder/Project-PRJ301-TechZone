@@ -54,7 +54,9 @@ public class OrderServlet extends HttpServlet {
             throws ServletException, IOException {
         AccountUsers username = (AccountUsers) request.getSession().getAttribute("account");
         OrderItemDAO orderItemDAO = new OrderItemDAO();
-        List<OrderItem> listOrder = orderItemDAO.getOrderItemByUsername("user7");
+        System.out.println(username.getUsername());
+        List<OrderItem> listOrder = orderItemDAO.getOrderItemByUsername(username.getUsername());
+        System.out.println(listOrder.size());
         request.setAttribute("listOrder", listOrder);
         request.getRequestDispatcher("/WEB-INF/views/user/order/order-list.jsp").forward(request, response);
     }
@@ -62,8 +64,9 @@ public class OrderServlet extends HttpServlet {
     private void getOrderDetail(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         int orderItemId = Integer.parseInt(request.getParameter("orderItemId"));
-        OrderItemDAO orderItemDAO = new OrderItemDAO();
+        OrderItemDAO orderItemDAO = new OrderItemDAO();        
         OrderItem orderItem =  orderItemDAO.getById(orderItemId);
+        System.out.println(orderItem.getOrder().getVoucher().getDiscountValue());
         request.setAttribute("orderItem", orderItem);
         request.getRequestDispatcher("/WEB-INF/views/user/order/order-detail.jsp").forward(request, response);
     }
