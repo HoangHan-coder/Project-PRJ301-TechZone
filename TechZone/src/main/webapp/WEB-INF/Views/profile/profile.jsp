@@ -5,7 +5,7 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@include file="/WEB-INF/Views/Includes/sidebar-profile.jsp" %>
+<%@include file="/WEB-INF/views/includes/sidebar-profile.jsp" %>
 
 <main id="main" class="main">
       <div class="card my-3" style="width: 100%;">
@@ -41,4 +41,4 @@
   </main>
 
 
-<%@include file="/WEB-INF/Views/Includes/footer-profile.jsp" %>
+<%@include file="/WEB-INF/views/includes/footer-profile.jsp" %>

@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author acer
  */
-@WebFilter(filterName = "AuthFilter", urlPatterns = {"/profile","/products"})
+@WebFilter(filterName = "AuthFilter", urlPatterns = {"/profile"})
 public class AuthFilter implements Filter {
     
     
