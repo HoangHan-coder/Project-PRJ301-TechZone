@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import model.FeedBack;
+import model.Feedback;
 import until.Pagination;
 
 /**
@@ -21,35 +21,11 @@ import until.Pagination;
  * @author letan
  */
 @WebServlet(name = "feelback", urlPatterns = {"/admin/feedback"})
-public class Feedback extends HttpServlet {
+public class FeedBack extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet feelback</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet feelback at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -67,7 +43,7 @@ public class Feedback extends HttpServlet {
         String text = request.getParameter("keyword");
         String id = request.getParameter("id");
         if (id != null) {
-            FeedBack data = feedback.getId(Integer.parseInt(id));
+            Feedback data = feedback.getId(Integer.parseInt(id));
             request.setAttribute("data", data);
             request.getRequestDispatcher("/WEB-INF/views/admin/feedback/feedback-detail.jsp").forward(request, response);
             return;
@@ -79,16 +55,16 @@ public class Feedback extends HttpServlet {
         pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAll(), "/admin/feedback");
         int totalpage = Integer.parseInt(request.getAttribute("totalPage") + "");
         if (rating == null && text == null || rating.isEmpty() && text.isEmpty()) {
-            List<FeedBack> list = feedback.getAllPage(Integer.parseInt(page1), 10);
+            List<Feedback> list = feedback.getAllPage(Integer.parseInt(page1), 10);
             request.setAttribute("list", list);
         } else if (text.isEmpty()) {
-            List<FeedBack> list = feedback.getRating(Integer.parseInt(page1), totalpage, Integer.parseInt(rating));
+            List<Feedback> list = feedback.getRating(Integer.parseInt(page1), totalpage, Integer.parseInt(rating));
             request.setAttribute("list", list);
         } else if (rating.isEmpty()) {
-            List<FeedBack> list = feedback.getByKeyword(Integer.parseInt(page1), totalpage, text);
+            List<Feedback> list = feedback.getByKeyword(Integer.parseInt(page1), totalpage, text);
             request.setAttribute("list", list);
         } else if (text != null && rating != null) {
-            List<FeedBack> list = feedback.searchFeedback(Integer.parseInt(page1), totalpage, text, Integer.parseInt(rating));
+            List<Feedback> list = feedback.searchFeedback(Integer.parseInt(page1), totalpage, text, Integer.parseInt(rating));
             request.setAttribute("list", list);
         }
         request.getRequestDispatcher("/WEB-INF/views/admin/feedback/feedback.jsp").forward(request, response);

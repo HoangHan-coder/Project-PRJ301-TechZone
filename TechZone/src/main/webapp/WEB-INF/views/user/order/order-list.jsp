@@ -4,6 +4,7 @@
     Author     : NgKaitou
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -102,13 +103,13 @@
                                                         <c:param name="orderItemId" value="${orderItem.orderItemId}"/>
                                                     </c:url>
                                                     <p class="card-title fs-5 fw-semibold mb-1 text-truncate" style="cursor: pointer;"><a class="text-decoration-none text-dark" href="${orderDetail}">${orderItem.productNameSnapshot}</a></p>
-                                                    <div class="d-flex justify-content-between align-items-center"><small class="text-secondary">x${orderItem.quantity}</small><span class="text-danger fw-semibold">${orderItem.unitPrice}</span></div>
+                                                    <div class="d-flex justify-content-between align-items-center"><small class="text-secondary">x${orderItem.quantity}</small><span class="text-danger fw-semibold"><fmt:formatNumber value="${orderItem.unitPrice}" type="number" maxFractionDigits="0"/>₫</span></div>
                                                 </div>
                                             </div>
                                         </div>
                                     </li>
                                     <li class="list-group-item d-flex flex-column align-items-end">
-                                        <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger">${orderItem.totalPrice}</span></p>
+                                        <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger"><fmt:formatNumber value="${orderItem.totalPrice}" type="number" maxFractionDigits="0"/>₫</span></p>
                                         <div class="m-2">
                                             <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua lại</button>
                                             <button type="button" class="btn btn-light ">Liên hệ người bán</button>

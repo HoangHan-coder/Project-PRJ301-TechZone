@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Account;
-import model.FeedBack;
+import model.Feedback;
 import model.Product;
 
 public class FeedBackDAO extends DBContext {
@@ -27,10 +27,10 @@ public class FeedBackDAO extends DBContext {
         return 0;
     }
 
-    public List<FeedBack> getAllPage(int page, int totalpage) {
+    public List<Feedback> getAllPage(int page, int totalpage) {
         try {
             int index = (page - 1) * 12;
-            List<FeedBack> list = new ArrayList<>();
+            List<Feedback> list = new ArrayList<>();
             String sql = "SELECT a.Fullname, p.ProductName, o.FeedbackId, o.Message, o.Rating, o.isPublic, o.Status, o.ResponseAt, o.ResponseMessage "
                     + "FROM FeedBack o\n"
                     + "JOIN Accounts a ON o.AccountId = a.AccountId\n"
@@ -46,7 +46,7 @@ public class FeedBackDAO extends DBContext {
             while (rs.next()) {
                 Account account = new Account(rs.getString("Fullname"));
                 Product product = new Product(rs.getString("ProductName"));
-                FeedBack feedback = new FeedBack(account, product, rs.getInt("FeedbackId"), rs.getString("Message"),
+                Feedback feedback = new Feedback(account, product, rs.getInt("FeedbackId"), rs.getString("Message"),
                         rs.getInt("Rating"), rs.getBoolean("isPublic"), rs.getString("Status"), rs.getString("ResponseMessage"),
                         rs.getTimestamp("ResponseAt"));
                 list.add(feedback);
@@ -58,7 +58,7 @@ public class FeedBackDAO extends DBContext {
         return null;
     }
 
-    public FeedBack getId(int id) {
+    public Feedback getId(int id) {
         try {
             String sql = "SELECT f.FeedbackId, p.ProductName,f.createdAt,f.Rating,f.Message,f.ResponseMessage FROM FeedBack f JOIN Product p ON p.productid = f.productid WHERE f.FeedBackId = ?";
             PreparedStatement st = this.getConnection().prepareStatement(sql);
@@ -66,7 +66,7 @@ public class FeedBackDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Product product = new Product(rs.getString("ProductName"));
-                FeedBack feedback = new FeedBack(rs.getInt("FeedbackId"), product, rs.getString("Message"), rs.getInt("Rating"), rs.getTimestamp("createdAt"), rs.getString("ResponseMessage"));
+                Feedback feedback = new Feedback(rs.getInt("FeedbackId"), product, rs.getString("Message"), rs.getInt("Rating"), rs.getTimestamp("createdAt"), rs.getString("ResponseMessage"));
                 return feedback;
             }
         } catch (SQLException ex) {
@@ -88,10 +88,10 @@ public class FeedBackDAO extends DBContext {
         return 0;
     }
 
-    public List<FeedBack> getRating(int page, int totalpage, int rating) {
+    public List<Feedback> getRating(int page, int totalpage, int rating) {
         try {
             int index = (page - 1) * 10;
-            List<FeedBack> list = new ArrayList<>();
+            List<Feedback> list = new ArrayList<>();
             String sql = "SELECT a.Fullname, p.ProductName, o.FeedbackId, o.Message, o.Rating, o.isPublic, o.Status, o.ResponseAt, o.ResponseMessage "
                     + "FROM FeedBack o\n"
                     + "JOIN Accounts a ON o.AccountId = a.AccountId\n"
@@ -108,7 +108,7 @@ public class FeedBackDAO extends DBContext {
             while (rs.next()) {
                 Account account = new Account(rs.getString("Fullname"));
                 Product product = new Product(rs.getString("ProductName"));
-                FeedBack feedback = new FeedBack(account, product, rs.getInt("FeedbackId"), rs.getString("Message"),
+                Feedback feedback = new Feedback(account, product, rs.getInt("FeedbackId"), rs.getString("Message"),
                         rs.getInt("Rating"), rs.getBoolean("isPublic"), rs.getString("Status"), rs.getString("ResponseMessage"),
                         rs.getTimestamp("ResponseAt"));
                 list.add(feedback);
@@ -120,8 +120,8 @@ public class FeedBackDAO extends DBContext {
         return null;
     }
 
-    public List<FeedBack> getByKeyword(int page, int totalpage, String keyword) {
-        List<FeedBack> list = new ArrayList<>();
+    public List<Feedback> getByKeyword(int page, int totalpage, String keyword) {
+        List<Feedback> list = new ArrayList<>();
         try {
             int index = (page - 1) * 10;
             String sql = "SELECT a.Fullname, p.ProductName, o.FeedbackId, o.Message, o.Rating, "
@@ -144,7 +144,7 @@ public class FeedBackDAO extends DBContext {
             while (rs.next()) {
                 Account account = new Account(rs.getString("Fullname"));
                 Product product = new Product(rs.getString("ProductName"));
-                FeedBack feedback = new FeedBack(
+                Feedback feedback = new Feedback(
                         account,
                         product,
                         rs.getInt("FeedbackId"),
@@ -164,8 +164,8 @@ public class FeedBackDAO extends DBContext {
         return list;
     }
 
-    public List<FeedBack> searchFeedback(int page, int totalpage, String keyword, int rating) {
-        List<FeedBack> list = new ArrayList<>();
+    public List<Feedback> searchFeedback(int page, int totalpage, String keyword, int rating) {
+        List<Feedback> list = new ArrayList<>();
         try {
             int index = (page - 1) * 10;
             // SQL có điều kiện lọc linh hoạt theo rating
@@ -195,7 +195,7 @@ public class FeedBackDAO extends DBContext {
             while (rs.next()) {
                 Account account = new Account(rs.getString("Fullname"));
                 Product product = new Product(rs.getString("ProductName"));
-                FeedBack feedback = new FeedBack(
+                Feedback feedback = new Feedback(
                         account,
                         product,
                         rs.getInt("FeedbackId"),
@@ -240,8 +240,8 @@ public class FeedBackDAO extends DBContext {
         return null; // không có đơn hàng nào
     }
 
-    public List<FeedBack> getFeedbackByProductId(int productId) {
-        List<FeedBack> list = new ArrayList<>();
+    public List<Feedback> getFeedbackByProductId(int productId) {
+        List<Feedback> list = new ArrayList<>();
         String sql = "SELECT f.*, a.fullName "
                 + "FROM Feedback f JOIN Accounts a ON f.accountId = a.accountId "
                 + "WHERE f.productId = ? ORDER BY f.createdAt DESC";
@@ -250,7 +250,7 @@ public class FeedBackDAO extends DBContext {
             ps.setInt(1, productId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                FeedBack fb = new FeedBack();
+                Feedback fb = new Feedback();
                 fb.setFeedbackId(rs.getInt("feedbackId"));
                 Product p = new Product();
                 p.setProductId(rs.getInt("productId"));

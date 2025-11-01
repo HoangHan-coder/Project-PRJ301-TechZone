@@ -33,13 +33,13 @@
                     </li>
                     <div class="d-flex justify-content-end gap-4" >
                         <li class="nav-item">
-                            <p class="m-0">MÃ ĐƠN HÀNG. 2507132YN042CK</p>
+                            <p class="m-0">MÃ ĐƠN HÀNG: ${orderItem.order.orderCode}</p>
                         </li>
                         <li class="nav-item">
                             <p class="m-0">|</p>
                         </li>
                         <li class="nav-item">
-                            <p class="m-0">Đơn hàng đã hoàn thành</p>
+                            <p class="m-0">${orderItem.order.status}</p>
                         </li>
                     </div>
                 </ul>

@@ -96,40 +96,49 @@
         <jsp:include page="/WEB-INF/views/includes/navbar.jsp" />
 
         <div class="container-fluid">
-            <div class="row w-100">
-                <!-- Hình ảnh sản phẩm -->
-                <div class="col-md-5 mx-4 my-5 border rounded">
-                    <img src="${pageContext.request.contextPath}${product.linkImg}" class="rounded w-100" alt="${product.productName}">
-                </div>
+            <form action="order" method="GET">
+                <div class="row w-100">
+                    <!-- Hình ảnh sản phẩm -->
+                    <div class="col-md-5 mx-4 my-5 border rounded">
+                        <img src="${pageContext.request.contextPath}${product.linkImg}" class="rounded w-100" alt="${product.productName}">
+                    </div>
 
-                <!-- Thông tin sản phẩm -->
-                <div class="col-md-6 my-5">
-                    <h1>${product.productName}</h1>
-                    <p class="fs-5 text-muted">⭐ 4.9 | Lượt bán: ${product.quantitySold}</p>
-                    <p class="fs-3 text-danger mb-4 mt-2"> <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/> VND</p>
-                    <p>${product.descriptionProduct}</p>
+                    <!-- Thông tin sản phẩm -->
+                    <div class="col-md-6 my-5">
+                        <h1>${product.productName}</h1>
+                        <p class="fs-5 text-muted">⭐ 4.9 | Lượt bán: ${product.quantitySold}</p>
+                        <p class="fs-3 text-danger mb-4 mt-2"> <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/> VND</p>
+                        <p>${product.descriptionProduct}</p>
 
-                    <div class="d-flex align-items-center w-100 mt-4">
-                        <p class="fs-5 me-3 mb-0">Số lượng:</p>
-                        <div class="d-flex align-items-center" style="width: 100px;">
-                            <input type="text" class="form-control text-center" id="quantity" value="1"
-                                   style="height: 45px; width: 60px;">
-                            <div class="ms-2 d-flex flex-column">
-                                <button class="btn border-0 p-0" type="button" onclick="increase()"><i
-                                        class="bi bi-chevron-up"></i></button>
-                                <button class="btn border-0 p-0" type="button" onclick="decrease()"><i
-                                        class="bi bi-chevron-down"></i></button>
+                        <div class="d-flex align-items-center w-100 mt-4">
+                            <p class="fs-5 me-3 mb-0">Số lượng:</p>
+                            <div class="d-flex align-items-center" style="width: 100px;">
+                                <input type="text" class="form-control text-center" id="quantity" name="quantity" value="1"
+                                       style="height: 45px; width: 60px;">
+                                <div class="ms-2 d-flex flex-column">
+                                    <button class="btn border-0 p-0" type="button" onclick="increase()"><i
+                                            class="bi bi-chevron-up"></i></button>
+                                    <button class="btn border-0 p-0" type="button" onclick="decrease()"><i
+                                            class="bi bi-chevron-down"></i></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="mt-4">
-                        <button type="button" class="btn btn-primary btn-lg me-3">🛒 Thêm vào giỏ hàng</button>
-                        <button type="button" class="btn btn-secondary btn-lg">💳 Thanh toán</button>
+                        <div class="mt-4">
+
+                            <input type="hidden" name="view" value="check-out">
+                            <input type="hidden" name="productId" value="${product.productId}">
+                            <input type="hidden" name="productName" value="${product.productName}">
+                            <input type="hidden" name="productImg" value="${product.linkImg}">
+                            <input type="hidden" name="productPrice" value="${product.productPrice}">
+
+                            <button type="button" class="btn btn-primary btn-lg me-3">🛒 Thêm vào giỏ hàng</button>
+                            <button type="submit" class="btn btn-secondary btn-lg">💳 Thanh toán</button>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            </form>
             <!-- Tabs -->
             <div class="tab-container mb-4">
                 <div class="tab active" data-target="detail">Chi tiết sản phẩm</div>
@@ -193,7 +202,7 @@
                     <c:if test="${empty feedbackList}">
                         <p class="text-muted">Chưa có phản hồi nào cho sản phẩm này.</p>
                     </c:if>
-                        
+
                     <c:forEach var="fb" items="${feedbackList}">
                         <div class="border rounded p-3 mb-3">
                             <strong>${fb.account.fullName}</strong>

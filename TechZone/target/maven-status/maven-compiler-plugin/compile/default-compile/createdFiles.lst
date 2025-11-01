@@ -1,7 +1,6 @@
 dao\OrderDAO.class
 controller\CartServlet.class
 dao\AuthDAO.class
-controller\admin\Feedback.class
 model\Orders.class
 model\Product.class
 model\Voucher.class
@@ -30,6 +29,7 @@ dao\CartDAO.class
 dao\AccountDAO.class
 controller\CartItemServlet.class
 filter\AuthFilter.class
+controller\admin\FeedBack.class
 dao\FeedBackDAO.class
 controller\ProfileServlet.class
 dao\VoucherDAO.class
@@ -39,11 +39,11 @@ until\Pagination.class
 com\techzone\techzone\JakartaRestConfiguration.class
 controller\CheckoutServlet.class
 model\DetailOrder.class
-model\FeedBack.class
 model\Orderlist.class
 controller\VoucherServlet.class
 model\AllCategory.class
 dto\OrderItemDTO.class
+model\Feedback.class
 model\Order.class
 model\OrderItem.class
 dao\OderListDAO.class

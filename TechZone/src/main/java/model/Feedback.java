@@ -2,7 +2,7 @@ package model;
 
 import java.sql.Timestamp;
 
-public class FeedBack {
+public class Feedback {
     private int feedbackId;
     private Account account;             
     private Product product;              
@@ -18,12 +18,12 @@ public class FeedBack {
     private String responseMessage;
     private Timestamp responseAt;
 
-    public FeedBack() {
+    public Feedback() {
     }
     
     
 
-    public FeedBack(int feedbackId, Account account, Product product, String message, Integer rating, boolean isPublic, String status, String responseMessage, Timestamp responseAt) {
+    public Feedback(int feedbackId, Account account, Product product, String message, Integer rating, boolean isPublic, String status, String responseMessage, Timestamp responseAt) {
         this.feedbackId = feedbackId;
         this.account = account;
         this.product = product;
@@ -35,7 +35,7 @@ public class FeedBack {
         this.responseAt = responseAt;
     }
 
-    public FeedBack(int feedbackId, Product product, String message, Integer rating, Timestamp createdAt, String responseMessage) {
+    public Feedback(int feedbackId, Product product, String message, Integer rating, Timestamp createdAt, String responseMessage) {
         this.feedbackId = feedbackId;
         this.product = product;
         this.message = message;
@@ -45,7 +45,7 @@ public class FeedBack {
     }
     
 
-    public FeedBack( Account account, Product product, int feedbackId, String message, Integer rating, boolean isPublic, String status, String responseMessage, Timestamp responseAt) {
+    public Feedback( Account account, Product product, int feedbackId, String message, Integer rating, boolean isPublic, String status, String responseMessage, Timestamp responseAt) {
         this.feedbackId = feedbackId;
         this.account = account;
         this.product = product;
@@ -59,7 +59,7 @@ public class FeedBack {
     
     
 
-    public FeedBack(int feedbackId, Account account, Product product, Order order,
+    public Feedback(int feedbackId, Account account, Product product, Order order,
                     String subject, String message, Integer rating, boolean isPublic,
                     String status, Timestamp createdAt, Timestamp updatedAt,
                     Account responseBy, String responseMessage, Timestamp responseAt) {
