@@ -12,7 +12,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 import model.AccountUsers;
 import model.OrderItem;
@@ -108,7 +107,36 @@ public class OrderServlet extends HttpServlet {
     }
 
     private void createOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/includes/error.jsp").forward(request, response);
+        String fullName = request.getParameter("fullName");
+        String phone = request.getParameter("phone");
+        String shippingAddress = request.getParameter("shippingAddress");
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        String productName = request.getParameter("productName");
+        double productPrice = Double.parseDouble(request.getParameter("productPrice"));
+        double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        int voucherId = Integer.parseInt(request.getParameter("voucherId"));
+        String paymentMethod = request.getParameter("paymentMethod");
+        double shippingFee = Double.parseDouble(request.getParameter("shippingFee"));
+        double totalAmount = Double.parseDouble(request.getParameter("totalAmount"));
+        int accountId = Integer.parseInt(request.getParameter("accountId"));
+
+        System.out.println("===== DEBUG CHECKOUT PARAMETERS =====");
+        System.out.println("fullName: " + fullName);
+        System.out.println("phone: " + phone);
+        System.out.println("shippingAddress: " + shippingAddress);
+        System.out.println("productId: " + productId);
+        System.out.println("productName: " + productName);
+        System.out.println("productPrice: " + productPrice);
+        System.out.println("totalPrice: " + totalPrice);
+        System.out.println("quantity: " + quantity);
+        System.out.println("voucherId: " + voucherId);
+        System.out.println("paymentMethod: " + paymentMethod);
+        System.out.println("shippingFee: " + shippingFee);
+        System.out.println("totalAmount: " + totalAmount);
+        System.out.println("accountId: " + accountId);
+        System.out.println("=====================================");
+
     }
 
 }

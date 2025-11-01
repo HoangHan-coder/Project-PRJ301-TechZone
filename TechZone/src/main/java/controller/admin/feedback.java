@@ -6,14 +6,12 @@ package controller.admin;
 
 import dao.FeedBackDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import model.Feedback;
 import until.Pagination;
 
 /**
@@ -21,7 +19,7 @@ import until.Pagination;
  * @author letan
  */
 @WebServlet(name = "feelback", urlPatterns = {"/admin/feedback"})
-public class FeedBack extends HttpServlet {
+public class Feedback extends HttpServlet {
 
 
 
@@ -43,7 +41,7 @@ public class FeedBack extends HttpServlet {
         String text = request.getParameter("keyword");
         String id = request.getParameter("id");
         if (id != null) {
-            Feedback data = feedback.getId(Integer.parseInt(id));
+            model.Feedback data = feedback.getId(Integer.parseInt(id));
             request.setAttribute("data", data);
             request.getRequestDispatcher("/WEB-INF/views/admin/feedback/feedback-detail.jsp").forward(request, response);
             return;
@@ -55,16 +53,16 @@ public class FeedBack extends HttpServlet {
         pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAll(), "/admin/feedback");
         int totalpage = Integer.parseInt(request.getAttribute("totalPage") + "");
         if (rating == null && text == null || rating.isEmpty() && text.isEmpty()) {
-            List<Feedback> list = feedback.getAllPage(Integer.parseInt(page1), 10);
+            List<model.Feedback> list = feedback.getAllPage(Integer.parseInt(page1), 10);
             request.setAttribute("list", list);
         } else if (text.isEmpty()) {
-            List<Feedback> list = feedback.getRating(Integer.parseInt(page1), totalpage, Integer.parseInt(rating));
+            List<model.Feedback> list = feedback.getRating(Integer.parseInt(page1), totalpage, Integer.parseInt(rating));
             request.setAttribute("list", list);
         } else if (rating.isEmpty()) {
-            List<Feedback> list = feedback.getByKeyword(Integer.parseInt(page1), totalpage, text);
+            List<model.Feedback> list = feedback.getByKeyword(Integer.parseInt(page1), totalpage, text);
             request.setAttribute("list", list);
         } else if (text != null && rating != null) {
-            List<Feedback> list = feedback.searchFeedback(Integer.parseInt(page1), totalpage, text, Integer.parseInt(rating));
+            List<model.Feedback> list = feedback.searchFeedback(Integer.parseInt(page1), totalpage, text, Integer.parseInt(rating));
             request.setAttribute("list", list);
         }
         request.getRequestDispatcher("/WEB-INF/views/admin/feedback/feedback.jsp").forward(request, response);

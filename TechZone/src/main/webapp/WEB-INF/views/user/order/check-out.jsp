@@ -136,6 +136,9 @@
                                                     </div>
                                                     <!-- Truyền ẩn cho phía server nếu cần -->
                                                     <input type="hidden" name="productId" value="${product.productId}">
+                                                    <input type="hidden" name="productName" value="${product.productName}">
+                                                    <input type="hidden" name="productPrice" value="${product.productPrice}">
+                                                    <input type="hidden" name="totalPrice" value="${product.productPrice * quantity}">
                                                     <input type="hidden" name="quantity" value="${quantity}">
                                                 </c:if>
                                             </div>
@@ -207,6 +210,7 @@
                                                 <div class="summary-row">
                                                     <span class="label-muted">Phí vận chuyển</span>
                                                     <span><fmt:formatNumber value="${shippingFee}" type="number" maxFractionDigits="0"/>₫</span>
+                                                     <input type="hidden" name="shippingFee" value="${shippingFee}">
                                                 </div>
                                                 <div class="summary-row">
                                                     <span class="label-muted">Voucher TechZone</span>
@@ -216,6 +220,7 @@
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span>Thành tiền</span>
                                                     <span class="summary-total" id="summaryTotal"><fmt:formatNumber value="${orderTotal}" type="number" maxFractionDigits="0"/>₫</span>
+                                                     <input type="hidden" name="totalAmount" value="${orderTotal}">
                                                 </div>
                                             </div>
                                         </div>
