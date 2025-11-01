@@ -102,8 +102,11 @@ public class ProductServlet extends HttpServlet {
                         product.setAttributesMap(new HashMap<>());
                     }
                     String error = (String) request.getSession().getAttribute("msg");
+                    String erroree= (String) request.getSession().getAttribute("msgee");
                     request.setAttribute("msg", error);
                     request.getSession().removeAttribute("msg");
+                    request.setAttribute("msgee", erroree);
+                    request.getSession().removeAttribute("msgee");
                     request.setAttribute("product", product);
                     request.getRequestDispatcher("/WEB-INF/views/user/product/product-detail/product-detail.jsp")
                             .forward(request, response);
