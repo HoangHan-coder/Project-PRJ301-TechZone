@@ -6,12 +6,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import model.Account;
-import model.AccountUsers;
+
 import model.Feedback;
 import model.Product;
 
@@ -102,8 +101,11 @@ public class ProductServlet extends HttpServlet {
                         product.setAttributesMap(new HashMap<>());
                     }
                     String error = (String) request.getSession().getAttribute("msg");
+                    String erroree = (String) request.getSession().getAttribute("msgee");
                     request.setAttribute("msg", error);
                     request.getSession().removeAttribute("msg");
+                    request.setAttribute("msgee", erroree);
+                    request.getSession().removeAttribute("msgee");
                     request.setAttribute("product", product);
                     request.getRequestDispatcher("/WEB-INF/views/user/product/product-detail/product-detail.jsp")
                             .forward(request, response);
@@ -129,5 +131,5 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    }   
+    }
 }

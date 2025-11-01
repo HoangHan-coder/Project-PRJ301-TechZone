@@ -160,6 +160,9 @@
                     <c:if test="${msg != null}">
                         <p class="my-3 text-danger">${msg}</p>
                     </c:if>
+                    <c:if test="${msgee != null}">
+                        <p class="my-3 text-danger">${msgee}</p>
+                    </c:if>
                     <p class="my-3 text-muted">Hãy chia sẻ cảm nhận của bạn về sản phẩm này!</p>
 
                     <!-- Rating -->
@@ -207,10 +210,10 @@
                             <c:if test="${fb.responseMessage != null}">
                                 <div class="border rounded p-3 mb-3">
                                     <strong>${fb.responseBy.fullName}</strong>
-                                <p class="mb-1 text-danger">${fb.responseMessage}</p>
-                                <small class="text-muted">
-                                    <fmt:formatDate value="${fb.responseAt}" pattern="dd/MM/yyyy HH:mm"/>
-                                </small>
+                                    <p class="mb-1 text-danger">${fb.responseMessage}</p>
+                                    <small class="text-muted">
+                                        <fmt:formatDate value="${fb.responseAt}" pattern="dd/MM/yyyy HH:mm"/>
+                                    </small>
                                 </div>
                             </c:if>
 

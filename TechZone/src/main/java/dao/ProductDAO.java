@@ -7,7 +7,7 @@ import model.Product;
 
 public class ProductDAO extends DBContext {
 
-    // ✅ Lấy tất cả sản phẩm (dành cho user)
+// lay het
     public List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE IsDeleted = 0";
@@ -24,7 +24,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-    // ✅ Lấy sản phẩm theo ID
+// lay theo productid
     public Product getProductById(int id) {
         String sql = "SELECT * FROM Product WHERE ProductId = ? AND IsDeleted = 0";
 
@@ -43,8 +43,8 @@ public class ProductDAO extends DBContext {
 
         return null;
     }
+// lay theo category
 
-    // ✅ Lấy sản phẩm theo CategoryId
     public List<Product> getProductsByCategory(int categoryId) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE CategoryId = ? AND IsDeleted = 0";
@@ -64,7 +64,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-    // ✅ Hàm map dữ liệu từ ResultSet → Product object
+// ham tach tao ra doi tuong
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         Product p = new Product();
 
@@ -84,8 +84,8 @@ public class ProductDAO extends DBContext {
 
         return p;
     }
-// ✅ Featured product (sản phẩm mới nhất trong danh mục)
 
+// MOI them vao database
     public List<Product> getTop1(int categoryId) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT TOP 1 * FROM Product WHERE categoryId = ? ORDER BY createdAt DESC";
@@ -103,7 +103,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-// ✅ Trending product (sản phẩm bán chạy nhất trong danh mục)
+// SO LUONG BAN NHIU NHAT
     public List<Product> getTop1ByCategory(int categoryId) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT TOP 1 * FROM Product WHERE CategoryId = ? ORDER BY quantitySold DESC";
@@ -121,32 +121,50 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+// LOC SAN PHAM
     public List<Product> getFilterBrand(int categoryId, String brand) {
-    List<Product> list = new ArrayList<>();
-    String sql = "SELECT * FROM product WHERE CategoryId = ?";
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM product WHERE CategoryId = ?";
 
-    if (brand != null && !brand.isEmpty()) {
-        sql += " AND JSON_VALUE(ProductAttributes, '$.brand') = ?";
-    }
-
-    try (Connection con = this.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql)) {
-
-        ps.setInt(1, categoryId);
         if (brand != null && !brand.isEmpty()) {
-            ps.setString(2, brand);
+            sql += " AND JSON_VALUE(ProductAttributes, '$.brand') = ?";
         }
 
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            list.add(mapResultSetToProduct(rs));
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, categoryId);
+            if (brand != null && !brand.isEmpty()) {
+                ps.setString(2, brand);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapResultSetToProduct(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+
+        return list;
     }
 
-    return list;
-}
+    public List<Product> getAllProductsSearch(String txt) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM Product WHERE ProductName LIKE ? AND IsDeleted = 0";
 
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, "%" + txt + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapResultSetToProduct(rs));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 
 }
