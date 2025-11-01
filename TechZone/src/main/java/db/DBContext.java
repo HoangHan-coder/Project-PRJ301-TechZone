@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class DBContext {
 
-    private static final String DB_NAME = "techzongdbv2";
+    private static final String DB_NAME = "techzonev2";
     private static final String DB_USER_NAME = "sa";
     private static final String DB_PASSWORD = "123";
 
