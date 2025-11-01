@@ -21,7 +21,7 @@ import until.Pagination;
  *
  * @author letan
  */
-@WebServlet(name = "FeedbackServlet", urlPatterns = {"/admin/feedback"})
+@WebServlet(name = "FeedbackAdminServlet", urlPatterns = {"/admin/feedback"})
 public class FeedbackAdminServlet extends HttpServlet {
 
    

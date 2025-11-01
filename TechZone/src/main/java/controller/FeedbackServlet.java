@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import model.AccountUsers;
 
-@WebServlet(name = "FeedbackServlet", urlPatterns = {"/feedback"})
+@WebServlet(name = "FeedbackServlet", urlPatterns = {"/feedback-user"})
 public class FeedbackServlet extends HttpServlet {
 
     @Override

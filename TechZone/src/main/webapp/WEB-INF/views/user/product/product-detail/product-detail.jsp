@@ -155,7 +155,7 @@
 
             <!-- Đánh giá -->
             <div class="w-100 review">
-                <form class="mx-3 mb-5" action="feedback" method="post">
+                <form class="mx-3 mb-5" action="feedback-user" method="post">
                     <input type="hidden" name="productId" value="${product.productId}">
                     <c:if test="${msg != null}">
                         <p class="my-3 text-danger">${msg}</p>

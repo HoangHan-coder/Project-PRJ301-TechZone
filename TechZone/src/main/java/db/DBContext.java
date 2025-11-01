@@ -18,7 +18,7 @@ public class DBContext {
 
     private static final String DB_NAME = "TechZonev2";
     private static final String DB_USER_NAME = "sa";
-    private static final String DB_PASSWORD = "123";
+    private static final String DB_PASSWORD = "123456"; 
 
     public Connection getConnection() {
         Connection conn = null;
