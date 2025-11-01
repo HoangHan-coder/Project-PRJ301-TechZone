@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import controller.admin.Feedback;
 import model.Account;
 import model.FeedBack;
 import model.Product;
@@ -240,11 +242,14 @@ public class FeedBackDAO extends DBContext {
         return null; // không có đơn hàng nào
     }
 
-    public List<FeedBack> getFeedbackByProductId(int productId) {
-        List<FeedBack> list = new ArrayList<>();
-        String sql = "SELECT f.*, a.fullName "
-                + "FROM Feedback f JOIN Accounts a ON f.accountId = a.accountId "
-                + "WHERE f.productId = ? ORDER BY f.createdAt DESC";
+    public List<Feedback> getFeedbackByProductId(int productId) {
+        List<Feedback> list = new ArrayList<>();
+        String sql = "SELECT f.*, a.fullName AS feedbackerName, r.fullName AS responderName\n"
+                + "FROM Feedback f\n"
+                + "JOIN Accounts a ON f.accountId = a.accountId\n"
+                + "LEFT JOIN Accounts r ON f.responseByAccountId = r.accountId\n"
+                + "WHERE f.productId = ?\n"
+                + "ORDER BY f.createdAt DESC";
 
         try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, productId);
@@ -252,21 +257,36 @@ public class FeedBackDAO extends DBContext {
             while (rs.next()) {
                 FeedBack fb = new FeedBack();
                 fb.setFeedbackId(rs.getInt("feedbackId"));
+
                 Product p = new Product();
                 p.setProductId(rs.getInt("productId"));
                 fb.setProduct(p);
 
+                // Người viết feedback
                 Account acc = new Account();
                 acc.setAccountId(rs.getInt("accountId"));
-                acc.setFullName(rs.getString("fullName"));
+                acc.setFullName(rs.getString("feedbackerName"));
                 fb.setAccount(acc);
+
+                // Người phản hồi feedback (nếu có)
+                int responseById = rs.getInt("responsebyaccountid");
+                if (responseById != 0) {
+                    Account responder = new Account();
+                    responder.setAccountId(responseById);
+                    responder.setFullName(rs.getString("responderName"));
+                    fb.setResponseBy(responder);
+                }
 
                 fb.setSubject(rs.getString("subject"));
                 fb.setMessage(rs.getString("message"));
                 fb.setRating(rs.getInt("rating"));
                 fb.setCreatedAt(rs.getTimestamp("createdAt"));
+                fb.setResponseMessage(rs.getString("ResponseMessage"));
+                fb.setResponseAt(rs.getTimestamp("ResponseAt"));
+
                 list.add(fb);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

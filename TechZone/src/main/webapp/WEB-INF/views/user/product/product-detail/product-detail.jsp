@@ -154,11 +154,12 @@
             </div>
 
             <!-- Đánh giá -->
-            <!-- Đánh giá -->
             <div class="w-100 review">
-                <form class="mx-3 mb-5" action="products" method="post">
+                <form class="mx-3 mb-5" action="feedback" method="post">
                     <input type="hidden" name="productId" value="${product.productId}">
-
+                    <c:if test="${msg != null}">
+                        <p class="my-3 text-danger">${msg}</p>
+                    </c:if>
                     <p class="my-3 text-muted">Hãy chia sẻ cảm nhận của bạn về sản phẩm này!</p>
 
                     <!-- Rating -->
@@ -193,7 +194,7 @@
                     <c:if test="${empty feedbackList}">
                         <p class="text-muted">Chưa có phản hồi nào cho sản phẩm này.</p>
                     </c:if>
-                        
+
                     <c:forEach var="fb" items="${feedbackList}">
                         <div class="border rounded p-3 mb-3">
                             <strong>${fb.account.fullName}</strong>
@@ -203,6 +204,16 @@
                             <small class="text-muted">
                                 <fmt:formatDate value="${fb.createdAt}" pattern="dd/MM/yyyy HH:mm"/>
                             </small>
+                            <c:if test="${fb.responseMessage != null}">
+                                <div class="border rounded p-3 mb-3">
+                                    <strong>${fb.responseBy.fullName}</strong>
+                                <p class="mb-1 text-danger">${fb.responseMessage}</p>
+                                <small class="text-muted">
+                                    <fmt:formatDate value="${fb.responseAt}" pattern="dd/MM/yyyy HH:mm"/>
+                                </small>
+                                </div>
+                            </c:if>
+
                         </div>
                     </c:forEach>
                 </div>
