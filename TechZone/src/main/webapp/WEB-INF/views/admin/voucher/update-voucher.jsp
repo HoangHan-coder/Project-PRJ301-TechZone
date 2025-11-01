@@ -21,7 +21,7 @@
             <div style="margin: 100px 0 50px 280px;">
                 <h1><strong>Chỉnh sửa voucher</strong></h1>
                 <div class="my-5">
-                    <form class="row g-3 needs-validation" action="${pageContext.request.contextPath}/voucher?action=update" method="post" >
+                    <form class="row g-3 needs-validation" action="${pageContext.request.contextPath}/admin/voucher?action=update" method="post" >
                         <input type="hidden" name="voucherId" value="${voucher.voucherId}"/>
                         <div class="col-md-12 position-relative">
                             <label for="vocherCode" class="form-label">Mã voucher</label>

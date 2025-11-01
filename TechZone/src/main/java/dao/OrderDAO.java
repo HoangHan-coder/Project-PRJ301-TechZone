@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,5 +51,43 @@ public class OrderDAO extends db.DBContext {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
+    }
+
+    public int maxId() {
+        try {
+            String sql = "select MAX(OrderId) from Orders";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public int createOrder(int AccountId, double TotalAmount, double ShippingFee, String ShippingAddress, String PaymentMethod, Integer VoucherId) {
+        String orderCode = "ORD" + System.currentTimeMillis();
+        String sql = "INSERT INTO Orders (AccountId, OrderCode, TotalAmount, ShippingFee, Status, ShippingAddress, PaymentMethod, PaymentStatus, VoucherId)\n"
+                + "VALUES (?, ?, ?, ?, N'PROCESSING', ?, ?, N'Unpaid', ?);";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, AccountId);
+            ps.setString(2, orderCode);
+            ps.setBigDecimal(3, BigDecimal.valueOf(TotalAmount));
+            ps.setBigDecimal(4, BigDecimal.valueOf(ShippingFee));
+            ps.setString(5, ShippingAddress);
+            ps.setString(6, PaymentMethod);
+            if (VoucherId == 0) {
+                 ps.setNull(7, java.sql.Types.INTEGER);
+            } else {
+                ps.setInt(7, VoucherId);
+            }
+            return ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 }

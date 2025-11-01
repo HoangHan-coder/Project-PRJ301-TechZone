@@ -24,7 +24,7 @@ import until.Pagination;
  *
  * @author NgKaitou
  */
-@WebServlet(name = "VoucherServlet", urlPatterns = {"/voucher"})
+@WebServlet(name = "VoucherServlet", urlPatterns = {"/admin/voucher"})
 public class VoucherServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -111,7 +111,7 @@ public class VoucherServlet extends HttpServlet {
         Pagination p = new Pagination();
         int totalRow = db.getTotalRow();
         List<Voucher> listVoucher = db.getVoucherList(currentPage);
-        p.handlePagintation(request, currentPage, totalRow, "voucher");
+        p.handlePagintation(request, currentPage, totalRow, "/admin/voucher");
         request.setAttribute("listVoucher", listVoucher);
         request.setAttribute("success", success);
         request.getRequestDispatcher("/WEB-INF/views/admin/voucher/list-voucher.jsp").forward(request, response);

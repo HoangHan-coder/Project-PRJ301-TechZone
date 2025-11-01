@@ -32,10 +32,10 @@
                 </c:if>
                 <div class="container my-4 ">
                     <div class="row">
-                        <form class="col-md-10 px-0" action="${pageContext.request.contextPath}/voucher?action=search" method="POST">
+                        <form class="col-md-10 px-0" action="${pageContext.request.contextPath}/admin/voucher?action=search" method="POST">
                             <input class="form-control" type="text" name="keyword" placeholder="Nhập voucher code...">
                         </form>
-                        <div class="col-md-2"><a href="${pageContext.request.contextPath}/voucher?view=create" class="btn btn-primary float-end  ">Thêm voucher mới</a></div>
+                        <div class="col-md-2"><a href="${pageContext.request.contextPath}/admin/voucher?view=create" class="btn btn-primary float-end  ">Thêm voucher mới</a></div>
                     </div>
                 </div>
 
@@ -66,7 +66,7 @@
                                 <td>${voucher.getMinOrderValueToString()}</td>
                                 <td>${voucher.currentUsage}/${voucher.maxUsage}</td>
                                 <td class="text-center d-flex gap-3 justify-content-center">
-                                    <a href="<c:url value="/voucher?view=update&voucherCode=${voucher.code}"></c:url>" class="text-decoration-none">
+                                    <a href="<c:url value="/admin/voucher?view=update&voucherCode=${voucher.code}"></c:url>" class="text-decoration-none">
                                             <i class="bi bi-eye me-2 text-dark" style="cursor: pointer;"></i>
                                         </a>
                                         <button style="border: none;background-color: #ffffff;"
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <form action="${pageContext.request.contextPath}/voucher?action=remove" method="post">
+                                        <form action="${pageContext.request.contextPath}/admin/voucher?action=remove" method="post">
                                             <input type="hidden" name="voucherId" value="${voucher.voucherId}">
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>

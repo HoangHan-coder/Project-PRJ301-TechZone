@@ -5,6 +5,7 @@
 package dao;
 
 import db.DBContext;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -79,7 +80,7 @@ public class OrderItemDAO extends DBContext {
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
-                
+
                 Account account = new Account(rs.getInt("AccountId"), rs.getString("Username"), rs.getString("FullName"), rs.getString("Phone"), rs.getBoolean("accountIsDeleted"));
                 Product product = new Product();
                 product.setLinkImg(rs.getString("LinkImg"));
@@ -94,6 +95,40 @@ public class OrderItemDAO extends DBContext {
         }
 
         return null;
+    }
+
+    public int maxId() {
+        try {
+            String sql = "select MAX(orderItemId) from OrderItems";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public int createOrderItem(int OrderId, int ProductId, String ProductNameSnapshot, double UnitPrice, int Quantity) {
+        String sql = "INSERT INTO OrderItems (OrderId, ProductId, ProductNameSnapshot, UnitPrice, Quantity)\n"
+                + "VALUES (?, ?, ?, ?, ?);";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, OrderId);
+            ps.setInt(2, ProductId);
+            ps.setString(3, ProductNameSnapshot);
+            ps.setBigDecimal(4, BigDecimal.valueOf(UnitPrice));
+            ps.setInt(5, Quantity);
+            
+            return ps.executeUpdate();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return 0;
     }
 
 }

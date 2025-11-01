@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>TechZone</title>
     </head>
     <body>
 
@@ -24,7 +24,7 @@
                     <c:if test="${not empty sessionScope.createErr}">
                         <p class="text-danger my-2">${sessionScope.createErr}</p>
                     </c:if>
-                    <form class="row g-3 needs-validation" action="${pageContext.request.contextPath}/voucher?action=create" method="post" >
+                    <form class="row g-3 needs-validation" action="${pageContext.request.contextPath}/admin/voucher?action=create" method="post" >
                         <div class="col-md-12 position-relative">
                             <label for="vocherCode" class="form-label">Mã voucher</label>
                             <input type="text" class="form-control" id="vocherCode" name="vocherCode"  required>

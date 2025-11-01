@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.OrderDAO;
 import dao.OrderItemDAO;
 import dao.VoucherDAO;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import model.AccountUsers;
 import model.OrderItem;
@@ -86,7 +88,7 @@ public class OrderServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             VoucherDAO voucherDAO = new VoucherDAO();
-            List<Voucher> vouchers = voucherDAO.getAllVoucher();
+            
             int productId = Integer.parseInt(request.getParameter("productId"));
             String productName = request.getParameter("productName");
             String productImg = request.getParameter("productImg");
@@ -97,6 +99,12 @@ public class OrderServlet extends HttpServlet {
             product.setLinkImg(productImg);
             product.setProductName(productName);
             product.setProductPrice(productPrice);
+            List<Voucher> vouchers = voucherDAO.getAvailableVoucher(productPrice*quantity);
+            String error = (String) request.getSession().getAttribute("error");
+            if(error != null) {
+                request.getSession().removeAttribute("error");
+                request.setAttribute("error", error);
+            }
             request.setAttribute("product", product);
             request.setAttribute("quantity", quantity);
             request.setAttribute("vouchers", vouchers);
@@ -107,36 +115,58 @@ public class OrderServlet extends HttpServlet {
     }
 
     private void createOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String fullName = request.getParameter("fullName");
-        String phone = request.getParameter("phone");
         String shippingAddress = request.getParameter("shippingAddress");
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        String productName = request.getParameter("productName");
-        double productPrice = Double.parseDouble(request.getParameter("productPrice"));
-        double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        String[] productIds = request.getParameterValues("productId");
+        String[] productNames = request.getParameterValues("productName");
+        String[] productPrices = request.getParameterValues("productPrice");
+        String[] quantities = request.getParameterValues("quantity");
+
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        if (productIds != null) {
+            for (int i = 0; i < productIds.length; i++) {
+                Product p = new Product();
+                p.setProductId(Integer.parseInt(productIds[i]));
+                p.setProductName(productNames[i]);
+                p.setProductPrice(Double.parseDouble(productPrices[i]));
+                OrderItem item = new OrderItem();
+                item.setProduct(p);
+                item.setQuantity(Integer.parseInt(quantities[i]));
+                orderItems.add(item);
+            }
+        }
         int voucherId = Integer.parseInt(request.getParameter("voucherId"));
         String paymentMethod = request.getParameter("paymentMethod");
         double shippingFee = Double.parseDouble(request.getParameter("shippingFee"));
         double totalAmount = Double.parseDouble(request.getParameter("totalAmount"));
         int accountId = Integer.parseInt(request.getParameter("accountId"));
 
-        System.out.println("===== DEBUG CHECKOUT PARAMETERS =====");
-        System.out.println("fullName: " + fullName);
-        System.out.println("phone: " + phone);
-        System.out.println("shippingAddress: " + shippingAddress);
-        System.out.println("productId: " + productId);
-        System.out.println("productName: " + productName);
-        System.out.println("productPrice: " + productPrice);
-        System.out.println("totalPrice: " + totalPrice);
-        System.out.println("quantity: " + quantity);
-        System.out.println("voucherId: " + voucherId);
-        System.out.println("paymentMethod: " + paymentMethod);
-        System.out.println("shippingFee: " + shippingFee);
-        System.out.println("totalAmount: " + totalAmount);
-        System.out.println("accountId: " + accountId);
-        System.out.println("=====================================");
-
+        OrderDAO orderDAO = new OrderDAO();
+        int resultOrder = orderDAO.createOrder(accountId, totalAmount, shippingFee, shippingAddress, paymentMethod, voucherId);
+        if(voucherId != 0 ) {
+            VoucherDAO voucherDAO = new VoucherDAO();
+            Voucher voucher = voucherDAO.getByVoucherId(voucherId);
+            voucherDAO.useVoucher(voucher, totalAmount);
+        }
+        
+        if (resultOrder != 1) {
+            String errors = "Tạo đơn thất bại!";
+            request.getSession().setAttribute("errors", errors);
+            response.sendRedirect(getServletContext().getContextPath() + "/order?view=check-out");
+            return;
+        }
+        int OrderId = orderDAO.maxId();
+        OrderItemDAO orderItemDAO = new OrderItemDAO();
+        for (OrderItem orderItem : orderItems) {
+            int resultOrderItem = orderItemDAO.createOrderItem(OrderId, orderItem.getProduct().getProductId(), orderItem.getProduct().getProductName(), orderItem.getProduct().getProductPrice(), orderItem.getQuantity());
+            if (resultOrderItem != 1) {
+                String error = "Tạo đơn thất bại!";
+                request.getSession().setAttribute("error", error);
+                response.sendRedirect(getServletContext().getContextPath() + "/order?view=check-out");
+                return;
+            }
+        }
+        response.sendRedirect(getServletContext().getContextPath() + "/order");
     }
 
 }

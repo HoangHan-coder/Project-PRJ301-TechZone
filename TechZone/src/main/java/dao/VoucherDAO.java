@@ -5,6 +5,7 @@
 package dao;
 
 import db.DBContext;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -56,6 +57,39 @@ public class VoucherDAO extends DBContext {
 
         return listVoucher;
     }
+    
+    public List<Voucher> getAvailableVoucher(double totalAmount) {
+        List<Voucher> listVoucher = new ArrayList<>();
+        String sql = "SELECT * FROM Vouchers WHERE minOrderValue <= ?;";
+
+        try {
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
+            ps.setBigDecimal(1, BigDecimal.valueOf(totalAmount));
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                listVoucher.add(new Voucher(
+                        rs.getInt("VoucherId"),
+                        rs.getString("imgPath"),
+                        rs.getString("code"),
+                        rs.getBigDecimal("discountValue"),
+                        rs.getString("discountType"),
+                        rs.getTimestamp("startDate"),
+                        rs.getTimestamp("endDate"),
+                        rs.getString("status"),
+                        rs.getBigDecimal("minOrderValue"),
+                        rs.getInt("maxUsage"),
+                        rs.getInt("currentUsage")
+                ));
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listVoucher;
+    }
 
     public Voucher getByVoucherCode(String voucherCode) {
 
@@ -63,6 +97,37 @@ public class VoucherDAO extends DBContext {
             String sql = "SELECT * FROM Vouchers WHERE Code = ?";
             PreparedStatement statement = this.getConnection().prepareStatement(sql);
             statement.setString(1, voucherCode);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                return new Voucher(
+                        rs.getInt("VoucherId"),
+                        rs.getString("imgPath"),
+                        rs.getString("code"),
+                        rs.getBigDecimal("discountValue"),
+                        rs.getString("discountType"),
+                        rs.getTimestamp("startDate"),
+                        rs.getTimestamp("endDate"),
+                        rs.getString("status"),
+                        rs.getBigDecimal("minOrderValue"),
+                        rs.getInt("maxUsage"),
+                        rs.getInt("currentUsage")
+                );
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+    
+    public Voucher getByVoucherId(int voucherId) {
+
+        try {
+            String sql = "SELECT * FROM Vouchers WHERE voucherId = ?";
+            PreparedStatement statement = this.getConnection().prepareStatement(sql);
+            statement.setInt(1, voucherId);
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
@@ -298,7 +363,7 @@ public class VoucherDAO extends DBContext {
     
     public int useVoucher(Voucher voucher, double totalPrice) {
         if (voucher.getMinOrderValue().doubleValue() < totalPrice || voucher.getMaxUsage() <= 0) return 0;
-        String sql = "UPDAte Vouchers set MaxUsage = MaxUsage - 1, CurrentUsage = CurrentUsage + 1 Where Code = ?";
+        String sql = "UPDAte Vouchers set MaxUsage = MaxUsage - 1, CurrentUsage = CurrentUsage + 1 Where VoucherId = ?";
         try {
             
             PreparedStatement statement = this.getConnection().prepareStatement(sql);
