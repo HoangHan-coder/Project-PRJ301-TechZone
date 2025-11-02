@@ -151,10 +151,10 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${i.status == 'PENDING'}">
-                                        <span class="status pending">Đang chờ xử lý</span>
+                                        <span class="status pending">Đang giao hàng</span>
                                     </c:when>
                                     <c:when test="${i.status == 'PROCESSING'}">
-                                        <span class="status processing">Đang giao hàng</span>
+                                        <span class="status processing">Đang chờ xử lý</span>
                                     </c:when>
                                     <c:when test="${i.status == 'COMPLETED'}">
                                         <span class="status completed">Đã giao</span>

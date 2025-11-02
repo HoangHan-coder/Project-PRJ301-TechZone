@@ -134,7 +134,7 @@ public class OderListDAO extends DBContext{
         return null;
     }
 
-    public int updateProccessing(int id, String status) {
+    public int updateCompleted(int id, String status) {
         try {
             String sql = "UPDATE Orders \n"
                     + "   SET Status = ?\n"

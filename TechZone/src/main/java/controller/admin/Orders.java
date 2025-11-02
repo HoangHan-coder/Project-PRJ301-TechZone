@@ -105,22 +105,21 @@ public class Orders extends HttpServlet {
             throws ServletException, IOException {
         String view = request.getParameter("view");
         OderListDAO order = new OderListDAO();
-        System.out.println(view);
         if (view.equals("update")) {
             String type = request.getParameter("type");
             String id = request.getParameter("id");
+            System.out.println(view);
             switch (type) {
-                case "processing":
-                    order.updateProccessing(Integer.parseInt(id), type);
-                    break;
                 case "pending":
                     order.updatePending(Integer.parseInt(id), type);
+                    break;
+                case "completed":
+                    order.updateCompleted(Integer.parseInt(id), type);
                     break;
                 case "cancel":
                     order.updateCancel(Integer.parseInt(id), type);
                     break;
                 case "delete":
-                       System.out.println("Dele");
                     order.updateDelete(Integer.parseInt(id), "True");
                     break;
                 default:

@@ -143,10 +143,10 @@
                         <b>Trạng thái:</b> 
                         <c:choose>
                             <c:when test="${order.status == 'PROCESSING'}">
-                                Đang xử lý
+                                Đang chờ xử lý
                             </c:when>
                             <c:when test="${order.status == 'PENDING'}">
-                                Đang chờ xử lý
+                                Đang giao hàng
                             </c:when>
                             <c:when test="${order.status == 'COMPLETED'}">
                                 Đã giao
@@ -200,10 +200,10 @@
 
 
                 <div class="actions">
-                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=processing&id=${order.orderId}">
+                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
                         <button class="btn btn-success"><i class="fa-solid fa-check"></i> Xác nhận đơn</button>
                     </form>
-                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
+                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=completed&id=${order.orderId}">
                         <button class="btn btn-info"><i class="fa-solid fa-truck"></i> Giao hàng</button>
                     </form>
                     <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=cancel&id=${order.orderId}">
