@@ -85,7 +85,7 @@ public class Login extends HttpServlet {
         session.setAttribute("account", accountUsers);
         if (accountUsers != null) {
             if (accountUsers.getAccountroles().equals("Admin")) {
-                response.sendRedirect(getServletContext().getContextPath() + "/admin");
+                response.sendRedirect(getServletContext().getContextPath() + "/admin/account");
             } else {
                 response.sendRedirect(getServletContext().getContextPath() + "/products");
             }
