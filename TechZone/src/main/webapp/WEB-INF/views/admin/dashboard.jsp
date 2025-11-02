@@ -4,6 +4,7 @@
     Author     : letan
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -109,7 +110,7 @@
                     <div class="row g-3 mb-4">
                         <div class="col-md-3 col-sm-6">
                             <div class="dashboard-card">
-                                <h4>$${allprice}k</h4>
+                                <h4><fmt:formatNumber value="${allprice}" type="number" maxFractionDigits="0"/>k</h4>
                                 <p>Doanh thu</p>
                             </div>
                         </div>
@@ -203,7 +204,7 @@
                                         <td>${i.getName()}</td>
                                         <td>${i.sales}</td>
                                         <td>${i.sumquantity}</td>
-                                        <td>${i.allprice}đ</td>
+                                        <td><fmt:formatNumber value="${i.allprice}" type="number" maxFractionDigits="0"/>k</td>
                                     </tr>
                                 </tbody>
                             </c:forEach>

@@ -124,7 +124,100 @@
                 opacity: 0.9;
                 transform: scale(1.03);
             }
+            .modal-overlay {
+                display: none; /* Ẩn ban đầu */
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            }
 
+            /* Hộp nội dung modal */
+            .modal-content {
+                background: #fff;
+                background-color: white !important;
+                border-radius: 12px;
+                padding: 25px 30px;
+                width: 90%;
+                max-width: 420px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                animation: fadeInUp 0.3s ease;
+            }
+
+            /* Tiêu đề */
+            .modal-content h3 {
+                margin-bottom: 15px;
+                color: #333;
+                font-weight: 600;
+                text-align: center;
+            }
+
+            /* Ô nhập */
+            .modal-content textarea {
+                width: 100%;
+                height: 100px;
+                padding: 10px 12px;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                resize: none;
+                font-size: 15px;
+                outline: none;
+                transition: border 0.2s;
+            }
+
+            .modal-content textarea:focus {
+                border-color: #ff4d4f;
+            }
+
+            /* Nút trong modal */
+            .modal-buttons {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 18px;
+            }
+
+            .btn-cancel, .btn-confirm {
+                border: none;
+                border-radius: 8px;
+                padding: 10px 20px;
+                font-size: 15px;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+
+            .btn-cancel {
+                background: #ccc;
+                color: #333;
+            }
+
+            .btn-cancel:hover {
+                background: #b3b3b3;
+            }
+
+            .btn-confirm {
+                background: #ff4d4f;
+                color: white;
+            }
+
+            .btn-confirm:hover {
+                background: #e63946;
+            }
+
+            /* Hiệu ứng hiện modal */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
         </style>
     </head>
     <body>
@@ -143,10 +236,10 @@
                         <b>Trạng thái:</b> 
                         <c:choose>
                             <c:when test="${order.status == 'PROCESSING'}">
-                                Đang xử lý
+                                Đang chờ xử lý
                             </c:when>
                             <c:when test="${order.status == 'PENDING'}">
-                                Đang chờ xử lý
+                                Đang giao hàng
                             </c:when>
                             <c:when test="${order.status == 'COMPLETED'}">
                                 Đã giao
@@ -160,7 +253,11 @@
                         </c:choose>
                     </div>
 
-                    <div class="info-row"><b>Phương thức thanh toán:</b> ${order.paymentMethod}</div>
+                    <div class="info-row"><b>Phương thức thanh toán:</b> ${order.paymentMethod}</div>   
+                    <c:if test="${status != null}">
+                        <div class="info-row"><b>Lí do:</b>${status}</div>
+                    </c:if>
+                        
                 </div>
 
                 <div class="card">
@@ -197,22 +294,55 @@
 
                     <div class="total">Tổng cộng: ${totalamount}₫</div>
                 </div>
-
-
+                <!-- Modal -->
+                <div id="cancelModal" class="modal-overlay">
+                    <div class="modal-content">
+                        <h3>Lý do hủy đơn</h3>
+                        <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=cancel&id=${order.orderId}" id="cancelForm">
+                            <textarea name="cancelReason" placeholder="Nhập lý do hủy đơn..." required></textarea>
+                            <div class="modal-buttons">
+                                <button type="button" class="btn-cancel" id="closeModal">Đóng</button>
+                                <button type="submit" class="btn-confirm">Xác nhận hủy</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <div class="actions">
-                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=processing&id=${order.orderId}">
+                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
                         <button class="btn btn-success"><i class="fa-solid fa-check"></i> Xác nhận đơn</button>
                     </form>
-                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
+                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=completed&id=${order.orderId}">
                         <button class="btn btn-info"><i class="fa-solid fa-truck"></i> Giao hàng</button>
                     </form>
-                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=cancel&id=${order.orderId}">
-                        <button class="btn btn-danger"><i class="fa-solid fa-times"></i> Hủy đơn</button>
-                    </form>
+                    <button type="button" class="btn btn-danger" id="cancelBtn">
+                        <i class="fa-solid fa-times"></i> Hủy đơn
+                    </button>
                 </div>
             </div>
         </div>
 
     </body>
+    <script>
+        const modal = document.getElementById('cancelModal');
+        const openBtn = document.getElementById('cancelBtn');
+        const closeBtn = document.getElementById('closeModal');
+
+// Mở modal khi ấn "Hủy đơn"
+        openBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+// Đóng modal khi ấn "Đóng"
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+// Đóng modal khi click ra ngoài
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
 </html>
 

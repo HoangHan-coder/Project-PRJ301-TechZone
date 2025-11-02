@@ -54,7 +54,7 @@ public class StatisticalDAO extends DBContext{
 
     public int getTotalProduct() {
         try {
-            String sql = "SELECT COUNT(*) AS TongProduct FROM Product p WHERE p.isDeleted = 'False' ";
+            String sql = "SELECT SUM(p.stock) AS TongProduct FROM Product p WHERE p.isDeleted = 'False' ";
             PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -69,7 +69,7 @@ public class StatisticalDAO extends DBContext{
 
     public int getTotalAccount() {
         try {
-            String sql = "SELECT COUNT(*) AS TongProduct FROM AccountRoles p WHERE p.RoleId = 2 ";
+            String sql = "SELECT COUNT(*) AS TongProduct FROM Accounts p WHERE p.RoleName = 'Customer'";
             PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {

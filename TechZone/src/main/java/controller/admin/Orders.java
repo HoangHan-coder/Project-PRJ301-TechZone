@@ -4,7 +4,7 @@
  */
 package controller.admin;
 
-import dao.OderListDAO;
+import dao.OrderListDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -64,13 +64,15 @@ public class Orders extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String view = request.getParameter("view");
-        OderListDAO order = new OderListDAO();
-        if(view == null) view = "list";
+        OrderListDAO order = new OrderListDAO();
+        if (view == null) {
+            view = "list";
+        }
         switch (view) {
             case "list":
                 List<Orderlist> list = order.getAll();
                 request.setAttribute("list", list);
-                request.getRequestDispatcher("/WEB-INF/views/admin/Orders/list.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/admin/orders/list.jsp").forward(request, response);
                 break;
             case "detail":
                 String id = request.getParameter("id");
@@ -81,12 +83,15 @@ public class Orders extends HttpServlet {
                 request.setAttribute("order", orders);
                 request.setAttribute("products", products);
                 BigDecimal totalAmount = BigDecimal.ZERO;
+                if (orders.getStatus().equalsIgnoreCase("CANCEL")) {
+                    request.setAttribute("status", order.getResponse(Integer.parseInt(id)).getReason());
+                }
                 for (OrderItemDTO p : products) {
                     BigDecimal lineTotal = p.getProductPrice().multiply(BigDecimal.valueOf(p.getQuantity()));
                     totalAmount = totalAmount.add(lineTotal);
                 }
                 request.setAttribute("totalamount", totalAmount);
-                request.getRequestDispatcher("/WEB-INF/views/admin/Orders/detail.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/views/admin/orders/detail.jsp").forward(request, response);
                 break;
 
         }
@@ -104,23 +109,24 @@ public class Orders extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String view = request.getParameter("view");
-        OderListDAO order = new OderListDAO();
-        System.out.println(view);
+        OrderListDAO order = new OrderListDAO();
         if (view.equals("update")) {
             String type = request.getParameter("type");
             String id = request.getParameter("id");
+            System.out.println(view);
             switch (type) {
-                case "processing":
-                    order.updateProccessing(Integer.parseInt(id), type);
-                    break;
                 case "pending":
                     order.updatePending(Integer.parseInt(id), type);
                     break;
+                case "completed":
+                    order.updateCompleted(Integer.parseInt(id), type);
+                    break;
                 case "cancel":
+                    String text = request.getParameter("cancelReason");
+                    order.insetCancel(text, Integer.parseInt(id));
                     order.updateCancel(Integer.parseInt(id), type);
                     break;
                 case "delete":
-                       System.out.println("Dele");
                     order.updateDelete(Integer.parseInt(id), "True");
                     break;
                 default:

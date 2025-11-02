@@ -23,8 +23,8 @@
         <div>
             <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
         </div>
-        
-        
+
+
         <div class="container">
             <div class="row">
                 <ul class="nav justify-content-between align-items-center shadow-sm p-3 my-3 bg-body-tertiary rounded">
@@ -115,7 +115,8 @@
 
             </div>
         </div>
-         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
+        <jsp:include page="../../includes/footer-profile.jsp"/>
+
     </body>
 
 </html>
