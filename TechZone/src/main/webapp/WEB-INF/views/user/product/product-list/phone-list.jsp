@@ -25,7 +25,7 @@
                 <c:forEach var="p" items="${list}">
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 text-center shadow-sm">
-                            <img src="${p.linkImg}" class="card-img-top" alt="${p.productName}" style="height:400px; object-fit:cover;">
+                            <img src="${pageContext.request.contextPath}${p.linkImg}" class="card-img-top" alt="${p.productName}" style="height:400px; object-fit:cover;">
                             <div class="card-body">
                                 <h5 class="card-title">${p.productName}</h5>
                                 <p class="card-text text-danger fw-bold"><fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND</p>          

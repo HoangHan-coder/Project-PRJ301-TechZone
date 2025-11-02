@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <style>
     .hero {
         background-color: #f8f9fa;
@@ -143,13 +143,13 @@
         font-size:20px;
         color:#fff;
     }
-    
+
     .footer-nav{
-        transform: translateY(90px);
+        transform: translateY(200px);
     }
 </style>
 <!-- Footer Gizmos -->
-<footer class="footer-nav" style="background-color: #212529 !important;">
+<footer style="background-color: #212529 !important;">
     <section class="newsletter" style="background-color: #212529 !important;">
         <div class="container">
             <div class="row align-items-center">
@@ -203,8 +203,7 @@
         <!-- Quick Links -->
         <div class="footer-column">
             <h4>Quick Links</h4>
-            <ul>
-                <li><a href="#">Smartphones</a></li>
+            <ul><li><a href="#">Smartphones</a></li>
                 <li><a href="#">Headphones</a></li>
                 <li><a href="#">Laptop & Tablet</a></li>
                 <li><a href="#">Monitors</a></li>

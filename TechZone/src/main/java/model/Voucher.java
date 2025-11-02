@@ -29,6 +29,16 @@ public class Voucher {
     public Voucher() {
     }
 
+    public Voucher(int voucherId, String code, BigDecimal discountValue, String discountType, String status) {
+        this.voucherId = voucherId;
+        this.code = code;
+        this.discountValue = discountValue;
+        this.discountType = discountType;
+        this.status = status;
+    }
+    
+    
+
     public Voucher(String code, BigDecimal discountValue, String discountType, Timestamp startDate, Timestamp endDate, BigDecimal minOrderValue, int maxUsage) {
         this.code = code;
         this.discountValue = discountValue;
@@ -129,6 +139,9 @@ public class Voucher {
     }
 
     public String getStatus() {
+        if(this.status == null) {
+            this.setStatus("ACTIVE");
+        }
         if (this.status.equals("DISABLED")) {
             this.setStatus("DISABLED");
         } else if (this.isExpired()) {

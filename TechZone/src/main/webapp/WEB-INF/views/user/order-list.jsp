@@ -50,7 +50,7 @@
 
 <body>
     <div>
-        <jsp:include page="/WEB-INF/Views/user/navbar.jsp"/>
+        <jsp:include page="/WEB-INF/views/user/navbar.jsp"/>
     </div>
     <div class="history-order">
         <div class="container-fluid">
@@ -189,6 +189,6 @@
             </div>
         </div>
     </div>
-    <jsp:include page="/WEB-INF/Views/user/footer.jsp"/>
+    <jsp:include page="/WEB-INF/views/user/footer.jsp"/>
 </body>
 </html>

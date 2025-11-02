@@ -22,9 +22,7 @@
     <div class="container d-flex justify-content-between align-items-center py-2">
         <!-- Logo + Menu -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/products" style="width: 140px">
-                <img src="${pageContext.request.contextPath}/assets/images/logo.png" style="width: 100%;" alt="logo" />
-            </a>
+            <a class="navbar-brand fw-bold fs-2" href="${pageContext.request.contextPath}/products" >TechZone<span style="color: orange">.</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" 
                     aria-label="Toggle navigation">
@@ -33,7 +31,7 @@
 
             <div class="collapse navbar-collapse my-navbar" id="mainNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active fw-bold" href="${pageContext.request.contextPath}/products">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active fw-bold" href="Home.jsp">Home</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="#">Pages</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="Shop.jsp">Shop</a></li>
                     <li class="nav-item"><a class="nav-link fw-bold" href="#">Blog</a></li>
@@ -45,7 +43,7 @@
                 <i class="bi bi-headset me-2 fs-2"></i>
                 <div>
                     <div class="fw-bold fs-4">+0916973161</div>
-                    <small class="text-muted" ">KhangPD.CE191105@gmail.com</small>
+                    <small class="text-muted">KhangPD.CE191105@gmail.com</small>
                 </div>
             </div>
         </nav>
@@ -75,14 +73,22 @@
             </ul>
         </div>
         <!-- Search Bar -->
-        <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" role="search">
-            <div class="input-group" style="max-width: 600px; width: 100%;">           
-                <input class="form-control border-0" type="search" placeholder="Search products" aria-label="Search">
-                <button class="btn btn-light" type="submit">
+        <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" 
+              action="search" method="post">
+            <input type="hidden" name="action" value="search">
+            <div class="input-group" style="max-width: 600px; width: 100%;">
+                <input class="form-control border-0" 
+                       type="search" 
+                       name="txtSearch" 
+                       placeholder="Search products..." 
+                       aria-label="Search" 
+                       required>
+                <button class="btn btn-light border-0" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </form>
+
 
         <!-- Icons -->
         <div class="d-flex align-items-center text-white">

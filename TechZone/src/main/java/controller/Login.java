@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.AccountUsers;
 
 /**
  *
@@ -67,7 +68,7 @@ public class Login extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet reqsuest
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
@@ -79,18 +80,18 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
 
         AuthDAO userdao = new AuthDAO();
-        if (userdao.login(username, password) != null) {
-            if (userdao.login(username, password).getAccountroles().equals("Admin")) {
-                HttpSession session = request.getSession();
-                session.setAttribute("admin", userdao.login(username, password));
+        AccountUsers accountUsers = userdao.login(username, password);
+        HttpSession session = request.getSession();
+        session.setAttribute("account", accountUsers);
+        if (accountUsers != null) {
+            if (accountUsers.getAccountroles().equals("Admin")) {
                 response.sendRedirect(getServletContext().getContextPath() + "/admin");
             } else {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", userdao.login(username, password));
                 response.sendRedirect(getServletContext().getContextPath() + "/products");
             }
 
         } else {
+            System.out.println("_________________------------>");
             response.sendRedirect(getServletContext().getContextPath() + "/login");
         }
 

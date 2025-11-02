@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import model.Account;
 import java.util.Arrays;
-import until.Pagination;
 
-@WebServlet(name = "AdminServlet", urlPatterns = {"/admin/account"})
+@WebServlet(name = "AdminServlet", urlPatterns = {"/admin"})
 public class AdminServlet extends HttpServlet {
 
     @Override
@@ -20,7 +19,6 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String view = request.getParameter("view");
-        String ajax = request.getParameter("ajax");
         AccountDAO dao = new AccountDAO();
 
         if (view == null || view.equals("list")) {
@@ -39,24 +37,14 @@ public class AdminServlet extends HttpServlet {
                     page = 1;
                 }
             }
-            List<Account> list = dao.filterAccounts(page, keyword, role);
+
+            List<Account> list = dao.filterAccounts(keyword, role);
             if (list == null) {
                 list = new ArrayList<>();
             }
 
-            Pagination p = new Pagination();
-            int totalRow = dao.getTotalPages();
-            p.handlePagintation(request, page, totalRow, "account");
-
             // Gán attribute cho JSP
             request.setAttribute("accounts", list);
-            if ("1".equals(ajax)) {
-                request.getRequestDispatcher("/WEB-INF/views/admin/account-results.jsp")
-                        .forward(request, response);
-                return;
-            }
-
-            request.setAttribute("totalPages", totalRow);
             request.setAttribute("currentPage", page);
             request.setAttribute("keyword", keyword != null ? keyword : "");
             request.setAttribute("role", role != null ? role : "");
@@ -75,9 +63,9 @@ public class AdminServlet extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             int result = dao.delete(id);
             if (result == 1) {
-                response.sendRedirect(request.getContextPath() + "/admin/account?view=list&delete=1");
+                response.sendRedirect(request.getContextPath() + "/admin?view=list&delete=1");
             } else {
-                response.sendRedirect(request.getContextPath() + "/admin/account?view=list&delete=0");
+                response.sendRedirect(request.getContextPath() + "/admin?view=list&delete=0");
             }
 
         } else if (view.equals("create")) {
@@ -95,7 +83,6 @@ public class AdminServlet extends HttpServlet {
         AccountDAO dao = new AccountDAO();
 
         if ("update".equals(action)) {
-            String username = request.getParameter("username");
             int id = Integer.parseInt(request.getParameter("id"));
             String fullName = request.getParameter("fullName");
             String email = request.getParameter("email");
@@ -113,7 +100,7 @@ public class AdminServlet extends HttpServlet {
             if (email == null || email.trim().isEmpty()) {
                 request.setAttribute("emailError", "Email không được để trống");
                 hasError = true;
-            } else if (!email.matches("^[A-Za-z][A-Za-z0-9._]*@[A-Za-z]+\\.(com)$")) {
+            } else if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
                 request.setAttribute("emailError", "Email không đúng định dạng");
                 hasError = true;
             }
@@ -130,7 +117,6 @@ public class AdminServlet extends HttpServlet {
             // Nếu có lỗi, giữ data và forward lại
             if (hasError) {
                 Account temp = new Account();
-                temp.setUserName(username);
                 temp.setAccountId(id);
                 temp.setFullName(fullName);
                 temp.setEmail(email);
@@ -149,9 +135,9 @@ public class AdminServlet extends HttpServlet {
 
             int result = dao.update(account);
             if (result == 1) {
-                response.sendRedirect(request.getContextPath() + "/admin/account?view=list");
+                response.sendRedirect(request.getContextPath() + "/admin?view=list");
             } else {
-                response.sendRedirect(request.getContextPath() + "/admin/account?view=update&id=" + id);
+                response.sendRedirect(request.getContextPath() + "/admin?view=update&id=" + id);
             }
 
         } else if ("create".equals(action)) {
@@ -197,7 +183,7 @@ public class AdminServlet extends HttpServlet {
                         .collect(Collectors.joining(" "));
             }
 
-            if (email != null && !email.isEmpty() && !email.matches("^[A-Za-z][A-Za-z0-9._]*@[A-Za-z]+\\.(com)$")) {
+            if (email != null && !email.isEmpty() && !email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
                 request.setAttribute("emailError", "Email không đúng định dạng");
                 hasError = true;
             }
@@ -236,7 +222,7 @@ public class AdminServlet extends HttpServlet {
             try {
                 dao.create(account);
                 // 7. Redirect về list sau khi tạo thành công
-                response.sendRedirect(request.getContextPath() + "/admin/account?view=list");
+                response.sendRedirect(request.getContextPath() + "/admin?view=list");
             } catch (Exception ex) {
                 // log lỗi
                 ex.printStackTrace();
