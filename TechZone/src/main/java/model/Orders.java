@@ -27,6 +27,10 @@ public class Orders {
     // ======= Constructors =======
     public Orders() {}
 
+    public Orders(int orderId) {
+        this.orderId = orderId;
+    }
+
     public Orders(int orderId, int accountId, String orderCode, LocalDateTime orderTime, double totalAmount,
                  double shippingFee, String status, String shippingAddress, String paymentMethod,
                  String paymentStatus, Integer voucherId, boolean isDeleted) {

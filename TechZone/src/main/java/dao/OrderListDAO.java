@@ -16,14 +16,13 @@ import model.Orderlist;
 import model.Orders;
 import dto.OrderItemDTO;
 import model.Account;
+import model.ResponseOrder;
 
 /**
  *
  * @author letan
  */
-public class OderListDAO extends DBContext{
-
-
+public class OrderListDAO extends DBContext {
 
     public List<Orderlist> getAll() {
         try {
@@ -40,7 +39,7 @@ public class OderListDAO extends DBContext{
             }
             return list;
         } catch (SQLException ex) {
-            Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -77,7 +76,7 @@ public class OderListDAO extends DBContext{
             }
             return null;
         } catch (SQLException ex) {
-            Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -105,7 +104,7 @@ public class OderListDAO extends DBContext{
             }
             return list;
         } catch (SQLException ex) {
-            Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -129,7 +128,7 @@ public class OderListDAO extends DBContext{
                 return acc;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -144,7 +143,26 @@ public class OderListDAO extends DBContext{
             st.setInt(2, id);
             return st.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public int insetCancel(String text, int id) {
+        try {
+            String sql = "INSERT INTO [dbo].[responseOrder]\n"
+                    + "           ([reason]\n"
+                    + "           ,[orderId])\n"
+                    + "     VALUES\n"
+                    + "           (?\n"
+                    + "           ,?)";
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
+            st.setString(1, text);
+            Orders order = new Orders(id);
+            st.setInt(2, order.getOrderId());
+            return st.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
     }
@@ -159,10 +177,11 @@ public class OderListDAO extends DBContext{
             st.setInt(2, id);
             return st.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
     }
+
     public int updateCancel(int id, String status) {
         try {
             String sql = "UPDATE Orders \n"
@@ -173,10 +192,11 @@ public class OderListDAO extends DBContext{
             st.setInt(2, id);
             return st.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
     }
+
     public int updateDelete(int id, String status) {
         try {
             String sql = "UPDATE Orders \n"
@@ -187,8 +207,24 @@ public class OderListDAO extends DBContext{
             st.setInt(2, id);
             return st.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(OderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+    }
+    public ResponseOrder getResponse(int id) {
+        try {
+            String sql = "SELECT * FROM responseOrder WHERE responseOrderId = ?";
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Orders order = new Orders(rs.getInt("orderId"));
+                ResponseOrder orderCancel = new ResponseOrder(rs.getInt("responseOrderId"),rs.getString("reason"),order,rs.getTime("CreatedAt"));
+                return orderCancel;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

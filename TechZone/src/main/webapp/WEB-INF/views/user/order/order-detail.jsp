@@ -20,10 +20,11 @@
 
     <body>
         <div>
-            <jsp:include page="/WEB-INF/views/includes/header.jsp"/>
+            <jsp:include page="../../includes/header.jsp"/>
+
         </div>
-        
-        
+
+
         <div class="container">
             <div class="row">
                 <ul class="nav justify-content-between align-items-center shadow-sm p-3 my-3 bg-body-tertiary rounded">
@@ -63,12 +64,12 @@
                             <div class="row g-0" style="height: 240px;">
                                 <div class="col-md-2 h-100">
                                     <img src="<c:url value="${orderItem.product.linkImg}"></c:url>" class="img-fluid rounded-start" alt="..." style="height: 64px;width: 64px;">
-                                </div>
-                                <div class="col-md-10">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${orderItem.productNameSnapshot}</h5>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${orderItem.productNameSnapshot}</h5>
                                         <p class="card-text d-flex justify-content-between fs-5 text">
-                                          
+
                                             <span class="text-danger">${orderItem.unitPrice}</span></p>
                                         <p class="card-text fs-5 text-black"><small class="text-body-secondary">X${orderItem.quantity}</small></p>
                                     </div>
@@ -104,7 +105,8 @@
 
             </div>
         </div>
-         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
+        <jsp:include page="../../includes/footer-profile.jsp"/>
+
     </body>
 
 </html>

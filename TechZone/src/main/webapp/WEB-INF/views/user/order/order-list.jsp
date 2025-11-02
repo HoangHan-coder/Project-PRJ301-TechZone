@@ -51,7 +51,7 @@
 
     <body>
         <div>
-            <jsp:include page="/WEB-INF/views/includes/header.jsp"/>
+            <jsp:include page="../../includes/header.jsp"/>
         </div>
         <div class="history-order">
             <div class="container-fluid">
@@ -118,6 +118,6 @@
                 </c:forEach>
             </div>
         </div>
-        <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
+            <jsp:include page="../../includes/footer-profile.jsp"/>
     </body>
 </html>
