@@ -63,6 +63,45 @@ public class OrderItemDAO extends DBContext {
         return listOrderItems;
     }
 
+    public List<OrderItem> getOrderItemfilterByStatus(String username, String statusOrder) {
+        List<OrderItem> listOrderItems = new ArrayList<>();
+        String sql = "SELECT Accounts.Username, Accounts.FullName, Accounts.Phone, Accounts.IsDeleted AS accIsDeaded, Product.LinkImg, Accounts.AccountId, OrderItems.OrderItemId, OrderItems.UnitPrice, OrderItems.ProductNameSnapshot, \n"
+                + "                  OrderItems.Quantity, OrderItems.TotalPrice, Orders.OrderId, Orders.OrderCode, Orders.OrderTime, Orders.TotalAmount, Orders.ShippingFee, Orders.ShippingAddress, Orders.Status AS OrderStatus, Orders.PaymentMethod, \n"
+                + "                  Orders.PaymentStatus, Orders.IsDeleted AS orderIsDeaded, Product.ProductId, Vouchers.VoucherId, Vouchers.Code AS VoucherCode, Vouchers.DiscountValue, Vouchers.DiscountType, Vouchers.Status AS VoucherStatus\n"
+                + "FROM     Accounts INNER JOIN\n"
+                + "                  Orders ON Accounts.AccountId = Orders.AccountId INNER JOIN\n"
+                + "                  OrderItems ON Orders.OrderId = OrderItems.OrderId INNER JOIN\n"
+                + "                  Product ON OrderItems.ProductId = Product.ProductId LEFT JOIN\n"
+                + "                  Vouchers ON Orders.VoucherId = Vouchers.VoucherId\n"
+                + "WHERE Accounts.Username = ?  AND Orders.IsDeleted = 0 AND Orders.Status LIKE ? ;";
+
+        try {
+            PreparedStatement statement = this.getConnection().prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2,  "%" + statusOrder + "%");
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Account account = new Account(rs.getInt("AccountId"), rs.getString("Username"), rs.getString("FullName"), rs.getString("Phone"), rs.getBoolean("accIsDeaded"));
+                Product product = new Product();
+                product.setProductId(rs.getInt("ProductId"));
+                product.setLinkImg(rs.getString("LinkImg"));
+                Voucher voucher = new Voucher(rs.getInt("VoucherId"), rs.getString("VoucherCode"), rs.getBigDecimal("DiscountValue"),
+                        rs.getString("DiscountType"), rs.getString("VoucherStatus"));
+                OrderCore order = new OrderCore(rs.getInt("OrderId"), account, rs.getString("OrderCode"),
+                        rs.getTimestamp("OrderTime").toLocalDateTime(), rs.getBigDecimal("TotalAmount"),
+                        rs.getBigDecimal("ShippingFee"), rs.getString("OrderStatus"),
+                        rs.getString("ShippingAddress"), rs.getString("PaymentMethod"),
+                        rs.getString("PaymentStatus"), voucher, rs.getBoolean("orderIsDeaded"));
+                OrderItem orderItem = new OrderItem(rs.getInt("OrderItemId"), order, product, rs.getString("ProductNameSnapshot"), rs.getBigDecimal("UnitPrice"), rs.getInt("Quantity"), rs.getBigDecimal("TotalPrice"));
+                listOrderItems.add(orderItem);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listOrderItems;
+    }
+    
     public OrderItem getById(int id) {
         String sql = "SELECT Accounts.AccountId, Accounts.Username, Accounts.FullName, Accounts.Phone, Accounts.IsDeleted as accountIsDeleted, OrderItems.OrderItemId, OrderItems.ProductNameSnapshot, OrderItems.UnitPrice, OrderItems.Quantity, OrderItems.TotalPrice, Orders.OrderId , Orders.OrderCode, \n"
                 + "                  Orders.OrderTime, Orders.TotalAmount, Orders.ShippingFee, Orders.Status AS orderStatus, Orders.ShippingAddress, Orders.PaymentMethod, Orders.PaymentStatus, Orders.IsDeleted AS orderIsDead, Vouchers.VoucherId, Vouchers.Code AS voucherCode, Vouchers.DiscountValue, \n"

@@ -101,9 +101,8 @@ public class OrderCore {
                 return "Đang giao hàng";
             case "COMPLETED":
                 return "Đã giao";
-            case "CANCEL":
-                return "Hủy giao";
-
+            case "CANCELED":
+                return "Đã hủy";
             default:
                 return "Đang chờ xử lý";
         }

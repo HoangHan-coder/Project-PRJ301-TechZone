@@ -80,8 +80,6 @@ public class ProductDAO extends DBContext {
         p.setIsDeleted(rs.getBoolean("IsDeleted"));
         p.setCreatedAt(rs.getTimestamp("CreatedAt"));
         p.setUpdatedAt(rs.getTimestamp("UpdatedAt"));
-        p.setRowVersion(rs.getBytes("RowVersion"));
-
         return p;
     }
 // ✅ Featured product (sản phẩm mới nhất trong danh mục)

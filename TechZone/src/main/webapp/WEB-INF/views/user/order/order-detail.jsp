@@ -93,10 +93,10 @@
                                     <td>Không có</td>
                                 </c:if>
                                 <c:if test="${orderItem.order.voucher.discountType == 'PERCENT'}">
-                                    <td>${orderItem.order.voucher.discountValue}</td>
+                                    <td>-<fmt:formatNumber value="${orderItem.totalPrice * (orderItem.order.voucher.discountValue/100)}" type="number" maxFractionDigits="0"/>₫</td>
                                 </c:if>
                                 <c:if test="${orderItem.order.voucher.discountType != 'PERCENT'}">
-                                    <td><fmt:formatNumber value="${orderItem.order.voucher.discountValue}" type="number" maxFractionDigits="0"/></td>
+                                    <td>-<fmt:formatNumber value="${orderItem.order.voucher.discountValue}" type="number" maxFractionDigits="0"/>₫</td>
                                 </c:if>
                                 
                                 

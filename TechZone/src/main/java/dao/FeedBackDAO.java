@@ -261,7 +261,6 @@ public class FeedBackDAO extends DBContext {
                 acc.setFullName(rs.getString("fullName"));
                 fb.setAccount(acc);
 
-                fb.setSubject(rs.getString("subject"));
                 fb.setMessage(rs.getString("message"));
                 fb.setRating(rs.getInt("rating"));
                 fb.setCreatedAt(rs.getTimestamp("createdAt"));

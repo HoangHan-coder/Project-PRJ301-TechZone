@@ -52,6 +52,42 @@ public class OrderDAO extends db.DBContext {
         }
         return list;
     }
+    
+     public List<Order> getOrderByStatus(String statusOrder) {
+         if(statusOrder == null || statusOrder.isEmpty()) {
+             statusOrder = "";
+         }
+        List<Order> list = new ArrayList<>();
+        try {
+
+            String query = "SELECT * FROM Orders where Status like ?";
+            PreparedStatement statement = this.getConnection().prepareStatement(query);
+            statement.setString(1, "%" + statusOrder + "%");
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                int orderId = rs.getInt("orderId");
+                int accountId = rs.getInt("accountId");
+                String orderCode = rs.getString("orderCode");
+                LocalDateTime orderTime = rs.getTimestamp("orderTime").toLocalDateTime();
+                double totalAmount = rs.getDouble("totalAmount");
+                double shippingFee = rs.getDouble("shippingFee");
+                String status = rs.getString("status");
+                String shippingAddress = rs.getString("shippingAddress");
+                String paymentMethod = rs.getString("paymentMethod");
+                String paymentStatus = rs.getString("paymentStatus");
+                Integer voucherId = rs.getInt("voucherId");
+                boolean isDeleted = rs.getBoolean("isDelete");
+                Order order = new Order(orderId, accountId, orderCode, orderTime, totalAmount, shippingFee, status, shippingAddress, paymentMethod, paymentStatus, voucherId, isDeleted);
+
+                list.add(order);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
 
     public int maxId() {
         try {

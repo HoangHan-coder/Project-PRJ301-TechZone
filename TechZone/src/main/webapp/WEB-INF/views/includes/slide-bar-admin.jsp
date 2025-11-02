@@ -65,7 +65,7 @@
             <a href="${pageContext.request.contextPath}/admin/order?view=list" class="nav-link"><i class="bi bi-cart"></i> Đơn hàng</a>
         </li>
         <li class="nav-item mb-2">
-            <a href="${pageContext.request.contextPath}/voucher" class="nav-link"><i class="bi bi-tag"></i> Khuyến mãi</a>
+            <a href="${pageContext.request.contextPath}/admin/voucher" class="nav-link"><i class="bi bi-tag"></i> Khuyến mãi</a>
         </li>
         <li class="nav-item mb-2">
             <a href="#" class="nav-link"><i class="bi bi-chat"></i> Phản hồi</a>

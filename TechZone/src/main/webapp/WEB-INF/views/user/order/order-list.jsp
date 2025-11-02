@@ -58,19 +58,19 @@
             <div class="container-fluid">
                 <ul class="nav nav-underline d-flex justify-content-around">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Tất cả</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/order?view=order-list">Tất cả</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Chờ xác Nhận</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/order?view=order-list&orderStatus=PROCESSING">Chờ xác Nhận</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="#">Chờ giao hàng</a>
+                        <a class="nav-link " href="${pageContext.request.contextPath}/order?view=order-list&orderStatus=PENDING"">Chờ giao hàng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="#">Hoàn thành</a>
+                        <a class="nav-link " href="${pageContext.request.contextPath}/order?view=order-list&orderStatus=COMPLETED"">Hoàn thành</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="#">Đã hủy</a>
+                        <a class="nav-link " href="${pageContext.request.contextPath}/order?view=order-list&orderStatus=CANCELED"">Đã hủy</a>
                     </li>
                 </ul>
 
@@ -109,7 +109,7 @@
                                         </div>
                                     </li>
                                     <li class="list-group-item d-flex flex-column align-items-end">
-                                        <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger"><fmt:formatNumber value="${orderItem.totalPrice}" type="number" maxFractionDigits="0"/>₫</span></p>
+                                        <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger"><fmt:formatNumber value="${orderItem.order.totalAmount}" type="number" maxFractionDigits="0"/>₫</span></p>
                                         <div class="m-2">
                                             <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua lại</button>
                                             <button type="button" class="btn btn-light ">Liên hệ người bán</button>

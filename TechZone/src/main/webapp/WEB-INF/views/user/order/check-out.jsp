@@ -154,9 +154,12 @@
                                                 <div class="row g-3 align-items-end">
                                                     <div class="col-md-6">
                                                         <label class="form-label">Chọn voucher</label>
-                                                        <select class="form-select" name="voucherId" id="selectVoucher">
-                                                            <option value="0">-- Không dùng voucher --</option>
+                                                        <select class="form-select" name="voucherId" id="selectVoucher" >
+                                                            <c:if test="${empty vouchers}">
+                                                                <option value="0" selected>-- Hiện không có voucher khả dụng cho đơn hàng này! --</option>
+                                                            </c:if>
                                                             <c:if test="${not empty vouchers}">
+                                                                <option value="0">-- Không dùng voucher --</option>
                                                                 <c:forEach var="v" items="${vouchers}">
                                                                     <option 
                                                                         value="${v.voucherId}"
@@ -171,6 +174,7 @@
                                                                     </option>
                                                                 </c:forEach>
                                                             </c:if>
+
                                                         </select>
 
                                                     </div>
@@ -223,7 +227,7 @@
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <span>Thành tiền</span>
                                                     <span class="summary-total" id="summaryTotal"><fmt:formatNumber value="${orderTotal}" type="number" maxFractionDigits="0"/>₫</span>
-                                                    <input type="hidden" name="totalAmount" value="${orderTotal}">
+                                                    <input type="hidden" name="totalAmount" id="totalAmount" value="${orderTotal}">
                                                 </div>
                                             </div>
                                         </div>

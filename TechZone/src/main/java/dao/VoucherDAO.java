@@ -362,7 +362,7 @@ public class VoucherDAO extends DBContext {
     }
     
     public int useVoucher(Voucher voucher, double totalPrice) {
-        if (voucher.getMinOrderValue().doubleValue() < totalPrice || voucher.getMaxUsage() <= 0) return 0;
+        if (voucher.getMaxUsage() <= 0) return 0;
         String sql = "UPDAte Vouchers set MaxUsage = MaxUsage - 1, CurrentUsage = CurrentUsage + 1 Where VoucherId = ?";
         try {
             

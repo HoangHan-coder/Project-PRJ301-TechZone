@@ -10,6 +10,7 @@ const subtotalValRaw = document.getElementById("subtotalVal").textContent;
 const summaryTotal = document.getElementById("summaryTotal");
 const btnVoucher = document.getElementById("btnVoucher");
 const voucherVal = document.getElementById("voucherVal");
+const totalAmount = document.getElementById("totalAmount");
 console.log(discountValue.value);
 var subtotal = parseInt(subtotalValRaw.replace(/\./g, ""), 10);
 var discountAmount;
@@ -35,11 +36,8 @@ selectVoucher.addEventListener("change", function () {
 });
 
 btnVoucher.addEventListener("click", function () {
-    console.log(discountAmount); // => "PERCENT" hoặc "FIXED"
-    console.log("------------");
-    console.log(subtotal - discountAmount);
     const totalAfterDiscount = subtotal - discountAmount;
-
+    totalAmount.value = totalAfterDiscount;
     voucherVal.innerHTML = "-" + discountAmount.toLocaleString("vi-VN") + "₫";
     summaryTotal.innerHTML = totalAfterDiscount.toLocaleString("vi-VN") + "₫";
 });
