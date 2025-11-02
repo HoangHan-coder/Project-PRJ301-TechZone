@@ -6,12 +6,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import model.Account;
-import model.AccountUsers;
+
 import model.Feedback;
 import model.Product;
 
@@ -38,6 +37,8 @@ public class ProductServlet extends HttpServlet {
                 request.setAttribute("listPhone", listPhone);
                 request.setAttribute("listLap", listLap);
                 request.setAttribute("listAccessory", listAccessory);
+                
+                
                 ArrayList<Product> listPhonefe = (ArrayList<Product>) dao.getTop1ByCategory(2);
                 ArrayList<Product> listLapfe = (ArrayList<Product>) dao.getTop1ByCategory(1);
                 ArrayList<Product> listAccessoryFe = (ArrayList<Product>) dao.getTop1(3);
@@ -102,7 +103,11 @@ public class ProductServlet extends HttpServlet {
                         product.setAttributesMap(new HashMap<>());
                     }
                     String error = (String) request.getSession().getAttribute("msg");
+<<<<<<< HEAD
                     String erroree= (String) request.getSession().getAttribute("msgee");
+=======
+                    String erroree = (String) request.getSession().getAttribute("msgee");
+>>>>>>> main-core
                     request.setAttribute("msg", error);
                     request.getSession().removeAttribute("msg");
                     request.setAttribute("msgee", erroree);
@@ -132,5 +137,5 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    }   
+    }
 }

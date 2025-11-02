@@ -4,6 +4,8 @@
     Author     : NgKaitou
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +21,7 @@
 
     <body>
         <div>
-            <jsp:include page="/WEB-INF/views/includes/header.jsp"/>
+            <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
         </div>
         
         
@@ -47,30 +49,29 @@
                     <div class="card-body">
 
                         <h5 class="card-title">Địa chỉ nhận hàng</h5>
-                        <p class="card-text">(+84) 706 622 248</p>
-                        <p class="card-text">170/77 Đ. Hoàng Quốc Việt, An Bình, Ninh Kiều, Cần Thơ, Phường An Bình, Quận
-                            Ninh Kiều, Cần Thơ</p>
+                        <p class="card-text">Họ tên: ${orderItem.order.account.fullName}</p>
+                        <p class="card-text">Số điện thoại: ${orderItem.order.account.phone}</p>
+                        <p class="card-text">Địa chỉ: ${orderItem.order.shippingAddress}</p>
                     </div>
                 </div>
                 <div class="card my-3">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <p class="m-0">ZIYOULANG</p>
+                        <p class="m-0">TechZone</p>
                         <p class="m-0"><i class="bi bi-exclamation-circle"></i></p>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <div class="row g-0" style="height: 240px;">
-                                <div class="col-md-2 h-100">
-                                    <img src="./image.png" class="img-fluid rounded-start h-100" alt="...">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-auto d-flex align-items-center justify-content-center">
+                                    <img src="<c:url value="${orderItem.product.linkImg}"></c:url>" class="img-fluid rounded-start border" alt="..." style="width: 120px; height: 120px; object-fit: contain;">
                                 </div>
-                                <div class="col-md-10">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Switch Bàn Phím Cơ Gaming ZiyouLang Công Tắc Phím Attack
-                                            Shark Blue Switch/
-                                            Red Switch/ Yellow Switch/White Switch 3 Pin</h5>
-                                        <p class="card-text d-flex justify-content-between fs-5 text"><span>Phân loại hàng: Combo 5
-                                                Xanh Đậm</span><span class="text-danger">60.000₫</span></p>
-                                        <p class="card-text fs-5 text-black"><small class="text-body-secondary">X4</small></p>
+                                <div class="col">
+                                    <div class="card-body p-0">
+                                        <p class="card-title fs-5 fw-semibold mb-1 text-truncate">${orderItem.productNameSnapshot}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-secondary">x${orderItem.quantity}</small>
+                                            <span class="text-danger fw-semibold"><fmt:formatNumber value="${orderItem.unitPrice}" type="number" maxFractionDigits="0"/>₫</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -80,23 +81,29 @@
                         <tbody>
                             <tr>
                                 <td>Tổng tiền hàng</td>
-                                <td>56.000₫</td>
+                                <td><fmt:formatNumber value="${orderItem.totalPrice}" type="number" maxFractionDigits="0"/>₫</td>
                             </tr>
                             <tr>
                                 <td>Phí vận chuyển</td>
-                                <td>28.700₫</td>
+                                <td><fmt:formatNumber value="${orderItem.order.shippingFee}" type="number" maxFractionDigits="0"/>₫</td>
                             </tr>
                             <tr>
-                                <td>Giảm giá phí vận chuyển <i class="bi bi-exclamation-circle"></i></td>
-                                <td>-28.700₫</td>
-                            </tr>
-                            <tr>
-                                <td>Voucher từ Shopee</td>
-                                <td>-25.000₫</td>
+                                <td>Voucher từ TechZone</td>
+                                <c:if test="${orderItem.order.voucher.discountValue == null}">
+                                    <td>Không có</td>
+                                </c:if>
+                                <c:if test="${orderItem.order.voucher.discountType == 'PERCENT'}">
+                                    <td>${orderItem.order.voucher.discountValue}</td>
+                                </c:if>
+                                <c:if test="${orderItem.order.voucher.discountType != 'PERCENT'}">
+                                    <td><fmt:formatNumber value="${orderItem.order.voucher.discountValue}" type="number" maxFractionDigits="0"/></td>
+                                </c:if>
+                                
+                                
                             </tr>
                             <tr>
                                 <td>Thành tiền</td>
-                                <td class="fs-4 text text-danger">31.000₫</td>
+                                <td class="fs-4 text text-danger"><fmt:formatNumber value="${orderItem.order.totalAmount}" type="number" maxFractionDigits="0"/>₫</td>
                             </tr>
                             <tr>
                                 <td>Phương thức Thanh toán</td>

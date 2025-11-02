@@ -36,14 +36,14 @@ public class ProfileServlet extends HttpServlet {
         String action = request.getParameter("action");
         if(action == null || action.equals("annoucement")){
             request.setAttribute("active profile", "true");
-            request.getRequestDispatcher("/WEB-INF/Views/profile/profile.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/profile/profile.jsp").forward(request, response);
         } else if (action.equals("voucher")){
             request.setAttribute("active voucher", "true");
-             request.getRequestDispatcher("/WEB-INF/Views/profile/voucher.jsp").forward(request, response);
+             request.getRequestDispatcher("/WEB-INF/views/profile/voucher.jsp").forward(request, response);
             
         } else if(action.equals("setting")){
             request.setAttribute("active account_profile", "true");
-            request.getRequestDispatcher("/WEB-INF/Views/profile/account-profile.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/profile/account-profile.jsp").forward(request, response);
         }
     }
 

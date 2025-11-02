@@ -22,9 +22,7 @@
     <div class="container d-flex justify-content-between align-items-center py-2">
         <!-- Logo + Menu -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/products" style="width: 140px">
-                <img src="${pageContext.request.contextPath}/assets/images/logo.png" style="width: 100%;" alt="logo" />
-            </a>
+            <a class="navbar-brand fw-bold fs-2" href="${pageContext.request.contextPath}/products" >TechZone<span style="color: orange">.</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" 
                     aria-label="Toggle navigation">
@@ -33,9 +31,11 @@
 
             <div class="collapse navbar-collapse my-navbar" id="mainNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active fw-bold" href="${pageContext.request.contextPath}/products">Home</a></li>
-
-
+                    <li class="nav-item"><a class="nav-link active fw-bold" href="Home.jsp">Home</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Pages</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="Shop.jsp">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold" href="#">Landing</a></li>
                 </ul>
             </div>
             <!-- Contact Info -->
@@ -43,7 +43,7 @@
                 <i class="bi bi-headset me-2 fs-2"></i>
                 <div>
                     <div class="fw-bold fs-4">+0916973161</div>
-                    <small class="text-muted" ">KhangPD.CE191105@gmail.com</small>
+                    <small class="text-muted">KhangPD.CE191105@gmail.com</small>
                 </div>
             </div>
         </nav>

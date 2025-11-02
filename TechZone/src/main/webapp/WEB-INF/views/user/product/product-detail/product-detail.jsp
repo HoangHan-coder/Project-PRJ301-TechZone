@@ -155,7 +155,7 @@
 
             <!-- Đánh giá -->
             <div class="w-100 review">
-                <form class="mx-3 mb-5" action="feedback" method="post">
+                <form class="mx-3 mb-5" action="feedback-user" method="post">
                     <input type="hidden" name="productId" value="${product.productId}">
                     <c:if test="${msg != null}">
                         <p class="my-3 text-danger">${msg}</p>
@@ -175,11 +175,6 @@
                         <i class="bi bi-star star" data-value="5"></i>
                     </div>
 
-                    <!-- Subject -->
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Chủ đề phản hồi">
-                        <label for="subject">Chủ đề</label>
-                    </div>
 
                     <!-- Message -->
                     <div class="form-floating mb-4">
@@ -202,7 +197,6 @@
                         <div class="border rounded p-3 mb-3">
                             <strong>${fb.account.fullName}</strong>
                             <span class="text-warning">${fb.rating}⭐</span>
-                            <p class="mb-1 fw-bold">${fb.subject}</p>
                             <p class="mb-1">${fb.message}</p>
                             <small class="text-muted">
                                 <fmt:formatDate value="${fb.createdAt}" pattern="dd/MM/yyyy HH:mm"/>
