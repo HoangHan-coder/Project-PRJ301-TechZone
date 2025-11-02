@@ -14,12 +14,12 @@ public class Account {
 
     private int accountId;
     private String userName;
-    private String passWord;
+    private String passWordHarh;
     private String fullName;
     private String email;
     private String phone;
     private boolean isDeleted;
-    private AccountRole accountRole;
+    private String roleName;
 
     public Account() {
     }
@@ -28,15 +28,35 @@ public class Account {
         this.accountId = accountId;
         this.userName = userName;
     }
-    
 
-    public Account(int accountId, String userName, String fullName, String email, String phone, AccountRole ar) {
+    public Account(int accountId, String userName, String passWordHarh, String fullName, String email, String phone, boolean isDeleted, String roleName) {
+        this.accountId = accountId;
+        this.userName = userName;
+        this.passWordHarh = passWordHarh;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.isDeleted = isDeleted;
+        this.roleName = roleName;
+    }
+
+    public Account(int accountId, String userName, String fullName, String email, String phone, String roleName) {
         this.accountId = accountId;
         this.userName = userName;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
-        this.accountRole = ar;
+        this.roleName = roleName;
+    }
+
+    public Account(String userName, String passWordHarh, String fullName, String email, String phone, String roleName) {
+
+        this.userName = userName;
+        this.passWordHarh = passWordHarh;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.roleName = roleName;
     }
 
     public int getAccountId() {
@@ -55,12 +75,12 @@ public class Account {
         this.userName = userName;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassWordHarh() {
+        return passWordHarh;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassWordHarh(String passWord) {
+        this.passWordHarh = passWord;
     }
 
     public String getFullName() {
@@ -95,15 +115,12 @@ public class Account {
         this.isDeleted = isDeleted;
     }
 
-    public AccountRole getAccountRole() {
-        return accountRole;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setAccountRole(AccountRole accountRole) {
-        this.accountRole = accountRole;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
-    
-    
-    
-    
+
 }

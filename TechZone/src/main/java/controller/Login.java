@@ -82,12 +82,11 @@ public class Login extends HttpServlet {
       
             AuthDAO userdao = new AuthDAO();
             if (userdao.login(username, password) != null) {
+                 HttpSession session = request.getSession();
+                    session.setAttribute("account", userdao.login(username, password));
                 if (userdao.login(username, password).getAccountroles().equals("Admin")) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("admin", userdao.login(username, password));
                     response.sendRedirect(getServletContext().getContextPath() + "/admin");
-                } else {
-                    HttpSession session = request.getSession();
+                } else { 
                     session.setAttribute("user", userdao.login(username, password));
                     response.sendRedirect(getServletContext().getContextPath() + "/products");
                 }

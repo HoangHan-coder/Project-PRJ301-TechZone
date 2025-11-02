@@ -26,19 +26,19 @@ import model.Product;
 public class CartItemDAO extends db.DBContext {
 
     public List<CartItem> getList(String username) {
-        
-            List<CartItem> list = new ArrayList<>();
+
+        List<CartItem> list = new ArrayList<>();
         try {
             String query = "SELECT Product.ProductId, Product.LinkImg, Product.ProductName, CartItems.CartItemId, CartItems.UnitPrice, CartItems.Quantity, CartItems.TotalPrice, Carts.CartId, Carts.Status, Carts.CreatedAt, Accounts.AccountId, Accounts.Username\n"
                     + "                     FROM     Product INNER JOIN\n"
-                    + "                                       CartItems ON Product.ProductId = CartItems.ProductId INNER JOIN\n"
-                    + "                                       Carts ON CartItems.CartId = Carts.CartId INNER JOIN\n"
-                    + "                                       Accounts ON Carts.AccountId = Accounts.AccountId Where Accounts.Username = ?";
+                    + "  CartItems ON Product.ProductId = CartItems.ProductId INNER JOIN\n"
+                    + "  Carts ON CartItems.CartId = Carts.CartId INNER JOIN\n"
+                    + "   Accounts ON Carts.AccountId = Accounts.AccountId Where Accounts.Username = ?";
 
             PreparedStatement ps = this.getConnection().prepareCall(query);
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-        
+
             while (rs.next()) {
                 int productId = rs.getInt("productId");
                 String linkImg = rs.getString("linkImg");
@@ -61,11 +61,58 @@ public class CartItemDAO extends db.DBContext {
 
                 list.add(ca);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(CartItemDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-       return list;
+        return list;
     }
-     
+
+    public boolean updateQuantity(int cartItemId, int quantity, double totalPrice) {
+        String query = "UPDATE CartItems SET Quantity = ?, TotalPrice = ? WHERE CartItemId = ?";
+        try {
+            PreparedStatement ps = this.getConnection().prepareStatement(query);
+            ps.setInt(1, quantity);
+            ps.setDouble(2, totalPrice);
+            ps.setInt(3, cartItemId);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CartItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean deleteItem(int cartItemId) {
+        String query = "DELETE FROM CartItems WHERE CartItemId = ?";
+        try {
+            PreparedStatement ps = this.getConnection().prepareStatement(query);
+            ps.setInt(1, cartItemId);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CartItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+
+
+    public int createCartItems(int cartId, int productId, double unitPrice, int quantity) {
+        try {
+            String query = "INSERT INTO CartItems (CartId, ProductId, UnitPrice, Quantity) VALUES (?, ?, ?, ?)";
+            PreparedStatement st = this.getConnection().prepareStatement(query);
+            st.setInt(1, cartId);
+            st.setInt(2, productId);
+            st.setDouble(3, unitPrice);
+            st.setInt(4, quantity);
+            return st.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CartItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+    }
 }
+

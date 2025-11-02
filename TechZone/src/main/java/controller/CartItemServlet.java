@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.CartDAO;
 import dao.CartItemDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,7 +13,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import model.Cart;
 import model.CartItem;
 
 /**
@@ -37,6 +42,7 @@ public class CartItemServlet extends HttpServlet {
         
         CartItemDAO ca = new CartItemDAO();
         List<CartItem> list = ca.getList("user1");
+        System.out.println(list.size());
         request.setAttribute("cartItems", list);       
         request.getRequestDispatcher("/WEB-INF/views/user/cart.jsp").forward(request, response);
         
@@ -51,10 +57,38 @@ public class CartItemServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+
+    String action = request.getParameter("action");
+
+    if ("create-cart".equals(action)) {
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        String productName = request.getParameter("productName");
+        String linkImg = request.getParameter("linkImg");
+        double productPrice = Double.parseDouble(request.getParameter("productPrice"));
+        int accountId = Integer.parseInt(request.getParameter("accountId"));
+
+        CartDAO cartDAO = new CartDAO();
+        CartItemDAO cartItemDAO = new CartItemDAO();
+
+        // 1️⃣ Tạo giỏ hàng mới
+        int result = cartDAO.createCart(accountId);
+        if (result > 0) {
+            // 2️⃣ Lấy cartId vừa tạo
+            Cart cart = cartDAO.cartId();
+            if (cart != null) {
+                int cartId = cart.getCartId();
+
+                // 3️⃣ Thêm sản phẩm vào bảng CartItems
+                cartItemDAO.createCartItems(cartId, productId, productPrice, 1);
+
+                response.sendRedirect("cartitem");
+            }
+        }
     }
+}
+
 
     /**
      * Returns a short description of the servlet.

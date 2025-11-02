@@ -55,12 +55,11 @@ public class AccountDAO extends DBContext {
                 String roleName = rs.getString("RoleName");
                 boolean isDeleted = rs.getBoolean("IsDeleted");
                 Timestamp createdAt = rs.getTimestamp("CreatedAt");
-                Timestamp updatedAt = rs.getTimestamp("UpdatedAt");
+                
 
                 Account account = new Account(accountId, userName, name, email, phone, roleName);
                 account.setIsDeleted(isDeleted);
-                account.setCreatedAt(createdAt.toLocalDateTime());
-
+                
                 list.add(account);
             }
             return list;
