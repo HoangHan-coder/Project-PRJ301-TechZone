@@ -5,11 +5,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-<<<<<<< HEAD
-
-import model.AccountUsers;
-=======
->>>>>>> main-core
 
 import model.AccountUsers;
 
@@ -19,11 +14,9 @@ public class FeedbackServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-<<<<<<< HEAD
+
         request.getRequestDispatcher("/WEB-INF/views/user/product/product-detail/product-detail.jsp");
-=======
-        request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
->>>>>>> main-core
+
     }
 
     @Override
@@ -35,10 +28,6 @@ public class FeedbackServlet extends HttpServlet {
         String rating_raw = request.getParameter("rating");
 
         if (productId_raw == null || rating_raw == null || productId_raw.isEmpty() || rating_raw.isEmpty()
-<<<<<<< HEAD
-                || subject == null || subject.isEmpty()
-=======
->>>>>>> main-core
                 || message == null || message.isEmpty()) {
             request.getSession().setAttribute("msgee", "Thiếu thông tin đánh giá. Vui lòng nhập đầy đủ các mục, xin cảm ơn!");
             response.sendRedirect("products?action=detail&id=" + productId_raw);
@@ -65,17 +54,9 @@ public class FeedbackServlet extends HttpServlet {
             return;
         }
 
-<<<<<<< HEAD
-        dao.addFeedback(accountId, productId, orderId, message, rating, subject);
-=======
         dao.addFeedback(accountId, productId, orderId, message, rating);
->>>>>>> main-core
 
         response.sendRedirect("products?action=detail&id=" + productId);
     }
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> main-core

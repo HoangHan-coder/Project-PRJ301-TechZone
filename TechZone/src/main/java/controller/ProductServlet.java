@@ -37,8 +37,7 @@ public class ProductServlet extends HttpServlet {
                 request.setAttribute("listPhone", listPhone);
                 request.setAttribute("listLap", listLap);
                 request.setAttribute("listAccessory", listAccessory);
-                
-                
+
                 ArrayList<Product> listPhonefe = (ArrayList<Product>) dao.getTop1ByCategory(2);
                 ArrayList<Product> listLapfe = (ArrayList<Product>) dao.getTop1ByCategory(1);
                 ArrayList<Product> listAccessoryFe = (ArrayList<Product>) dao.getTop1(3);
@@ -103,11 +102,10 @@ public class ProductServlet extends HttpServlet {
                         product.setAttributesMap(new HashMap<>());
                     }
                     String error = (String) request.getSession().getAttribute("msg");
-<<<<<<< HEAD
-                    String erroree= (String) request.getSession().getAttribute("msgee");
-=======
+
                     String erroree = (String) request.getSession().getAttribute("msgee");
->>>>>>> main-core
+
+
                     request.setAttribute("msg", error);
                     request.getSession().removeAttribute("msg");
                     request.setAttribute("msgee", erroree);
