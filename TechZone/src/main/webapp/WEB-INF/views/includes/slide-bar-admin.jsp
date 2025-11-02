@@ -50,13 +50,13 @@
 
 <!-- Sidebar -->
 <div class="sidebar">
-    <h5>Shop</h5>
+    <h5>TechZone</h5>
     <ul class="nav flex-column">
         <li class="nav-item mb-2">
             <a href="${pageContext.request.contextPath}/admin/report" class="nav-link"><i class="bi bi-house"></i> Tổng quan</a>
         </li>
         <li class="nav-item mb-2">
-            <a href="#" class="nav-link"><i class="bi bi-people"></i> Người dùng</a>
+            <a href="${pageContext.request.contextPath}/admin/account?view=list" class="nav-link"><i class="bi bi-people"></i> Người dùng</a>
         </li>
         <li class="nav-item mb-2">
             <a href="#" class="nav-link"><i class="bi bi-box"></i> Sản phẩm</a>

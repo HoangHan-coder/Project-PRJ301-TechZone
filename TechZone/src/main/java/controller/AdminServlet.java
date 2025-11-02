@@ -71,15 +71,6 @@ public class AdminServlet extends HttpServlet {
 
             request.setAttribute("account", acc);
             request.getRequestDispatcher("/WEB-INF/views/admin/update-profile.jsp").forward(request, response);
-        } else if (view.equals("delete")) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            int result = dao.delete(id);
-            if (result == 1) {
-                response.sendRedirect(request.getContextPath() + "/admin/account?view=list&delete=1");
-            } else {
-                response.sendRedirect(request.getContextPath() + "/admin/account?view=list&delete=0");
-            }
-
         } else if (view.equals("create")) {
             int nextId = dao.getNextId();
             request.setAttribute("nextId", nextId);
@@ -252,6 +243,20 @@ public class AdminServlet extends HttpServlet {
                 ex.printStackTrace();
                 request.setAttribute("usernameError", "Lỗi server khi tạo tài khoản, thử lại sau");
                 request.getRequestDispatcher("/WEB-INF/views/admin/create-user.jsp").forward(request, response);
+            }
+        } else if ("delete".equals(action)) {
+            try {
+                int id = Integer.parseInt(request.getParameter("id"));
+                int result = dao.delete(id);
+
+                if (result == 1) {
+                    response.sendRedirect(request.getContextPath() + "/admin/account?view=list&delete=1");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/admin/account?view=list&delete=0");
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                response.sendRedirect(request.getContextPath() + "/admin/account?view=list&delete=0");
             }
         }
     }

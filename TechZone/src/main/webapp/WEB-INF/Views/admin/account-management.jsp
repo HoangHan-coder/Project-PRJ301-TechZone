@@ -1,10 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="../includes/navbar-admin.jsp" %>
+<%@include file="../includes/slide-bar-admin.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!-- Content -->
 <div class="content">
-    <form action="${pageContext.request.contextPath}/admin/account" method="get" id="filterForm">
+    <form action="${pageContext.request.contextPath}/admin/account" method="POST" id="filterForm">
         <input type="hidden" name="view" value="list">
         <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -53,11 +53,10 @@
                                     <a class="text-decoration-none" href="${pageContext.request.contextPath}/admin/account?view=update&id=${a.accountId}">
                                         <i class="bi bi-eye me-2" style="cursor: pointer;"></i>
                                     </a>
-                                    <a class="text-decoration-none"
-                                       href="${pageContext.request.contextPath}/admin/account?view=delete&id=${a.accountId}"
-                                       onclick="return confirm('Bạn có chắc chắn muốn xóa Account với ID = ${a.accountId} này không?');">
-                                        <i class="bi bi-trash text-danger" style="cursor: pointer;"></i>
-                                    </a>
+                                    <button type="button" class="btn btn-link p-0 m-0 text-danger"
+                                            onclick="confirmDelete(${a.accountId})">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
 
                                 </td>
                             </tr>
@@ -95,6 +94,26 @@
 </div>
 
 <script>
+    function confirmDelete(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa Account với ID = " + id + " không?")) {
+            const form = document.getElementById("filterForm");
+            const inputAction = document.createElement("input");
+            const inputId = document.createElement("input");
+
+            inputAction.type = "hidden";
+            inputAction.name = "action";
+            inputAction.value = "delete";
+
+            inputId.type = "hidden";
+            inputId.name = "id";
+            inputId.value = id;
+
+            form.appendChild(inputAction);
+            form.appendChild(inputId);
+
+            form.submit();
+        }
+    }
     document.addEventListener("DOMContentLoaded", function () {
 
         document.getElementById("keyword").addEventListener("keypress", function (e) {
