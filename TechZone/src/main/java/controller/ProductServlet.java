@@ -37,6 +37,8 @@ public class ProductServlet extends HttpServlet {
                 request.setAttribute("listPhone", listPhone);
                 request.setAttribute("listLap", listLap);
                 request.setAttribute("listAccessory", listAccessory);
+                
+                
                 ArrayList<Product> listPhonefe = (ArrayList<Product>) dao.getTop1ByCategory(2);
                 ArrayList<Product> listLapfe = (ArrayList<Product>) dao.getTop1ByCategory(1);
                 ArrayList<Product> listAccessoryFe = (ArrayList<Product>) dao.getTop1(3);

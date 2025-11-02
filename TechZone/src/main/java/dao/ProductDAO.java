@@ -167,4 +167,18 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+    public int updateProductStock(int x, int id) {
+        String sql = "update Product Set Stock = Stock - ? , QuantitySold = QuantitySold + ? where Productid = ?";
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, x);
+            ps.setInt(2, x);
+            ps.setInt(3, id);
+            return ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
+
 }

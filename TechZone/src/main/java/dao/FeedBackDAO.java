@@ -278,7 +278,6 @@ public class FeedBackDAO extends DBContext {
                     fb.setResponseBy(responder);
                 }
 
-                fb.setSubject(rs.getString("subject"));
                 fb.setMessage(rs.getString("message"));
                 fb.setRating(rs.getInt("rating"));
                 fb.setCreatedAt(rs.getTimestamp("createdAt"));
@@ -294,17 +293,16 @@ public class FeedBackDAO extends DBContext {
         return list;
     }
 
-    public void addFeedback(int accountId, int productId, int orderId, String message, int rating, String subject) {
+    public void addFeedback(int accountId, int productId, int orderId, String message, int rating) {
         try {
-            String sql = "INSERT INTO Feedback (AccountId, ProductId, OrderId, Subject, Message, Rating, IsPublic, Status, CreatedAt) VALUES (?, ?, ?, ?, ?,?, 1, 'Pending', GETDATE())";
+            String sql = "INSERT INTO Feedback (AccountId, ProductId, OrderId, Message, Rating, IsPublic, Status, CreatedAt) VALUES (?, ?, ?, ?,?, 1, 'Pending', GETDATE())";
             PreparedStatement ps = getConnection().prepareStatement(sql);
 
             ps.setInt(1, accountId);
             ps.setInt(2, productId);
             ps.setInt(3, orderId);
-            ps.setString(4, subject);
-            ps.setString(5, message);
-            ps.setInt(6, rating);
+            ps.setString(4, message);
+            ps.setInt(5, rating);
             ps.executeUpdate();
 
         } catch (Exception e) {
