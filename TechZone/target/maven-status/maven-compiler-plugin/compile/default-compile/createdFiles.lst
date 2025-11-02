@@ -45,7 +45,7 @@ model\AllCategory.class
 dto\OrderItemDTO.class
 model\Feedback.class
 model\Order.class
+controller\admin\AdminProductDAO.class
 model\OrderItem.class
 dao\OderListDAO.class
-dao\AdminProductDAO.class
 db\DBContext.class

@@ -6,6 +6,7 @@ package controller;
 
 import dao.OrderDAO;
 import dao.OrderItemDAO;
+import dao.ProductDAO;
 import dao.VoucherDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -131,7 +132,7 @@ public class OrderServlet extends HttpServlet {
 
         if (productIds != null) {
             for (int i = 0; i < productIds.length; i++) {
-                Product p = new Product();
+                Product p = new Product();    
                 p.setProductId(Integer.parseInt(productIds[i]));
                 p.setProductName(productNames[i]);
                 p.setProductPrice(Double.parseDouble(productPrices[i]));
@@ -139,6 +140,8 @@ public class OrderServlet extends HttpServlet {
                 item.setProduct(p);
                 item.setQuantity(Integer.parseInt(quantities[i]));
                 orderItems.add(item);
+                ProductDAO productDAO = new ProductDAO();
+                productDAO.updateProductStock(p.getProductId(), item.getQuantity());
             }
         }
         int voucherId = Integer.parseInt(request.getParameter("voucherId"));

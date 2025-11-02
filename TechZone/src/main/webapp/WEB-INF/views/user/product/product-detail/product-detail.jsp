@@ -96,7 +96,7 @@
         <jsp:include page="/WEB-INF/views/includes/navbar.jsp" />
 
         <div class="container-fluid">
-            <form action="order" method="GET">
+            <form action="cartItems" method="POST">
                 <div class="row w-100">
                     <!-- Hình ảnh sản phẩm -->
                     <div class="col-md-5 mx-4 my-5 border rounded">
@@ -127,13 +127,12 @@
                         <div class="mt-4">
 
                             <input type="hidden" name="view" value="check-out">
-                            <input type="hidden" name="productId" value="${product.productId}">
-                            <input type="hidden" name="productName" value="${product.productName}">
-                            <input type="hidden" name="productImg" value="${product.linkImg}">
-                            <input type="hidden" name="productPrice" value="${product.productPrice}">
-
-                            <button type="button" class="btn btn-primary btn-lg me-3">🛒 Thêm vào giỏ hàng</button>
-                            <button type="submit" class="btn btn-secondary btn-lg">💳 Thanh toán</button>
+                            <input type="hidden" name="productId" id="productId" value="${product.productId}">
+                            <input type="hidden" name="productName" id="productName" value="${product.productName}">
+                            <input type="hidden" name="productImg" id="productImg" value="${product.linkImg}">
+                            <input type="hidden" name="productPrice" id="productPrice" value="${product.productPrice}">                          
+                            <button type="submit" class="btn btn-primary btn-lg me-3">🛒 Thêm vào giỏ hàng</button>
+                            <button type="button" class="btn btn-secondary btn-lg" id="btnCheckout" onclick="goToCheckout();"> 💳 Thanh toán</button>
 
                         </div>
                     </div>
@@ -222,6 +221,24 @@
         <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
 
         <script>
+            function goToCheckout() {
+                const quantity = document.getElementById("quantity").value || 1;
+                const productId = document.getElementById("productId").value;
+                const productName = document.getElementById("productName").value;
+                const productImg = document.getElementById("productImg").value;
+                const productPrice = document.getElementById("productPrice").value;
+
+                const baseUrl = "${pageContext.request.contextPath}/order";
+                const params = new URLSearchParams({
+                    view: "check-out",
+                    productId: productId,
+                    productName: productName,
+                    productImg: productImg,
+                    productPrice: productPrice,
+                    quantity: quantity
+                });
+                window.location.href = baseUrl + "?" +params.toString();
+            }
             // Tab chuyển đổi
             document.querySelectorAll(".tab").forEach(tab => {
                 tab.addEventListener("click", () => {

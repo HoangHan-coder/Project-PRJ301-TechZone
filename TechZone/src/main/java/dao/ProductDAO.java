@@ -3,6 +3,8 @@ package dao;
 import db.DBContext;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Product;
 
 public class ProductDAO extends DBContext {
@@ -120,31 +122,43 @@ public class ProductDAO extends DBContext {
     }
 
     public List<Product> getFilterBrand(int categoryId, String brand) {
-    List<Product> list = new ArrayList<>();
-    String sql = "SELECT * FROM product WHERE CategoryId = ?";
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM product WHERE CategoryId = ?";
 
-    if (brand != null && !brand.isEmpty()) {
-        sql += " AND JSON_VALUE(ProductAttributes, '$.brand') = ?";
-    }
-
-    try (Connection con = this.getConnection();
-         PreparedStatement ps = con.prepareStatement(sql)) {
-
-        ps.setInt(1, categoryId);
         if (brand != null && !brand.isEmpty()) {
-            ps.setString(2, brand);
+            sql += " AND JSON_VALUE(ProductAttributes, '$.brand') = ?";
         }
 
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            list.add(mapResultSetToProduct(rs));
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, categoryId);
+            if (brand != null && !brand.isEmpty()) {
+                ps.setString(2, brand);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapResultSetToProduct(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+
+        return list;
     }
 
-    return list;
-}
-
+    public int updateProductStock(int productId, int quantity) {
+        try {
+            String sql = "update Product Set Stock = Stock - ? , QuantitySold = QuantitySold + ? where Productid = ?";
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
+            ps.setInt(1, quantity);
+            ps.setInt(2, quantity);
+            ps.setInt(3, productId);
+            return ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 
 }

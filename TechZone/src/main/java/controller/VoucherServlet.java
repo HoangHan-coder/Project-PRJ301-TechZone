@@ -58,7 +58,7 @@ public class VoucherServlet extends HttpServlet {
                 getRemoveVoucher(request, response);
                 break;
             default:
-                throw new AssertionError();
+                getAllVoucher(request, response);
         }
 
     }
