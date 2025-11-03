@@ -8,8 +8,7 @@
         <title>Accessory List</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <body>
         <%@include file="/WEB-INF/views/includes/navbar.jsp" %>
@@ -31,7 +30,22 @@
                         </div>
                     </div>
                 </c:forEach>
+                <c:if test="${totalPages > 1}">
+            <div class="col-12 mt-4">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <c:forEach var="i" begin="1" end="${totalPages}">
+                            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                        <a class="page-link" href="products?category=accessory&page=${i}">${i}</a>
+
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </nav>
             </div>
+        </c:if>
+            </div>
+         
         </div>
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

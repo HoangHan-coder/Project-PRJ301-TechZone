@@ -7,7 +7,7 @@ model\Voucher.class
 controller\Register.class
 controller\FeedbackServlet.class
 controller\ProductServlet.class
-controller\SearchServlet.class
+SearchServlet.class
 controller\OrderServlet.class
 dao\CartItemDAO.class
 controller\admin\Orders.class
@@ -47,6 +47,7 @@ dto\OrderItemDTO.class
 model\Feedback.class
 model\Order.class
 model\OrderItem.class
+dao\SearchDAO.class
 dao\OderListDAO.class
 dao\AdminProductDAO.class
 db\DBContext.class

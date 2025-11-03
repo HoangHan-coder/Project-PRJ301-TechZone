@@ -1,8 +1,8 @@
 package model;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Product {
 
@@ -117,7 +117,7 @@ public class Product {
 
     // ===================== HÀM XỬ LÝ JSON =====================
     private Map<String, String> parseAttributes(String json) {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new TreeMap<>();
         if (json == null || json.isEmpty()) {
             return map;
         }

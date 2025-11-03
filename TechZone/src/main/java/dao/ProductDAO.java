@@ -3,19 +3,30 @@ package dao;
 import db.DBContext;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Product;
 
 public class ProductDAO extends DBContext {
 
 // lay het
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProducts(int page) {
         List<Product> list = new ArrayList<>();
-        String sql = "SELECT * FROM Product WHERE IsDeleted = 0";
+        int index = (page - 1) * 12;
+        String sql = "SELECT * FROM Product WHERE IsDeleted = 0 order by productId "
+                + "offset ? rows fetch next 12 rows only";
 
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, index);
 
-            while (rs.next()) {
-                list.add(mapResultSetToProduct(rs));
+            ps.setInt(1, index);
+
+            // Thực thi truy vấn
+            try (ResultSet rs = ps.executeQuery()) {
+                // Lặp qua các dòng kết quả và ánh xạ thành đối tượng Product
+                while (rs.next()) {
+                    list.add(mapResultSetToProduct(rs));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,7 +91,6 @@ public class ProductDAO extends DBContext {
         p.setIsDeleted(rs.getBoolean("IsDeleted"));
         p.setCreatedAt(rs.getTimestamp("CreatedAt"));
         p.setUpdatedAt(rs.getTimestamp("UpdatedAt"));
-        p.setRowVersion(rs.getBytes("RowVersion"));
 
         return p;
     }
@@ -121,52 +131,6 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-// LOC SAN PHAM
-    public List<Product> getFilterBrand(int categoryId, String brand) {
-        List<Product> list = new ArrayList<>();
-        String sql = "SELECT * FROM product WHERE CategoryId = ?";
-
-        if (brand != null && !brand.isEmpty()) {
-            sql += " AND JSON_VALUE(ProductAttributes, '$.brand') = ?";
-        }
-
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, categoryId);
-            if (brand != null && !brand.isEmpty()) {
-                ps.setString(2, brand);
-            }
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(mapResultSetToProduct(rs));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return list;
-    }
-
-    public List<Product> getAllProductsSearch(String txt) {
-        List<Product> list = new ArrayList<>();
-        String sql = "SELECT * FROM Product WHERE ProductName LIKE ? AND IsDeleted = 0";
-
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, "%" + txt + "%");
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    list.add(mapResultSetToProduct(rs));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return list;
-    }
-
     public int updateProductStock(int x, int id) {
         String sql = "update Product Set Stock = Stock - ? , QuantitySold = QuantitySold + ? where Productid = ?";
         try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -179,6 +143,22 @@ public class ProductDAO extends DBContext {
             return 0;
         }
 
+    }
+
+
+    public int getTotalRow() {
+        try {
+            String sql = "SELECT Count(ProductId) as totalRow FROM Product";
+            PreparedStatement statement = this.getConnection().prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(VoucherDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
 }

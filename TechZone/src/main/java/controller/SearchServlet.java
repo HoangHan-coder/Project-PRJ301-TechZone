@@ -1,113 +1,133 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import dao.ProductDAO;
-import java.io.IOException;
-import java.io.PrintWriter;
+import dao.SearchDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import model.Product;
 
-/**
- *
- * @author PC
- */
 @WebServlet(name = "SearchServlet", urlPatterns = {"/search"})
 public class SearchServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-  
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
+    
+      @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-  @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-request.setCharacterEncoding("UTF-8");
-response.setCharacterEncoding("UTF-8");
-response.setContentType("text/html;charset=UTF-8");
-
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
         String action = request.getParameter("action");
-        ProductDAO dao = new ProductDAO();
+        if ("search".equals(action)) {
+            SearchDAO dao = new SearchDAO();
 
-        if ("filter".equals(action)) {
-            int cateid = Integer.parseInt(request.getParameter("cateid"));
-            String brand = request.getParameter("brand");
-
-            List<Product> list;
-
-     
-            if (brand == null || brand.trim().isEmpty()) {
-                list = dao.getProductsByCategory(cateid);
-            } else {
-                list = dao.getFilterBrand(cateid, brand);
+            int page = 1;
+            int pageSize = 6;
+            if (request.getParameter("page") != null) {
+                try {
+                    page = Integer.parseInt(request.getParameter("page"));
+                } catch (NumberFormatException e) {
+                    page = 1;
+                }
             }
 
-            request.setAttribute("list", list);
-
-   
-            request.getRequestDispatcher("/WEB-INF/views/user/product/product-list/filter-result.jsp")
-                    .forward(request, response);
-
-        } else if ("search".equals(action)) {
             String txtSearch = request.getParameter("txtSearch");
-            List<Product> list = dao.getAllProductsSearch(txtSearch);
 
+            List<Product> list = dao.searchProducts(txtSearch, page, pageSize);
+            int totalProducts = dao.countProductsByKeyword(txtSearch);
+            int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
 
             request.setAttribute("list", list);
             request.setAttribute("txtSearch", txtSearch);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", page);
 
-            request.getRequestDispatcher("/WEB-INF/views/user/product/product-list/product-filter.jsp").forward(request, response);
-        } else {
-            response.sendRedirect(request.getContextPath() + "/search");
+            request.getRequestDispatcher("/WEB-INF/views/user/product/product-list/product-filter.jsp")
+                    .forward(request, response);
+            return;
         }
+
+        // Hiển thị trang product-filter.jsp
+        request.getRequestDispatcher("/WEB-INF/views/user/product/product-list/product-filter.jsp")
+                .forward(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+    
     @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
+        String action = request.getParameter("action");
+        SearchDAO dao = new SearchDAO();
+        ProductDAO daopd = new ProductDAO();
+
+        int page = 1;
+        int pageSize = 6;
+        if (request.getParameter("page") != null) {
+            try {
+                page = Integer.parseInt(request.getParameter("page"));
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
+
+        // ==================== FILTER ====================
+        if ("filter".equals(action)) {
+            String cateidStr = request.getParameter("cateid");
+            String brand = request.getParameter("brand");
+
+            if (cateidStr == null || cateidStr.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Category ID missing");
+                return;
+            }
+
+            int cateid = Integer.parseInt(cateidStr);
+            List<Product> fullList = (brand == null || brand.trim().isEmpty())
+                    ? daopd.getProductsByCategory(cateid)
+                    : dao.getFilterBrand(cateid, brand);
+
+            int totalProducts = fullList.size();
+            int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+            int start = (page - 1) * pageSize;
+            int end = Math.min(start + pageSize, totalProducts);
+            List<Product> list = fullList.subList(start, end);
+
+            request.setAttribute("list", list);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", page);
+
+            request.getRequestDispatcher("/WEB-INF/views/user/product/product-list/filter-result.jsp")
+                    .forward(request, response);
+            return;
+        } // ==================== SEARCH ====================
+        else if ("search".equals(action)) {
+            String txtSearch = request.getParameter("txtSearch");
+
+            // Lấy danh sách sản phẩm có phân trang từ DB
+            List<Product> list = dao.searchProducts(txtSearch, page, pageSize);
+
+            // Đếm tổng số kết quả để tính số trang
+            int totalProducts = dao.countProductsByKeyword(txtSearch);
+            int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+
+            request.setAttribute("list", list);
+            request.setAttribute("txtSearch", txtSearch);
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("currentPage", page);
+
+            request.getRequestDispatcher("/WEB-INF/views/user/product/product-list/product-filter.jsp")
+                    .forward(request, response);
+            return;
+        }
+
+        // ==================== DEFAULT ====================
+        response.sendRedirect(request.getContextPath() + "/error");
+    }
 }
