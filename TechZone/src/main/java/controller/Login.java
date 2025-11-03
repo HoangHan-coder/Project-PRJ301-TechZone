@@ -78,7 +78,7 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        //Thanh Dat
+        //Thanh Dat MTP
         AuthDAO userdao = new AuthDAO();
         AccountUsers account = userdao.login(username, password);
         if (account != null) {

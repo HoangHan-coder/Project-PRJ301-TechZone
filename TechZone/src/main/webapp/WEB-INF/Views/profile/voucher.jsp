@@ -5,6 +5,6 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@include file="../Includes/sidebar-profile.jsp" %>
+<%@include file="../includes/sidebar-profile.jsp" %>
 
-<%@include file="../Includes/footer-profile.jsp" %>
+<%@include file="../includes/footer-profile.jsp" %>

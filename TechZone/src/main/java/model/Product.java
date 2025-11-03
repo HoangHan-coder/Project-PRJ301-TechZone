@@ -4,6 +4,7 @@ package model;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import org.json.JSONObject;
 
 public class Product {
 
@@ -134,6 +135,6 @@ public class Product {
         }
         return map;
     }
-    
+//     
 
 }
