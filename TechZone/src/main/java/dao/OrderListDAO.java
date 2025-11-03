@@ -211,19 +211,45 @@ public class OrderListDAO extends DBContext {
         }
         return 0;
     }
+
     public ResponseOrder getResponse(int id) {
         try {
             String sql = "SELECT * FROM responseOrder WHERE responseOrderId = ?";
             PreparedStatement st = this.getConnection().prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Orders order = new Orders(rs.getInt("orderId"));
-                ResponseOrder orderCancel = new ResponseOrder(rs.getInt("responseOrderId"),rs.getString("reason"),order,rs.getTime("CreatedAt"));
+                ResponseOrder orderCancel = new ResponseOrder(rs.getInt("responseOrderId"), rs.getString("reason"), order, rs.getTime("CreatedAt"));
                 return orderCancel;
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public List<Orderlist> getAllPage(int page, int totalpage) {
+        try {
+            int index = (page - 1) * 12;
+            List<Orderlist> list = new ArrayList<>();
+            String sql = "SELECT o.OrderId, o.OrderCode, a.FullName,o.TotalAmount,o.PaymentStatus,o.Status FROM Orders o\n"
+                    + "JOIN Accounts a ON a.AccountId = o.AccountId\n"
+                    + "ORDER BY o.OrderId\n"
+                    + "OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY";
+
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
+            st.setInt(1, index);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Orderlist order = new Orderlist(rs.getInt("OrderId"), rs.getString("OrderCode"), rs.getString("FullName"), rs.getDouble("TotalAmount"),
+                        rs.getString("PaymentStatus"), rs.getString("Status"));
+                list.add(order);
+
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

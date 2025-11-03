@@ -76,7 +76,7 @@ public class Feedback extends HttpServlet {
         if (page1 == null) {
             page1 = "1";
         }
-        pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAll(), "/admin/feedback");
+        pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAll(), "/admin/feedback?view=list&");
         int totalpage = Integer.parseInt(request.getAttribute("totalPage") + "");
         if (rating == null && text == null || rating.isEmpty() && text.isEmpty()) {
             List<FeedBack> list = feedback.getAllPage(Integer.parseInt(page1), 10);
