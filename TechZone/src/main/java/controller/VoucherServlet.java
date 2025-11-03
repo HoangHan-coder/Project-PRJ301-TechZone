@@ -24,7 +24,7 @@ import until.Pagination;
  *
  * @author NgKaitou
  */
-@WebServlet(name = "VoucherServlet", urlPatterns = {"/admin/voucher"})
+@WebServlet(name = "VoucherServlet", urlPatterns = {"/admin/voucher", "/admin/voucher/search"})
 public class VoucherServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,6 +56,9 @@ public class VoucherServlet extends HttpServlet {
                 break;
             case "remove":
                 getRemoveVoucher(request, response);
+                break;
+            case "search":
+                searchVoucher(request, response);
                 break;
             default:
                 getAllVoucher(request, response);
@@ -93,7 +96,7 @@ public class VoucherServlet extends HttpServlet {
                     throw new AssertionError();
             }
         } else {
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher");
+            response.sendRedirect(getServletContext().getContextPath() + "/admin/voucher");
         }
 
     }
@@ -111,7 +114,7 @@ public class VoucherServlet extends HttpServlet {
         Pagination p = new Pagination();
         int totalRow = db.getTotalRow();
         List<Voucher> listVoucher = db.getVoucherList(currentPage);
-        p.handlePagintation(request, currentPage, totalRow, "/admin/voucher");
+        p.handlePagintation(request, currentPage, totalRow, "/admin/voucher?");
         request.setAttribute("listVoucher", listVoucher);
         request.setAttribute("success", success);
         request.getRequestDispatcher("/WEB-INF/views/admin/voucher/list-voucher.jsp").forward(request, response);
@@ -169,14 +172,14 @@ public class VoucherServlet extends HttpServlet {
         } catch (NumberFormatException ex) {
             currentPage = 1;
         }
-         
+
         Pagination p = new Pagination();
         VoucherDAO db = new VoucherDAO();
         List<Voucher> listVoucher = db.getByVouCode(keyword, currentPage);
         int totalPage = db.getTotalRow(keyword);
         request.setAttribute("listVoucher", listVoucher);
         request.setAttribute("success", success);
-        p.handlePagintation(request, currentPage, totalPage, "voucher");
+        p.handlePagintation(request, currentPage, totalPage,  "admin/voucher?view=search&keyword=" + keyword + "&");
         request.getRequestDispatcher("/WEB-INF/views/admin/voucher/list-voucher.jsp").forward(request, response);
     }
 
@@ -198,7 +201,7 @@ public class VoucherServlet extends HttpServlet {
         System.out.println(errors + "<-------------");
         if (!errors.isEmpty() && errors.startsWith(",")) {
             request.getSession().setAttribute("errors", errors.substring(1));
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=create");
+            response.sendRedirect(getServletContext().getContextPath() + "/admin/voucher?view=create");
             return;
         }
 
@@ -209,11 +212,11 @@ public class VoucherServlet extends HttpServlet {
         int result = voucherDAO.createVoucher(v);
         if (result == 1) {
             String success = "Create successfully!";
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher?success=" + success);
+            response.sendRedirect(getServletContext().getContextPath() + "/admin/voucher?success=" + success);
 
         } else {
             request.getSession().setAttribute("createErr", "Create failded!");
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=create");
+            response.sendRedirect(getServletContext().getContextPath() + "/admin/voucher?view=create");
         }
 
     }
@@ -228,10 +231,10 @@ public class VoucherServlet extends HttpServlet {
         if (result == 1) {
             String success = "Delete successfully!";
             System.out.println(success);
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=remove&success=" + success);
+            response.sendRedirect(getServletContext().getContextPath() + "/admin/voucher?view=remove&success=" + success);
         } else {
             String removeError = "Delete failded!";
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=remove&removeError=" + removeError);
+            response.sendRedirect(getServletContext().getContextPath() + "/admin/voucher?view=remove&removeError=" + removeError);
         }
 
     }
@@ -296,7 +299,7 @@ public class VoucherServlet extends HttpServlet {
             errors = errors.substring(1);
             request.getSession().setAttribute("errors", errors);
             System.out.println(voucherCode);
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher?view=update&voucherCode=" + voucherCode);
+            response.sendRedirect(getServletContext().getContextPath() + "/admin/voucher?view=update&voucherCode=" + voucherCode);
             return;
         }
 
@@ -307,11 +310,11 @@ public class VoucherServlet extends HttpServlet {
 
             String success = "Update successfully!";
             System.out.println(success);
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher?success=" + success);
+            response.sendRedirect(getServletContext().getContextPath() + "/admin/voucher?success=" + success);
         } else {
             System.out.println("---------------------------------------------------------------------------------------------------->failded");
             String updateError = "Update failded!";
-            response.sendRedirect(getServletContext().getContextPath() + "/voucher?updateError=" + updateError);
+            response.sendRedirect(getServletContext().getContextPath() + "/admin/voucher?updateError=" + updateError);
         }
     }
 

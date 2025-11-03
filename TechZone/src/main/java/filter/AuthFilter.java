@@ -21,10 +21,8 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author acer
  */
-@WebFilter(filterName = "AuthFilter", urlPatterns = {"/admin/*","/order"})
+@WebFilter(filterName = "AuthFilter", urlPatterns = {"/admin/*", "/order"})
 public class AuthFilter implements Filter {
-    
-    
 
     /**
      *
@@ -35,6 +33,7 @@ public class AuthFilter implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
@@ -46,7 +45,7 @@ public class AuthFilter implements Filter {
         } else {
             chain.doFilter(request, response);
         }
-     
+
     }
-   
+
 }

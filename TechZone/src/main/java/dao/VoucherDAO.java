@@ -171,7 +171,7 @@ public class VoucherDAO extends DBContext {
         try {
             PreparedStatement statement = this.getConnection().prepareStatement(sql);
             statement.setString(1, IMG_PATH);
-            statement.setString(2, voucher.getCode());
+            statement.setString(2, voucher.getCode().toUpperCase());
             statement.setBigDecimal(3, voucher.getDiscountValue());
             statement.setString(4, voucher.getDiscountType());
             statement.setTimestamp(5, voucher.getStartDate());
@@ -202,7 +202,7 @@ public class VoucherDAO extends DBContext {
                 + " WHERE VoucherId = ?";
         try {
             PreparedStatement statement = this.getConnection().prepareStatement(sql);
-            statement.setString(1, voucher.getCode());
+            statement.setString(1, voucher.getCode().toUpperCase());
             statement.setBigDecimal(2, voucher.getDiscountValue());
             statement.setString(3, voucher.getDiscountType());
             statement.setTimestamp(4, voucher.getStartDate());

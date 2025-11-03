@@ -33,13 +33,13 @@
                     </li>
                     <div class="d-flex justify-content-end gap-4" >
                         <li class="nav-item">
-                            <p class="m-0">MÃ ĐƠN HÀNG: ${orderItem.order.orderCode}</p>
+                            <p class="m-0 text-primary">MÃ ĐƠN HÀNG: ${orderItem.order.orderCode}</p>
                         </li>
                         <li class="nav-item">
                             <p class="m-0">|</p>
                         </li>
                         <li class="nav-item">
-                            <p class="m-0">${orderItem.order.status}</p>
+                            <p class="m-0 ${orderItem.order.status == 'Đã hủy' ? "text-danger" : ""}">${orderItem.order.status}</p>
                         </li>
                     </div>
                 </ul>
@@ -52,6 +52,9 @@
                         <p class="card-text">Họ tên: ${orderItem.order.account.fullName}</p>
                         <p class="card-text">Số điện thoại: ${orderItem.order.account.phone}</p>
                         <p class="card-text">Địa chỉ: ${orderItem.order.shippingAddress}</p>
+                        <c:if test="${responseOrder != null}">
+                            <p class="card-text">Lý do: ${responseOrder.reason}</p>
+                        </c:if>
                     </div>
                 </div>
                 <div class="card my-3">
@@ -64,10 +67,10 @@
                             <div class="row g-3 align-items-center">
                                 <div class="col-auto d-flex align-items-center justify-content-center">
                                     <img src="<c:url value="${orderItem.product.linkImg}"></c:url>" class="img-fluid rounded-start border" alt="..." style="width: 120px; height: 120px; object-fit: contain;">
-                                </div>
-                                <div class="col">
-                                    <div class="card-body p-0">
-                                        <p class="card-title fs-5 fw-semibold mb-1 text-truncate">${orderItem.productNameSnapshot}</p>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card-body p-0">
+                                            <p class="card-title fs-5 fw-semibold mb-1 text-truncate">${orderItem.productNameSnapshot}</p>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <small class="text-secondary">x${orderItem.quantity}</small>
                                             <span class="text-danger fw-semibold"><fmt:formatNumber value="${orderItem.unitPrice}" type="number" maxFractionDigits="0"/>₫</span>
@@ -92,14 +95,14 @@
                                 <c:if test="${orderItem.order.voucher.discountValue == null}">
                                     <td>Không có</td>
                                 </c:if>
-                                <c:if test="${orderItem.order.voucher.discountType == 'PERCENT'}">
-                                    <td>-<fmt:formatNumber value="${orderItem.totalPrice * (orderItem.order.voucher.discountValue/100)}" type="number" maxFractionDigits="0"/>₫</td>
+                                <c:if test="${orderItem.order.voucher.discountValue != null}">
+                                    <c:if test="${orderItem.order.voucher.discountType == 'PERCENT'}">
+                                        <td>-<fmt:formatNumber value="${orderItem.totalPrice * (orderItem.order.voucher.discountValue/100)}" type="number" maxFractionDigits="0"/>₫</td>
+                                    </c:if>
+                                    <c:if test="${orderItem.order.voucher.discountType != 'PERCENT'}">
+                                        <td>-<fmt:formatNumber value="${orderItem.order.voucher.discountValue}" type="number" maxFractionDigits="0"/>₫</td>
+                                    </c:if>
                                 </c:if>
-                                <c:if test="${orderItem.order.voucher.discountType != 'PERCENT'}">
-                                    <td>-<fmt:formatNumber value="${orderItem.order.voucher.discountValue}" type="number" maxFractionDigits="0"/>₫</td>
-                                </c:if>
-                                
-                                
                             </tr>
                             <tr>
                                 <td>Thành tiền</td>
@@ -115,7 +118,7 @@
 
             </div>
         </div>
-        <jsp:include page="../../includes/footer-profile.jsp"/>
+        <jsp:include page="../../includes/footer.jsp"/>
 
     </body>
 

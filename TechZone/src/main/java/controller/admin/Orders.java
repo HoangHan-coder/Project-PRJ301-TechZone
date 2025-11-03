@@ -113,7 +113,6 @@ public class Orders extends HttpServlet {
         if (view.equals("update")) {
             String type = request.getParameter("type");
             String id = request.getParameter("id");
-            System.out.println(view);
             switch (type) {
                 case "pending":
                     order.updatePending(Integer.parseInt(id), type);
@@ -121,7 +120,7 @@ public class Orders extends HttpServlet {
                 case "completed":
                     order.updateCompleted(Integer.parseInt(id), type);
                     break;
-                case "cancel":
+                case "canceled":
                     String text = request.getParameter("cancelReason");
                     order.insetCancel(text, Integer.parseInt(id));
                     order.updateCancel(Integer.parseInt(id), type);

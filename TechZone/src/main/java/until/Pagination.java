@@ -20,7 +20,7 @@ public class Pagination {
      * @param request HttpServletRequest để setAttribute sang JSP
      * @param currentPage Trang hiện tại người dùng đang chọn (truyền từ param)
      * @param totalRow Tổng số dòng dữ liệu lấy từ DB
-     * @param servletPath Đường dẫn servlet dùng để gọi lại khi chuyển trang
+     * @param servletPath Đường dẫn servlet dùng để gọi lại khi chuyển trang (thêm ? nếu không tham số ví dụ "voucher?", nếu có tham số thêm & "voucher?view=list&)
      * @throws ServletException ném khi có lỗi Servlet
      * @throws IOException ném khi có lỗi IO
      */

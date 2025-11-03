@@ -88,7 +88,7 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item d-flex justify-content-between">
                                         <p class="fw-bold m-2">TechZone Store</p>
-                                        <p class="m-2"><span class="text-success">${orderItem.order.status}</span></p>
+                                        <p class="m-2"><span class="${orderItem.order.status == 'Đã hủy' ? "text-danger" : "text-success"}">${orderItem.order.status}</span></p>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="row g-3 align-items-center">
@@ -109,11 +109,7 @@
                                         </div>
                                     </li>
                                     <li class="list-group-item d-flex flex-column align-items-end">
-                                        <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger"><fmt:formatNumber value="${orderItem.order.totalAmount}" type="number" maxFractionDigits="0"/>₫</span></p>
-                                        <div class="m-2">
-                                            <button type="button" style="width: 150px;" class="btn btn-primary me-2">Mua lại</button>
-                                            <button type="button" class="btn btn-light ">Liên hệ người bán</button>
-                                        </div>
+                                        <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger"><fmt:formatNumber value="${orderItem.order.totalAmount}" type="number" maxFractionDigits="0"/>₫</span></p>     
                                     </li>
                                 </ul>
                             </div>

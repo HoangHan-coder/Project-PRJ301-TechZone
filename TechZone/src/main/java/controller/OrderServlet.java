@@ -6,6 +6,7 @@ package controller;
 
 import dao.OrderDAO;
 import dao.OrderItemDAO;
+import dao.OrderListDAO;
 import dao.ProductDAO;
 import dao.VoucherDAO;
 import java.io.IOException;
@@ -19,13 +20,14 @@ import java.util.List;
 import model.AccountUsers;
 import model.OrderItem;
 import model.Product;
+import model.ResponseOrder;
 import model.Voucher;
 
 /**
  *
  * @author NgKaitou
  */
-@WebServlet(name = "Order", urlPatterns = {"/order"})
+@WebServlet(name = "OrderServlet", urlPatterns = {"/order"})
 public class OrderServlet extends HttpServlet {
 
     @Override
@@ -70,7 +72,7 @@ public class OrderServlet extends HttpServlet {
         AccountUsers username = (AccountUsers) request.getSession().getAttribute("account");
         OrderItemDAO orderItemDAO = new OrderItemDAO();
         System.out.println(username.getUsername());
-        if(orderStatus == null) {
+        if (orderStatus == null) {
             orderStatus = "";
         }
         List<OrderItem> listOrder = orderItemDAO.getOrderItemfilterByStatus(username.getUsername(), orderStatus);
@@ -83,8 +85,10 @@ public class OrderServlet extends HttpServlet {
             throws ServletException, IOException {
         int orderItemId = Integer.parseInt(request.getParameter("orderItemId"));
         OrderItemDAO orderItemDAO = new OrderItemDAO();
+        OrderListDAO orderListDAO = new OrderListDAO();
         OrderItem orderItem = orderItemDAO.getById(orderItemId);
-        System.out.println(orderItem.getOrder().getVoucher().getDiscountValue());
+        ResponseOrder responseOrder = orderListDAO.getResponse(orderItem.getOrder().getOrderId());
+        request.setAttribute("responseOrder", responseOrder);
         request.setAttribute("orderItem", orderItem);
         request.getRequestDispatcher("/WEB-INF/views/user/order/order-detail.jsp").forward(request, response);
     }
@@ -93,22 +97,22 @@ public class OrderServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             VoucherDAO voucherDAO = new VoucherDAO();
-            
+
             int productId = Integer.parseInt(request.getParameter("productId"));
             String productName = request.getParameter("productName");
             String productImg = request.getParameter("productImg");
             double productPrice = Double.parseDouble(request.getParameter("productPrice"));
             int quantity = Integer.parseInt(request.getParameter("quantity"));
-            double totalAmount = productPrice*quantity;
+            double totalAmount = productPrice * quantity;
             Product product = new Product();
             product.setProductId(productId);
             product.setLinkImg(productImg);
             product.setProductName(productName);
             product.setProductPrice(productPrice);
-            System.out.println(productPrice*quantity);
+            System.out.println(productPrice * quantity);
             List<Voucher> vouchers = voucherDAO.getAvailableVoucher(totalAmount);
             String error = (String) request.getSession().getAttribute("error");
-            if(error != null) {
+            if (error != null) {
                 request.getSession().removeAttribute("error");
                 request.setAttribute("error", error);
             }
@@ -132,7 +136,7 @@ public class OrderServlet extends HttpServlet {
 
         if (productIds != null) {
             for (int i = 0; i < productIds.length; i++) {
-                Product p = new Product();    
+                Product p = new Product();
                 p.setProductId(Integer.parseInt(productIds[i]));
                 p.setProductName(productNames[i]);
                 p.setProductPrice(Double.parseDouble(productPrices[i]));
@@ -152,13 +156,13 @@ public class OrderServlet extends HttpServlet {
 
         OrderDAO orderDAO = new OrderDAO();
         int resultOrder = orderDAO.createOrder(accountId, totalAmount, shippingFee, shippingAddress, paymentMethod, voucherId);
-        if(voucherId != 0 ) {
+        if (voucherId != 0) {
             VoucherDAO voucherDAO = new VoucherDAO();
             Voucher voucher = voucherDAO.getByVoucherId(voucherId);
             int usedVoucher = voucherDAO.useVoucher(voucher, totalAmount);
             System.out.println(usedVoucher == 1 ? "used voucher" : "don't use voucher");
         }
-        
+
         if (resultOrder != 1) {
             String errors = "Tạo đơn thất bại!";
             request.getSession().setAttribute("errors", errors);

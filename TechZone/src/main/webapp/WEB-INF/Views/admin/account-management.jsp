@@ -1,9 +1,10 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="../includes/navbar-admin.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<%@include file="../includes/slide-bar-admin.jsp" %>
 <!-- Content -->
 <div class="content">
+    
     <form action="${pageContext.request.contextPath}/admin" method="get" id="filterForm">
         <input type="hidden" name="view" value="list">
         <!-- Header -->

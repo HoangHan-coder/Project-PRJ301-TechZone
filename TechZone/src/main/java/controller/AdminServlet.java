@@ -50,8 +50,7 @@ public class AdminServlet extends HttpServlet {
             request.setAttribute("role", role != null ? role : "");
 
             // Forward sang JSP
-            request.getRequestDispatcher("/WEB-INF/views/admin/account-management.jsp")
-                    .forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/admin/account-management.jsp").forward(request, response);
             return;
         } else if (view.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
