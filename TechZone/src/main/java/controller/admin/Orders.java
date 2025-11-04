@@ -17,6 +17,7 @@ import java.util.List;
 import model.Orderlist;
 import dto.OrderItemDTO;
 import model.Account;
+import until.Pagination;
 
 /**
  *
@@ -71,6 +72,17 @@ public class Orders extends HttpServlet {
         switch (view) {
             case "list":
                 List<Orderlist> list = order.getAll();
+                String page = request.getParameter("page");
+                if (page != null) {
+                    Pagination pagination = new Pagination();
+                    pagination.handlePagintation(request, Integer.parseInt(page), list.size(), "/admin/order?view=list&");
+                    List<Orderlist> list1 = order.getAllPage(Integer.parseInt(page), 10);
+                    request.setAttribute("list", list1);
+                    request.getRequestDispatcher("/WEB-INF/views/admin/orders/list.jsp").forward(request, response);
+
+                    
+                    return;
+                }
                 request.setAttribute("list", list);
                 request.getRequestDispatcher("/WEB-INF/views/admin/orders/list.jsp").forward(request, response);
                 break;

@@ -5,6 +5,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
     <head>
@@ -133,8 +134,7 @@
                         <tr>
                             <td>${i.ordercode}</td>
                             <td>${i.fullname}</td>
-                            <td>${i.totalamount}₫</td>
-
+                            <td><fmt:formatNumber value="${i.totalamount}" type="number" maxFractionDigits="0"/>k</td>
                             <!-- Trạng thái thanh toán -->
                             <td>
                                 <c:choose>
@@ -185,9 +185,16 @@
 
 
                 </tbody>
+                
             </table>
+            <div style="margin-top: 20px">
+                <c:if test="${list != null}">
+                <%@include file="../../includes/pagination.jsp" %>
+            </c:if>
+            </div>
+            
         </div>
-
+            
     </body>
 </html>
 
