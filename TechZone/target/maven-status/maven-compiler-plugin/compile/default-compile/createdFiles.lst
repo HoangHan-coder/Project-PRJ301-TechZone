@@ -1,13 +1,13 @@
 dao\OrderDAO.class
 controller\CartServlet.class
 dao\AuthDAO.class
-controller\admin\Feedback.class
 model\Orders.class
 model\Product.class
 model\Voucher.class
 controller\Register.class
 controller\FeedbackServlet.class
 controller\ProductServlet.class
+controller\SearchServlet.class
 controller\OrderServlet.class
 dao\CartItemDAO.class
 controller\admin\Orders.class
@@ -42,6 +42,7 @@ controller\CheckoutServlet.class
 model\DetailOrder.class
 model\Orderlist.class
 controller\VoucherServlet.class
+controller\admin\FeedbackAdminServlet.class
 model\AllCategory.class
 dto\OrderItemDTO.class
 model\Feedback.class

@@ -4,8 +4,7 @@
  */
 package controller;
 
-import dao.AuthDAO;
-
+import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,15 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.AccountUsers;
+import java.util.List;
+import model.Product;
 
 /**
  *
- * @author acer
+ * @author PC
  */
-@WebServlet(name = "Login", urlPatterns = {"/login"})
-public class Login extends HttpServlet {
+@WebServlet(name = "SearchServlet", urlPatterns = {"/search"})
+public class SearchServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,22 +31,7 @@ public class Login extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Login</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+  
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -61,8 +45,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
-        request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
+      
     }
 
     /**
@@ -73,28 +56,48 @@ public class Login extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+  @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+request.setCharacterEncoding("UTF-8");
+response.setCharacterEncoding("UTF-8");
+response.setContentType("text/html;charset=UTF-8");
 
-        AuthDAO userdao = new AuthDAO();
-        AccountUsers accountUsers = userdao.login(username, password);
-        HttpSession session = request.getSession();
-        session.setAttribute("account", accountUsers);
-        if (accountUsers != null) {
-            if (accountUsers.getAccountroles().equals("Admin")) {
-                response.sendRedirect(getServletContext().getContextPath() + "/admin/account");
+
+        String action = request.getParameter("action");
+        ProductDAO dao = new ProductDAO();
+
+        if ("filter".equals(action)) {
+            int cateid = Integer.parseInt(request.getParameter("cateid"));
+            String brand = request.getParameter("brand");
+
+            List<Product> list;
+
+     
+            if (brand == null || brand.trim().isEmpty()) {
+                list = dao.getProductsByCategory(cateid);
             } else {
-                response.sendRedirect(getServletContext().getContextPath() + "/products");
+                list = dao.getFilterBrand(cateid, brand);
             }
 
-        } else {
-            System.out.println("_________________------------>");
-            response.sendRedirect(getServletContext().getContextPath() + "/login");
-        }
+            request.setAttribute("list", list);
 
+   
+            request.getRequestDispatcher("/WEB-INF/views/user/product/product-list/filter-result.jsp")
+                    .forward(request, response);
+
+        } else if ("search".equals(action)) {
+            String txtSearch = request.getParameter("txtSearch");
+            List<Product> list = dao.getAllProductsSearch(txtSearch);
+
+
+            request.setAttribute("list", list);
+            request.setAttribute("txtSearch", txtSearch);
+
+            request.getRequestDispatcher("/WEB-INF/views/user/product/product-list/product-filter.jsp").forward(request, response);
+        } else {
+            response.sendRedirect(request.getContextPath() + "/search");
+        }
     }
 
     /**

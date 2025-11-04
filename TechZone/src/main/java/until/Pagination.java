@@ -59,4 +59,6 @@ public class Pagination {
         request.setAttribute("currentPage", currentPage);
         request.setAttribute("totalPage", totalPage);
     }
+
+    
 }

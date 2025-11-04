@@ -19,7 +19,7 @@
                     <h3 class="mb-4">Thêm tài khoản</h3>
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <form action="${pageContext.request.contextPath}/admin?action=create" method="post" id="accountForm"> 
+                            <form action="${pageContext.request.contextPath}/admin/account?action=create" method="post" id="accountForm"> 
                                 <div class="mb-3">
                                     <label class="form-label">AccountId</label>
                                     <input type="text" id="accountId" class="form-control"

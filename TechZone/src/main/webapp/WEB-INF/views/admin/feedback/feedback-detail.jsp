@@ -226,7 +226,7 @@
                     <div class="feedback-info">
                         <h3>Thông tin phản hồi</h3>
                         <div class="info-item"><span>Sản phẩm:</span> ${data.product.productName}</div>
-                        <div class="info-item"><span>Ngày gửi:</span> ${data.createAt}</div>
+                        <div class="info-item"><span>Ngày gửi:</span> ${data.getCreatedAt()}</div>
 
                         <div class="info-item">
                             <span>Đánh giá:</span>

@@ -9,7 +9,7 @@ import model.Product;
 
 public class ProductDAO extends DBContext {
 
-    // ✅ Lấy tất cả sản phẩm (dành cho user)
+// lay het
     public List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE IsDeleted = 0";
@@ -26,7 +26,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-    // ✅ Lấy sản phẩm theo ID
+// lay theo productid
     public Product getProductById(int id) {
         String sql = "SELECT * FROM Product WHERE ProductId = ? AND IsDeleted = 0";
 
@@ -45,8 +45,8 @@ public class ProductDAO extends DBContext {
 
         return null;
     }
+// lay theo category
 
-    // ✅ Lấy sản phẩm theo CategoryId
     public List<Product> getProductsByCategory(int categoryId) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE CategoryId = ? AND IsDeleted = 0";
@@ -66,7 +66,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-    // ✅ Hàm map dữ liệu từ ResultSet → Product object
+// ham tach tao ra doi tuong
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         Product p = new Product();
 
@@ -82,10 +82,14 @@ public class ProductDAO extends DBContext {
         p.setIsDeleted(rs.getBoolean("IsDeleted"));
         p.setCreatedAt(rs.getTimestamp("CreatedAt"));
         p.setUpdatedAt(rs.getTimestamp("UpdatedAt"));
+<<<<<<< HEAD
+=======
+
+>>>>>>> Ngan
         return p;
     }
-// ✅ Featured product (sản phẩm mới nhất trong danh mục)
 
+// MOI them vao database
     public List<Product> getTop1(int categoryId) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT TOP 1 * FROM Product WHERE categoryId = ? ORDER BY createdAt DESC";
@@ -103,7 +107,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-// ✅ Trending product (sản phẩm bán chạy nhất trong danh mục)
+// SO LUONG BAN NHIU NHAT
     public List<Product> getTop1ByCategory(int categoryId) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT TOP 1 * FROM Product WHERE CategoryId = ? ORDER BY quantitySold DESC";
@@ -121,6 +125,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+// LOC SAN PHAM
     public List<Product> getFilterBrand(int categoryId, String brand) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM product WHERE CategoryId = ?";
@@ -147,6 +152,7 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+<<<<<<< HEAD
     public int updateProductStock(int productId, int quantity) {
         try {
             String sql = "update Product Set Stock = Stock - ? , QuantitySold = QuantitySold + ? where Productid = ?";
@@ -159,6 +165,39 @@ public class ProductDAO extends DBContext {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+=======
+    public List<Product> getAllProductsSearch(String txt) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM Product WHERE ProductName LIKE ? AND IsDeleted = 0";
+
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, "%" + txt + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapResultSetToProduct(rs));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public int updateProductStock(int x, int id) {
+        String sql = "update Product Set Stock = Stock - ? , QuantitySold = QuantitySold + ? where Productid = ?";
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, x);
+            ps.setInt(2, x);
+            ps.setInt(3, id);
+            return ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+>>>>>>> Ngan
     }
 
 }
