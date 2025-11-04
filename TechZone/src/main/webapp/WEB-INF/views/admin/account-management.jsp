@@ -30,94 +30,49 @@
             <div class="alert alert-warning">${message}</div>
         </c:if>
         <!-- Bảng -->
-        <div id="results">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Tên tài khoản</th>
-                            <th>Họ & Tên</th>
-                            <th>Email</th>
-                            <th>SDT</th>
-                            <th>Vai trò</th>
-                            <th class="text-center">Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="a" items="${accounts}">
+        <c:if test="${empty message}">
+            <div id="results">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
                             <tr>
-                                <td>${a.userName}</td>
-                                <td>${a.fullName}</td>
-                                <td>${a.email}</td>
-                                <td>${a.phone}</td>
-                                <td>${a.roleName}</td>
-                                <td class="text-center">
-                                    <a class="text-decoration-none" href="${pageContext.request.contextPath}/admin/account?view=update&id=${a.accountId}">
-                                        <i class="bi bi-eye me-2" style="cursor: pointer;"></i>
-                                    </a>
-                                    <button type="button" class="btn btn-link p-0 m-0 text-danger"
-                                            onclick="confirmDelete(${a.accountId})">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-
-                                </td>
+                                <th>Tên tài khoản</th>
+                                <th>Họ & Tên</th>
+                                <th>Email</th>
+                                <th>SDT</th>
+                                <th>Vai trò</th>
+                                <th class="text-center">Hành động</th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="a" items="${accounts}">
+                                <tr>
+                                    <td>${a.userName}</td>
+                                    <td>${a.fullName}</td>
+                                    <td>${a.email}</td>
+                                    <td>${a.phone}</td>
+                                    <td>${a.roleName}</td>
+                                    <td class="text-center">
+                                        <a class="text-decoration-none" href="${pageContext.request.contextPath}/admin/account?view=update&id=${a.accountId}">
+                                            <i class="bi bi-eye me-2" style="cursor: pointer;"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-link p-0 m-0 text-danger"
+                                                onclick="confirmDelete(${a.accountId})">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <!-- PHÂN TRANG -->
-        <nav aria-label="Page navigation example">
-            <c:if test="${startPage >= 1}">
-                <ul class="pagination">
-                    <c:choose>
-                        <c:when test="${currentPage < 2}">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="<%= request.getContextPath()%>/${servletPath}page=${currentPage - 1}" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <li class="page-item">
-                                <a class="page-link" href="<%= request.getContextPath()%>/${servletPath}page=${currentPage - 1}" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                    <c:forEach begin="${startPage}" var="pageNumber" end="${endPage}" step="1">
-                        <c:choose>
-                            <c:when test="${currentPage eq pageNumber}">
-                                <li class="page-item active"><a class="page-link" href="<%= request.getContextPath()%>/${servletPath}page=${pageNumber}">${pageNumber}</a></li>
-                                </c:when>
-                                <c:otherwise>
-                                <li class="page-item"><a class="page-link" href="<%= request.getContextPath()%>/${servletPath}page=${pageNumber}">${pageNumber}</a></li>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:forEach>
-                        <c:choose>
+            <!-- PHÂN TRANG -->
+            <%@include file="../includes/pagination.jsp" %>
+        </c:if>
 
-                        <c:when test="${currentPage > totalPage-1}">
-                            <li class="page-item">
-                                <a class="page-link disabled" href="<%= request.getContextPath()%>/${servletPath}page=${currentPage + 1}" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <li class="page-item">
-                                <a class="page-link" href="<%= request.getContextPath()%>/${servletPath}page=${currentPage + 1}" aria-label="Next" >
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
 
-                </ul>
-            </c:if>
-        </nav>
     </form>
 </div>
 

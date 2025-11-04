@@ -86,15 +86,16 @@ public class AdminServlet extends HttpServlet {
             throws ServletException, IOException {
         String keyword = request.getParameter("keyword");
         String role = request.getParameter("role");
-        int page = 1;
-        int pageSize = 5;
+        int page;
+        int pageSize = 12;
 
         try {
             page = Integer.parseInt(request.getParameter("page"));
             if (page < 1) {
                 page = 1;
             }
-        } catch (Exception ignored) {
+        } catch (NumberFormatException ex) {
+            page = 1;
         }
 
         int totalRows = dao.getTotalPages(keyword, role);
@@ -103,20 +104,20 @@ public class AdminServlet extends HttpServlet {
         if (page > totalPage && totalPage > 0) {
             page = totalPage;
         }
-
-        Pagination pagination = new Pagination();
-        pagination.handlePagintation(request, page, totalRows,
-                "admin/account?");
-
         List<Account> accountsPage = dao.filterAccounts(page, keyword, role, pageSize);
 
         if (accountsPage.isEmpty() && keyword != null && !keyword.trim().isEmpty()) {
             request.setAttribute("message", "Không tìm thấy tài khoản nào phù hợp với từ khóa \"" + keyword + "\"");
         }
-
+        Pagination pagination = new Pagination();
+        if(keyword == null) {
+              pagination.handlePagintation(request, page, totalRows,
+                "admin/account?");
+        } else {
+              pagination.handlePagintation(request, page, totalRows,
+                "admin/account?keyword=" + keyword + "&");
+        }
         request.setAttribute("accounts", accountsPage);
-        request.setAttribute("totalPages", totalPage);
-        request.setAttribute("currentPage", page);
         request.setAttribute("keyword", keyword != null ? keyword : "");
         request.setAttribute("role", role != null ? role : "");
 
