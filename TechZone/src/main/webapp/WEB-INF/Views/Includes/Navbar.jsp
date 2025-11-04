@@ -74,7 +74,7 @@
         </div>
         <!-- Search Bar -->
         <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" 
-              action="search" method="post">
+              action="${pageContext.request.contextPath}/search" method="post">
             <input type="hidden" name="action" value="search">
             <div class="input-group" style="max-width: 600px; width: 100%;">
                 <input class="form-control border-0" 

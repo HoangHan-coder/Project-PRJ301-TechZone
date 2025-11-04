@@ -7,7 +7,7 @@ model\Voucher.class
 controller\Register.class
 controller\FeedbackServlet.class
 controller\ProductServlet.class
-controller\SearchServlet.class
+SearchServlet.class
 controller\OrderServlet.class
 dao\CartItemDAO.class
 controller\admin\Orders.class
@@ -49,5 +49,11 @@ model\Feedback.class
 model\Order.class
 controller\admin\AdminProductDAO.class
 model\OrderItem.class
+<<<<<<< HEAD
 dao\OrderListDAO.class
+=======
+dao\SearchDAO.class
+dao\OderListDAO.class
+dao\AdminProductDAO.class
+>>>>>>> Khang
 db\DBContext.class
