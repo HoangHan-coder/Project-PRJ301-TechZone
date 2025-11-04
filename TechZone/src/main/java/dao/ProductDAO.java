@@ -3,8 +3,6 @@ package dao;
 import db.DBContext;
 import java.sql.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Product;
 
 public class ProductDAO extends DBContext {
@@ -82,10 +80,6 @@ public class ProductDAO extends DBContext {
         p.setIsDeleted(rs.getBoolean("IsDeleted"));
         p.setCreatedAt(rs.getTimestamp("CreatedAt"));
         p.setUpdatedAt(rs.getTimestamp("UpdatedAt"));
-<<<<<<< HEAD
-=======
-
->>>>>>> Ngan
         return p;
     }
 
@@ -152,20 +146,6 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-<<<<<<< HEAD
-    public int updateProductStock(int productId, int quantity) {
-        try {
-            String sql = "update Product Set Stock = Stock - ? , QuantitySold = QuantitySold + ? where Productid = ?";
-            PreparedStatement ps = this.getConnection().prepareStatement(sql);
-            ps.setInt(1, quantity);
-            ps.setInt(2, quantity);
-            ps.setInt(3, productId);
-            return ps.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
-=======
     public List<Product> getAllProductsSearch(String txt) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE ProductName LIKE ? AND IsDeleted = 0";
@@ -197,7 +177,6 @@ public class ProductDAO extends DBContext {
             return 0;
         }
 
->>>>>>> Ngan
     }
 
 }

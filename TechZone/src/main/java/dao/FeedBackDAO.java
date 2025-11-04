@@ -272,7 +272,7 @@ public class FeedBackDAO extends DBContext {
         return list;
     }
 
-    public void addFeedback(int accountId, int productId, int orderId, String message, int rating, String subject) {
+      public void addFeedback(int accountId, int productId, int orderId, String message, int rating, String subject) {
         try {
             String sql = "INSERT INTO Feedback (AccountId, ProductId, OrderId, Subject, Message, Rating, IsPublic, Status, CreatedAt) VALUES (?, ?, ?, ?, ?,?, 1, 'Pending', GETDATE())";
             PreparedStatement ps = getConnection().prepareStatement(sql);
