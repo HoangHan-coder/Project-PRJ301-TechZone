@@ -26,7 +26,7 @@ public class SearchServlet extends HttpServlet {
             SearchDAO dao = new SearchDAO();
 
             int page = 1;
-            int pageSize = 6;
+            int pageSize = 8;
             if (request.getParameter("page") != null) {
                 try {
                     page = Integer.parseInt(request.getParameter("page"));
@@ -68,7 +68,7 @@ public class SearchServlet extends HttpServlet {
         ProductDAO daopd = new ProductDAO();
 
         int page = 1;
-        int pageSize = 6;
+        int pageSize = 8;
         if (request.getParameter("page") != null) {
             try {
                 page = Integer.parseInt(request.getParameter("page"));
