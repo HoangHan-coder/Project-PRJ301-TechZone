@@ -29,7 +29,7 @@ public class Pagination {
         int startPage;
         int currentGroup;
         int pageGroup = 5;
-        int rowInPage = 12;
+        int rowInPage = 5;
         int totalPage;
 
         if (totalRow % rowInPage == 0) {

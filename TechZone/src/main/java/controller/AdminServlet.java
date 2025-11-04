@@ -87,7 +87,7 @@ public class AdminServlet extends HttpServlet {
         String keyword = request.getParameter("keyword");
         String role = request.getParameter("role");
         int page = 1;
-        int pageSize = 12;
+        int pageSize = 5;
 
         try {
             page = Integer.parseInt(request.getParameter("page"));
