@@ -26,22 +26,24 @@
                 <option value="Customer" <c:if test="${role=='Customer'}">selected</c:if>>Customer</option>
                 </select>
             </div>
-
-            <!-- Bảng -->
-            <div id="results">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Tên tài khoản</th>
-                                <th>Họ & Tên</th>
-                                <th>Email</th>
-                                <th>SDT</th>
-                                <th>Vai trò</th>
-                                <th class="text-center">Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+        <c:if test="${not empty message}">
+            <div class="alert alert-warning">${message}</div>
+        </c:if>
+        <!-- Bảng -->
+        <div id="results">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Tên tài khoản</th>
+                            <th>Họ & Tên</th>
+                            <th>Email</th>
+                            <th>SDT</th>
+                            <th>Vai trò</th>
+                            <th class="text-center">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         <c:forEach var="a" items="${accounts}">
                             <tr>
                                 <td>${a.userName}</td>
@@ -66,44 +68,73 @@
             </div>
         </div>
         <!-- PHÂN TRANG -->
-        <nav>
-            <ul class="pagination justify-content-center mt-4">
+        <nav aria-label="Page navigation example">
+            <c:if test="${startPage >= 1}">
+                <ul class="pagination">
+                    <c:choose>
+                        <c:when test="${currentPage < 2}">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="<%= request.getContextPath()%>/${servletPath}page=${currentPage - 1}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <a class="page-link" href="<%= request.getContextPath()%>/${servletPath}page=${currentPage - 1}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                    <c:forEach begin="${startPage}" var="pageNumber" end="${endPage}" step="1">
+                        <c:choose>
+                            <c:when test="${currentPage eq pageNumber}">
+                                <li class="page-item active"><a class="page-link" href="<%= request.getContextPath()%>/${servletPath}page=${pageNumber}">${pageNumber}</a></li>
+                                </c:when>
+                                <c:otherwise>
+                                <li class="page-item"><a class="page-link" href="<%= request.getContextPath()%>/${servletPath}page=${pageNumber}">${pageNumber}</a></li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                        <c:choose>
 
-                <!-- Nút về trang đầu -->
-                <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                    <a class="page-link"  href="${pageContext.request.contextPath}/admin/account?page=1&keyword=${keyword}&role=${role}">First</a>
-                </li>
+                        <c:when test="${currentPage > totalPage-1}">
+                            <li class="page-item">
+                                <a class="page-link disabled" href="<%= request.getContextPath()%>/${servletPath}page=${currentPage + 1}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <a class="page-link" href="<%= request.getContextPath()%>/${servletPath}page=${currentPage + 1}" aria-label="Next" >
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
 
-                <!-- Nút Previous -->
-                <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                    <a class="page-link"href="${pageContext.request.contextPath}/admin/account?page=${currentPage - 1}&keyword=${keyword}&role=${role}" >Previous</a>
-                </li>
-
-                <!-- Nút Next -->
-                <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                    <a class="page-link" href="${pageContext.request.contextPath}/admin/account?page=${currentPage + 1}&keyword=${keyword}&role=${role}"">Next</a>
-                </li>
-
-                <!-- Nút trang cuối -->
-                <li class="page-item ${currentPage == totalPages || totalPages == 0 ? 'disabled' : ''}">
-                    <a class="page-link"  href="${pageContext.request.contextPath}/admin/account?page=${totalPages}&keyword=${keyword}&role=${role}">Last</a>
-                </li>
-            </ul>
+                </ul>
+            </c:if>
         </nav>
     </form>
 </div>
 
 <script>
     function confirmDelete(id) {
-        if (confirm("Bạn có chắc chắn muốn xóa Account với ID = " + id + " không?")) {
+        if (confirm("Bạn có chắc chắn muốn xóa Account với id = " + id + " không?")) {
             const form = document.getElementById("filterForm");
-            const inputAction = document.createElement("input");
-            const inputId = document.createElement("input");
 
+            document.querySelectorAll("#filterForm input[name='action'], #filterForm input[name='id']")
+                    .forEach(e => e.remove());
+
+            const inputAction = document.createElement("input");
             inputAction.type = "hidden";
             inputAction.name = "action";
             inputAction.value = "delete";
 
+            const inputId = document.createElement("input");
             inputId.type = "hidden";
             inputId.name = "id";
             inputId.value = id;
@@ -114,18 +145,4 @@
             form.submit();
         }
     }
-    document.addEventListener("DOMContentLoaded", function () {
-
-        document.getElementById("keyword").addEventListener("keypress", function (e) {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                document.getElementById("filterForm").submit();
-            }
-        });
-
-
-        document.getElementById("role").addEventListener("change", function () {
-            document.getElementById("filterForm").submit();
-        });
-    });
 </script>

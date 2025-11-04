@@ -25,9 +25,8 @@ import java.util.logging.Logger;
  */
 public class AccountDAO extends DBContext {
 
-    private final int SIZE = 12;
 
-    public List<Account> filterAccounts(int page, String keyword, String role) {
+    public List<Account> filterAccounts(int page, String keyword, String role, int pageSize) {
         List<Account> list = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
                 "SELECT AccountId, Username, PasswordHash, FullName, Email, Phone, RoleName,"
@@ -55,8 +54,8 @@ public class AccountDAO extends DBContext {
                 ps.setString(index++, role);
             }
 
-            ps.setInt(index++, (page - 1) * SIZE);
-            ps.setInt(index, SIZE);
+            ps.setInt(index++, (page - 1) * pageSize);
+            ps.setInt(index, pageSize);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -82,25 +81,36 @@ public class AccountDAO extends DBContext {
         return list;
     }
 
-    public int getTotalPages() {
+    public int getTotalPages(String keyword, String role) {
         int totalRows = 0;
         try {
-            String sql = "SELECT COUNT(AccountId) FROM Accounts WHERE IsDeleted =0";
+            StringBuilder sql = new StringBuilder("SELECT COUNT(AccountId) FROM Accounts WHERE IsDeleted = 0");
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                sql.append(" AND (LOWER(Username) LIKE ? OR LOWER(FullName) LIKE ?)");
+            }
+            if (role != null && !role.trim().isEmpty()) {
+                sql.append(" AND RoleName = ?");
+            }
 
-            PreparedStatement statement = this.getConnection().prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
+            PreparedStatement ps = this.getConnection().prepareStatement(sql.toString());
+            int index = 1;
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                String kw = "%" + keyword.trim().toLowerCase() + "%";
+                ps.setString(index++, kw);
+                ps.setString(index++, kw);
+            }
+            if (role != null && !role.trim().isEmpty()) {
+                ps.setString(index++, role);
+            }
 
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 totalRows = rs.getInt(1);
-
             }
         } catch (SQLException ex) {
             Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        int totalPages = (int) Math.ceil((double) totalRows / SIZE);
-        return totalPages;
-
+        return totalRows;
     }
 
     public int getNextId() {
@@ -214,7 +224,7 @@ public class AccountDAO extends DBContext {
     }
 
     public String hashMd5(String raw) {
-        raw = raw + "h";
+       
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] mess = md.digest(raw.getBytes());
