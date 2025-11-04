@@ -96,7 +96,7 @@
         <jsp:include page="/WEB-INF/views/includes/navbar.jsp" />
 
         <div class="container-fluid">
-            <form action="cartItems" method="POST">
+            <form action="cartitem" method="POST">
                 <div class="row w-100">
                     <!-- Hình ảnh sản phẩm -->
                     <div class="col-md-5 mx-4 my-5 border rounded">
@@ -126,13 +126,16 @@
 
                         <div class="mt-4">
 
-                            <input type="hidden" name="view" value="check-out">
-                            <input type="hidden" name="productId" id="productId" value="${product.productId}">
-                            <input type="hidden" name="productName" id="productName" value="${product.productName}">
-                            <input type="hidden" name="productImg" id="productImg" value="${product.linkImg}">
-                            <input type="hidden" name="productPrice" id="productPrice" value="${product.productPrice}">                          
+                            <input type="hidden" name="action" value="create-cart"/>
+                            <input type="hidden" name="accountId" value="${sessionScope.account.id}"/>
+                            <input type="hidden" name="productId" value="${product.productId}"/>
+                            <input type="hidden" name="productName" value="${product.productName}"/>
+                            <input type="hidden" name="productImg" value="${product.linkImg}"/>
+                            <input type="hidden" name="productPrice" value="${product.productPrice}"/>
+                            
+
                             <button type="submit" class="btn btn-primary btn-lg me-3">🛒 Thêm vào giỏ hàng</button>
-                            <button type="button" class="btn btn-secondary btn-lg" id="btnCheckout" onclick="goToCheckout();"> 💳 Thanh toán</button>
+                             <button type="button" class="btn btn-secondary btn-lg" id="btnCheckout" onclick="goToCheckout();"> 💳 Thanh toán</button>
 
                         </div>
                     </div>
