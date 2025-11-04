@@ -27,6 +27,10 @@ public class Product {
     public Product() {
     }
 
+    public Product(int productId) {
+        this.productId = productId;
+    }
+
     public Product(String linkImg, String productName, double productPrice) {
         this.linkImg = linkImg;
         this.productName = productName;

@@ -1,103 +1,152 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import dao.CartDAO;
 import dao.CartItemDAO;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import jakarta.servlet.http.*;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+import model.AccountUsers;
 import model.Cart;
 import model.CartItem;
 
-/**
- *
- * @author admin
- */
 @WebServlet(name = "CartItemServlet", urlPatterns = {"/cartitem"})
 public class CartItemServlet extends HttpServlet {
 
-
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = request.getParameter("action");
+        String Id = request.getParameter("cartItemId");
+        System.out.println("hello mmyy");
+        HttpSession session = request.getSession(false);
+        AccountUsers account = (AccountUsers) session.getAttribute("account");
+
+        if (account == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        int accountId = account.getId();
         
-        CartItemDAO ca = new CartItemDAO();
-        List<CartItem> list = ca.getList("user1");
-        System.out.println(list.size());
-        request.setAttribute("cartItems", list);       
+        if(action == null || action.equals("listCart")){
+            CartItemDAO cartItemDAO = new CartItemDAO();
+        List<CartItem> list = cartItemDAO.getListByAccountId(accountId);
+
+        request.setAttribute("cartItems", list);
         request.getRequestDispatcher("/WEB-INF/views/user/cart.jsp").forward(request, response);
+        }
+        
+       else if(action.equals("delete")){
+            System.out.println(Id);
+        request.setAttribute("cartItemId", Id);
+        request.getRequestDispatcher("/WEB-INF/views/user/confirm.jsp").forward(request, response);
+        }
+        
+        
+        
         
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-    String action = request.getParameter("action");
+        String action = request.getParameter("action");
 
-    if ("create-cart".equals(action)) {
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        String productName = request.getParameter("productName");
-        String linkImg = request.getParameter("linkImg");
-        double productPrice = Double.parseDouble(request.getParameter("productPrice"));
-        int accountId = Integer.parseInt(request.getParameter("accountId"));
+        AccountUsers account = new AccountUsers();
+        
+        System.out.println(action);
 
-        CartDAO cartDAO = new CartDAO();
+        int accountId = account.getId();
         CartItemDAO cartItemDAO = new CartItemDAO();
+        CartDAO cartDAO = new CartDAO();
 
-        // 1️⃣ Tạo giỏ hàng mới
-        int result = cartDAO.createCart(accountId);
-        if (result > 0) {
-            // 2️⃣ Lấy cartId vừa tạo
-            Cart cart = cartDAO.cartId();
-            if (cart != null) {
-                int cartId = cart.getCartId();
+        switch (action) {
+            // 🟢 Thêm sản phẩm vào giỏ
+            case "create-cart": {
+                try {
+                    int productId = Integer.parseInt(request.getParameter("productId"));
+                    double productPrice = Double.parseDouble(request.getParameter("productPrice"));
+                    int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-                // 3️⃣ Thêm sản phẩm vào bảng CartItems
-                cartItemDAO.createCartItems(cartId, productId, productPrice, 1);
+                    Cart cart = cartDAO.getActiveCartByAccountId(accountId);
+                    if (cart == null) {
+                        int created = cartDAO.createCart(accountId);
+                        if (created > 0) {
+                            cart = cartDAO.getLatestCartByAccountId(accountId);
+                        }
+                    }
 
-                response.sendRedirect("cartitem");
+                    if (cart != null) {
+                        int cartId = cart.getCartId();
+                        CartItem existingItem = cartItemDAO.getCartItem(cartId, productId);
+                        if (existingItem != null) {
+                            cartItemDAO.increaseQuantity(existingItem.getCartItemId(), quantity);
+                        } else {
+                            cartItemDAO.createCartItems(cartId, productId, productPrice, quantity);
+                        }
+                        response.sendRedirect("cartitem");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameters for cart creation.");
+                }
+                break;
             }
+
+            // 🟠 Cập nhật số lượng
+            case "update": {
+                try {
+                    int cartItemId = Integer.parseInt(request.getParameter("cartItemId"));
+                    int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+                    boolean updated = cartItemDAO.updateQuantity(cartItemId, quantity);
+                    if (updated) {
+                        response.sendRedirect("cartitem");
+                    } else {
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to update quantity.");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameters for update.");
+                }
+                break;
+            }
+
+            // 🔴 Xóa sản phẩm khỏi giỏ
+            case "delete": {
+                try {
+                    int cartItemId = Integer.parseInt(request.getParameter("cartItemId"));
+                   
+                    boolean deleted = cartDAO.deleteItem(cartItemId);
+                    System.out.println(deleted);
+                    if (deleted) {
+                        response.sendRedirect("cartitem");
+                    } else {
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to delete item.");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameters for delete.");
+                } catch (NumberFormatException e) {
+                    System.out.println(">>>>>>>>>NUmberEx");
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameters for delete.");
+                }
+
+                break;
+            }
+
+            default:
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unknown action: " + action);
+                break;
         }
     }
-}
 
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+        return "Servlet quản lý giỏ hàng (Thêm, Cập nhật, Xóa) - dùng logic tránh duplicate items";
+    }
 }
+                        

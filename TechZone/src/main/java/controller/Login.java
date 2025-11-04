@@ -87,7 +87,7 @@ public class Login extends HttpServlet {
                 if (userdao.login(username, password).getAccountroles().equals("Admin")) {
                     response.sendRedirect(getServletContext().getContextPath() + "/admin");
                 } else { 
-                    session.setAttribute("user", userdao.login(username, password));
+
                     response.sendRedirect(getServletContext().getContextPath() + "/products");
                 }
                 

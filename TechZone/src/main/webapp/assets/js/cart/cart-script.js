@@ -123,23 +123,8 @@
                             updateCartSummary();
                             form.submit();
                         }
+                        
 
-                        // --- Xử lý xóa sản phẩm ---
-                        if (btn.classList.contains('btn-delete-item')) {
-                            e.preventDefault();
-                            if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?")) {
-                                const id = btn.dataset.itemId;
-                                const delForm = document.createElement('form');
-                                delForm.method = 'POST';
-                                delForm.action = `${pageContext.request.contextPath}/cartitem`;
-                                delForm.innerHTML = `
-                        <input type="hidden" name="action" value="delete">
-                        <input type="hidden" name="cartItemId" value="${id}">
-                    `;
-                                document.body.appendChild(delForm);
-                                delForm.submit();
-                            }
-                        }
                     });
 
                     // 4️⃣ Khi người dùng nhập số lượng thủ công

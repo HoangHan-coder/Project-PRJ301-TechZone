@@ -137,7 +137,7 @@
             <c:forEach var="cartItem" items="${cartItems}">  
                 <%-- Bọc mỗi dòng sản phẩm trong một Form để gửi yêu cầu cập nhật lên Servlet --%>
                 <form action="${pageContext.request.contextPath}/cartitem" method="POST" class="form-cart-item">
-
+                  
                     <div class="row align-items-center bg-white border rounded shadow-sm py-3 mb-3 product-row">
 
                         <div class="col-6 d-flex align-items-center">
@@ -182,14 +182,16 @@
 
                                 <div class="col">
                                     <%-- THÊM CLASS VÀ DATA CHO JS/Servlet --%>
-                                    <a href="#" class="text-danger text-decoration-none btn-delete-item" 
-                                       data-item-id="${cartItem.cartItemId}">Xóa</a>
+                                    
                                 </div>
+                           
 
                             </div>
                         </div>
                     </div>
                 </form>
+                                    <a href="${pageContext.request.contextPath}/cartitem?action=delete&cartItemId=${cartItem.cartItemId}" class="text-danger text-decoration-none btn-delete-item" 
+                                      >Xóa</a>
             </c:forEach>
         </div>
 
