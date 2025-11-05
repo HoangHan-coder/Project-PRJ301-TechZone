@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <style>
     .input-group .form-select,
     .input-group .form-control,
@@ -22,7 +22,7 @@
     <div class="container d-flex justify-content-between align-items-center py-2">
         <!-- Logo + Menu -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
-            <a class="navbar-brand fw-bold fs-2" href="Home.jsp" >Gizmos<span style="color: orange">.</span></a>
+            <a class="navbar-brand fw-bold fs-2" href="${pageContext.request.contextPath}/products" >TechZone<span style="color: orange">.</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
                     data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" 
                     aria-label="Toggle navigation">
@@ -55,9 +55,9 @@
 <nav class="navbar navbar-expand-lg" style="background-color: #285dde; height: 70px"> 
     <div class="container-fluid d-flex justify-content-between align-items-center">
 
-        <!-- Nút bấm Shop By Categories -->  
+        <!-- N�t b?m Shop By Categories -->
         <div class="dropdown">
-            <!-- Nút bấm -->
+            <!-- N�t b?m -->
             <a class="d-flex align-items-center text-white fw-bold me-3 text-decoration-none dropdown-toggle" 
                href="#" id="categoriesDropdown" role="button" 
                data-bs-toggle="dropdown" aria-expanded="false">
@@ -65,28 +65,30 @@
                 <span>Shop By Categories</span>
             </a>
 
-            <!-- Menu xổ xuống -->
+            <!-- Menu x? xu?ng -->
             <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                <li><a class="dropdown-item" href="#">Weekly Bestsellers</a></li>
-                <li><a class="dropdown-item" href="#">Featured Products</a></li>
-                <li><a class="dropdown-item" href="#">New Arrivals</a></li>
+                <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=phone">SMARTPHONE</a></li>
+                <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=laptop">LAPTOP</a></li>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/products?category=accessory">ACCESSORY</a></li>
             </ul>
         </div>
         <!-- Search Bar -->
-        <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" role="search">
+        <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" 
+              action="search" method="post">
+            <input type="hidden" name="action" value="search">
             <div class="input-group" style="max-width: 600px; width: 100%;">
-                <select class="form-select border-0 border-end" style="max-width: 180px;">
-                    <option selected>All Categories</option>
-                    <option value="1">Electronics</option>
-                    <option value="2">Fashion</option>
-                    <option value="3">Home</option>
-                </select>
-                <input class="form-control border-0" type="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
-                <button class="btn btn-light" type="submit">
+                <input class="form-control border-0" 
+                       type="search" 
+                       name="txtSearch" 
+                       placeholder="Search products..." 
+                       aria-label="Search" 
+                       required>
+                <button class="btn btn-light border-0" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </form>
+
 
         <!-- Icons -->
         <div class="d-flex align-items-center text-white">

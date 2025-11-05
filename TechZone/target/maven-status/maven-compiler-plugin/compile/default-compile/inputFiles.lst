@@ -1,4 +1,5 @@
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CartItemServlet.java
+D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\FeedbackAdminServlet.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\resources\JakartaEE10Resource.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\OrderItem.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\AllCategory.java
@@ -6,6 +7,7 @@ D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\CartDAO.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\LogoutServlet.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Orders.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orderdetail.java
+D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\AdminProductDAO.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\CartItem.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Account.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\until\Pagination.java
@@ -20,7 +22,6 @@ D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\Registe
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\StatisticalDAO.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orders.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\until\Normalization.java
-D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\OrderdetailServlet.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\VoucherDAO.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\admin\Dashboard.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Feedback.java
@@ -28,6 +29,7 @@ D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Orderlist.ja
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CheckoutServlet.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\ProductServlet.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\FeedBackDAO.java
+D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\DetailOrder.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\FeedbackServlet.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OrderDAO.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\CartServlet.java
@@ -36,6 +38,7 @@ D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Order.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\controller\VoucherServlet.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\db\DBContext.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\com\techzone\techzone\JakartaRestConfiguration.java
+D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Accounts.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\model\Cart.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\CartItemDAO.java
 D:\Project_PRJ\Project-PRJ301-TechZone\TechZone\src\main\java\dao\OrderItemDAO.java

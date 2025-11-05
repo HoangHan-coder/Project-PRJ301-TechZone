@@ -6,12 +6,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import model.Account;
-import model.AccountUsers;
+
 import model.Feedback;
 import model.Product;
 
@@ -38,6 +37,8 @@ public class ProductServlet extends HttpServlet {
                 request.setAttribute("listPhone", listPhone);
                 request.setAttribute("listLap", listLap);
                 request.setAttribute("listAccessory", listAccessory);
+                
+                
                 ArrayList<Product> listPhonefe = (ArrayList<Product>) dao.getTop1ByCategory(2);
                 ArrayList<Product> listLapfe = (ArrayList<Product>) dao.getTop1ByCategory(1);
                 ArrayList<Product> listAccessoryFe = (ArrayList<Product>) dao.getTop1(3);
@@ -101,7 +102,12 @@ public class ProductServlet extends HttpServlet {
                     if (product.getAttributesMap() == null) {
                         product.setAttributesMap(new HashMap<>());
                     }
-
+                    String error = (String) request.getSession().getAttribute("msg");
+                    String erroree = (String) request.getSession().getAttribute("msgee");
+                    request.setAttribute("msg", error);
+                    request.getSession().removeAttribute("msg");
+                    request.setAttribute("msgee", erroree);
+                    request.getSession().removeAttribute("msgee");
                     request.setAttribute("product", product);
                     request.getRequestDispatcher("/WEB-INF/views/user/product/product-detail/product-detail.jsp")
                             .forward(request, response);
@@ -127,46 +133,5 @@ public class ProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        FeedBackDAO dao = new FeedBackDAO();
-        String productId_raw = request.getParameter("productId");
-        String subject = request.getParameter("subject");
-        String message = request.getParameter("message");
-        String rating_raw = request.getParameter("rating");
-
-        // --- 2. Kiểm tra dữ liệu hợp lệ ---
-        if (productId_raw == null || rating_raw == null || productId_raw.isEmpty() || rating_raw.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Thiếu thông tin đánh giá.");
-            return;
-        }
-
-        int productId = Integer.parseInt(productId_raw);
-        int rating = Integer.parseInt(rating_raw);
-
-        // --- 3. Lấy thông tin người dùng đang đăng nhập ---
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("account") == null) {
-            response.sendRedirect("login.jsp"); // Nếu chưa đăng nhập
-            return;
-        }
-
-        AccountUsers acc = (AccountUsers) session.getAttribute("account");
-        int accountId = acc.getId();
-
-        // Nếu bạn có logic để lấy orderId thật, thay thế dòng này:
-        Integer orderId = dao.getOrderIdByAccountAndProduct(accountId, productId);
-
-        if (orderId == null) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Bạn chỉ có thể đánh giá khi đã mua sản phẩm này.");
-         
-            return;
-        }
-
-
-        dao.addFeedback(accountId, productId, orderId, message, rating, subject);
-
-
-
-        // --- 5. Quay lại trang chi tiết sản phẩm ---
-        response.sendRedirect("products?action=detail&id=" + productId);
     }
 }

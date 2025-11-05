@@ -18,7 +18,46 @@ public class Feedback {
     private String responseMessage;
     private Timestamp responseAt;
 
-    public Feedback() {}
+    public Feedback() {
+    }
+    
+    
+
+    public Feedback(int feedbackId, Account account, Product product, String message, Integer rating, boolean isPublic, String status, String responseMessage, Timestamp responseAt) {
+        this.feedbackId = feedbackId;
+        this.account = account;
+        this.product = product;
+        this.message = message;
+        this.rating = rating;
+        this.isPublic = isPublic;
+        this.status = status;
+        this.responseMessage = responseMessage;
+        this.responseAt = responseAt;
+    }
+
+    public Feedback(int feedbackId, Product product, String message, Integer rating, Timestamp createdAt, String responseMessage) {
+        this.feedbackId = feedbackId;
+        this.product = product;
+        this.message = message;
+        this.rating = rating;
+        this.createdAt = createdAt;
+        this.responseMessage = responseMessage;
+    }
+    
+
+    public Feedback( Account account, Product product, int feedbackId, String message, Integer rating, boolean isPublic, String status, String responseMessage, Timestamp responseAt) {
+        this.feedbackId = feedbackId;
+        this.account = account;
+        this.product = product;
+        this.message = message;
+        this.rating = rating;
+        this.isPublic = isPublic;
+        this.status = status;
+        this.responseMessage = responseMessage;
+        this.responseAt = responseAt;
+    }
+    
+    
 
     public Feedback(int feedbackId, Account account, Product product, Order order,
                     String subject, String message, Integer rating, boolean isPublic,
