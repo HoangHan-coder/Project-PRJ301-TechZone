@@ -134,7 +134,7 @@
                         <tr>
                             <td>${i.ordercode}</td>
                             <td>${i.fullname}</td>
-                            <td><fmt:formatNumber value="${i.totalamount}" type="number" maxFractionDigits="0"/>k</td>
+                            <td><fmt:formatNumber value="${i.totalamount}" type="number" maxFractionDigits="0"/>đ</td>
                             <!-- Trạng thái thanh toán -->
                             <td>
                                 <c:choose>
