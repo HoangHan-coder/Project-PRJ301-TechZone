@@ -214,7 +214,7 @@ public class OrderListDAO extends DBContext {
 
     public ResponseOrder getResponse(int id) {
         try {
-            String sql = "SELECT * FROM responseOrder WHERE responseOrderId = ?";
+            String sql = "SELECT * FROM responseOrder WHERE orderId = ?";
             PreparedStatement st = this.getConnection().prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
