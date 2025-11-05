@@ -27,7 +27,8 @@ public class OrderListDAO extends DBContext {
     public List<Orderlist> getAll() {
         try {
             String sql = "SELECT o.OrderId, o.OrderCode, a.FullName,o.TotalAmount,o.PaymentStatus,o.Status FROM Orders o\n"
-                    + "JOIN Accounts a ON a.AccountId = o.AccountId";
+                    + "JOIN Accounts a ON a.AccountId = o.AccountId\n"
+                    + "WHERE o.IsDeleted = 'False'\n";
             PreparedStatement st = this.getConnection().prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             List<Orderlist> list = new ArrayList<>();
@@ -47,7 +48,7 @@ public class OrderListDAO extends DBContext {
     public Orders getOrderInfoById(int orderId) {
         try {
             String sql = "SELECT o.OrderId, o.OrderCode, o.OrderTime, o.PaymentMethod, "
-                    + "o.TotalAmount, o.PaymentStatus, o.Status, o.ShippingAddress, "
+                    + "o.TotalAmount, o.Voucherid, o.PaymentStatus, o.Status, o.ShippingAddress, "
                     + "a.AccountId, a.FullName, a.Phone, a.Email "
                     + "FROM Orders o "
                     + "JOIN Accounts a ON a.AccountId = o.AccountId "
@@ -65,6 +66,7 @@ public class OrderListDAO extends DBContext {
                 order.setPaymentStatus(rs.getString("PaymentStatus"));
                 order.setStatus(rs.getString("Status"));
                 order.setShippingAddress(rs.getString("ShippingAddress"));
+                order.setVoucherId(rs.getInt("Voucherid"));
                 // Gắn thông tin account
                 Account acc = new Account();
                 acc.setAccountId(rs.getInt("AccountId"));
@@ -84,7 +86,7 @@ public class OrderListDAO extends DBContext {
     public List<OrderItemDTO> getProductsByOrderId(int orderId) {
         try {
             List<OrderItemDTO> list = new ArrayList<>();
-            String sql = "SELECT p.ProductId, p.ProductName, p.ProductPrice, p.LinkImg, "
+            String sql = "SELECT p.ProductId, p.ProductName, r.UnitPrice, p.LinkImg, "
                     + "r.Quantity, r.UnitPrice, (r.Quantity * r.UnitPrice) AS Total "
                     + "FROM OrderItems r "
                     + "JOIN Product p ON p.ProductId = r.ProductId "
@@ -96,7 +98,7 @@ public class OrderListDAO extends DBContext {
                 OrderItemDTO p = new OrderItemDTO();
                 p.setProductId(rs.getInt("ProductId"));
                 p.setProductName(rs.getString("ProductName"));
-                p.setProductPrice(rs.getBigDecimal("ProductPrice"));
+                p.setProductPrice(rs.getBigDecimal("UnitPrice"));
                 p.setLinkImg(rs.getString("LinkImg"));
                 p.setQuantity(rs.getInt("Quantity"));
                 // Có thể thêm field phụ nếu bạn muốn hiển thị UnitPrice và Total
@@ -235,6 +237,7 @@ public class OrderListDAO extends DBContext {
             List<Orderlist> list = new ArrayList<>();
             String sql = "SELECT o.OrderId, o.OrderCode, a.FullName,o.TotalAmount,o.PaymentStatus,o.Status FROM Orders o\n"
                     + "JOIN Accounts a ON a.AccountId = o.AccountId\n"
+                    + "WHERE o.IsDeleted = 'False'\n"
                     + "ORDER BY o.OrderId\n"
                     + "OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY";
 

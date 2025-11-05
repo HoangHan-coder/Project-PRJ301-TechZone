@@ -73,14 +73,20 @@ public class Orders extends HttpServlet {
             case "list":
                 List<Orderlist> list = order.getAll();
                 String page = request.getParameter("page");
+                try {
+                    Integer.parseInt(page);
+                } catch (Exception e) {
+                    page = 1 + "";
+                }
+                if (Integer.parseInt(page) > Math.ceil(list.size() / 10.0)) {
+                    page = String.valueOf((int)(list.size() / 10.0));
+                }
                 if (page != null) {
                     Pagination pagination = new Pagination();
                     pagination.handlePagintation(request, Integer.parseInt(page), list.size(), "/admin/order?view=list&");
                     List<Orderlist> list1 = order.getAllPage(Integer.parseInt(page), 10);
                     request.setAttribute("list", list1);
                     request.getRequestDispatcher("/WEB-INF/views/admin/orders/list.jsp").forward(request, response);
-
-                    
                     return;
                 }
                 request.setAttribute("list", list);
@@ -99,10 +105,10 @@ public class Orders extends HttpServlet {
                     request.setAttribute("status", order.getResponse(Integer.parseInt(id)).getReason());
                 }
                 for (OrderItemDTO p : products) {
-                    BigDecimal lineTotal = p.getProductPrice().multiply(BigDecimal.valueOf(p.getQuantity()));
+                    BigDecimal lineTotal = p.getProductPrice();
                     totalAmount = totalAmount.add(lineTotal);
                 }
-                request.setAttribute("totalamount", totalAmount);
+                request.setAttribute("totalamount", orders.getTotalAmount());
                 request.getRequestDispatcher("/WEB-INF/views/admin/orders/detail.jsp").forward(request, response);
                 break;
 

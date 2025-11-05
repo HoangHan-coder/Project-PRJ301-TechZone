@@ -3,6 +3,7 @@
     Created on : Oct 20, 2025, 7:42:38 PM
     Author     : letan
 --%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -218,6 +219,91 @@
                     transform: translateY(0);
                 }
             }
+            .summary-box {
+                max-width: 500px;
+                margin: 40px auto;
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                padding: 25px;
+                font-family: "Segoe UI", sans-serif;
+            }
+
+            .summary-box h3 {
+                text-align: center;
+                font-size: 22px;
+                margin-bottom: 20px;
+                color: #333;
+                border-bottom: 2px solid #f0f0f0;
+                padding-bottom: 10px;
+            }
+
+            .summary-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 16px;
+            }
+
+            .summary-table td {
+                padding: 10px 0;
+            }
+
+            .summary-table td:first-child {
+                color: #555;
+            }
+
+            .summary-table .value {
+                text-align: right;
+                font-weight: 500;
+            }
+
+            .summary-table .discount {
+                color: #d9534f;
+            }
+
+            .summary-table .total-row {
+                font-weight: bold;
+                font-size: 18px;
+                border-top: 2px solid #ddd;
+            }
+
+            .summary-table .total-row .total {
+                color: #28a745;
+            }
+
+            .checkout-actions {
+                margin-top: 25px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .back-btn {
+                text-decoration: none;
+                color: #555;
+                font-size: 15px;
+                transition: color 0.3s;
+            }
+
+            .back-btn:hover {
+                color: #007bff;
+            }
+
+            .pay-btn {
+                background: #007bff;
+                color: white;
+                border: none;
+                padding: 10px 25px;
+                border-radius: 6px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background 0.3s;
+            }
+
+            .pay-btn:hover {
+                background: #0056b3;
+            }
+
         </style>
     </head>
     <body>
@@ -257,7 +343,7 @@
                     <c:if test="${status != null}">
                         <div class="info-row"><b>Lí do:</b>${status}</div>
                     </c:if>
-                        
+
                 </div>
 
                 <div class="card">
@@ -280,33 +366,49 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach var="p" items="${products}">
+                            <c:set var="i" value="0" scope="page"></c:set>
+                            <c:forEach var="p" items="${products}" >
                                 <tr>
-                                    <td><img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" style="width:100px; height:auto;"></td>
-                                    <td>${p.getProductName()}</td>
+                                    <td><img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" style="width:100px; height:auto; border-radius:8px;"></td>
+                                    <td>${p.productName}</td>
                                     <td>${p.quantity}</td>
-                                    <td>${p.productPrice}₫</td>
-                                    <td>${p.getTotal()}đ</td>
-                                </tr>
+                                    <td style="text-align: end"><fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/>đ</td>
+                                    <td style="text-align: end"><fmt:formatNumber value="${p.total}" type="number" maxFractionDigits="0"/>đ</td>
+                                    <c:set var="i" value="${p.total + i}" scope="page"></c:set>
+                                    </tr>
                             </c:forEach>
                         </tbody>
                     </table>
 
-                    <div class="total">Tổng cộng: ${totalamount}₫</div>
                 </div>
-                <!-- Modal -->
-                <div id="cancelModal" class="modal-overlay">
-                    <div class="modal-content">
-                        <h3>Lý do hủy đơn</h3>
-                        <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=cancel&id=${order.orderId}" id="cancelForm">
-                            <textarea name="cancelReason" placeholder="Nhập lý do hủy đơn..." required></textarea>
-                            <div class="modal-buttons">
-                                <button type="button" class="btn-cancel" id="closeModal">Đóng</button>
-                                <button type="submit" class="btn-confirm">Xác nhận hủy</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+            </div>
+            <!-- Bảng tổng kết -->
+            <div class="summary-box">
+                <h3>Thông tin thanh toán</h3>
+                <table class="summary-table">
+                    <tr>
+                        <td>Phí vận chuyển:</td>
+                        <td class="value">${String.format("%,.0f", 150000.0)}₫</td>
+                    </tr>
+                    <tr>
+                        <td>Voucher giảm giá:</td>
+                        <td class="value discount">
+
+                            <c:choose>
+                                <c:when test="${order.voucherId != null}">
+                                    -<fmt:formatNumber value="${i + 150000 - totalamount}" type="number" maxFractionDigits="0"/>đ
+                                </c:when>
+                                <c:otherwise>
+                                    -0₫
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Tổng thanh toán:</td>
+                        <td style="text-align: end"><fmt:formatNumber value="${totalamount}" type="number" maxFractionDigits="0"/>đ</td>
+                    </tr>
+                </table>
                 <div class="actions">
                     <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
                         <button class="btn btn-success"><i class="fa-solid fa-check"></i> Xác nhận đơn</button>
@@ -319,30 +421,45 @@
                     </button>
                 </div>
             </div>
-        </div>
+            <!-- Modal -->
+            <div id="cancelModal" class="modal-overlay">
+                <div class="modal-content">
+                    <h3>Lý do hủy đơn</h3>
+                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=cancel&id=${order.orderId}" id="cancelForm">
+                        <textarea name="cancelReason" placeholder="Nhập lý do hủy đơn..." required></textarea>
+                        <div class="modal-buttons">
+                            <button type="button" class="btn-cancel" id="closeModal">Đóng</button>
+                            <button type="submit" class="btn-confirm">Xác nhận hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-    </body>
-    <script>
-        const modal = document.getElementById('cancelModal');
-        const openBtn = document.getElementById('cancelBtn');
-        const closeBtn = document.getElementById('closeModal');
+        </div>
+    </div>
+
+</body>
+<script>
+    const modal = document.getElementById('cancelModal');
+    const openBtn = document.getElementById('cancelBtn');
+    const closeBtn = document.getElementById('closeModal');
 
 // Mở modal khi ấn "Hủy đơn"
-        openBtn.addEventListener('click', () => {
-            modal.style.display = 'flex';
-        });
+    openBtn.addEventListener('click', () => {
+        modal.style.display = 'flex';
+    });
 
 // Đóng modal khi ấn "Đóng"
-        closeBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
 
 // Đóng modal khi click ra ngoài
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-    </script>
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+</script>
 </html>
 
