@@ -113,29 +113,33 @@
                         <div class="d-flex align-items-center w-100 mt-4">
                             <p class="fs-5 me-3 mb-0">Số lượng:</p>
                             <div class="d-flex align-items-center" style="width: 100px;">
-                                <input type="text" class="form-control text-center" id="quantity" name="quantity" value="1"
+                                <input type="text" class="form-control text-center " id="quantity" name="quantity" value="1" ${product.stock <= 0 ? "readonly" : ""}
                                        style="height: 45px; width: 60px;">
                                 <div class="ms-2 d-flex flex-column">
-                                    <button class="btn border-0 p-0" type="button" onclick="increase()"><i
+                                    <button class="btn border-0 p-0 ${product.stock <= 0 ? "disabled" : ""}" type="button" onclick="increase()"><i
                                             class="bi bi-chevron-up"></i></button>
-                                    <button class="btn border-0 p-0" type="button" onclick="decrease()"><i
+                                    <button class="btn border-0 p-0 ${product.stock <= 0 ? "disabled" : ""}" type="button" onclick="decrease()"><i
                                             class="bi bi-chevron-down"></i></button>
                                 </div>
                             </div>
                         </div>
-
+                        <div>
+                            <c:if test="${product.stock <= 0}">
+                                <p class="text-danger my-3 fs-3">Hết hàng</p>
+                            </c:if>
+                        </div>
                         <div class="mt-4">
 
                             <input type="hidden" name="action" value="create-cart"/>
                             <input type="hidden" name="accountId" value="${sessionScope.account.id}"/>
-                            <input type="hidden" name="productId" value="${product.productId}"/>
-                            <input type="hidden" name="productName" value="${product.productName}"/>
-                            <input type="hidden" name="productImg" value="${product.linkImg}"/>
-                            <input type="hidden" name="productPrice" value="${product.productPrice}"/>
-                            
 
-                            <button type="submit" class="btn btn-primary btn-lg me-3">🛒 Thêm vào giỏ hàng</button>
-                             <button type="button" class="btn btn-secondary btn-lg" id="btnCheckout" onclick="goToCheckout();"> 💳 Thanh toán</button>
+                            <input type="hidden" name="productId" id="productId" value="${product.productId}">
+                            <input type="hidden" name="productName" id="productName" value="${product.productName}">
+                            <input type="hidden" name="productImg" id="productImg" value="${product.linkImg}">
+                            <input type="hidden" name="productPrice" id="productPrice" value="${product.productPrice}">    
+
+                            <button type="submit" class="btn btn-primary btn-lg me-3 ${product.stock <= 0 ? "disabled" : ""}">🛒 Thêm vào giỏ hàng</button>
+                            <button type="button" class="btn btn-secondary btn-lg ${product.stock <= 0 ? "disabled" : ""} " id="btnCheckout" onclick="goToCheckout();"> 💳 Thanh toán</button>
 
                         </div>
                     </div>
@@ -232,6 +236,13 @@
         <jsp:include page="/WEB-INF/views/includes/footer.jsp" />
 
         <script>
+            console.log(
+                    document.getElementById("quantity"),
+                    document.getElementById("productId"),
+                    document.getElementById("productName"),
+                    document.getElementById("productImg"),
+                    document.getElementById("productPrice")
+                    );
             function goToCheckout() {
                 const quantity = document.getElementById("quantity").value || 1;
                 const productId = document.getElementById("productId").value;
@@ -248,7 +259,8 @@
                     productPrice: productPrice,
                     quantity: quantity
                 });
-                window.location.href = baseUrl + "?" +params.toString();
+
+                window.location.href = baseUrl + "?" + params.toString();
             }
             // Tab chuyển đổi
             document.querySelectorAll(".tab").forEach(tab => {
@@ -261,12 +273,6 @@
                 });
             });
 
-            //         Mặc định mở tab đầu tiên
-            //        document.addEventListener("DOMContentLoaded", () => {
-            //            document.querySelector(".detail").style.display = "block";
-            //        });
-
-            // Rating sao
             // Rating sao
             document.querySelectorAll(".star").forEach(star => {
                 star.addEventListener("click", () => {
@@ -296,7 +302,9 @@
                 if (parseInt(q.value) > 1)
                     q.value = parseInt(q.value) - 1;
             }
+
         </script>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

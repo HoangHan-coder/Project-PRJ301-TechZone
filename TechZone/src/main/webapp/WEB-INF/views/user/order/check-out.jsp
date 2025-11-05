@@ -103,26 +103,29 @@
                                             </div>
                                             <div class="card-body">
                                                 <!-- Từ giỏ hàng -->
-                                                <%--
                                                 <c:if test="${not empty cartItems}">
                                                     <c:set var="subtotal" value="0"/>
                                                     <c:forEach var="item" items="${cartItems}">
                                                         <div class="row g-3 align-items-center py-2 border-bottom">
                                                             <div class="col-auto">
-                                                                <img class="product-img border rounded" src="${pageContext.request.contextPath}${item.product.linkImg}" alt="${item.product.productName}">
+                                                                <img class="product-img border rounded" src="${pageContext.request.contextPath}/${item.product.linkImg}" alt="${item.product.productName}">
                                                             </div>
                                                             <div class="col">
                                                                 <p class="mb-1 fw-semibold">${item.product.productName}</p>
                                                                 <small class="text-secondary">x${item.quantity}</small>
                                                             </div>
                                                             <div class="col-auto text-danger fw-semibold">
-                                                                ${item.unitPrice * item.quantity}₫
+                                                                <fmt:formatNumber value="${item.unitPrice * item.quantity}" type="number" maxFractionDigits="0"/>₫
                                                             </div>
                                                         </div>
+                                                        <input type="hidden" name="productId" value="${item.product.productId}">
+                                                        <input type="hidden" name="productName" value="${item.product.productName}">
+                                                        <input type="hidden" name="productPrice" value="${item.unitPrice}">
+                                                        <input type="hidden" name="quantity" value="${item.quantity}">
                                                         <c:set var="subtotal" value="${subtotal + (item.unitPrice * item.quantity)}"/>
                                                     </c:forEach>
                                                 </c:if>
-                                                --%>
+
                                                 <!-- Từ trang chi tiết sản phẩm -->
                                                 <c:if test="${not empty product}">
                                                     <c:set var="subtotal" value="${product.productPrice * quantity}"/>

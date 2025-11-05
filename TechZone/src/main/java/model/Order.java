@@ -138,5 +138,19 @@ public class Order {
         this.isDeleted = isDeleted;
     }
     
+    public String getStatusOrder() {
+        switch (this.status) {
+            case "PROCESSING":
+                return "Đang chờ xử lý";
+            case "PENDING":
+                return "Đang giao hàng";
+            case "COMPLETED":
+                return "Đã giao";
+            case "CANCELED":
+                return "Đã hủy";
+            default:
+                return "Đang chờ xử lý";
+        }
+    }
     
 }

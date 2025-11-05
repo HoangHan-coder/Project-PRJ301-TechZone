@@ -102,7 +102,8 @@ public class OrderItemDAO extends DBContext {
         return listOrderItems;
     }
     
-    public OrderItem getById(int id) {
+    public List<OrderItem> getByOrderId(int OrderId) {
+        List<OrderItem> items = new ArrayList<>();
         String sql = "SELECT Accounts.AccountId, Accounts.Username, Accounts.FullName, Accounts.Phone, Accounts.IsDeleted as accountIsDeleted, OrderItems.OrderItemId, OrderItems.ProductNameSnapshot, OrderItems.UnitPrice, OrderItems.Quantity, OrderItems.TotalPrice, Orders.OrderId , Orders.OrderCode, \n"
                 + "                  Orders.OrderTime, Orders.TotalAmount, Orders.ShippingFee, Orders.Status AS orderStatus, Orders.ShippingAddress, Orders.PaymentMethod, Orders.PaymentStatus, Orders.IsDeleted AS orderIsDead, Vouchers.VoucherId, Vouchers.Code AS voucherCode, Vouchers.DiscountValue, \n"
                 + "                  Vouchers.DiscountType, Vouchers.Status AS voucherStatus, Product.LinkImg\n"
@@ -111,14 +112,14 @@ public class OrderItemDAO extends DBContext {
                 + "                  OrderItems ON Orders.OrderId = OrderItems.OrderId INNER JOIN\n"
                 + "                  Product ON OrderItems.ProductId = Product.ProductId LEFT JOIN\n"
                 + "                  Vouchers ON Orders.VoucherId = Vouchers.VoucherId\n"
-                + "WHERE Accounts.IsDeleted = 0 AND  Orders.IsDeleted = 0 AND OrderItems.OrderItemId = ?;";
+                + "WHERE Accounts.IsDeleted = 0 AND  Orders.IsDeleted = 0 AND Orders.OrderId = ?;";
 
         try {
             PreparedStatement statement = this.getConnection().prepareStatement(sql);
-            statement.setInt(1, id);
+            statement.setInt(1, OrderId);
             ResultSet rs = statement.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
 
                 Account account = new Account(rs.getInt("AccountId"), rs.getString("Username"), rs.getString("FullName"), rs.getString("Phone"), rs.getBoolean("accountIsDeleted"));
                 Product product = new Product();
@@ -126,14 +127,13 @@ public class OrderItemDAO extends DBContext {
                 Voucher voucher = new Voucher(rs.getInt("VoucherId"), rs.getString("voucherCode"), rs.getBigDecimal("DiscountValue"), rs.getString("DiscountType"), rs.getString("voucherStatus"));
                 OrderCore order = new OrderCore(rs.getInt("OrderId"), account, rs.getString("OrderCode"), rs.getTimestamp("OrderTime").toLocalDateTime(), rs.getBigDecimal("TotalAmount"), rs.getBigDecimal("ShippingFee"), rs.getString("orderStatus"), rs.getString("ShippingAddress"), rs.getString("PaymentMethod"), rs.getString("PaymentStatus"), voucher, rs.getBoolean("orderIsDead"));
                 OrderItem orderItem = new OrderItem(rs.getInt("OrderItemId"), order, product, rs.getString("ProductNameSnapshot"), rs.getBigDecimal("UnitPrice"), rs.getInt("Quantity"), rs.getBigDecimal("TotalPrice"));
-
-                return orderItem;
+                items.add(orderItem);
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return null;
+        return items;
     }
 
     public int maxId() {

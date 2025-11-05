@@ -24,7 +24,7 @@
             <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
         </div>
 
-
+        <c:set var="subtotal" value="0" scope="page"/>
         <div class="container">
             <div class="row">
                 <ul class="nav justify-content-between align-items-center shadow-sm p-3 my-3 bg-body-tertiary rounded">
@@ -33,13 +33,13 @@
                     </li>
                     <div class="d-flex justify-content-end gap-4" >
                         <li class="nav-item">
-                            <p class="m-0 text-primary">MÃ ĐƠN HÀNG: ${orderItem.order.orderCode}</p>
+                            <p class="m-0 text-primary">MÃ ĐƠN HÀNG: ${order.orderCode}</p>
                         </li>
                         <li class="nav-item">
                             <p class="m-0">|</p>
                         </li>
                         <li class="nav-item">
-                            <p class="m-0 ${orderItem.order.status == 'Đã hủy' ? "text-danger" : ""}">${orderItem.order.status}</p>
+                            <p class="m-0 ${order.status == 'Đã hủy' ? "text-danger" : ""}">${order.status}</p>
                         </li>
                     </div>
                 </ul>
@@ -49,9 +49,9 @@
                     <div class="card-body">
 
                         <h5 class="card-title">Địa chỉ nhận hàng</h5>
-                        <p class="card-text">Họ tên: ${orderItem.order.account.fullName}</p>
-                        <p class="card-text">Số điện thoại: ${orderItem.order.account.phone}</p>
-                        <p class="card-text">Địa chỉ: ${orderItem.order.shippingAddress}</p>
+                        <p class="card-text">Họ tên: ${order.account.fullName}</p>
+                        <p class="card-text">Số điện thoại: ${order.account.phone}</p>
+                        <p class="card-text">Địa chỉ: ${order.shippingAddress}</p>
                         <c:if test="${responseOrder != null}">
                             <p class="card-text">Lý do: ${responseOrder.reason}</p>
                         </c:if>
@@ -62,51 +62,57 @@
                         <p class="m-0">TechZone</p>
                         <p class="m-0"><i class="bi bi-exclamation-circle"></i></p>
                     </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <div class="row g-3 align-items-center">
-                                <div class="col-auto d-flex align-items-center justify-content-center">
-                                    <img src="<c:url value="${orderItem.product.linkImg}"></c:url>" class="img-fluid rounded-start border" alt="..." style="width: 120px; height: 120px; object-fit: contain;">
-                                    </div>
-                                    <div class="col">
-                                        <div class="card-body p-0">
-                                            <p class="card-title fs-5 fw-semibold mb-1 text-truncate">${orderItem.productNameSnapshot}</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <small class="text-secondary">x${orderItem.quantity}</small>
-                                            <span class="text-danger fw-semibold"><fmt:formatNumber value="${orderItem.unitPrice}" type="number" maxFractionDigits="0"/>₫</span>
+                    <c:if test="${not empty orderItems}">
+                        <c:forEach var="orderItem" items="${orderItems}">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-auto d-flex align-items-center justify-content-center">
+                                            <img src="<c:url value="${orderItem.product.linkImg}"></c:url>" class="img-fluid rounded-start border" alt="..." style="width: 120px; height: 120px; object-fit: contain;">
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-body p-0">
+                                                    <p class="card-title fs-5 fw-semibold mb-1 text-truncate">${orderItem.productNameSnapshot}</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <small class="text-secondary">x${orderItem.quantity}</small>
+                                                    <span class="text-danger fw-semibold"><fmt:formatNumber value="${orderItem.unitPrice}" type="number" maxFractionDigits="0"/>₫</span>
+                                                   <c:set var="subtotal" value="${subtotal + (orderItem.unitPrice * orderItem.quantity)}" scope="page"/>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </c:forEach>
+                    </c:if>
+
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
                                 <td>Tổng tiền hàng</td>
-                                <td><fmt:formatNumber value="${orderItem.totalPrice}" type="number" maxFractionDigits="0"/>₫</td>
+                                <td><fmt:formatNumber value="${subtotal}" type="number" maxFractionDigits="0"/>₫</td>
                             </tr>
                             <tr>
                                 <td>Phí vận chuyển</td>
-                                <td><fmt:formatNumber value="${orderItem.order.shippingFee}" type="number" maxFractionDigits="0"/>₫</td>
+                                <td><fmt:formatNumber value="${order.shippingFee}" type="number" maxFractionDigits="0"/>₫</td>
                             </tr>
                             <tr>
                                 <td>Voucher từ TechZone</td>
-                                <c:if test="${orderItem.order.voucher.discountValue == null}">
+                                <c:if test="${order.voucher.discountValue == null}">
                                     <td>Không có</td>
                                 </c:if>
-                                <c:if test="${orderItem.order.voucher.discountValue != null}">
-                                    <c:if test="${orderItem.order.voucher.discountType == 'PERCENT'}">
-                                        <td>-<fmt:formatNumber value="${orderItem.totalPrice * (orderItem.order.voucher.discountValue/100)}" type="number" maxFractionDigits="0"/>₫</td>
+                                <c:if test="${order.voucher.discountValue != null}">
+                                    <c:if test="${order.voucher.discountType == 'PERCENT'}">
+                                        <td>-<fmt:formatNumber value="${subtotal * (order.voucher.discountValue/100)}" type="number" maxFractionDigits="0"/>₫</td>
                                     </c:if>
-                                    <c:if test="${orderItem.order.voucher.discountType != 'PERCENT'}">
-                                        <td>-<fmt:formatNumber value="${orderItem.order.voucher.discountValue}" type="number" maxFractionDigits="0"/>₫</td>
+                                    <c:if test="${order.voucher.discountType != 'PERCENT'}">
+                                        <td>-<fmt:formatNumber value="${order.voucher.discountValue}" type="number" maxFractionDigits="0"/>₫</td>
                                     </c:if>
                                 </c:if>
                             </tr>
                             <tr>
                                 <td>Thành tiền</td>
-                                <td class="fs-4 text text-danger"><fmt:formatNumber value="${orderItem.order.totalAmount}" type="number" maxFractionDigits="0"/>₫</td>
+                                <td class="fs-4 text text-danger"><fmt:formatNumber value="${order.totalAmount}" type="number" maxFractionDigits="0"/>₫</td>
                             </tr>
                             <tr>
                                 <td>Phương thức Thanh toán</td>

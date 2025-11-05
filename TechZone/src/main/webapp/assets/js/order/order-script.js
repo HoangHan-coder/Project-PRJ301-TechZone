@@ -14,6 +14,7 @@ const totalAmount = document.getElementById("totalAmount");
 console.log(discountValue.value);
 var subtotal = parseInt(subtotalValRaw.replace(/\./g, ""), 10);
 var discountAmount;
+
 selectVoucher.addEventListener("change", function () {
     const opt = selectVoucher.options[selectVoucher.selectedIndex];
     var type = opt.dataset.type;

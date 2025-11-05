@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Account;
 import model.Order;
+import model.OrderCore;
+import model.Voucher;
 
 /**
  *
@@ -21,12 +24,16 @@ import model.Order;
  */
 public class OrderDAO extends db.DBContext {
 
-    public List<Order> getAll() {
+    public List<Order> getOrderByUser(String username) {
         List<Order> list = new ArrayList<>();
         try {
 
-            String query = "SELECT * FROM Orders";
+            String query = "SELECT Orders.orderId, Accounts.accountId, Orders.OrderCode, Orders.OrderTime, Orders.TotalAmount, Orders.ShippingFee, Orders.Status, Orders.ShippingAddress, Orders.PaymentMethod, Orders.PaymentStatus, Orders.VoucherId, Orders.IsDeleted\n"
+                    + "FROM     Accounts INNER JOIN\n"
+                    + "                  Orders ON Accounts.AccountId = Orders.AccountId\n"
+                    + "WHERE  Accounts.Username = ? AND Orders.IsDeleted = 0";
             PreparedStatement statement = this.getConnection().prepareStatement(query);
+            statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
@@ -41,7 +48,7 @@ public class OrderDAO extends db.DBContext {
                 String paymentMethod = rs.getString("paymentMethod");
                 String paymentStatus = rs.getString("paymentStatus");
                 Integer voucherId = rs.getInt("voucherId");
-                boolean isDeleted = rs.getBoolean("isDelete");
+                boolean isDeleted = rs.getBoolean("IsDeleted");
                 Order order = new Order(orderId, accountId, orderCode, orderTime, totalAmount, shippingFee, status, shippingAddress, paymentMethod, paymentStatus, voucherId, isDeleted);
 
                 list.add(order);
@@ -52,11 +59,11 @@ public class OrderDAO extends db.DBContext {
         }
         return list;
     }
-    
-     public List<Order> getOrderByStatus(String statusOrder) {
-         if(statusOrder == null || statusOrder.isEmpty()) {
-             statusOrder = "";
-         }
+
+    public List<Order> getOrderByStatus(String statusOrder) {
+        if (statusOrder == null || statusOrder.isEmpty()) {
+            statusOrder = "";
+        }
         List<Order> list = new ArrayList<>();
         try {
 
@@ -89,6 +96,40 @@ public class OrderDAO extends db.DBContext {
         return list;
     }
 
+    public OrderCore getOrderByOrderId(int orderIdRaw) {
+        try {
+
+            String query = "SELECT * FROM Orders where orderId = ?";
+            PreparedStatement statement = this.getConnection().prepareStatement(query);
+            statement.setInt(1, orderIdRaw);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                int orderId = rs.getInt("orderId");
+                int accountId = rs.getInt("accountId");
+                String orderCode = rs.getString("orderCode");
+                LocalDateTime orderTime = rs.getTimestamp("orderTime").toLocalDateTime();
+                BigDecimal totalAmount = rs.getBigDecimal("totalAmount");
+                BigDecimal shippingFee = rs.getBigDecimal("shippingFee");
+                String status = rs.getString("status");
+                String shippingAddress = rs.getString("shippingAddress");
+                String paymentMethod = rs.getString("paymentMethod");
+                String paymentStatus = rs.getString("paymentStatus");
+                int voucherId = rs.getInt("voucherId");
+                boolean isDeleted = rs.getBoolean("isDeleted");
+                VoucherDAO voucherDAO = new VoucherDAO();
+                Voucher v = voucherDAO.getByVoucherId(voucherId);
+                AccountDAO accountDAO = new AccountDAO();
+                Account a = accountDAO.getById(accountId);
+                return new OrderCore(orderId, a, orderCode, orderTime, totalAmount, shippingFee, status, shippingAddress, paymentMethod, paymentStatus, v, isDeleted);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     public int maxId() {
         try {
             String sql = "select MAX(OrderId) from Orders";
@@ -116,7 +157,7 @@ public class OrderDAO extends db.DBContext {
             ps.setString(5, ShippingAddress);
             ps.setString(6, PaymentMethod);
             if (VoucherId == 0) {
-                 ps.setNull(7, java.sql.Types.INTEGER);
+                ps.setNull(7, java.sql.Types.INTEGER);
             } else {
                 ps.setInt(7, VoucherId);
             }

@@ -235,6 +235,7 @@ public class OrderListDAO extends DBContext {
             List<Orderlist> list = new ArrayList<>();
             String sql = "SELECT o.OrderId, o.OrderCode, a.FullName,o.TotalAmount,o.PaymentStatus,o.Status FROM Orders o\n"
                     + "JOIN Accounts a ON a.AccountId = o.AccountId\n"
+                    + "Where o.IsDeleted = 0\n"
                     + "ORDER BY o.OrderId\n"
                     + "OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY";
 

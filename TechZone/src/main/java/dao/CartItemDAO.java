@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import model.*;
 
 public class CartItemDAO extends db.DBContext {
@@ -18,7 +19,7 @@ public class CartItemDAO extends db.DBContext {
                 + "JOIN CartItems ci ON p.ProductId = ci.ProductId "
                 + "JOIN Carts c ON ci.CartId = c.CartId "
                 + "JOIN Accounts a ON c.AccountId = a.AccountId "
-                + "WHERE Status = 'ACTIVE' and a.AccountId = ?"; // <-------------------------------------------------
+                + "WHERE Status = 'ACTIVE' and a.AccountId = ?";
 
         try (Connection conn = this.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
@@ -27,9 +28,9 @@ public class CartItemDAO extends db.DBContext {
 
             while (rs.next()) {
                 Product pr = new Product(
+                        rs.getInt("ProductId"),
                         rs.getString("LinkImg"),
-                        rs.getString("ProductName"),
-                        rs.getInt("ProductId")
+                        rs.getString("ProductName")
                 );
                 Account ac = new Account(
                         rs.getInt("AccountId"),
@@ -71,7 +72,7 @@ public class CartItemDAO extends db.DBContext {
                 CartItem ci = new CartItem();
                 ci.setCartItemId(rs.getInt("CartItemId"));
                 // bạn có constructor/setter phù hợp, ở đây set minimal fields
-             ci.setUnitPrice(rs.getDouble("UnitPrice"));
+                ci.setUnitPrice(rs.getDouble("UnitPrice"));
                 ci.setQuantity(rs.getInt("Quantity"));
                 ci.setTotalPrice(rs.getDouble("TotalPrice"));
                 return ci;
@@ -155,7 +156,16 @@ public class CartItemDAO extends db.DBContext {
     }
 
     // Xóa sản phẩm
-
+    public boolean deleteById(int cartItemId) {
+        String sql = "DELETE FROM CartItems WHERE CartItemId = ?";
+        try (PreparedStatement ps = this.getConnection().prepareStatement(sql)) {
+            ps.setInt(1, cartItemId);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(CartItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 
     // Thêm sản phẩm (giữ để tương thích, nhưng khuyến nghị dùng incrementQuantityIfExistsOrInsert)
     public int createCartItems(int cartId, int productId, double unitPrice, int quantity) {
@@ -195,7 +205,6 @@ public class CartItemDAO extends db.DBContext {
         return null;
     }
 
-// 🟢 Tăng số lượng nếu đã có sản phẩm
     public boolean increaseQuantity(int cartItemId, int addQuantity) {
         String query = "UPDATE CartItems SET Quantity = Quantity + ? WHERE CartItemId = ?";
         try (PreparedStatement ps = this.getConnection().prepareStatement(query)) {
@@ -208,6 +217,61 @@ public class CartItemDAO extends db.DBContext {
         }
     }
 
-}
+    public List<CartItem> getListFormCart(List<Integer> selectedIds) {
+        List<CartItem> list = new ArrayList<>();
+        if (selectedIds == null || selectedIds.isEmpty()) {
+            return list; // Trả về rỗng nếu không có ID nào
+        }
+        try {
+            String sql = "SELECT p.ProductId, p.LinkImg, p.ProductName, ci.CartItemId, "
+                    + "ci.UnitPrice, ci.Quantity, ci.TotalPrice, c.CartId, c.Status, c.CreatedAt, "
+                    + "a.AccountId, a.Username "
+                    + "FROM Product p "
+                    + "JOIN CartItems ci ON p.ProductId = ci.ProductId "
+                    + "JOIN Carts c ON ci.CartId = c.CartId "
+                    + "JOIN Accounts a ON c.AccountId = a.AccountId "
+                    + "WHERE CartItemId IN ("
+                    + selectedIds.stream()
+                            .map(id -> "?")
+                            .collect(Collectors.joining(", "))
+                    + ")";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
 
-    
+            for (int i = 0; i < selectedIds.size(); i++) {
+                ps.setInt(i + 1, selectedIds.get(i));
+            }
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product pr = new Product(
+                        rs.getInt("ProductId"),
+                        rs.getString("LinkImg"),
+                        rs.getString("ProductName")
+                );
+                Account ac = new Account(
+                        rs.getInt("AccountId"),
+                        rs.getString("Username")
+                );
+                Cart cart = new Cart(
+                        rs.getInt("CartId"),
+                        ac,
+                        rs.getTimestamp("CreatedAt").toLocalDateTime(),
+                        rs.getString("Status")
+                );
+
+                CartItem ci = new CartItem(
+                        rs.getInt("CartItemId"),
+                        cart,
+                        pr,
+                        rs.getDouble("UnitPrice"),
+                        rs.getInt("Quantity"),
+                        rs.getDouble("TotalPrice")
+                );
+                list.add(ci);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CartItemDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+}

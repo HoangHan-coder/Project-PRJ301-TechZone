@@ -82,39 +82,66 @@
                 </div>
 
                 <c:choose>
-                    <c:when test="${not empty listOrder}">
-                        <c:forEach var="orderItem" items="${listOrder}">
+                    <c:when test="${not empty listOrder && not empty orders}">
+                        <c:forEach var="order" items="${orders}">
                             <div class="card my-3">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item d-flex justify-content-between">
                                         <p class="fw-bold m-2">TechZone Store</p>
-                                        <p class="m-2"><span class="${orderItem.order.status == 'Đã hủy' ? "text-danger" : "text-success"}">${orderItem.order.status}</span></p>
+                                        <p class="m-2">
+                                            <span class="${order.status == 'Đã hủy' ? 'text-danger' : 'text-success'}">
+                                                ${order.getStatusOrder()}
+                                            </span>
+                                        </p>
                                     </li>
-                                    <li class="list-group-item">
-                                        <div class="row g-3 align-items-center">
-                                            <div class="col-auto d-flex align-items-center justify-content-center">
-                                                <img src="${pageContext.request.contextPath}${orderItem.product.linkImg}"
-                                                     class="img-fluid rounded-start border" alt="..." style="width: 120px; height: 120px; object-fit: contain;">
-                                            </div>
-                                            <div class="col">
-                                                <div class="card-body p-0">
-                                                    <c:url value="/order" var="orderDetail">
-                                                        <c:param name="view" value="order-detail"/>
-                                                        <c:param name="orderItemId" value="${orderItem.orderItemId}"/>
-                                                    </c:url>
-                                                    <p class="card-title fs-5 fw-semibold mb-1 text-truncate" style="cursor: pointer;"><a class="text-decoration-none text-dark" href="${orderDetail}">${orderItem.productNameSnapshot}</a></p>
-                                                    <div class="d-flex justify-content-between align-items-center"><small class="text-secondary">x${orderItem.quantity}</small><span class="text-danger fw-semibold"><fmt:formatNumber value="${orderItem.unitPrice}" type="number" maxFractionDigits="0"/>₫</span></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
+
+                                    <c:url value="/order" var="orderDetail">
+                                        <c:param name="view" value="order-detail"/>
+                                        <c:param name="orderId" value="${order.orderId}"/>
+                                    </c:url>
+
+                                    <a class="text-decoration-none text-dark" href="${orderDetail}">
+                                        <c:forEach var="orderItem" items="${listOrder}">
+                                            <c:if test="${orderItem.order.orderId == order.orderId}">
+                                                <li class="list-group-item">
+                                                    <div class="row g-3 align-items-center">
+                                                        <div class="col-auto d-flex align-items-center justify-content-center">
+                                                            <img src="${pageContext.request.contextPath}${orderItem.product.linkImg}"
+                                                                 class="img-fluid rounded-start border"
+                                                                 alt="${orderItem.productNameSnapshot}"
+                                                                 style="width:120px;height:120px;object-fit:contain;">
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="card-body p-0">
+                                                                <p class="card-title fs-5 fw-semibold mb-1 text-truncate">${orderItem.productNameSnapshot}</p>
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <small class="text-secondary">x${orderItem.quantity}</small>
+                                                                    <span class="text-danger fw-semibold">
+                                                                        <fmt:formatNumber value="${orderItem.unitPrice}" type="number" maxFractionDigits="0"/>₫
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                            </c:if>
+                                        </c:forEach>
+                                    </a>
+
                                     <li class="list-group-item d-flex flex-column align-items-end">
-                                        <p class="mb-2">Thành tiền: <span class="fs-3 text text-danger"><fmt:formatNumber value="${orderItem.order.totalAmount}" type="number" maxFractionDigits="0"/>₫</span></p>     
+                                        <p class="mb-2">
+                                            Thành tiền: 
+                                            <span class="fs-3 text text-danger">
+                                                <fmt:formatNumber value="${order.totalAmount}" type="number" maxFractionDigits="0"/>₫
+                                            </span>
+                                        </p>     
                                     </li>
                                 </ul>
                             </div>
                         </c:forEach>
                     </c:when>
+
                     <c:otherwise>
                         <div class="card my-3">
                             <ul class="list-group list-group-flush">
@@ -123,7 +150,7 @@
                                     <p class="m-2"><span class="text-secondary">—</span></p>
                                 </li>
                                 <li class="list-group-item">
-                                    <div class="d-flex flex-column justify-content-center align-items-center py-5" style="min-height: 280px;">
+                                    <div class="d-flex flex-column justify-content-center align-items-center py-5" style="min-height:280px;">
                                         <i class="bi bi-box-seam fs-1 text-secondary"></i>
                                         <p class="mt-2 mb-0 text-secondary">Không có sản phẩm</p>
                                     </div>
@@ -132,6 +159,7 @@
                         </div>
                     </c:otherwise>
                 </c:choose>
+
             </div>
         </div>
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>

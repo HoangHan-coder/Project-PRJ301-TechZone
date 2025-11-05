@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import model.AccountUsers;
 import model.Cart;
@@ -13,60 +14,65 @@ import model.CartItem;
 
 @WebServlet(name = "CartItemServlet", urlPatterns = {"/cartitem"})
 public class CartItemServlet extends HttpServlet {
+    private boolean isAjax(HttpServletRequest request) {
+        String xrw = request.getHeader("X-Requested-With");
+        return xrw != null && xrw.equalsIgnoreCase("XMLHttpRequest");
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action");
-        String Id = request.getParameter("cartItemId");
-        System.out.println("hello mmyy");
+        String view = request.getParameter("view");
         HttpSession session = request.getSession(false);
         AccountUsers account = (AccountUsers) session.getAttribute("account");
-
         if (account == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
-        int accountId = account.getId();
-        
-        if(action == null || action.equals("listCart")){
+        if (view == null || view.equals("listCart")) {
             CartItemDAO cartItemDAO = new CartItemDAO();
-        List<CartItem> list = cartItemDAO.getListByAccountId(accountId);
-
-        request.setAttribute("cartItems", list);
-        request.getRequestDispatcher("/WEB-INF/views/user/cart.jsp").forward(request, response);
-        }
-        
-       else if(action.equals("delete")){
+            List<CartItem> list = cartItemDAO.getListByAccountId(account.getId());
+            request.setAttribute("cartItems", list);
+            request.getRequestDispatcher("/WEB-INF/views/user/cart/cart.jsp").forward(request, response);
+        } else if (view.equals("delete")) {
+            String Id = request.getParameter("cartId");
             System.out.println(Id);
-        request.setAttribute("cartItemId", Id);
-        request.getRequestDispatcher("/WEB-INF/views/user/confirm.jsp").forward(request, response);
+            request.setAttribute("cartId", Id);
+            request.getRequestDispatcher("/WEB-INF/views/user/cart/confirm.jsp").forward(request, response);
         }
-        
-        
-        
-        
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String action = request.getParameter("action");
-
-        AccountUsers account = new AccountUsers();
-        
         System.out.println(action);
 
-        int accountId = account.getId();
         CartItemDAO cartItemDAO = new CartItemDAO();
         CartDAO cartDAO = new CartDAO();
 
+        // Yêu cầu đăng nhập cho mọi thao tác POST giỏ hàng
+        HttpSession session = request.getSession(false);
+        AccountUsers account = session == null ? null : (AccountUsers) session.getAttribute("account");
+        if (account == null) {
+            if (isAjax(request)) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json;charset=UTF-8");
+                try (PrintWriter out = response.getWriter()) {
+                    out.write("{\"status\":\"unauthorized\",\"redirect\":\"" + request.getContextPath() + "/login\"}");
+                }
+            } else {
+                response.sendRedirect(request.getContextPath() + "/login");
+            }
+            return;
+        }
+
         switch (action) {
-            // 🟢 Thêm sản phẩm vào giỏ
             case "create-cart": {
                 try {
+                    int accountId = account.getId();
                     int productId = Integer.parseInt(request.getParameter("productId"));
                     double productPrice = Double.parseDouble(request.getParameter("productPrice"));
                     int quantity = Integer.parseInt(request.getParameter("quantity"));
@@ -87,7 +93,14 @@ public class CartItemServlet extends HttpServlet {
                         } else {
                             cartItemDAO.createCartItems(cartId, productId, productPrice, quantity);
                         }
-                        response.sendRedirect("cartitem");
+                        if (isAjax(request)) {
+                            response.setContentType("application/json;charset=UTF-8");
+                            try (PrintWriter out = response.getWriter()) {
+                                out.write("{\"status\":\"ok\",\"message\":\"Added to cart\"}");
+                            }
+                        } else {
+                            response.sendRedirect("cartitem");
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -118,9 +131,8 @@ public class CartItemServlet extends HttpServlet {
             // 🔴 Xóa sản phẩm khỏi giỏ
             case "delete": {
                 try {
-                    int cartItemId = Integer.parseInt(request.getParameter("cartItemId"));
-                   
-                    boolean deleted = cartDAO.deleteItem(cartItemId);
+                    int cartId = Integer.parseInt(request.getParameter("cartId"));
+                    boolean deleted = cartDAO.deleteItem(cartId);
                     System.out.println(deleted);
                     if (deleted) {
                         response.sendRedirect("cartitem");
@@ -128,13 +140,59 @@ public class CartItemServlet extends HttpServlet {
                         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to delete item.");
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameters for delete.");
                 } catch (NumberFormatException e) {
                     System.out.println(">>>>>>>>>NUmberEx");
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameters for delete.");
                 }
 
+                break;
+            }
+
+            // 🟣 Xóa 1 CartItem theo cartItemId (per-item delete)
+            case "delete-item": {
+                try {
+                    int cartItemId = Integer.parseInt(request.getParameter("cartItemId"));
+                    boolean ok = cartItemDAO.deleteById(cartItemId);
+                    if (isAjax(request)) {
+                        response.setContentType("application/json;charset=UTF-8");
+                        try (PrintWriter out = response.getWriter()) {
+                            if (ok) out.write("{\"status\":\"ok\"}");
+                            else {
+                                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                                out.write("{\"status\":\"error\"}");
+                            }
+                        }
+                    } else {
+                        if (ok) response.sendRedirect("cartitem");
+                        else response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to delete cart item.");
+                    }
+                } catch (Exception ex) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameters for delete-item.");
+                }
+                break;
+            }
+
+            // 🟢 Xóa nhiều CartItem được chọn
+            case "delete-items": {
+                try {
+                    String[] ids = request.getParameterValues("selectedCartItemIds");
+                    boolean allOk = true;
+                    if (ids != null) {
+                        for (String s : ids) {
+                            try {
+                                int id = Integer.parseInt(s);
+                                if (!cartItemDAO.deleteById(id)) allOk = false;
+                            } catch (NumberFormatException ignore) {
+                                allOk = false;
+                            }
+                        }
+                    }
+                    if (allOk) response.sendRedirect("cartitem");
+                    else response.sendRedirect("cartitem"); // vẫn quay lại, có thể hiển thị thông báo sau
+                } catch (Exception ex) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid parameters for delete-items.");
+                }
                 break;
             }
 
@@ -149,4 +207,3 @@ public class CartItemServlet extends HttpServlet {
         return "Servlet quản lý giỏ hàng (Thêm, Cập nhật, Xóa) - dùng logic tránh duplicate items";
     }
 }
-                        

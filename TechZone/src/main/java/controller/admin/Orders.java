@@ -144,7 +144,7 @@ public class Orders extends HttpServlet {
                     break;
 
             }
-            response.sendRedirect(request.getContextPath() + "/admin/order?view=list");
+            response.sendRedirect(request.getContextPath() + "/admin/order?view=list?page=1");
         }
     }
 

@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.CartItemDAO;
 import dao.OrderDAO;
 import dao.OrderItemDAO;
 import dao.OrderListDAO;
@@ -18,6 +19,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import model.AccountUsers;
+import model.CartItem;
+import model.Order;
+import model.OrderCore;
 import model.OrderItem;
 import model.Product;
 import model.ResponseOrder;
@@ -48,6 +52,9 @@ public class OrderServlet extends HttpServlet {
             case "check-out":
                 getCheckOut(request, response);
                 break;
+            case "check-out-cart":
+                getCheckOutFromCart(request, response);
+                break;
             default:
                 getListOrder(request, response);
         }
@@ -71,26 +78,38 @@ public class OrderServlet extends HttpServlet {
         String orderStatus = request.getParameter("orderStatus");
         AccountUsers username = (AccountUsers) request.getSession().getAttribute("account");
         OrderItemDAO orderItemDAO = new OrderItemDAO();
+        OrderDAO orderDAO = new OrderDAO();
         System.out.println(username.getUsername());
         if (orderStatus == null) {
             orderStatus = "";
         }
+        List<Order> orders = orderDAO.getOrderByUser(username.getUsername());
         List<OrderItem> listOrder = orderItemDAO.getOrderItemfilterByStatus(username.getUsername(), orderStatus);
         System.out.println(listOrder.size());
+        request.setAttribute("orders", orders.reversed());
         request.setAttribute("listOrder", listOrder);
         request.getRequestDispatcher("/WEB-INF/views/user/order/order-list.jsp").forward(request, response);
     }
 
     private void getOrderDetail(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int orderItemId = Integer.parseInt(request.getParameter("orderItemId"));
-        OrderItemDAO orderItemDAO = new OrderItemDAO();
-        OrderListDAO orderListDAO = new OrderListDAO();
-        OrderItem orderItem = orderItemDAO.getById(orderItemId);
-        ResponseOrder responseOrder = orderListDAO.getResponse(orderItem.getOrder().getOrderId());
-        request.setAttribute("responseOrder", responseOrder);
-        request.setAttribute("orderItem", orderItem);
-        request.getRequestDispatcher("/WEB-INF/views/user/order/order-detail.jsp").forward(request, response);
+        try {
+            int orderId = Integer.parseInt(request.getParameter("orderId"));
+            OrderItemDAO orderItemDAO = new OrderItemDAO();
+            OrderListDAO orderListDAO = new OrderListDAO();
+            List<OrderItem> orderItems = orderItemDAO.getByOrderId(orderId);
+            OrderDAO orderDAO = new OrderDAO();
+            OrderCore order = orderDAO.getOrderByOrderId(orderId);
+            System.out.println("=== DEBUG createOrderItem parameters ===");
+            System.out.println("OrderId: " + order.getOrderId());
+            ResponseOrder responseOrder = orderListDAO.getResponse(orderId);
+            request.setAttribute("responseOrder", responseOrder);
+            request.setAttribute("orderItems", orderItems);
+            request.setAttribute("order", order);
+            request.getRequestDispatcher("/WEB-INF/views/user/order/order-detail.jsp").forward(request, response);
+        } catch (NumberFormatException ex) {
+            System.out.println("id order error");
+        }
     }
 
     private void getCheckOut(HttpServletRequest request, HttpServletResponse response)
@@ -145,7 +164,7 @@ public class OrderServlet extends HttpServlet {
                 item.setQuantity(Integer.parseInt(quantities[i]));
                 orderItems.add(item);
                 ProductDAO productDAO = new ProductDAO();
-                productDAO.updateProductStock(p.getProductId(), item.getQuantity());
+                productDAO.updateProductStock(item.getQuantity(), p.getProductId());
             }
         }
         int voucherId = Integer.parseInt(request.getParameter("voucherId"));
@@ -180,7 +199,41 @@ public class OrderServlet extends HttpServlet {
                 return;
             }
         }
+        System.out.println("______________________________________________________________________________________________________--");
         response.sendRedirect(getServletContext().getContextPath() + "/order");
+    }
+
+    private void getCheckOutFromCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String[] cartItemIds = request.getParameterValues("cartItemIds");
+        List<Integer> listCartItemId = new ArrayList<>();
+        double totalAmount = 0;
+        for (String cartItemIdRaw : cartItemIds) {
+            try {
+                int cartItemId = Integer.parseInt(cartItemIdRaw);
+                //int quantity = Integer.parseInt(request.getParameter("quantity-" + cartItemId));
+                listCartItemId.add(cartItemId);
+            } catch (NumberFormatException ex) {
+                request.getRequestDispatcher("/WEB-INF/views/includes/error.jsp").forward(request, response);
+                return;
+            }
+        }
+        CartItemDAO cartItemDAO = new CartItemDAO();
+        VoucherDAO voucherDAO = new VoucherDAO();
+        List<CartItem> cartItems = cartItemDAO.getListFormCart(listCartItemId);
+       
+        for (CartItem cartItem : cartItems) {
+            totalAmount += cartItem.getTotalPrice();
+        }
+
+        List<Voucher> vouchers = voucherDAO.getAvailableVoucher(totalAmount);
+        String error = (String) request.getSession().getAttribute("error");
+        if (error != null) {
+            request.getSession().removeAttribute("error");
+            request.setAttribute("error", error);
+        }
+        request.setAttribute("cartItems", cartItems);
+        request.setAttribute("vouchers", vouchers);
+        request.getRequestDispatcher("/WEB-INF/views/user/order/check-out.jsp").forward(request, response);
     }
 
 }

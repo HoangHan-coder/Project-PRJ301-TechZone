@@ -113,6 +113,20 @@ public class VoucherServlet extends HttpServlet {
         VoucherDAO db = new VoucherDAO();
         Pagination p = new Pagination();
         int totalRow = db.getTotalRow();
+         int totalPage;
+
+        if (totalRow % 12 == 0) {
+            totalPage = totalRow / 12;
+        } else {
+            totalPage = (totalRow / 12) + 1;
+        }
+
+        if (currentPage > totalPage) {
+            currentPage = totalPage;
+        }
+        if (currentPage < 1) {
+            currentPage = 1;
+        }
         List<Voucher> listVoucher = db.getVoucherList(currentPage);
         p.handlePagintation(request, currentPage, totalRow, "/admin/voucher?");
         request.setAttribute("listVoucher", listVoucher);

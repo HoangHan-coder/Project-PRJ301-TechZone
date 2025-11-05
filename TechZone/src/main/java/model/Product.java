@@ -27,6 +27,12 @@ public class Product {
     public Product() {
     }
 
+    public Product(int productId) {
+        this.productId = productId;
+    }
+    
+    
+
     public Product(String productName) {
         this.productName = productName;
     }
@@ -35,6 +41,12 @@ public class Product {
         this.linkImg = linkImg;
         this.productName = productName;
         this.productPrice = productPrice;
+    }
+
+    public Product(int productId, String linkImg, String productName) {
+        this.productId = productId;
+        this.linkImg = linkImg;
+        this.productName = productName;
     }
     
 

@@ -8,11 +8,11 @@
 <div>
     <jsp:include page="/WEB-INF/views/includes/header.jsp"/>
 </div>
-    <h1>Ban muon xoa ${requestScope.cartItemId} ?</h1>
+    <h1>Ban muon xoa ${requestScope.cartId} ?</h1>
 
 <form action="${pageContext.request.contextPath}/cartitem" method="POST" class="form-cart-item">
     <input type="hidden" name="action" value="delete">
-    <input type="hidden" name="cartItemId" value="${cartItemId}">
+    <input type="hidden" name="cartId" value="${cartId}">
 
 
     <div class="col">
