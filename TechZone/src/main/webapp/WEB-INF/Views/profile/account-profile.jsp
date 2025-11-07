@@ -29,6 +29,11 @@
         margin-left: 75px;
     }
 </style>
+<%
+      AccountUsers accuser = (AccountUsers) request.getAttribute("userAccountInfo");
+
+
+%>
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Profile</h1>
@@ -93,19 +98,19 @@
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label ">Full Name</div>
-                                    <div class="col-lg-9 col-md-8"><%= user.getFullname()%></div>
+                                    <div class="col-lg-9 col-md-8"><%= accuser.getFullname()%></div>
                                 </div>
 
 
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Phone</div>
-                                    <div class="col-lg-9 col-md-8"><%= user.getPhone()%></div>
+                                    <div class="col-lg-9 col-md-8"><%= accuser.getPhone()%></div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Email</div>
-                                    <div class="col-lg-9 col-md-8"><%= user.getEmail()%></div>
+                                    <div class="col-lg-9 col-md-8"><%= accuser.getEmail()%></div>
                                 </div>
 
                             </div>
@@ -119,7 +124,7 @@
                                     <div class="row mb-3">
                                         <label for="company" class="col-md-4 col-lg-3 col-form-label">UserName</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input readonly name="username" type="text" class="form-control" id="company" value="<%= user.getUsername()%>" wfd-id="id2" onblur="checkUserName()">
+                                            <input readonly name="username" type="text" class="form-control" id="company" value="<%= accuser.getUsername()%>" wfd-id="id2" onblur="checkUserName()">
                                             <p id="nameError"> </p>
                                         </div>
                                     </div>
@@ -127,7 +132,7 @@
                                     <div class="row mb-3">
                                         <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="fullName" type="text" class="form-control" id="fullName" value="<%= user.getFullname()%>" wfd-id="id1" onblur="checkFullName()">
+                                            <input name="fullName" type="text" class="form-control" id="fullName" value="<%= accuser.getFullname()%>" wfd-id="id1" onblur="checkFullName()">
                                             <p id="fullnameError"> </p>
                                         </div>
                                     </div>
@@ -137,7 +142,7 @@
                                     <div class="row mb-3">
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="text" class="form-control" id="Phone" value="<%= user.getPhone()%>" wfd-id="id6" onblur="checkPhone()">
+                                            <input name="phone" type="text" class="form-control" id="Phone" value="<%= accuser.getPhone()%>" wfd-id="id6" onblur="checkPhone()">
                                             <p id="phoneError"> </p>
                                         </div>
                                     </div>
@@ -145,7 +150,7 @@
                                     <div class="row mb-3">
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email" value="<%= user.getEmail()%>" wfd-id="id7" onblur="checkEmail()">
+                                            <input name="email" type="email" class="form-control" id="Email" value="<%= accuser.getEmail()%>" wfd-id="id7" onblur="checkEmail()">
                                             <p id="emailError"> </p>
                                         </div>
                                     </div>
