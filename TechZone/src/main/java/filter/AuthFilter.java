@@ -21,8 +21,10 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author acer
  */
-@WebFilter(filterName = "AuthFilter", urlPatterns = {"/admin/*", "/order", "/cartitem"})
+@WebFilter(filterName = "AuthFilter", urlPatterns = {"/profile","/order","/cartitem"})
 public class AuthFilter implements Filter {
+    
+    
 
     /**
      *
@@ -45,7 +47,11 @@ public class AuthFilter implements Filter {
         } else {
             chain.doFilter(request, response);
         }
-
+        
     }
+    
+    
 
+    
+    
 }

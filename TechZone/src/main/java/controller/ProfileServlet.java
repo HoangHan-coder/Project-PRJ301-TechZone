@@ -4,6 +4,9 @@
  */
 package controller;
 
+import dao.AccountDAO;
+import dao.AuthDAO;
+import jakarta.jms.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +14,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.AccountUsers;
 
 /**
  *
@@ -34,17 +39,16 @@ public class ProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        if(action == null || action.equals("annoucement")){
-            request.setAttribute("active profile", "true");
-            request.getRequestDispatcher("/WEB-INF/views/profile/profile.jsp").forward(request, response);
-        } else if (action.equals("voucher")){
-            request.setAttribute("active voucher", "true");
-             request.getRequestDispatcher("/WEB-INF/views/profile/voucher.jsp").forward(request, response);
-            
-        } else if(action.equals("setting")){
-            request.setAttribute("active account_profile", "true");
+        HttpSession session = request.getSession(false);
+        AccountUsers accuser = (AccountUsers) session.getAttribute("account");
+        
+        AuthDAO daoAcc = new AuthDAO();
+        if(action == null || action.equals("setting")){
+            System.out.println(accuser.getId());
+            AccountUsers user = daoAcc.getAccounts(accuser.getId());
+            request.setAttribute("userAccountInfo", user);
             request.getRequestDispatcher("/WEB-INF/views/profile/account-profile.jsp").forward(request, response);
-        }
+        } 
     }
 
     /**
@@ -58,12 +62,40 @@ public class ProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         String action = request.getParameter("action");
-        String name = request.getParameter("name");
+        
+        AuthDAO daoAcc = new AuthDAO();
+        PrintWriter out = response.getWriter();
+        if(action.equals("update")){
+            String name = request.getParameter("name");
         String fullname = request.getParameter("fullname");
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
-        
+            int success = daoAcc.updateAccount(name, fullname, email, phone);
+            if(success == 1){
+                 String json = "{ \"success\": true, \"message\":\"Update successfully!\" }";
+            out.print(json);
+            } else {
+                 String json = "{ \"success\": false, \"message\":\"Update failure!\" }";
+            out.print(json);
+            }
+            out.flush();
+        } else if (action.equals("updatepassword")){
+            String name = request.getParameter("name");
+            String password = request.getParameter("password");
+            String newpassword = request.getParameter("newpassword");
+            int success = daoAcc.updatePassword(name , password, newpassword);
+            if(success == 1){
+                 String json = "{ \"success\": true, \"message\":\"Update password successfully!\" }";
+            out.print(json);
+            } else {
+                 String json = "{ \"success\": false, \"message\":\"Update password failure!, current password is not correct!\" }";
+            out.print(json);
+            }
+            out.flush();
+        }
         
         
     }

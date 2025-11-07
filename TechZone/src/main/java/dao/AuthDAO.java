@@ -12,8 +12,12 @@ import java.sql.SQLException;
 import model.AccountUsers;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Account;
 /**
  *
  * @author acer
@@ -84,5 +88,60 @@ public class AuthDAO extends DBContext{
         return 0;
         
         
+    }
+    
+    public int updateAccount(String name, String fullname, String email, String phone){
+        try {
+        String query = "Update Accounts set FullName = ?, Email = ?, Phone = ? where Username = ?";
+        PreparedStatement statement = (PreparedStatement) this.getConnection().prepareStatement(query);
+        
+            statement.setString(1, fullname);
+            statement.setString(2, email);
+            statement.setString(3, phone);
+            statement.setString(4, name);
+        return statement.executeUpdate();
+        } catch (SQLException ex) {
+            System.getLogger(AuthDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+         return 0;
+    }
+    
+    
+    public int updatePassword(String name ,String password, String newpassword){
+        try {
+        String query = "Update Accounts set PasswordHash = ? where PasswordHash = ? and Username = ?";
+        PreparedStatement statement = (PreparedStatement) this.getConnection().prepareStatement(query);
+        
+            statement.setString(1, this.hashMd5(newpassword));
+            statement.setString(2, this.hashMd5(password));
+            statement.setString(3, name);
+            
+        return statement.executeUpdate();
+        } catch (SQLException ex) {
+            System.getLogger(AuthDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            return 0;
+        }
+         
+    }
+    
+    
+    public AccountUsers getAccounts(int id) {
+        try {
+            
+            
+            String query = "SELECT AccountId, Username, PasswordHash, FullName, Email, Phone, RoleName,isDeleted FROM Accounts WHERE AccountId = ?";
+
+            PreparedStatement statement = this.getConnection().prepareStatement(query);
+            statement.setInt(1, id);
+
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()){
+                return new AccountUsers(rs.getInt("AccountId"), rs.getString("Username"), rs.getString("PasswordHash"), rs.getString("FullName"),rs.getString("Email"),rs.getString("Phone"),rs.getString("RoleName"),rs.getBoolean("isDeleted"));
+            }
+          
+        } catch (SQLException ex) {
+            Logger.getLogger(AuthDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

@@ -1,4 +1,5 @@
-
+<%@page import="model.AccountUsers"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
     .input-group .form-select,
     .input-group .form-control,
@@ -15,8 +16,17 @@
         outline: none !important;
         box-shadow: none !important;
     }
+
+    .liststyle{
+        list-style: none;
+        transform: translateY(-14px);
+        z-index: 1;
+    }
 </style>
 
+<%
+    AccountUsers user = (AccountUsers) session.getAttribute("account");
+%>
 <!-- Top Navbar -->
 <div class="bg-light border-bottom">
     <div class="container d-flex justify-content-between align-items-center py-2">
@@ -55,9 +65,9 @@
 <nav class="navbar navbar-expand-lg" style="background-color: #285dde; height: 70px"> 
     <div class="container-fluid d-flex justify-content-between align-items-center">
 
-        <!-- N�t b?m Shop By Categories -->
+        <!-- Nút bấm Shop By Categories -->  
         <div class="dropdown">
-            <!-- N�t b?m -->
+            <!-- Nút bấm -->
             <a class="d-flex align-items-center text-white fw-bold me-3 text-decoration-none dropdown-toggle" 
                href="#" id="categoriesDropdown" role="button" 
                data-bs-toggle="dropdown" aria-expanded="false">
@@ -65,50 +75,90 @@
                 <span>Shop By Categories</span>
             </a>
 
-            <!-- Menu x? xu?ng -->
+            <!-- Menu xổ xuống -->
             <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=phone">SMARTPHONE</a></li>
-                <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=laptop">LAPTOP</a></li>
-                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/products?category=accessory">ACCESSORY</a></li>
+                <li><a class="dropdown-item" href="#">Weekly Bestsellers</a></li>
+                <li><a class="dropdown-item" href="#">Featured Products</a></li>
+                <li><a class="dropdown-item" href="#">New Arrivals</a></li>
             </ul>
         </div>
         <!-- Search Bar -->
-        <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" 
-              action="${pageContext.request.contextPath}/search" method="post">
-            <input type="hidden" name="action" value="search">
+        <form class="d-flex justify-content-center mx-3 flex-grow-1 my-0" role="search">
             <div class="input-group" style="max-width: 600px; width: 100%;">
-                <input class="form-control border-0" 
-                       type="search" 
-                       name="txtSearch" 
-                       placeholder="Search products..." 
-                       aria-label="Search" 
-                       required>
-                <button class="btn btn-light border-0" type="submit">
+               
+                <input class="form-control border-0" type="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+                <button class="btn btn-light" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </form>
 
-
         <!-- Icons -->
         <div class="d-flex align-items-center text-white">
             <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-arrow-left-right"></i></a>
-            <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-person"></i></a>
-            <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-heart"></i></a>
+            <a href="${pageContext.request.contextPath}/profile" class="text-white mx-2 fs-5"><li class="nav-item dropdown pe-3 liststyle"></li></a>
 
-            <!-- Cart with badge -->
-            <div class="position-relative mx-2">
-                <a href="#" class="text-white fs-5"><i class="bi bi-cart"></i></a>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    0
-                </span>
-            </div>
 
-            <!-- Price -->
-            <span class="ms-2 fw-bold">$0</span>
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <!-- <img src="./profile-img.jpg" alt="Profile" class="rounded-circle"> -->
+                    <span class="d-none d-md-block ps-2"><i class="bi bi-person"></i> <%= user != null ? user.getUsername() : ""%></span>
+                </a><!-- End Profile Iamge Icon -->
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    
+                   
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/profile">
+                            <i class="bi bi-person"></i>
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                   
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-gear"></i>
+                            <span>Don Mua</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+
+                    <!--            <li>
+                                  <hr class="dropdown-divider">
+                                </li>-->
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Sign Out</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+            <!-- End Profile Dropdown Items -->
+        </div>
+        <a href="#" class="text-white mx-2 fs-5"><i class="bi bi-heart"></i></a>
+
+        <!-- Cart with badge -->
+        <div class="position-relative mx-2">
+            <a href="#" class="text-white fs-5"><i class="bi bi-cart"></i></a>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0
+            </span>
         </div>
 
+        <!-- Price -->
+        <span class="ms-2 fw-bold">$0</span>
     </div>
+
+</div>
 </nav>
 
 <!-- Bootstrap Icons -->
