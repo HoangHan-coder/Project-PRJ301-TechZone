@@ -12,8 +12,12 @@ import java.sql.SQLException;
 import model.AccountUsers;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Account;
 /**
  *
  * @author acer
@@ -118,5 +122,26 @@ public class AuthDAO extends DBContext{
             return 0;
         }
          
+    }
+    
+    
+    public AccountUsers getAccounts(int id) {
+        try {
+            
+            
+            String query = "SELECT AccountId, Username, PasswordHash, FullName, Email, Phone, RoleName,isDeleted FROM Accounts WHERE AccountId = ?";
+
+            PreparedStatement statement = this.getConnection().prepareStatement(query);
+            statement.setInt(1, id);
+
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()){
+                return new AccountUsers(rs.getInt("AccountId"), rs.getString("Username"), rs.getString("PasswordHash"), rs.getString("FullName"),rs.getString("Email"),rs.getString("Phone"),rs.getString("RoleName"),rs.getBoolean("isDeleted"));
+            }
+          
+        } catch (SQLException ex) {
+            Logger.getLogger(AuthDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

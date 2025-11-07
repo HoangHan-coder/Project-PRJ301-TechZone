@@ -6,6 +6,7 @@ package controller;
 
 import dao.AccountDAO;
 import dao.AuthDAO;
+import jakarta.jms.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +14,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.AccountUsers;
 
 /**
  *
@@ -36,8 +39,14 @@ public class ProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
+        HttpSession session = request.getSession(false);
+        AccountUsers accuser = (AccountUsers) session.getAttribute("account");
+        
+        AuthDAO daoAcc = new AuthDAO();
         if(action == null || action.equals("setting")){
-//            request.setAttribute("active profile", "true");
+            System.out.println(accuser.getId());
+            AccountUsers user = daoAcc.getAccounts(accuser.getId());
+            request.setAttribute("userAccountInfo", user);
             request.getRequestDispatcher("/WEB-INF/views/profile/account-profile.jsp").forward(request, response);
         } 
     }
