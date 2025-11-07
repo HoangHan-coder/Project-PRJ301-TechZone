@@ -5,11 +5,9 @@
 package controller;
 
 import com.google.gson.Gson;
-import dao.AccountDAO;
 import dao.AdminProductDAO;
 import dao.ProductDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -36,7 +34,7 @@ public class AdminProductServlet extends HttpServlet {
 
    
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
