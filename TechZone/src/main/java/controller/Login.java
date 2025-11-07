@@ -93,7 +93,7 @@ public class Login extends HttpServlet {
             }
 
         } else {
-            response.sendRedirect(getServletContext().getContextPath() + "/login");
+            response.sendRedirect(getServletContext().getContextPath() + "/login?error=true");
         }
 
     }

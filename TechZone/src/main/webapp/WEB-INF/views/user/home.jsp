@@ -253,7 +253,7 @@
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
                                 <a href="products?action=detail&id=${p.productId}">
-                                    <img src="${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
+                                    <img src="${pageContext.request.contextPath}/${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
                                         <fmt:formatNumber value="${p.productPrice}" type="number" maxFractionDigits="0"/> VND
@@ -338,7 +338,7 @@
         </section>
 
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!--        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
     </body>
 
 </html>

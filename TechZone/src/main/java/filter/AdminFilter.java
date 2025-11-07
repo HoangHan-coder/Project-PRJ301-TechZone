@@ -24,7 +24,7 @@ import model.AccountUsers;
  *
  * @author acer
  */
-@WebFilter(filterName = "AdminFilter", urlPatterns = {"/admin"})
+@WebFilter(filterName = "AdminFilter", urlPatterns = {"/admin/product"})
 public class AdminFilter implements Filter {
     
    

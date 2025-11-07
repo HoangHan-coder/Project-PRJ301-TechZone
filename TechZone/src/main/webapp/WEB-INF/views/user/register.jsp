@@ -252,8 +252,10 @@
                 } else {
                     if(con_pass === password){
                     document.getElementById("pass1").innerHTML = "";
+                    return true;
                 } else {
                     document.getElementById("pass1").innerHTML = "password is not correct, please enter to confirm password again";
+                    return false;
                 }
                 }
                 
@@ -268,7 +270,8 @@
                 if (username !== "" && password !== "" && phone !== "") {
                     if (validatePhone()) {
                         if (password.length >= 8) {
-                            try {
+                            if(checkConfirmPassword()){
+                                try {
                                 const res = await fetch("http://localhost:8080/TechZone/register", {
                                     method: "POST",
                                     headers: {"Content-Type": "application/x-www-form-urlencoded"},
@@ -280,7 +283,7 @@
                                 if (data.success) {
                                     alert(data.message + " ,Hello: " + username);
 
-                                    // ✅ Chuyển hướng sang trang Home (dashboard.html)
+                                    
                                     window.location.href = "${pageContext.request.contextPath}/login";
                                 } else {
                                     alert("register failed: ");
@@ -290,6 +293,10 @@
                                 document.getElementById("error").innerHTML = "Error: cannot connect to server.";
 
                             }
+                            } else {
+                                document.getElementById("error").innerHTML = "error, confirm password must be equal to password";
+                            }
+                            
                         } else {
                             document.getElementById("error").innerHTML = "error, password must be greater than or equal 8 character";
                         }
