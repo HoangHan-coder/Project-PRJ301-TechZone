@@ -4,6 +4,7 @@
     Author     : acer
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,11 +109,24 @@
                 #lab{
                     margin-left: 40px;
                 }
+                
+                .infor{
+                    margin-left: 40px;
+                    width: 450px;
 
-            </style>
+                    padding: 10px;
+                    font-size: 14px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                }
+
+                #buterror{
+                    transform: translateY(-6px);
+                }            
+        </style>
         </head>
         <body>
-            <header>
+            <header> 
                 <div>
                     <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
                 </div>
@@ -135,10 +149,17 @@
                         <label id="lab" for="password" class="form-label">password</label>
                         <input class="form-control" id="inputtext" type="text" name="password" placeholder="Enter your password" required="please enter your password">
                         <br>
+                        <c:if test="${not empty param.error}">
+                                <div class="alert alert-danger alert-dismissible fade show infor" role="alert">
+                                    Username or password is not correct!
+                                    <button id="buterror" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </c:if>
                         <input type="submit" value="login" class="button">
                         <br>
                         <p>you do not have account? <a style="text-decoration: none;" href="${pageContext.request.contextPath}/register">Sign Up</a></p>
                     </form>
+                    
                 </div>
 
 

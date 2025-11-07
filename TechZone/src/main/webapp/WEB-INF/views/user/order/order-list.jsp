@@ -51,7 +51,7 @@
 
     <body>
         <div>
-            <jsp:include page="/WEB-INF/views/includes/header.jsp"/>
+            <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
         </div>
         <div class="history-order">
             <div class="container-fluid">

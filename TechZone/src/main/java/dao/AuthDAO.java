@@ -87,8 +87,36 @@ public class AuthDAO extends DBContext{
     }
     
     public int updateAccount(String name, String fullname, String email, String phone){
+        try {
+        String query = "Update Accounts set FullName = ?, Email = ?, Phone = ? where Username = ?";
+        PreparedStatement statement = (PreparedStatement) this.getConnection().prepareStatement(query);
         
-        return 0;
+            statement.setString(1, fullname);
+            statement.setString(2, email);
+            statement.setString(3, phone);
+            statement.setString(4, name);
+        return statement.executeUpdate();
+        } catch (SQLException ex) {
+            System.getLogger(AuthDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+         return 0;
+    }
+    
+    
+    public int updatePassword(String name ,String password, String newpassword){
+        try {
+        String query = "Update Accounts set PasswordHash = ? where PasswordHash = ? and Username = ?";
+        PreparedStatement statement = (PreparedStatement) this.getConnection().prepareStatement(query);
         
+            statement.setString(1, this.hashMd5(newpassword));
+            statement.setString(2, this.hashMd5(password));
+            statement.setString(3, name);
+            
+        return statement.executeUpdate();
+        } catch (SQLException ex) {
+            System.getLogger(AuthDAO.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            return 0;
+        }
+         
     }
 }
