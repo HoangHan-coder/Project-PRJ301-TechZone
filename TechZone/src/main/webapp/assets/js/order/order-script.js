@@ -11,20 +11,14 @@ const summaryTotal = document.getElementById("summaryTotal");
 const btnVoucher = document.getElementById("btnVoucher");
 const voucherVal = document.getElementById("voucherVal");
 const totalAmount = document.getElementById("totalAmount");
-const shippingFee = document.getElementById("shippingFee");
- console.log(parseFloat(shippingFee));
-console.log(discountValue.value);
-var subtotal = parseInt(subtotalValRaw.replace(/\./g, ""), 10);
+const shippingFee = parseInt("150000");
+var subtotal =  parseInt(subtotalValRaw.replace(/[^\d]/g, ""), 10);
 var discountAmount;
 
 selectVoucher.addEventListener("change", function () {
     const opt = selectVoucher.options[selectVoucher.selectedIndex];
     var type = opt.dataset.type;
     var discountVal = parseFloat(opt.dataset.value);
-    console.log(opt.textcontent);
-
-    console.log(discountPercent); // => "PERCENT" hoặc "FIXED"
-    console.log(subtotal);
 
     if (type === "PERCENT") {
         var discountPercent = discountVal;
@@ -39,9 +33,10 @@ selectVoucher.addEventListener("change", function () {
 });
 
 btnVoucher.addEventListener("click", function () {
-   
+    console.log(subtotal);
     const totalAfterDiscount = subtotal + shippingFee - discountAmount;
     totalAmount.value = totalAfterDiscount;
+    console.log(totalAfterDiscount);
     voucherVal.innerHTML = "-" + discountAmount.toLocaleString("vi-VN") + "₫";
     summaryTotal.innerHTML = totalAfterDiscount.toLocaleString("vi-VN") + "₫";
 });

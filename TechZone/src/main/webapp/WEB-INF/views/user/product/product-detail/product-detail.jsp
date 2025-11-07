@@ -113,7 +113,7 @@
                         <div class="d-flex align-items-center w-100 mt-4">
                             <p class="fs-5 me-3 mb-0">Số lượng:</p>
                             <div class="d-flex align-items-center" style="width: 100px;">
-                                <input type="text" class="form-control text-center " id="quantity" name="quantity" value="1" ${product.stock <= 0 ? "readonly" : ""}
+                                <input type="text" class="form-control text-center " id="quantity" name="quantity" value="1" readonly
                                        style="height: 45px; width: 60px;">
                                 <div class="ms-2 d-flex flex-column">
                                     <button class="btn border-0 p-0 ${product.stock <= 0 ? "disabled" : ""}" type="button" onclick="increase()"><i
@@ -295,7 +295,10 @@
             // Nút tăng/giảm số lượng
             function increase() {
                 const q = document.getElementById("quantity");
-                q.value = parseInt(q.value) + 1;
+                if(${product.stock} > parseInt(q.value)) {
+                    q.value = parseInt(q.value) + 1;
+                }
+                    
             }
             function decrease() {
                 const q = document.getElementById("quantity");

@@ -169,7 +169,7 @@ public class OrderServlet extends HttpServlet {
                 orderItems.add(item);
                 ProductDAO productDAO = new ProductDAO();
                 productDAO.updateProductStock(item.getQuantity(), p.getProductId());
-                if(cartItemIds[i] != null) {
+                if(cartItemIds != null) {
                     CartItemDAO cartItemDAO = new CartItemDAO();
                     cartItemDAO.deleteById(Integer.parseInt(cartItemIds[i]));
                 }
