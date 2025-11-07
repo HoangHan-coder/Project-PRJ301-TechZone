@@ -41,8 +41,11 @@
     </style>
 </head>
 <body>
+    <%@include file="WEB-INF/views/includes/navbar.jsp" %>
     <h1>404</h1>
     <p>Trang bạn yêu cầu không tồn tại hoặc đã bị xóa.</p>
-    <button type="button" onclick="history.back(); return false;">🏠 Quay lại trang chủ</button>
+    <a href="${pageContext.request.contextPath}/products" class="btn btn-primary">🏠 Quay lại trang chủ</a>
+    <button class="btn btn-primary" type="button" onclick="history.back(); return false;">Quay lại</button>
+    <%@include file="WEB-INF/views/includes/footer.jsp.jsp" %>
 </body>
 </html>

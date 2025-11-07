@@ -60,6 +60,7 @@
                             <%-- THÊM CLASS VÀ DATA CHO JS --%>
                             <input type="checkbox" class="me-3 cart-item-checkbox" 
                                    data-price="${cartItem.unitPrice}"
+                                   data-cart-id="${cartItem.cart.cartId}"
                                    data-item-id="${cartItem.cartItemId}">
                             <img src="${cartItem.product.linkImg}" alt="${cartItem.product.productName}"
                                  class="img-fluid me-3 rounded" style="width: 80px; height: 80px; object-fit: cover;">

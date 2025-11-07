@@ -24,16 +24,17 @@ import model.Voucher;
  */
 public class OrderDAO extends db.DBContext {
 
-    public List<Order> getOrderByUser(String username) {
+    public List<Order> getOrderByUser(String username, String statusOrder) {
         List<Order> list = new ArrayList<>();
         try {
 
             String query = "SELECT Orders.orderId, Accounts.accountId, Orders.OrderCode, Orders.OrderTime, Orders.TotalAmount, Orders.ShippingFee, Orders.Status, Orders.ShippingAddress, Orders.PaymentMethod, Orders.PaymentStatus, Orders.VoucherId, Orders.IsDeleted\n"
                     + "FROM     Accounts INNER JOIN\n"
                     + "                  Orders ON Accounts.AccountId = Orders.AccountId\n"
-                    + "WHERE  Accounts.Username = ? AND Orders.IsDeleted = 0";
+                    + "WHERE  Accounts.Username = ? AND Orders.IsDeleted = 0 AND Orders.Status LIKE ? ;";
             PreparedStatement statement = this.getConnection().prepareStatement(query);
             statement.setString(1, username);
+            statement.setString(2,  "%" + statusOrder + "%");
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {

@@ -220,8 +220,6 @@
                 }
             }
             .summary-box {
-                max-width: 500px;
-                margin: 40px auto;
                 background: #fff;
                 border-radius: 10px;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -381,46 +379,46 @@
                     </table>
 
                 </div>
-            </div>
-            <!-- Bảng tổng kết -->
-            <div class="summary-box">
-                <h3>Thông tin thanh toán</h3>
-                <table class="summary-table">
-                    <tr>
-                        <td>Phí vận chuyển:</td>
-                        <td class="value">${String.format("%,.0f", 150000.0)}₫</td>
-                    </tr>
-                    <tr>
-                        <td>Voucher giảm giá:</td>
-                        <td class="value discount">
+                <div class="summary-box card">
+                    <h3>Thông tin thanh toán</h3>
+                    <table class="summary-table">
+                        <tr>
+                            <td>Phí vận chuyển:</td>
+                            <td class="value">${String.format("%,.0f", 150000.0)}₫</td>
+                        </tr>
+                        <tr>
+                            <td>Voucher giảm giá:</td>
+                            <td class="value discount">
 
-                            <c:choose>
-                                <c:when test="${order.voucherId != null}">
-                                    -<fmt:formatNumber value="${i + 150000 - totalamount}" type="number" maxFractionDigits="0"/>đ
-                                </c:when>
-                                <c:otherwise>
-                                    -0₫
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                    </tr>
-                    <tr class="total-row">
-                        <td>Tổng thanh toán:</td>
-                        <td style="text-align: end"><fmt:formatNumber value="${totalamount}" type="number" maxFractionDigits="0"/>đ</td>
-                    </tr>
-                </table>
-                <div class="actions">
-                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
-                        <button class="btn btn-success"><i class="fa-solid fa-check"></i> Xác nhận đơn</button>
-                    </form>
-                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=completed&id=${order.orderId}">
-                        <button class="btn btn-info"><i class="fa-solid fa-truck"></i> Giao hàng</button>
-                    </form>
-                    <button type="button" class="btn btn-danger" id="cancelBtn">
-                        <i class="fa-solid fa-times"></i> Hủy đơn
-                    </button>
+                                <c:choose>
+                                    <c:when test="${order.voucherId != null}">
+                                        -<fmt:formatNumber value="${i + 150000 - totalamount}" type="number" maxFractionDigits="0"/>đ
+                                    </c:when>
+                                    <c:otherwise>
+                                        -0₫
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                        <tr class="total-row">
+                            <td>Tổng thanh toán:</td>
+                            <td style="text-align: end"><fmt:formatNumber value="${totalamount}" type="number" maxFractionDigits="0"/>đ</td>
+                        </tr>
+                    </table>
+                    <div class="actions">
+                        <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
+                            <button class="btn btn-success"><i class="fa-solid fa-check"></i> Xác nhận đơn</button>
+                        </form>
+                        <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=completed&id=${order.orderId}">
+                            <button class="btn btn-info"><i class="fa-solid fa-truck"></i> Giao hàng</button>
+                        </form>
+                        <button type="button" class="btn btn-danger" id="cancelBtn">
+                            <i class="fa-solid fa-times"></i> Hủy đơn
+                        </button>
+                    </div>
                 </div>
             </div>
+
             <!-- Modal -->
             <div id="cancelModal" class="modal-overlay">
                 <div class="modal-content">
@@ -434,32 +432,33 @@
                     </form>
                 </div>
             </div>
+            <!-- Bảng tổng kết -->
 
         </div>
-    </div>
 
-</body>
-<script>
-    const modal = document.getElementById('cancelModal');
-    const openBtn = document.getElementById('cancelBtn');
-    const closeBtn = document.getElementById('closeModal');
 
-// Mở modal khi ấn "Hủy đơn"
-    openBtn.addEventListener('click', () => {
-        modal.style.display = 'flex';
-    });
+    </body>
+    <script>
+        const modal = document.getElementById('cancelModal');
+        const openBtn = document.getElementById('cancelBtn');
+        const closeBtn = document.getElementById('closeModal');
 
-// Đóng modal khi ấn "Đóng"
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
+        // Mở modal khi ấn "Hủy đơn"
+        openBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
 
-// Đóng modal khi click ra ngoài
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        // Đóng modal khi ấn "Đóng"
+        closeBtn.addEventListener('click', () => {
             modal.style.display = 'none';
-        }
-    });
-</script>
+        });
+
+        // Đóng modal khi click ra ngoài
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
 </html>
 

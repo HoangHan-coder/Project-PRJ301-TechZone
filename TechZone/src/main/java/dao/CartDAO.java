@@ -8,7 +8,6 @@ import model.Account;
 
 public class CartDAO extends db.DBContext {
 
-    
     public int createCart(int accountId) {
         try {
             String query = "INSERT INTO Carts (AccountId, Status, CreatedAt) VALUES (?, 'ACTIVE', GETDATE())";
@@ -21,7 +20,6 @@ public class CartDAO extends db.DBContext {
         }
     }
 
-    
     public Cart getLatestCartByAccountId(int accountId) {
         String query = "SELECT TOP 1 * FROM Carts WHERE AccountId = ? ORDER BY CreatedAt DESC";
         try (PreparedStatement st = this.getConnection().prepareStatement(query)) {
@@ -41,11 +39,9 @@ public class CartDAO extends db.DBContext {
         return null;
     }
 
-    
     public Cart getOrCreateActiveCart(int accountId) {
         try (Connection conn = this.getConnection()) {
 
-            
             String select = "SELECT TOP 1 CartId FROM Carts WHERE AccountId = ? AND Status = 'ACTIVE' ORDER BY CreatedAt DESC";
             PreparedStatement ps = conn.prepareStatement(select);
             ps.setInt(1, accountId);
@@ -54,7 +50,6 @@ public class CartDAO extends db.DBContext {
                 return new Cart(rs.getInt("CartId"));
             }
 
-            
             String insert = "INSERT INTO Carts (AccountId, Status, CreatedAt) VALUES (?, 'ACTIVE', GETDATE())";
             PreparedStatement pst = conn.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             pst.setInt(1, accountId);
@@ -74,7 +69,6 @@ public class CartDAO extends db.DBContext {
         return null;
     }
 
-    
     public Cart getActiveCartByAccountId(int accountId) {
         String query = "SELECT TOP 1 * FROM Carts WHERE AccountId = ? AND Status = 'ACTIVE' ORDER BY CreatedAt DESC";
         try (PreparedStatement ps = this.getConnection().prepareStatement(query)) {
@@ -93,8 +87,21 @@ public class CartDAO extends db.DBContext {
         }
         return null;
     }
-    //---------------------------------------------------------------------------------------------->
-        public boolean deleteItem(int cartId) {
+    
+    public boolean cartIsEmty(int cartId) {
+        try {
+            String sql = "select * from CartItems where CartId = ? ";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, cartId);
+            ResultSet rs = ps.executeQuery();
+            return !rs.next();
+        } catch (SQLException ex) {
+            Logger.getLogger(CartDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public boolean deleteItem(int cartId) {
         String query = "update Carts set Status = 'DISABLE' where CartId = ?";
         try (PreparedStatement ps = this.getConnection().prepareStatement(query)) {
             ps.setInt(1, cartId);
@@ -105,4 +112,3 @@ public class CartDAO extends db.DBContext {
         }
     }
 }
-        

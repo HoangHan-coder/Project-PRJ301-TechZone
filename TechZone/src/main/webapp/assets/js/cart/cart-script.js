@@ -43,6 +43,7 @@ function updateCartSummary() {
         const quantity = parseInt(qtyInput.value);
         const price = parseFloat(cb.dataset.price);
         const id = cb.dataset.itemId;
+        const cartId = cb.dataset.cartId;
 
         if (cb.checked) {
             checkedCount++;
@@ -53,6 +54,7 @@ function updateCartSummary() {
             if (hiddenInputs) {
                 hiddenInputs.insertAdjacentHTML('beforeend', `
                     <input type="hidden" name="view" value="check-out-cart">
+                    <input type="hidden" name="cartId" value="${cartId}">
                     <input type="hidden" name="cartItemIds" value="${id}">
                     <input type="hidden" name="quantity-${id}" value="${quantity}">
                 `);

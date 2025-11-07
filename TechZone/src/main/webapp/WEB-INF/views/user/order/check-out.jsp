@@ -118,6 +118,8 @@
                                                                 <fmt:formatNumber value="${item.unitPrice * item.quantity}" type="number" maxFractionDigits="0"/>₫
                                                             </div>
                                                         </div>
+                                                        <input type="hidden" name="cartId" value="${item.cart.cartId}">  
+                                                        <input type="hidden" name="cartItemId" value="${item.cartItemId}">   
                                                         <input type="hidden" name="productId" value="${item.product.productId}">
                                                         <input type="hidden" name="productName" value="${item.product.productName}">
                                                         <input type="hidden" name="productPrice" value="${item.unitPrice}">
@@ -208,6 +210,7 @@
 
                                         <!-- Tổng kết đơn hàng -->
                                         <c:set var="shippingFee" value="${150000}"/>
+                                        
                                         <c:set var="voucherDiscount" value="${empty voucherDiscount ? 0 : voucherDiscount}"/>
                                         <c:set var="orderTotal" value="${(empty subtotal ? 0 : subtotal) + shippingFee - voucherDiscount}"/>
                                         <div class="card mt-3">
@@ -220,7 +223,7 @@
                                                 <div class="summary-row">
                                                     <span class="label-muted">Phí vận chuyển</span>
                                                     <span><fmt:formatNumber value="${shippingFee}" type="number" maxFractionDigits="0"/>₫</span>
-                                                    <input type="hidden" name="shippingFee" value="${shippingFee}">
+                                                    <input type="hidden" name="shippingFee" id="shippingFee" value="${shippingFee}">
                                                 </div>
                                                 <div class="summary-row">
                                                     <span class="label-muted">Voucher TechZone</span>

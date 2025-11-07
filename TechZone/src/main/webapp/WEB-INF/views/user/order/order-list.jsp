@@ -89,7 +89,7 @@
                                     <li class="list-group-item d-flex justify-content-between">
                                         <p class="fw-bold m-2">TechZone Store</p>
                                         <p class="m-2">
-                                            <span class="${order.status == 'Đã hủy' ? 'text-danger' : 'text-success'}">
+                                            <span class="${order.getStatusOrder() == 'Đã hủy' ? 'text-danger' : 'text-success'}">
                                                 ${order.getStatusOrder()}
                                             </span>
                                         </p>

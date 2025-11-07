@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.CartDAO;
 import dao.CartItemDAO;
 import dao.OrderDAO;
 import dao.OrderItemDAO;
@@ -76,6 +77,7 @@ public class OrderServlet extends HttpServlet {
     private void getListOrder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String orderStatus = request.getParameter("orderStatus");
+        System.out.println("orderStatus: " + orderStatus);
         AccountUsers username = (AccountUsers) request.getSession().getAttribute("account");
         OrderItemDAO orderItemDAO = new OrderItemDAO();
         OrderDAO orderDAO = new OrderDAO();
@@ -83,7 +85,7 @@ public class OrderServlet extends HttpServlet {
         if (orderStatus == null) {
             orderStatus = "";
         }
-        List<Order> orders = orderDAO.getOrderByUser(username.getUsername());
+        List<Order> orders = orderDAO.getOrderByUser(username.getUsername(), orderStatus);
         List<OrderItem> listOrder = orderItemDAO.getOrderItemfilterByStatus(username.getUsername(), orderStatus);
         System.out.println(listOrder.size());
         request.setAttribute("orders", orders.reversed());
@@ -150,6 +152,8 @@ public class OrderServlet extends HttpServlet {
         String[] productNames = request.getParameterValues("productName");
         String[] productPrices = request.getParameterValues("productPrice");
         String[] quantities = request.getParameterValues("quantity");
+        String cartId = request.getParameter("cartId");
+        String[] cartItemIds = request.getParameterValues("cartItemId");
 
         List<OrderItem> orderItems = new ArrayList<>();
 
@@ -165,6 +169,16 @@ public class OrderServlet extends HttpServlet {
                 orderItems.add(item);
                 ProductDAO productDAO = new ProductDAO();
                 productDAO.updateProductStock(item.getQuantity(), p.getProductId());
+                if(cartItemIds[i] != null) {
+                    CartItemDAO cartItemDAO = new CartItemDAO();
+                    cartItemDAO.deleteById(Integer.parseInt(cartItemIds[i]));
+                }
+            }
+            if(cartId != null) {
+                CartDAO cartDAO = new CartDAO();
+                if(cartDAO.cartIsEmty(Integer.parseInt(cartId))) {
+                    cartDAO.deleteItem(Integer.parseInt(cartId));
+                }
             }
         }
         int voucherId = Integer.parseInt(request.getParameter("voucherId"));

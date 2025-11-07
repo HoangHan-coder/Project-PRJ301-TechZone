@@ -11,6 +11,8 @@ const summaryTotal = document.getElementById("summaryTotal");
 const btnVoucher = document.getElementById("btnVoucher");
 const voucherVal = document.getElementById("voucherVal");
 const totalAmount = document.getElementById("totalAmount");
+const shippingFee = document.getElementById("shippingFee");
+ console.log(parseFloat(shippingFee));
 console.log(discountValue.value);
 var subtotal = parseInt(subtotalValRaw.replace(/\./g, ""), 10);
 var discountAmount;
@@ -37,7 +39,8 @@ selectVoucher.addEventListener("change", function () {
 });
 
 btnVoucher.addEventListener("click", function () {
-    const totalAfterDiscount = subtotal - discountAmount;
+   
+    const totalAfterDiscount = subtotal + shippingFee - discountAmount;
     totalAmount.value = totalAfterDiscount;
     voucherVal.innerHTML = "-" + discountAmount.toLocaleString("vi-VN") + "₫";
     summaryTotal.innerHTML = totalAfterDiscount.toLocaleString("vi-VN") + "₫";
