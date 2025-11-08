@@ -1,0 +1,73 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
+package controller;
+
+import dao.OrderItemDAO;
+import dao.OrderListDAO;
+import java.io.IOException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.AccountUsers;
+import model.OrderItem;
+import model.Orderlist;
+
+/**
+ *
+ * @author NgKaitou
+ */
+@WebServlet(name = "Order", urlPatterns = {"/order"})
+public class OrderServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String view = request.getParameter("view");
+        if (view == null) {
+            view = "order-list";
+        }
+
+        switch (view) {
+            case "order-list":
+                getListOrder(request, response);
+                break;
+            case "order-detail":
+                getOrderDetail(request, response);
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }
+
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+    }
+
+
+    private void getListOrder(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        AccountUsers username = (AccountUsers) request.getSession().getAttribute("account");
+        OrderItemDAO orderItemDAO = new OrderItemDAO();
+        List<OrderItem> listOrder = orderItemDAO.getOrderItemByUsername("user7");
+        request.setAttribute("listOrder", listOrder);
+        request.getRequestDispatcher("/WEB-INF/views/user/order/order-list.jsp").forward(request, response);
+    }
+
+    private void getOrderDetail(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        int orderItemId = Integer.parseInt(request.getParameter("orderItemId"));
+        OrderItemDAO orderItemDAO = new OrderItemDAO();
+        OrderItem orderItem =  orderItemDAO.getById(orderItemId);
+        request.setAttribute("orderItem", orderItem);
+        request.getRequestDispatcher("/WEB-INF/views/user/order/order-detail.jsp").forward(request, response);
+    }
+
+}

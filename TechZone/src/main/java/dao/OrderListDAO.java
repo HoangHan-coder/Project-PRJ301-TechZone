@@ -87,7 +87,7 @@ public class OrderListDAO extends DBContext {
         try {
             List<OrderItemDTO> list = new ArrayList<>();
             String sql = "SELECT p.ProductId, p.ProductName, r.UnitPrice, p.LinkImg, "
-                    + "r.Quantity, r.UnitPrice, (r.Quantity * r.UnitPrice) AS Total "
+                    + "r.Quantity, r.UnitPrice, (r.Quantity * r.UnitPrice) AS Total, p.stock "
                     + "FROM OrderItems r "
                     + "JOIN Product p ON p.ProductId = r.ProductId "
                     + "WHERE r.OrderId = ?";
@@ -101,6 +101,7 @@ public class OrderListDAO extends DBContext {
                 p.setProductPrice(rs.getBigDecimal("UnitPrice"));
                 p.setLinkImg(rs.getString("LinkImg"));
                 p.setQuantity(rs.getInt("Quantity"));
+                p.setStock(rs.getInt("Stock"));
                 // Có thể thêm field phụ nếu bạn muốn hiển thị UnitPrice và Total
                 list.add(p);
             }
@@ -191,6 +192,21 @@ public class OrderListDAO extends DBContext {
                     + " WHERE OrderId = ?";
             PreparedStatement st = this.getConnection().prepareStatement(sql);
             st.setString(1, status.toUpperCase());
+            st.setInt(2, id);
+            return st.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public int updateStock(int id, int status) {
+        try {
+            String sql = "UPDATE [dbo].[Product]\n"
+                    + "   SET [Stock] = ?\n"
+                    + " WHERE ProductId = ?";
+            PreparedStatement st = this.getConnection().prepareStatement(sql);
+            st.setInt(1, status);
             st.setInt(2, id);
             return st.executeUpdate();
         } catch (SQLException ex) {

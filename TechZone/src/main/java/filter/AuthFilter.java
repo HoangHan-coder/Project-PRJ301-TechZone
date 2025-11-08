@@ -21,10 +21,8 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author acer
  */
-@WebFilter(filterName = "AuthFilter", urlPatterns = {"/admin","/order"})
+@WebFilter(filterName = "AuthFilter", urlPatterns = {"/admin/*", "/order", "/cartitem"})
 public class AuthFilter implements Filter {
-    
-    
 
     /**
      *
@@ -35,24 +33,21 @@ public class AuthFilter implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession(false); // lấy session nếu có
-//        if (session == null || session.getAttribute("account") == null) {;
+//        if (session == null || session.getAttribute("account") == null) {
 //            resp.sendRedirect(req.getContextPath() + "/login");
 //        } else {
 //            chain.doFilter(request, response);
 //        }
                     chain.doFilter(request, response);
 
-        
-    }
-    
-    
 
-    
-    
+    }
+
 }

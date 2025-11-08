@@ -79,7 +79,7 @@ public class Orders extends HttpServlet {
                     page = 1 + "";
                 }
                 if (Integer.parseInt(page) > Math.ceil(list.size() / 10.0)) {
-                    page = String.valueOf((int)(list.size() / 10.0));
+                    page = String.valueOf((int) (list.size() / 10.0));
                 }
                 if (page != null) {
                     Pagination pagination = new Pagination();
@@ -138,10 +138,17 @@ public class Orders extends HttpServlet {
                 case "completed":
                     order.updateCompleted(Integer.parseInt(id), type);
                     break;
-                case "cancel":
+                case "canceled":
                     String text = request.getParameter("cancelReason");
+                    System.out.println(text);
+                    List<OrderItemDTO> products = order.getProductsByOrderId(Integer.parseInt(id));
+                    for (OrderItemDTO x:products) {
+                        int stock = x.getStock() + x.getQuantity();
+                        System.out.println(stock);
+                        order.updateStock(x.getProductId(), stock);
+                    }
                     order.insetCancel(text, Integer.parseInt(id));
-                    order.updateCancel(Integer.parseInt(id), type);
+//                    order.updateCancel(Integer.parseInt(id), type);
                     break;
                 case "delete":
                     order.updateDelete(Integer.parseInt(id), "True");
@@ -150,7 +157,7 @@ public class Orders extends HttpServlet {
                     break;
 
             }
-            response.sendRedirect(request.getContextPath() + "/admin/order?view=list");
+            response.sendRedirect(request.getContextPath() + "/admin/order?view=list&page=1");
         }
     }
 

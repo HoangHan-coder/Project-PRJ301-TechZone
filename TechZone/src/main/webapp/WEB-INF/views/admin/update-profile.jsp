@@ -23,12 +23,13 @@
                                 <div> khong tim thay Account voi id <%=request.getParameter("account.accountId")%></div>
                             </c:if>
                             <c:if test ="${account != null}">
-                                <form action="${pageContext.request.contextPath}/admin?action=update" method="post">
+                                <form action="${pageContext.request.contextPath}/admin/account?action=update" method="post">
                                     <input type="hidden" name="id" value="${account.accountId}">
                                     <div class="mb-3">
                                         <label class="form-label">Username</label>
                                         <input type="text" class="form-control" value="${account.userName}"  readonly>
                                         <input type="hidden" name="id" value="${account.accountId}">
+                                        <input type="hidden" name="username" value="${account.userName}">
                                     </div>
                                     <div class="mb-3">
                                         <label class="form-label">Họ và tên</label>

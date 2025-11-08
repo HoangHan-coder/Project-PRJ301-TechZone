@@ -24,11 +24,11 @@ public class OrderItemDTO {
     private LocalDateTime timeCreate;
     private int quantity;
     private String descriptionProduct;
-
+    private int stock;
     public OrderItemDTO() {
     }
 
-    public OrderItemDTO(int productId, String linkImg, String productName, BigDecimal productPrice, Map<String, String> productAttributes, int categoryId, boolean isDeleted, LocalDateTime timeCreate, int quantity, String descriptionProduct) {
+    public OrderItemDTO(int productId, String linkImg, String productName, BigDecimal productPrice, Map<String, String> productAttributes, int categoryId, boolean isDeleted, LocalDateTime timeCreate, int quantity, String descriptionProduct, int stock) {
         this.productId = productId;
         this.linkImg = linkImg;
         this.productName = productName;
@@ -39,6 +39,15 @@ public class OrderItemDTO {
         this.timeCreate = timeCreate;
         this.quantity = quantity;
         this.descriptionProduct = descriptionProduct;
+        this.stock = stock;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String getDescriptionProduct() {

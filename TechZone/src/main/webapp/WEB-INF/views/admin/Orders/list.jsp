@@ -159,7 +159,7 @@
                                     <c:when test="${i.status == 'COMPLETED'}">
                                         <span class="status completed">Đã giao</span>
                                     </c:when>
-                                    <c:when test="${i.status == 'CANCEL'}">
+                                    <c:when test="${i.status == 'CANCELED'}">
                                         <span class="status cancel">Đã hủy</span>
                                     </c:when>
                                     <c:otherwise>

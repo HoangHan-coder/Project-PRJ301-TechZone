@@ -5,7 +5,7 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@include file="../Includes/sidebar-profile.jsp" %>
+<%@include file="../includes/sidebar-profile.jsp" %>
 
 <main id="main" class="main">
     <div class="pagetitle">
@@ -328,5 +328,5 @@
 
 </script>
 
-<%@include file="../Includes/footer-profile.jsp" %>
+<%@include file="../includes/footer-profile.jsp" %>
 
