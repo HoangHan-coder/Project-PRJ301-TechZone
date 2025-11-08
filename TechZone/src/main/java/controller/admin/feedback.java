@@ -21,9 +21,6 @@ import until.Pagination;
 @WebServlet(name = "feelback", urlPatterns = {"/admin/feedback"})
 public class Feedback extends HttpServlet {
 
-
-
-    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -52,19 +49,28 @@ public class Feedback extends HttpServlet {
         }
         pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAll(), "/admin/feedback?view=list&");
         int totalpage = Integer.parseInt(request.getAttribute("totalPage") + "");
-        if (rating == null && text == null || rating.isEmpty() && text.isEmpty()) {
+        if (rating == null) {
+            rating = "";
+        }
+        if (text == null) {
+            text = "";
+        }
+        if (rating.isEmpty() && text.isEmpty()) {
             List<model.Feedback> list = feedback.getAllPage(Integer.parseInt(page1), 10);
             request.setAttribute("list", list);
         } else if (text.isEmpty()) {
+            pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAllRating(Integer.parseInt(rating)), "/admin/feedback?rating=" + rating + "&");
             List<model.Feedback> list = feedback.getRating(Integer.parseInt(page1), totalpage, Integer.parseInt(rating));
             request.setAttribute("list", list);
         } else if (rating.isEmpty()) {
+            pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAllKeyword(text), "/admin/feedback?keyword=" + text + "&");
+            int totalpageee = Integer.parseInt(request.getAttribute("totalPage") + "");
             List<model.Feedback> list = feedback.getByKeyword(Integer.parseInt(page1), totalpage, text);
             request.setAttribute("list", list);
-        } else if (text != null && rating != null) {
-            System.out.println(text);
-            System.out.println(rating);
-            List<model.Feedback> list = feedback.searchFeedback(Integer.parseInt(page1), totalpage, text, Integer.parseInt(rating));
+        } else if (!text.isEmpty() && !rating.isEmpty()) {
+            pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAllRatingAndKeyword(Integer.parseInt(rating), text), "/admin/feedback?keyword=" + text + "&" + "rating=" + rating + "&");
+            int totalpagee = Integer.parseInt(request.getAttribute("totalPage") + "");
+            List<model.Feedback> list = feedback.searchFeedback(Integer.parseInt(page1), totalpagee, text, Integer.parseInt(rating));
             request.setAttribute("list", list);
         }
         request.getRequestDispatcher("/WEB-INF/views/admin/feedback/feedback.jsp").forward(request, response);

@@ -27,6 +27,71 @@ public class FeedBackDAO extends DBContext {
         return 0;
     }
 
+    public int getAllKeyword(String text) {
+        try {
+            String sql = "SELECT COUNT(o.FeedbackId) AS result "
+                    + "FROM FeedBack o "
+                    + "JOIN Accounts a ON o.AccountId = a.AccountId "
+                    + "JOIN Product p ON p.ProductId = o.ProductId "
+                    + "JOIN Orders r ON r.OrderId = o.OrderId "
+                    + "WHERE p.ProductName LIKE ? "
+                    + "AND IsPublic = 1\n";
+
+            PreparedStatement st = this.getConnection().prepareCall(sql);
+            st.setString(1, '%' + text + '%');
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("result");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public int getAllRating(int rating) {
+        try {
+            String sql = "SELECT COUNT(o.FeedbackId) AS result "
+                    + "FROM FeedBack o\n"
+                    + "JOIN Accounts a ON o.AccountId = a.AccountId\n"
+                    + "JOIN Product p ON p.ProductId = o.ProductId\n"
+                    + "JOIN Orders r ON r.OrderId = o.OrderId\n"
+                    + "WHERE o.Rating=? AND o.IsPublic = 1\n";
+
+            PreparedStatement st = this.getConnection().prepareCall(sql);
+            st.setInt(1, rating);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("result");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public int getAllRatingAndKeyword(int rating, String text) {
+        try {
+            String sql = "SELECT COUNT(o.FeedbackId) AS result "
+                    + "FROM FeedBack o "
+                    + "JOIN Accounts a ON o.AccountId = a.AccountId "
+                    + "JOIN Product p ON p.ProductId = o.ProductId "
+                    + "JOIN Orders r ON r.OrderId = o.OrderId "
+                    + "WHERE (p.ProductName LIKE ? AND o.Rating LIKE ?) AND IsPublic = 1 ";
+
+            PreparedStatement st = this.getConnection().prepareCall(sql);
+            st.setString(1, text);
+            st.setInt(2, rating);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("result");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FeedBackDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
     public List<Feedback> getAllPage(int page, int totalpage) {
         try {
             int index = (page - 1) * 12;
@@ -175,22 +240,14 @@ public class FeedBackDAO extends DBContext {
                     + "JOIN Accounts a ON o.AccountId = a.AccountId "
                     + "JOIN Product p ON p.ProductId = o.ProductId "
                     + "JOIN Orders r ON r.OrderId = o.OrderId "
-                    + "WHERE (a.Fullname LIKE ? OR o.Rating LIKE ?) AND IsPublic = 1 ";
-
-            // Nếu rating > 0 thì thêm điều kiện lọc sao
-            if (rating > 0) {
-                sql += "AND o.Rating = ? ";
-            }
-
-            sql += "ORDER BY o.FeedbackId "
+                    + "WHERE (p.ProductName LIKE ? AND o.Rating LIKE ?) AND IsPublic = 1 "
+                    + "ORDER BY o.FeedbackId "
                     + "OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY";
 
             PreparedStatement st = this.getConnection().prepareStatement(sql);
-
-            String like = "%" + keyword + "%";
-            st.setString(1, like);
-            st.setString(2, like);
-
+            st.setString(1, '%' + keyword + '%');
+            st.setInt(2, rating);
+            st.setInt(3, index);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Account account = new Account(rs.getString("Fullname"));
@@ -272,7 +329,7 @@ public class FeedBackDAO extends DBContext {
         return list;
     }
 
-      public void addFeedback(int accountId, int productId, int orderId, String message, int rating) {
+    public void addFeedback(int accountId, int productId, int orderId, String message, int rating) {
         try {
             String sql = "INSERT INTO Feedback (AccountId, ProductId, OrderId, Message, Rating, IsPublic, Status, CreatedAt) VALUES (?, ?, ?, ?,?, 1, 'Pending', GETDATE())";
             PreparedStatement ps = getConnection().prepareStatement(sql);

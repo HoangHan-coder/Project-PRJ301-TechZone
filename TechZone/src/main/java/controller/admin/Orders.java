@@ -144,11 +144,10 @@ public class Orders extends HttpServlet {
                     List<OrderItemDTO> products = order.getProductsByOrderId(Integer.parseInt(id));
                     for (OrderItemDTO x:products) {
                         int stock = x.getStock() + x.getQuantity();
-                        System.out.println(stock);
                         order.updateStock(x.getProductId(), stock);
                     }
                     order.insetCancel(text, Integer.parseInt(id));
-//                    order.updateCancel(Integer.parseInt(id), type);
+                    order.updateCancel(Integer.parseInt(id), type);
                     break;
                 case "delete":
                     order.updateDelete(Integer.parseInt(id), "True");
