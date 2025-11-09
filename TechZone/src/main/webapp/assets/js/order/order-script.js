@@ -33,10 +33,8 @@ selectVoucher.addEventListener("change", function () {
 });
 
 btnVoucher.addEventListener("click", function () {
-    console.log(subtotal);
     const totalAfterDiscount = subtotal + shippingFee - discountAmount;
     totalAmount.value = totalAfterDiscount;
-    console.log(totalAfterDiscount);
     voucherVal.innerHTML = "-" + discountAmount.toLocaleString("vi-VN") + "₫";
     summaryTotal.innerHTML = totalAfterDiscount.toLocaleString("vi-VN") + "₫";
 });

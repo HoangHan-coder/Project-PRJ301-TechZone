@@ -45,7 +45,7 @@
     </head>
     <body>
         <div class="">
-            <jsp:include page="/WEB-INF/views/includes/header.jsp"/>
+            <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
         </div>
         <c:if test="${not empty error}">
             <div>
@@ -161,10 +161,10 @@
                                                         <label class="form-label">Chọn voucher</label>
                                                         <select class="form-select" name="voucherId" id="selectVoucher" >
                                                             <c:if test="${empty vouchers}">
-                                                                <option value="0" selected>-- Hiện không có voucher khả dụng cho đơn hàng này! --</option>
+                                                                <option value="0" data-value="0" selected>-- Hiện không có voucher khả dụng cho đơn hàng này! --</option>
                                                             </c:if>
                                                             <c:if test="${not empty vouchers}">
-                                                                <option value="0">-- Không dùng voucher --</option>
+                                                                <option value="0" data-value="0">-- Không dùng voucher --</option>
                                                                 <c:forEach var="v" items="${vouchers}">
                                                                     <option 
                                                                         value="${v.voucherId}"
@@ -188,7 +188,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="mt-2 small text-muted">
-                                                    Giảm giá hiện tại: <span class="text-success" id="discountValue">-<fmt:formatNumber value="${empty voucherDiscount ? 0 : voucherDiscount}" type="number" maxFractionDigits="0"/>₫</span>
+                                                    Giảm giá hiện tại: <span class="text-success" id="discountValue">-0₫</span>
                                                 </div>
                                             </div>
                                         </div>

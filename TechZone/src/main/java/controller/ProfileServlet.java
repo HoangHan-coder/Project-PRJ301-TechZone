@@ -4,9 +4,7 @@
  */
 package controller;
 
-import dao.AccountDAO;
 import dao.AuthDAO;
-import jakarta.jms.Session;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -26,7 +24,7 @@ public class ProfileServlet extends HttpServlet {
 
     
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *

@@ -78,21 +78,22 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-
+        //Thanh Dat MTP
         AuthDAO userdao = new AuthDAO();
-        AccountUsers accountUsers = userdao.login(username, password);
-        HttpSession session = request.getSession();
-        session.setAttribute("account", accountUsers);
-        if (accountUsers != null) {
-            if (accountUsers.getAccountroles().equals("Admin")) {
-                response.sendRedirect(getServletContext().getContextPath() + "/admin/account");
+        AccountUsers account = userdao.login(username, password);
+        if (account != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("account", account);
+            if (account.getAccountroles().equals("Admin")) {
+
+                response.sendRedirect(getServletContext().getContextPath() + "/admin");
             } else {
+
                 response.sendRedirect(getServletContext().getContextPath() + "/products");
             }
 
         } else {
-            System.out.println("_________________------------>");
-            response.sendRedirect(getServletContext().getContextPath() + "/login");
+            response.sendRedirect(getServletContext().getContextPath() + "/login?error=true");
         }
 
     }

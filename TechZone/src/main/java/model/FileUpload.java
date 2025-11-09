@@ -17,7 +17,7 @@ import java.io.OutputStream;
  */
 public class FileUpload {
 
-    public static final String UPLOAD_DIR = "D:\\SU25_SE1910_mon_hoc\\GitHub\\Project-PRJ301-TechZone\\TechZone\\src\\main\\webapp\\assets\\images";
+    public static final String UPLOAD_DIR = "D:\\Documents\\FPT_Education\\FA25\\PRJ301\\Project\\Project-PRJ301-TechZone\\TechZone\\src\\main\\webapp\\assets\\images";
 
     public static void saveFile(Part input, File output) throws IOException {
         try ( OutputStream os = new FileOutputStream(output);  InputStream in = input.getInputStream()) {

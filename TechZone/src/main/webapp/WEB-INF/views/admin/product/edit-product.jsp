@@ -20,7 +20,7 @@
         <form onsubmit="return validatesubmit()" class="product-form" action="http://localhost:8080/TechZone/admin/product" method="post" enctype="multipart/form-data">
             <input type="hidden" id="categorypro" name="action" value="updateproduct">
             <input type="hidden" id="categorypro1" name="productID" value="${productedit.productId}">
-            
+
             <div class="card mb-4 bg-light">
                 <div class="card-body">
                     <h5 class="card-title text-info mb-3">1. Thông tin Cơ bản</h5>
@@ -53,6 +53,11 @@
                                 <span class="input-group-text">VND</span>
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <label for="model" class="form-label">Model</label>
+                            <input type="text" class="form-control" id="model" value="${productedit.attributesMap['model']}" name="model" required>
+                        </div>
                         <div class="col-12">
                             <label for="description" class="form-label">Mô tả sản phẩm</label>
                             <textarea class="form-control" id="description" rows="5" name="descriptionproduct" placeholder="${productedit.descriptionProduct}" value="${productedit.descriptionProduct}" required></textarea>
@@ -67,22 +72,22 @@
                     <div class="row g-3">
                         <div class="col-lg-3 col-md-6" id="cpu">
                             <label for="cpu" class="form-label">CPU</label>
-                            <input type="text" class="form-control" value="${productedit.attributesMap['cpu']}" name="cpu" required>
+                            <input type="text" class="form-control" id="cpu1" value="${productedit.attributesMap['cpu']}" name="cpu" required>
                         </div>
                         <div class="col-lg-3 col-md-6" id="ram">
                             <label for="ram" class="form-label">RAM</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" value="${productedit.attributesMap['ram']}" name="ram" required>
+                                <input type="text" class="form-control" id="ram1" value="${productedit.attributesMap['ram']}" name="ram" required>
                                 <span class="input-group-text">GB</span>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6" id="storage">
                             <label for="storage" class="form-label">Ổ cứng (Storage)</label>
-                            <input type="text" class="form-control" value="${productedit.attributesMap['storage']}" name="storage" required>
+                            <input type="text" class="form-control" id="storage1" value="${productedit.attributesMap['storage']}" name="storage" required>
                         </div>
                         <div class="col-lg-3 col-md-6" id="os">
                             <label for="os" class="form-label">Hệ điều hành</label>
-                            <input type="text" class="form-control" value="${productedit.attributesMap['os']}" name="os" required>
+                            <input type="text" class="form-control" id="os1" value="${productedit.attributesMap['os']}" name="os" required>
                         </div>
 
                         <div class="col-md-6">
@@ -144,9 +149,9 @@
     </div>
 </div>
 <script>
-    window.addEventListener('DOMContentLoaded', function() {
-    
-    const cat = document.getElementById("category").value;
+    window.addEventListener('DOMContentLoaded', function () {
+
+        const cat = document.getElementById("category").value;
         const containercam = document.getElementById("camerainput");
         const containercpu = document.getElementById("cpu");
         const containerram = document.getElementById("ram");
@@ -181,44 +186,43 @@
         } else if (cat === '1') {
             containercam.innerHTML = "";
             let htmlcpu = `<label for="cpu" class="form-label">CPU</label>
-                            <input type="text" class="form-control" id="cpu" name="cpu" value="${productedit.attributesMap['cpu']}" required>`;
+                            <input type="text" class="form-control" id="cpu1" name="cpu" value="${productedit.attributesMap['cpu']}" required>`;
             containercpu.innerHTML = "";
             containercpu.innerHTML = htmlcpu;
 
             let htmlram = `<label for="ram" class="form-label">RAM</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="ram" name="ram" value="${productedit.attributesMap['ram']}" required>
+                                <input type="text" class="form-control" id="ram1" name="ram" value="${productedit.attributesMap['ram']}" required>
                                 <span class="input-group-text">GB</span>
                             </div>`;
             containerram.innerHTML = "";
             containerram.innerHTML = htmlram;
 
             let htmlstorage = `<label for="storage" class="form-label">Ổ cứng (Storage)</label>
-                            <input type="text" class="form-control" id="storage" name="storage" value="${productedit.attributesMap['storage']}" required>`;
+                            <input type="text" class="form-control" id="storage1" name="storage" value="${productedit.attributesMap['storage']}" required>`;
             containerstorage.innerHTML = "";
             containerstorage.innerHTML = htmlstorage;
             let htmlos = `<label for="os" class="form-label">Hệ điều hành</label>
-                            <input type="text" class="form-control" id="os" name="os" value="${productedit.attributesMap['os']}" required>`;
+                            <input type="text" class="form-control" id="os1" name="os" value="${productedit.attributesMap['os']}" required>`;
             containeros.innerHTML = "";
             containeros.innerHTML = htmlos;
         }
     });
-    
-    
-    
+
+
+
     function validatesubmit() {
         const productName = document.getElementById("productName").value.trim();
         const brand = document.getElementById("brand").value.trim();
-        const price = document.getElementById("price").value.trim();
+        const pricedraw = document.getElementById("categorypro2").value.trim();
         const model = document.getElementById("model").value.trim();
         const description = document.getElementById("description").value.trim();
-
         const weight = document.getElementById("weight").value.trim();
         const stock = document.getElementById("quantity").value.trim();
         const cat = document.getElementById("category").value;
+ const price = parseFloat(pricedraw);
 
 
-        
 
         if (cat === "1") {
             const cpu = document.getElementById("cpu1").value.trim();
@@ -236,6 +240,7 @@
             const osRegex = /^[A-Za-z0-9\s.]+$/;             // Hệ điều hành: "Windows 11", "macOS 14.2", ...
             const ramStorageRegexLaptop = /^\d+\s?(GB|TB|MB)(\s?SSD)?$/i;
             const weightRegex = /^\d+(\.\d+)?(KG)$/i;
+            const stockRegex = /^\d+$/;
 
             if (!nameRegex.test(productName)) {
                 alert("Tên sản phẩm chứa ký tự không hợp lệ!");
@@ -246,6 +251,7 @@
                 return false;
             }
             if (!numberRegex.test(price)) {
+                console.log(price);
                 alert("Giá sản phẩm phải là số!");
                 return false;
             }
@@ -269,7 +275,7 @@
                 alert("Cân nặng phải là số!");
                 return false;
             }
-            if (!/^\d+$/.test(stock)) {
+            if (!stockRegex.test(stock)) {
                 alert("Số lượng tồn kho phải là số nguyên!");
                 return false;
             }
@@ -294,6 +300,7 @@
             const osRegex = /^[A-Za-z0-9\s.]+$/;
             const ramCamRegex = /^\d+\s?(MB)$/i;
             const weightRegex = /^\d+\s?(KG)$/i;
+            const stockRegex = /^\d+$/;
 
             if (productName === "" || brand === "" || price === "" || model === "" || description === "" || cpu === "" || ram === "" || storage === "" || os === "" || weight === "" || stock === "" || cam === "") {
                 alert("Khpng duoc de trong o nhap");
@@ -335,7 +342,7 @@
                 alert("Cân nặng phải là số!, Hoac la vi du 1.8 KG");
                 return false;
             }
-            if (!/^\d+$/.test(stock)) {
+            if (!stockRegex.test(stock)) {
                 alert("Số lượng tồn kho phải là số nguyên!");
                 return false;
             }
@@ -364,6 +371,7 @@
             const ramCamRegex = /^\d+\s?(MB)$/i;
             const weightRegex = /^\d+\s?(KG)$/i;
             const colorRegex = /^[A-Za-z]+$/;
+            const stockRegex = /^\d+$/;
 
             if (productName === "" || brand === "" || price === "" || model === "" || description === "" || type === "" || connectivity === "" || color === "" || compatibility === "" || weight === "" || stock === "") {
                 alert("Khpng duoc de trong o nhap");
@@ -405,7 +413,7 @@
                 alert("Cân nặng phải là số!");
                 return false;
             }
-            if (!/^\d+$/.test(stock)) {
+            if (!stockRegex.test(stock)) {
                 alert("Số lượng tồn kho phải là số nguyên!");
                 return false;
             }
@@ -419,14 +427,15 @@
         }
         return true;
     }
-    
+
 
     function updatePrice(value) {
         value = value.replace(/[.,]/g, "");
-         document.getElementById("categorypro2").value = value;
-         
+        console.log("value" + value);
+        document.getElementById("categorypro2").value = value;
+
     }
-    
+
 </script>
 </body>
 </html>

@@ -12,7 +12,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 
 /**
  *
@@ -59,7 +58,7 @@ public class Register extends HttpServlet {
         String phone = request.getParameter("phone");
 
         AuthDAO account = new AuthDAO();
-        
+        // hello
       
         PrintWriter out = response.getWriter();
         if (account.register(username, password, phone) == 1) {

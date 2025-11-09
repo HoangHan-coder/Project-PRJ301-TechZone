@@ -44,7 +44,7 @@
                         <div class="col-md-6">
                             <label for="price" class="form-label">Giá</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="price" name="price" required>
+                                <input type="text" class="form-control" id="price" onchange="updatePrice(this.value);" name="price" required>
                                 <span class="input-group-text">VND</span>
                             </div>
                         </div>
@@ -458,7 +458,11 @@
         return true;
     }
     
-   
+   function updatePrice(value) {
+        value = value.replace(/[.,]/g, "");
+        document.getElementById("price").value = value;
+
+    }
 
 
 </script>

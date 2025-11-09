@@ -12,7 +12,7 @@
     </head>
     <body data-context-path="${pageContext.request.contextPath}">
         <div>
-            <jsp:include page="/WEB-INF/views/includes/header.jsp"/>
+            <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
         </div>
 
 

@@ -38,11 +38,6 @@ public class FeedbackServlet extends HttpServlet {
         int rating = Integer.parseInt(rating_raw);
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("account") == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
         AccountUsers acc = (AccountUsers) session.getAttribute("account");
         int accountId = acc.getId();
 
