@@ -37,6 +37,10 @@ public class Feedback extends HttpServlet {
         String rating = request.getParameter("rating");
         String text = request.getParameter("keyword");
         String id = request.getParameter("id");
+        if (text != null || rating != null) {
+            doPost(request, response);
+            return;
+        }
         if (id != null) {
             model.Feedback data = feedback.getId(Integer.parseInt(id));
             request.setAttribute("data", data);
@@ -48,7 +52,6 @@ public class Feedback extends HttpServlet {
             page1 = "1";
         }
         pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAll(), "/admin/feedback?view=list&");
-        int totalpage = Integer.parseInt(request.getAttribute("totalPage") + "");
         if (rating == null) {
             rating = "";
         }
@@ -57,20 +60,6 @@ public class Feedback extends HttpServlet {
         }
         if (rating.isEmpty() && text.isEmpty()) {
             List<model.Feedback> list = feedback.getAllPage(Integer.parseInt(page1), 10);
-            request.setAttribute("list", list);
-        } else if (text.isEmpty()) {
-            pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAllRating(Integer.parseInt(rating)), "/admin/feedback?rating=" + rating + "&");
-            List<model.Feedback> list = feedback.getRating(Integer.parseInt(page1), totalpage, Integer.parseInt(rating));
-            request.setAttribute("list", list);
-        } else if (rating.isEmpty()) {
-            pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAllKeyword(text), "/admin/feedback?keyword=" + text + "&");
-            int totalpageee = Integer.parseInt(request.getAttribute("totalPage") + "");
-            List<model.Feedback> list = feedback.getByKeyword(Integer.parseInt(page1), totalpage, text);
-            request.setAttribute("list", list);
-        } else if (!text.isEmpty() && !rating.isEmpty()) {
-            pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAllRatingAndKeyword(Integer.parseInt(rating), text), "/admin/feedback?keyword=" + text + "&" + "rating=" + rating + "&");
-            int totalpagee = Integer.parseInt(request.getAttribute("totalPage") + "");
-            List<model.Feedback> list = feedback.searchFeedback(Integer.parseInt(page1), totalpagee, text, Integer.parseInt(rating));
             request.setAttribute("list", list);
         }
         request.getRequestDispatcher("/WEB-INF/views/admin/feedback/feedback.jsp").forward(request, response);
@@ -89,16 +78,55 @@ public class Feedback extends HttpServlet {
             throws ServletException, IOException {
         FeedBackDAO feedback = new FeedBackDAO();
         String type = request.getParameter("type");
-        String id = request.getParameter("id");
-        String text = request.getParameter("adminReply");
-        if (id != null && text != null) {
-            if (feedback.updateFeedBack(Integer.parseInt(id), text) == 1) {
+        String idAdmin = request.getParameter("id");
+        String textAdmin = request.getParameter("adminReply");
+        String fill = request.getParameter("fill");
+        String rating = request.getParameter("rating");
+        String text = request.getParameter("keyword");
+        if (fill != null || rating != null || text != null) {
+            Pagination pag = new Pagination();
+            String page1 = request.getParameter("page");
+            if (page1 == null) {
+                page1 = "1";
+            }
+            pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAll(), "/admin/feedback?view=list&");
+            int totalpage = Integer.parseInt(request.getAttribute("totalPage") + "");
+            if (rating == null) {
+                rating = "";
+            }
+            if (text == null) {
+                text = "";
+            }
+            if (rating.isEmpty() && text.isEmpty()) {
+                List<model.Feedback> list = feedback.getAllPage(Integer.parseInt(page1), 10);
+                request.setAttribute("list", list);
+            } else if (text.isEmpty()) {
+                pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAllRating(Integer.parseInt(rating)), "/admin/feedback?rating=" + rating + "&");
+                int totalpagee = Integer.parseInt(request.getAttribute("totalPage") + "");
+                List<model.Feedback> list = feedback.getRating(Integer.parseInt(page1), totalpagee, Integer.parseInt(rating));
+                request.setAttribute("list", list);
+                
+            } else if (rating.isEmpty()) {
+                pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAllKeyword(text), "/admin/feedback?keyword=" + text + "&");
+                int totalpageee = Integer.parseInt(request.getAttribute("totalPage") + "");
+                List<model.Feedback> list = feedback.getByKeyword(Integer.parseInt(page1), totalpageee, text);
+                request.setAttribute("list", list);
+            } else if (!text.isEmpty() && !rating.isEmpty()) {
+                pag.handlePagintation(request, Integer.parseInt(page1), feedback.getAllRatingAndKeyword(Integer.parseInt(rating), text), "/admin/feedback?keyword=" + text + "&" + "rating=" + rating + "&");
+                int totalpagee = Integer.parseInt(request.getAttribute("totalPage") + "");
+                List<model.Feedback> list = feedback.searchFeedback(Integer.parseInt(page1), totalpagee, text, Integer.parseInt(rating));
+                request.setAttribute("list", list);
+            }
+            request.getRequestDispatcher("/WEB-INF/views/admin/feedback/feedback.jsp").forward(request, response);
+        }
+        if (idAdmin != null && textAdmin != null) {
+            if (feedback.updateFeedBack(Integer.parseInt(idAdmin), textAdmin) == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin/feedback?page=1");
             }
         }
-        if (type != null && id != null) {
+        if (type != null && idAdmin != null) {
             String iddelete = request.getParameter("id");
-            if (feedback.getUpdateDelete(Integer.parseInt(id)) == 1) {
+            if (feedback.getUpdateDelete(Integer.parseInt(idAdmin)) == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin/feedback?page=1");
             }
         }

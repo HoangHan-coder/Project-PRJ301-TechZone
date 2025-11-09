@@ -73,6 +73,12 @@ public class Orders extends HttpServlet {
             case "list":
                 List<Orderlist> list = order.getAll();
                 String page = request.getParameter("page");
+                String orderCode = request.getParameter("orderCode");
+                String status = request.getParameter("status");
+                if (orderCode != null || status != null) {
+                    doPost(request, response);
+                    return;
+                }
                 try {
                     Integer.parseInt(page);
                 } catch (Exception e) {
@@ -127,22 +133,56 @@ public class Orders extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String view = request.getParameter("view");
+        String fill = request.getParameter("fill");
+        String orderCode = request.getParameter("orderCode");
+        String status = request.getParameter("status");
         OrderListDAO order = new OrderListDAO();
-        if (view.equals("update")) {
+        Pagination pagination = new Pagination();
+        if (fill != null) {
+            String pageStr = request.getParameter("page");
+            if (orderCode.isEmpty() && status.isEmpty()) {
+                response.sendRedirect(request.getContextPath() + "/admin/order?view=list&page=1");
+                return;
+            }
+            System.out.println(status);
+            if (orderCode == null) {
+
+                orderCode = "";
+            }
+            if (status == null) {
+                status = "";
+            }
+            if (pageStr == null || pageStr.isEmpty()) {
+                pageStr = "1";
+            }
+
+            int totalOrders = order.countFilteredOrders(orderCode, status);
+            pagination.handlePagintation(
+                    request,
+                    Integer.parseInt(pageStr),
+                    totalOrders,
+                    "/admin/order?fill=fill&view=list&orderCode=" + orderCode + "&status=" + status.toLowerCase() + "&"
+            );
+
+            List<Orderlist> list = order.filterOrders(orderCode, status, Integer.parseInt(pageStr));
+            request.setAttribute("list", list);
+            request.getRequestDispatcher("/WEB-INF/views/admin/orders/list.jsp").forward(request, response);
+            return;
+        }
+        if (view.equals("update") && view != null) {
             String type = request.getParameter("type");
             String id = request.getParameter("id");
             switch (type) {
-                case "pending":
-                    order.updatePending(Integer.parseInt(id), type);
+                case "processing":
+                    order.updateProcessing(Integer.parseInt(id), type);
                     break;
                 case "completed":
                     order.updateCompleted(Integer.parseInt(id), type);
                     break;
                 case "canceled":
                     String text = request.getParameter("cancelReason");
-                    System.out.println(text);
                     List<OrderItemDTO> products = order.getProductsByOrderId(Integer.parseInt(id));
-                    for (OrderItemDTO x:products) {
+                    for (OrderItemDTO x : products) {
                         int stock = x.getStock() + x.getQuantity();
                         order.updateStock(x.getProductId(), stock);
                     }

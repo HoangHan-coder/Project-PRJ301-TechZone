@@ -45,6 +45,95 @@ public class OrderListDAO extends DBContext {
         return null;
     }
 
+    public int countFilteredOrders(String orderCode, String status) {
+        try {
+            int count = 0;
+            String sql = "SELECT COUNT(*) "
+                    + "FROM Orders o "
+                    + "JOIN Accounts a ON a.AccountId = o.AccountId "
+                    + "WHERE o.IsDeleted = 'False'";
+
+            if (orderCode != null && !orderCode.trim().isEmpty()) {
+                sql += "AND o.OrderCode LIKE ? ";
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                sql += "AND o.Status = ? ";
+            }
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
+
+            int i = 1;
+            if (orderCode != null && !orderCode.trim().isEmpty()) {
+                ps.setString(i++, "%" + orderCode.trim() + "%");
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(i++, status);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+            return count;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public List<Orderlist> filterOrders(String orderCode, String status, int page) {
+        try {
+            int index = (page - 1) * 10;
+            List<Orderlist> list = new ArrayList<>();
+
+            String sql = "SELECT o.OrderId, o.OrderCode, a.FullName, o.TotalAmount, "
+                    + "o.PaymentStatus, o.Status "
+                    + "FROM Orders o "
+                    + "JOIN Accounts a ON a.AccountId = o.AccountId "
+                    + "WHERE o.IsDeleted = 'False' ";
+
+            // Thêm điều kiện lọc nếu có
+            if (orderCode != null && !orderCode.trim().isEmpty()) {
+                sql += "AND o.OrderCode LIKE ? ";
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                sql += "AND o.Status = ? ";
+            }
+
+            // 💥 ORDER BY mặc định luôn có
+            sql += "ORDER BY o.OrderId DESC OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY";
+
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
+            int i = 1;
+
+            if (orderCode != null && !orderCode.trim().isEmpty()) {
+                ps.setString(i++, "%" + orderCode.trim() + "%");
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                ps.setString(i++, status);
+            }
+
+            ps.setInt(i++, index);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Orderlist order = new Orderlist(
+                        rs.getInt("OrderId"),
+                        rs.getString("OrderCode"),
+                        rs.getString("FullName"),
+                        rs.getDouble("TotalAmount"),
+                        rs.getString("PaymentStatus"),
+                        rs.getString("Status")
+                );
+                list.add(order);
+            }
+
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderListDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
     public Orders getOrderInfoById(int orderId) {
         try {
             String sql = "SELECT o.OrderId, o.OrderCode, o.OrderTime, o.PaymentMethod, "
@@ -170,7 +259,7 @@ public class OrderListDAO extends DBContext {
         return 0;
     }
 
-    public int updatePending(int id, String status) {
+    public int updateProcessing(int id, String status) {
         try {
             String sql = "UPDATE Orders \n"
                     + "   SET Status = ?\n"

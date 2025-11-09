@@ -406,16 +406,16 @@
                         </tr>
                     </table>
                     <div class="actions">
-                        <form style="cursor: pointer" method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
+                        <form style="cursor: pointer" method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=processing&id=${order.orderId}">
                             <button style="cursor: pointer" class="btn btn-success"
-                                    ${order.status == 'CANCELED' ? 'disabled' : ''}>
+                                    ${order.status == 'PROCESSING' || order.status == 'CANCELED' || order.status == 'COMPLETED' ? 'disabled' : ''}>
                                 <i class="fa-solid fa-check"></i> Xác nhận đơn
                             </button>
                         </form>
                         <form style="cursor: pointer" method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=completed&id=${order.orderId}">
-                            <button   class="btn btn-info"  ${order.status == 'CANCELED' ? 'disabled' : ''}><i class="fa-solid fa-truck"></i> Giao hàng</button>
+                            <button   class="btn btn-info"  ${order.status == 'COMPLETED' || order.status == 'CANCELED' ? 'disabled' : ''}><i class="fa-solid fa-truck"></i> Giao hàng</button>
                         </form>
-                        <button  type="button" class="btn btn-danger" id="cancelBtn"  ${order.status == 'CANCELED' ? 'disabled' : ''}>
+                        <button  type="button" class="btn btn-danger" id="cancelBtn"  ${order.status != 'PENDING' ? 'disabled' : ''}>
                             <i class="fa-solid fa-times"></i> Hủy đơn
                         </button>
                     </div>

@@ -10,9 +10,9 @@
         </session-timeout>
     </session-config>
     <!-- Cấu hình trang lỗi 404 -->
-    <error-page>
+<!--    <error-page>
         <error-code>404</error-code>
         <location>/error404.jsp</location>
-    </error-page>
+    </error-page>-->
 
 </web-app>

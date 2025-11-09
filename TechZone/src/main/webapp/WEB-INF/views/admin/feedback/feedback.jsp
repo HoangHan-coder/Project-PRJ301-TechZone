@@ -217,7 +217,8 @@
 
                 <div class="feedback-container">
                     <div class="filter-bar">
-                        <form id="filterForm" action="${pageContext.request.contextPath}/admin/feedback" method="get">
+                        <form id="filterForm" action="${pageContext.request.contextPath}/admin/feedback" method="POST">
+                            <input type="hidden" name="fill" />
                             <input type="text" name="keyword" placeholder="Tìm theo tên sản phẩm hoặc khách hàng..." />
 
                             <select name="rating" id="ratingSelect">

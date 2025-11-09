@@ -57,10 +57,9 @@ public class Register extends HttpServlet {
         String username = request.getParameter("name");
         String password = request.getParameter("password");
         String phone = request.getParameter("phone");
-
+        String email = request.getParameter("email");
         AuthDAO account = new AuthDAO();
-        
-      
+    
         PrintWriter out = response.getWriter();
         if (account.register(username, password, phone) == 1) {
             
