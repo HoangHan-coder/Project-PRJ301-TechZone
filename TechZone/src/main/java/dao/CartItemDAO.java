@@ -7,12 +7,24 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import model.*;
 
+/**
+ * Data access object for cart items.
+ *
+ * <p>Provides CRUD operations and helpers for manipulating items in a user's
+ * shopping cart.</p>
+ */
 public class CartItemDAO extends db.DBContext {
 
-    // Lấy danh sách sản phẩm trong giỏ hàng theo AccountId (giữ nguyên)
+    /**
+     * Retrieves all ACTIVE cart items for a given account, joining related
+     * product, cart, and account data for display.
+     *
+     * @param accountId account identifier
+     * @return list of {@link CartItem}
+     */
     public List<CartItem> getListByAccountId(int accountId) {
         List<CartItem> list = new ArrayList<>();
-        String query = "SELECT p.ProductId, p.LinkImg, p.ProductName, ci.CartItemId, "
+        String query = "SELECT p.ProductId, p.Stock, p.LinkImg, p.ProductName, ci.CartItemId, "
                 + "ci.UnitPrice, ci.Quantity, ci.TotalPrice, c.CartId, c.Status, c.CreatedAt, "
                 + "a.AccountId, a.Username "
                 + "FROM Product p "
@@ -23,8 +35,8 @@ public class CartItemDAO extends db.DBContext {
 
         try (Connection conn = this.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
-            ps.setInt(1, accountId);
-            ResultSet rs = ps.executeQuery();
+            ps.setInt(1, accountId); // bind account id
+            ResultSet rs = ps.executeQuery(); // run query
 
             while (rs.next()) {
                 Product pr = new Product(
@@ -32,6 +44,7 @@ public class CartItemDAO extends db.DBContext {
                         rs.getString("LinkImg"),
                         rs.getString("ProductName")
                 );
+                pr.setStock(rs.getInt("Stock")); // attach stock level
                 Account ac = new Account(
                         rs.getInt("AccountId"),
                         rs.getString("Username")
@@ -61,17 +74,23 @@ public class CartItemDAO extends db.DBContext {
         return list;
     }
 
-    // Tìm CartItem theo cartId + productId
+    /**
+     * Finds an item by cart id and product id.
+     *
+     * @param cartId cart identifier
+     * @param productId product identifier
+     * @return {@link CartItem} with minimal fields, or null
+     */
     public CartItem findByCartAndProduct(int cartId, int productId) {
         String query = "SELECT CartItemId, CartId, ProductId, UnitPrice, Quantity, TotalPrice FROM CartItems WHERE CartId = ? AND ProductId = ?";
         try (Connection conn = this.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, cartId);
             ps.setInt(2, productId);
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery(); // execute lookup
             if (rs.next()) {
                 CartItem ci = new CartItem();
                 ci.setCartItemId(rs.getInt("CartItemId"));
-                // bạn có constructor/setter phù hợp, ở đây set minimal fields
+                // use appropriate constructor/setters; set minimal fields here
                 ci.setUnitPrice(rs.getDouble("UnitPrice"));
                 ci.setQuantity(rs.getInt("Quantity"));
                 ci.setTotalPrice(rs.getDouble("TotalPrice"));
@@ -83,15 +102,22 @@ public class CartItemDAO extends db.DBContext {
         return null;
     }
 
-    // Nếu đã có thì tăng quantity lên (quantity + addQuantity). Nếu chưa có thì insert.
-    // Trả về true nếu thành công.
+    /**
+     * Increments quantity for an existing cart item; inserts new if not exists.
+     *
+     * @param cartId cart identifier
+     * @param productId product identifier
+     * @param unitPrice unit price to use for insertion
+     * @param addQuantity quantity to add
+     * @return true on success, false on error
+     */
     public boolean incrementQuantityIfExistsOrInsert(int cartId, int productId, double unitPrice, int addQuantity) {
         Connection conn = null;
         try {
             conn = this.getConnection();
             conn.setAutoCommit(false);
 
-            // 1. Kiểm tra tồn tại
+            // 1. Check existence
             String select = "SELECT CartItemId, Quantity FROM CartItems WHERE CartId = ? AND ProductId = ?";
             PreparedStatement psSel = conn.prepareStatement(select);
             psSel.setInt(1, cartId);
@@ -102,7 +128,7 @@ public class CartItemDAO extends db.DBContext {
                 int currentQty = rs.getInt("Quantity");
                 int newQty = currentQty + addQuantity;
 
-                // Nếu TotalPrice là computed column thì chỉ update Quantity
+                // If TotalPrice is a computed column then only update Quantity
                 String upd = "UPDATE CartItems SET Quantity = ? WHERE CartItemId = ?";
                 PreparedStatement psUpd = conn.prepareStatement(upd);
                 psUpd.setInt(1, newQty);
@@ -110,7 +136,7 @@ public class CartItemDAO extends db.DBContext {
                 psUpd.executeUpdate();
 
             } else {
-                // Insert mới
+                // Insert new row
                 String insert = "INSERT INTO CartItems (CartId, ProductId, UnitPrice, Quantity) VALUES (?, ?, ?, ?)";
                 PreparedStatement psIns = conn.prepareStatement(insert);
                 psIns.setInt(1, cartId);
@@ -126,7 +152,7 @@ public class CartItemDAO extends db.DBContext {
             Logger.getLogger(CartItemDAO.class.getName()).log(Level.SEVERE, null, ex);
             try {
                 if (conn != null) {
-                    conn.rollback();
+                    conn.rollback(); // rollback on failure
                 }
             } catch (SQLException e) {
                 /* ignore */ }
@@ -135,39 +161,58 @@ public class CartItemDAO extends db.DBContext {
             try {
                 if (conn != null) {
                     conn.setAutoCommit(true);
-                    conn.close();
+                    conn.close(); // release connection
                 }
             } catch (SQLException e) {
                 /* ignore */ }
         }
     }
 
-    // Cập nhật số lượng (bỏ cập nhật TotalPrice nếu nó là computed)
+    /**
+     * Updates quantity for a given cart item id.
+     *
+     * @param cartItemId cart item identifier
+     * @param quantity new quantity value
+     * @return true if updated
+     */
     public boolean updateQuantity(int cartItemId, int quantity) {
         String query = "UPDATE CartItems SET Quantity = ? WHERE CartItemId = ?";
         try (PreparedStatement ps = this.getConnection().prepareStatement(query)) {
             ps.setInt(1, quantity);
             ps.setInt(2, cartItemId);
-            return ps.executeUpdate() > 0;
+            return ps.executeUpdate() > 0; // success if row affected
         } catch (SQLException ex) {
             Logger.getLogger(CartItemDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
 
-    // Xóa sản phẩm
+    /**
+     * Deletes a cart item by id.
+     *
+     * @param cartItemId cart item identifier
+     * @return true if deleted
+     */
     public boolean deleteById(int cartItemId) {
         String sql = "DELETE FROM CartItems WHERE CartItemId = ?";
         try (PreparedStatement ps = this.getConnection().prepareStatement(sql)) {
             ps.setInt(1, cartItemId);
-            return ps.executeUpdate() > 0;
+            return ps.executeUpdate() > 0; // success if row affected
         } catch (SQLException ex) {
             Logger.getLogger(CartItemDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
 
-    // Thêm sản phẩm (giữ để tương thích, nhưng khuyến nghị dùng incrementQuantityIfExistsOrInsert)
+    /**
+     * Creates a new cart item row.
+     *
+     * @param cartId cart identifier
+     * @param productId product identifier
+     * @param unitPrice price per unit
+     * @param quantity quantity to insert
+     * @return affected rows (1 on success)
+     */
     public int createCartItems(int cartId, int productId, double unitPrice, int quantity) {
         String query = "INSERT INTO CartItems (CartId, ProductId, UnitPrice, Quantity) VALUES (?, ?, ?, ?)";
         try (PreparedStatement st = this.getConnection().prepareStatement(query)) {
@@ -181,8 +226,14 @@ public class CartItemDAO extends db.DBContext {
             return 0;
         }
     }
-    // 🟣 Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
 
+    /**
+     * Retrieves a cart item by cart and product identifiers.
+     *
+     * @param cartId cart identifier
+     * @param productId product identifier
+     * @return {@link CartItem} or null if not found
+     */
     public CartItem getCartItem(int cartId, int productId) {
         String query = "SELECT * FROM CartItems WHERE CartId = ? AND ProductId = ?";
         try (PreparedStatement ps = this.getConnection().prepareStatement(query)) {
@@ -205,6 +256,13 @@ public class CartItemDAO extends db.DBContext {
         return null;
     }
 
+    /**
+     * Increases quantity for an existing cart item by a delta.
+     *
+     * @param cartItemId cart item identifier
+     * @param addQuantity amount to add
+     * @return true if updated
+     */
     public boolean increaseQuantity(int cartItemId, int addQuantity) {
         String query = "UPDATE CartItems SET Quantity = Quantity + ? WHERE CartItemId = ?";
         try (PreparedStatement ps = this.getConnection().prepareStatement(query)) {
@@ -217,10 +275,16 @@ public class CartItemDAO extends db.DBContext {
         }
     }
 
+    /**
+     * Retrieves full cart items for a list of cart item ids (e.g., selected for checkout).
+     *
+     * @param selectedIds list of cartItemId
+     * @return list of {@link CartItem}
+     */
     public List<CartItem> getListFormCart(List<Integer> selectedIds) {
         List<CartItem> list = new ArrayList<>();
         if (selectedIds == null || selectedIds.isEmpty()) {
-            return list; // Trả về rỗng nếu không có ID nào
+            return list; // Return empty if no IDs provided
         }
         try {
             String sql = "SELECT p.ProductId, p.LinkImg, p.ProductName, ci.CartItemId, "
@@ -237,7 +301,7 @@ public class CartItemDAO extends db.DBContext {
                     + ")";
             PreparedStatement ps = getConnection().prepareStatement(sql);
 
-            for (int i = 0; i < selectedIds.size(); i++) {
+            for (int i = 0; i < selectedIds.size(); i++) { // bind IDs sequentially
                 ps.setInt(i + 1, selectedIds.get(i));
             }
             ResultSet rs = ps.executeQuery();
@@ -273,5 +337,4 @@ public class CartItemDAO extends db.DBContext {
         }
         return list;
     }
-
 }

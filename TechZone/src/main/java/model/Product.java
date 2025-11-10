@@ -37,6 +37,14 @@ public class Product {
         this.productName = productName;
     }
 
+    public Product(int productId, String linkImg, String productName, double productPrice) {
+        this.productId = productId;
+        this.linkImg = linkImg;
+        this.productName = productName;
+        this.productPrice = productPrice;
+    }
+
+    
     public Product(String linkImg, String productName, double productPrice) {
         this.linkImg = linkImg;
         this.productName = productName;

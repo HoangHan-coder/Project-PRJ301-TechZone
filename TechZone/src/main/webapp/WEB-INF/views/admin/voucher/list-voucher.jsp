@@ -52,6 +52,7 @@
                             <th scope="col">Trạng thái</th>
                             <th scope="col">Điều kiện</th>
                             <th scope="col">Đã dùng</th>
+                            <th scope="col">Còn lại</th>
                             <th scope="col">Hành động</th>
                         </tr>
                     </thead>
@@ -65,7 +66,8 @@
                                 <td>${voucher.endDate}</td>
                                 <td>${voucher.status}</td>
                                 <td>${voucher.getMinOrderValueToString()}</td>
-                                <td>${voucher.currentUsage}/${voucher.maxUsage}</td>
+                                <td>${voucher.currentUsage}</td>
+                                <td>${voucher.maxUsage}</td>
                                 <td class="text-center d-flex gap-3 justify-content-center">
                                     <a href="<c:url value="/admin/voucher?view=update&voucherCode=${voucher.code}"></c:url>" class="text-decoration-none">
                                             <i class="bi bi-eye me-2 text-dark" style="cursor: pointer;"></i>

@@ -148,16 +148,30 @@
 
 
             phone.addEventListener("input", function () {
-                if (phone.value.trim() !== "" && !isNaN(phone.value))
-                    clearError("phone-Error");
-                else
+                const value = phone.value.trim();
+
+                if (value === "") {
                     setError("phone-Error", "SĐT không được để trống");
-            });
-            phone.addEventListener("blur", function () {
-                if (phone.value.trim() === "" || isNaN(phone.value))
-                    setError("phone-Error", "SĐT phải là số");
+                } else if (!/^[0-9]+$/.test(value)) {
+                    setError("phone-Error", "SĐT chỉ được chứa chữ số");
+                } else {
+                    clearError("phone-Error");
+                }
             });
 
+            phone.addEventListener("blur", function () {
+                const value = phone.value.trim();
+
+                if (value === "") {
+                    setError("phone-Error", "SĐT không được để trống");
+                } else if (!/^[0-9]+$/.test(value)) {
+                    setError("phone-Error", "SĐT chỉ được chứa chữ số");
+                } else if (value.length < 10 || value.length > 11) {
+                    setError("phone-Error", "SĐT phải có 10 hoặc 11 chữ số");
+                } else {
+                    clearError("phone-Error");
+                }
+            });
 
             form.addEventListener("submit", function (e) {
                 let valid = true;
@@ -177,8 +191,14 @@
                     setError("email-error", "Email không hợp lệ");
                     valid = false;
                 }
-                if (phone.value.trim() === "" || isNaN(phone.value)) {
-                    setError("phone-Error", "SĐT phải là số");
+                if (phone.value.trim() === "") {
+                    setError("phone-Error", "SĐT không được để trống");
+                    valid = false;
+                } else if (!/^[0-9]+$/.test(phone.value.trim())) {
+                    setError("phone-Error", "SĐT chỉ được chứa chữ số");
+                    valid = false;
+                } else if (phone.value.trim().length < 10 || phone.value.trim().length > 11) {
+                    setError("phone-Error", "SĐT phải có 10 hoặc 11 chữ số");
                     valid = false;
                 }
 

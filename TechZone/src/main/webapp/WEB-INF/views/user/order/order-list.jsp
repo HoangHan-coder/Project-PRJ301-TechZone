@@ -16,7 +16,6 @@
         <title>TechZone</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <style>
             * {
                 margin: 0;
@@ -162,6 +161,8 @@
 
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
     </body>
 </html>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -53,7 +54,7 @@
             <c:forEach var="cartItem" items="${cartItems}">  
                 <%-- Bọc mỗi dòng sản phẩm trong một Form để gửi yêu cầu cập nhật lên Servlet --%>
                 <form action="${pageContext.request.contextPath}/cartitem" method="POST" class="form-cart-item">
-                  
+
                     <div class="row align-items-center bg-white border rounded shadow-sm py-3 mb-3 product-row">
 
                         <div class="col-6 d-flex align-items-center">
@@ -74,17 +75,19 @@
                         <div class="col-6">
                             <div class="row text-center align-items-center">
 
-                                <div class="col">${cartItem.unitPrice}₫</div>
+                                <div class="col"><fmt:formatNumber value="${cartItem.unitPrice}" maxFractionDigits="0" ></fmt:formatNumber>₫</div>
 
-                                <div class="col">
-                                    <div class="input-group input-group-sm justify-content-center">
+                                    <div class="col">
+                                        <div class="input-group input-group-sm justify-content-center">
                                         <%-- THÊM CLASS cho JS --%>
-                                        <button class="btn btn-outline-secondary btn-quantity-minus" type="button">-</button>
+                                        <button class="btn btn-outline-secondary btn-quantity-minus " type="button">-</button>
                                         <%-- THÊM CLASS, NAME, VÀ DATA cho JS/Servlet --%>
-                                        <input type="text" name="quantity" class="form-control text-center input-quantity" 
-                                               value="${cartItem.quantity}" 
+                                        <input type="text" name="quantity" class="form-control text-center input-quantity"  
+                                               style="background-color: #fff;"
+                                               value="${cartItem.quantity}" readonly
                                                data-unit-price="${cartItem.unitPrice}">
                                         <%-- THÊM CLASS cho JS --%>
+                                        <input type="hidden" id="stock" value="${cartItem.product.stock}">
                                         <button class="btn btn-outline-secondary btn-quantity-plus" type="button">+</button>
 
                                         <%-- INPUT ẨN DÙNG CHO FORM SUBMIT LÊN CARTITEM SERVLET --%>
@@ -101,7 +104,7 @@
                                     <%-- Nút xóa từng sản phẩm --%>
                                     <button type="button" class="btn btn-link text-danger text-decoration-none btn-delete-item" data-cart-item-id="${cartItem.cartItemId}">Xóa</button>
                                 </div>
-                           
+
 
                             </div>
                         </div>
@@ -111,38 +114,39 @@
         </div>
 
         <div class="cart-container container-fluid px-5">
-            
+
 
             <form id="checkout-form" method="get" action="${pageContext.request.contextPath}/order">
-            <div class="d-flex justify-content-between align-items-center p-3 thanh-thanh-toan"> 
-                <div class="d-flex align-items-center">
-                    <div class="form-check me-3">
-                        <%-- THÊM ID CHO JS: chon-tat-ca-footer --%>
-                        <input class="form-check-input" type="checkbox" id="chon-tat-ca-footer"> 
-                        <label class="form-check-lable" for="chon-tat-ca-footer"> 
-                            Chọn Tất Cả
-                        </label>
-                    </div>
-                    <a href="#" id="btn-delete-selected" class="text-muted text-decoration-none me-3" onclick="return false;">Xóa</a>
+                <div class="d-flex justify-content-between align-items-center p-3 thanh-thanh-toan"> 
+                    <div class="d-flex align-items-center">
+                        <div class="form-check me-3">
+                            <%-- THÊM ID CHO JS: chon-tat-ca-footer --%>
+                            <input class="form-check-input" type="checkbox" id="chon-tat-ca-footer"> 
+                            <label class="form-check-lable" for="chon-tat-ca-footer"> 
+                                Chọn Tất Cả
+                            </label>
+                        </div>
+                        <a href="#" id="btn-delete-selected" class="text-muted text-decoration-none me-3" onclick="return false;">Xóa</a>
 
-                </div>
-                <div class="d-flex align-items-center">
-                    <span class="me-3">
-                        Tổng cộng (<span id="tong-san-pham">0</span> Sản phẩm): 
-                        <%-- THÊM ID CHO JS --%>
-                        <span class="text-danger fw-bold fs-5" id="tong-tien">0<sup>đ</sup> 
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="me-3">
+                            Tổng cộng (<span id="tong-san-pham">0</span> Sản phẩm): 
+                            <%-- THÊM ID CHO JS --%>
+                            <span class="text-danger fw-bold fs-5" id="tong-tien">0<sup>đ</sup> 
+                            </span>
                         </span>
-                    </span>
-                    <%-- THÊM ID CHO JS: btn-mua-hang --%>
-                    <div id="selected-items-inputs"></div>
-                    <button type="button" class="btn nut-nen-chinh fw-bold" id="btn-mua-hang" disabled>
-                        Mua Hàng
-                    </button>
+                        <%-- THÊM ID CHO JS: btn-mua-hang --%>
+                        <div id="selected-items-inputs"></div>
+                        <button type="button" class="btn nut-nen-chinh fw-bold" id="btn-mua-hang" disabled>
+                            Mua Hàng
+                        </button>
+                    </div>
                 </div>
-            </div>
             </form>
         </div>
-       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/cart/cart-script.js"></script>
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
     </body>

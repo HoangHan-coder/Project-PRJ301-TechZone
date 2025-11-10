@@ -15,7 +15,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <title>Tech Zone</title>
     </head>
 
@@ -76,7 +75,7 @@
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <small class="text-secondary">x${orderItem.quantity}</small>
                                                     <span class="text-danger fw-semibold"><fmt:formatNumber value="${orderItem.unitPrice}" type="number" maxFractionDigits="0"/>₫</span>
-                                                   <c:set var="subtotal" value="${subtotal + (orderItem.unitPrice * orderItem.quantity)}" scope="page"/>
+                                                    <c:set var="subtotal" value="${subtotal + (orderItem.unitPrice * orderItem.quantity)}" scope="page"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -124,6 +123,8 @@
 
             </div>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
         <jsp:include page="../../includes/footer.jsp"/>
 
     </body>

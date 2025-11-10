@@ -143,9 +143,9 @@
         font-size:20px;
         color:#fff;
     }
-
+    
     .footer-nav{
-        transform: translateY(200px);
+        transform: translateY(400px);
     }
 </style>
 <!-- Footer Gizmos -->
@@ -203,7 +203,8 @@
         <!-- Quick Links -->
         <div class="footer-column">
             <h4>Quick Links</h4>
-            <ul><li><a href="#">Smartphones</a></li>
+            <ul>
+                <li><a href="#">Smartphones</a></li>
                 <li><a href="#">Headphones</a></li>
                 <li><a href="#">Laptop & Tablet</a></li>
                 <li><a href="#">Monitors</a></li>

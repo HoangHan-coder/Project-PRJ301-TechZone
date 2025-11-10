@@ -18,6 +18,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
+ * Authentication filter for user-protected endpoints.
+ *
+ * <p>Ensures the user is authenticated before accessing the following paths:
+ * <code>/profile</code>, <code>/order</code>, <code>/cartitem</code>,
+ * and <code>/feedback-user</code>. Unauthenticated users are redirected to
+ * the login page.</p>
+ */
+/**
  *
  * @author acer
  */
@@ -39,13 +47,13 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
-        HttpSession session = req.getSession(false); // lấy session nếu có
-        if (session == null || session.getAttribute("account") == null) {
-            resp.sendRedirect(req.getContextPath() + "/login");
+        HttpServletRequest req = (HttpServletRequest) request; // cast to HTTP request
+        HttpServletResponse resp = (HttpServletResponse) response; // cast to HTTP response
+        HttpSession session = req.getSession(false); // get existing session, do not create
+        if (session == null || session.getAttribute("account") == null) { // unauthenticated user
+            resp.sendRedirect(req.getContextPath() + "/login"); // redirect to login
         } else {
-            chain.doFilter(request, response);
+            chain.doFilter(request, response); // proceed if authenticated
         }
         
     }
@@ -53,5 +61,5 @@ public class AuthFilter implements Filter {
     
 
     
-    
 }
+

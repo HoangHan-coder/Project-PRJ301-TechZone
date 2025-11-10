@@ -1,5 +1,6 @@
 package controller;
 
+import dao.CustomerBehaviorDAO;
 import dao.FeedBackDAO;
 import dao.ProductDAO;
 import jakarta.servlet.ServletException;
@@ -9,67 +10,87 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import model.AccountUsers;
 import model.Feedback;
 import model.Product;
 import until.Pagination;
 
 /**
- * ProductServlet
- *
- * Servlet này xử lý tất cả các yêu cầu liên quan đến sản phẩm: - Hiển thị trang
- * chủ với danh sách sản phẩm phân trang - Hiển thị sản phẩm theo danh mục
- * (category) - Hiển thị chi tiết sản phẩm (detail)
- *
+ * ProductServlet handles product-related requests:
+ * - Home page with paginated products
+ * - Listing products by category
+ * - Product detail page
+ * 
  * URL mapping: /products
  */
 @WebServlet(name = "ProductServlet", urlPatterns = {"/products"})
 public class ProductServlet extends HttpServlet {
 
-
+    /**
+     * Handles GET requests for product listing and details.
+     * 
+     * @param request HTTP request with optional parameters: action, category, page, id
+     * @param response HTTP response for forwarding or redirecting
+     * @throws ServletException on servlet errors
+     * @throws IOException on I/O errors
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Thiết lập mã hóa ký tự (đảm bảo tiếng Việt không bị lỗi font)
+        // Set character encoding to ensure UTF-8 rendering
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
-        // Khởi tạo DAO để truy xuất dữ liệu từ database
+        // Initialize DAO to query data from database
         ProductDAO dao = new ProductDAO();
-        String action = request.getParameter("action");   // Ví dụ: action=detail
-        String category = request.getParameter("category"); // Ví dụ: category=phone
+        String action = request.getParameter("action");   // e.g., action=detail
+        String category = request.getParameter("category"); // e.g., category=phone
+        HttpSession session = request.getSession(false); // get existing session if present
+
+        // Check if session is present and get current user info
+        if (session != null) {
+            AccountUsers account = (AccountUsers) session.getAttribute("account"); // current user info
+            CustomerBehaviorDAO customer = new CustomerBehaviorDAO(); // customer behavior DAO
+
+            // Get recommended products by behavior if account is present
+            if (account != null) {
+                List<Product> listcustomer = customer.getBehavior(account.getId()); // recommended products by behavior
+                request.setAttribute("listcustomer", listcustomer); // attach to request
+            }
+        }
 
         try {
-            // ========== 1️⃣ TRƯỜNG HỢP: Không có action và category → hiển thị TRANG CHỦ ==========
+            // Case 1: No action and no category → SHOW HOME PAGE
             if (action == null && category == null) {
 
-                // Xử lý phân trang
+                // Handle pagination
                 String pageRaw = request.getParameter("page");
                 int currentPage;
                 try {
                     currentPage = Integer.parseInt(pageRaw);
                 } catch (NumberFormatException ex) {
-                    currentPage = 1; // Mặc định trang 1 nếu không truyền hoặc sai định dạng
+                    currentPage = 1; // Default to page 1 if missing or invalid
                 }
 
-                Pagination pagination = new Pagination();
-                int totalRow = dao.getTotalRow(); // Lấy tổng số sản phẩm trong DB
-                pagination.handlePagintation(request, currentPage, totalRow, "products?"); // Gắn các thuộc tính phân trang
+                Pagination pagination = new Pagination(); // pagination helper
+                int totalRow = dao.getTotalRow(); // total products in DB
+                pagination.handlePagintation(request, currentPage, totalRow, "products?"); // attach pagination attributes
 
-                // Lấy danh sách sản phẩm (12 sản phẩm / trang)
+                // Get paginated products (12 per page)
                 List<Product> productList = dao.getAllProducts(currentPage);
 
-                // Lấy 1 sản phẩm mới nhất (theo ngày tạo) cho từng danh mục
+                // Get newest 1 product (by created time) for each category
                 ArrayList<Product> listPhone = (ArrayList<Product>) dao.getTop1(2);
                 ArrayList<Product> listLaptop = (ArrayList<Product>) dao.getTop1(1);
                 ArrayList<Product> listAccessory = (ArrayList<Product>) dao.getTop1(3);
 
-                // Lấy 1 sản phẩm bán chạy nhất cho từng danh mục
+                // Get best-selling 1 product for each category
                 ArrayList<Product> listPhoneBest = (ArrayList<Product>) dao.getTop1ByCategory(2);
                 ArrayList<Product> listLaptopBest = (ArrayList<Product>) dao.getTop1ByCategory(1);
                 ArrayList<Product> listAccessoryBest = (ArrayList<Product>) dao.getTop1ByCategory(3);
 
-                // Gán dữ liệu sang JSP
+                // Set data to JSP
                 request.setAttribute("list", productList);
                 request.setAttribute("listPhone", listPhone);
                 request.setAttribute("listLap", listLaptop);
@@ -78,13 +99,13 @@ public class ProductServlet extends HttpServlet {
                 request.setAttribute("listLapfe", listLaptopBest);
                 request.setAttribute("listAccessoryFe", listAccessoryBest);
 
-                // Chuyển đến trang chủ hiển thị sản phẩm
+                // Forward to home page to display products
                 request.getRequestDispatcher("/WEB-INF/views/user/home.jsp")
                         .forward(request, response);
                 return;
             }
 
-            // ========== 2️⃣ TRƯỜNG HỢP: Có category → hiển thị DANH SÁCH SẢN PHẨM THEO DANH MỤC ==========
+            // Case 2: Has category → SHOW PRODUCT LIST BY CATEGORY
             if (category != null) {
                 ArrayList<Product> allList;
                 String viewPath;
@@ -104,45 +125,45 @@ public class ProductServlet extends HttpServlet {
                         viewPath = "/WEB-INF/views/user/product/product-list/accessory-list.jsp";
                         break;
                     default:
-                        response.sendRedirect("products");
+                        response.sendRedirect("products"); // invalid parameter → back to list
                         return;
                 }
 
-                // 🧩 Lấy toàn bộ sản phẩm theo danh mục
+                // Get all products in the selected category
                 allList = (ArrayList<Product>) dao.getProductsByCategory(categoryId);
 
-                // 🔢 Xử lý phân trang
+                // Handle pagination
                 String pageRaw = request.getParameter("page");
                 int currentPage;
                 try {
                     currentPage = Integer.parseInt(pageRaw);
                 } catch (NumberFormatException ex) {
-                    currentPage = 1; // mặc định trang 1
+                    currentPage = 1; // default to page 1
                 }
 
-                int pageSize = 9; // số sản phẩm mỗi trang
+                int pageSize = 9; // items per page
                 int totalProducts = allList.size();
                 int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
 
                 int start = (currentPage - 1) * pageSize;
                 int end = Math.min(start + pageSize, totalProducts);
-                List<Product> paginatedList = allList.subList(start, end);
+                List<Product> paginatedList = allList.subList(start, end); // slice list by page
 
-                // Gán dữ liệu sang JSP
+                // Set data to JSP
                 request.setAttribute("list", paginatedList);
                 request.setAttribute("totalPages", totalPages);
                 request.setAttribute("currentPage", currentPage);
                 request.setAttribute("category", category);
 
-                request.getRequestDispatcher(viewPath).forward(request, response);
+                request.getRequestDispatcher(viewPath).forward(request, response); // forward to category view
                 return;
             }
 
-            // ========== 3️⃣ TRƯỜNG HỢP: action = "detail" → HIỂN THỊ CHI TIẾT SẢN PHẨM ==========
+            // Case 3: action = "detail" → SHOW PRODUCT DETAIL
             if ("detail".equalsIgnoreCase(action)) {
                 String idRaw = request.getParameter("id");
 
-                // Nếu không có id → quay lại danh sách
+                // If no id → back to list
                 if (idRaw == null || idRaw.isEmpty()) {
                     response.sendRedirect("products");
                     return;
@@ -152,29 +173,44 @@ public class ProductServlet extends HttpServlet {
                 try {
                     productId = Integer.parseInt(idRaw);
                 } catch (NumberFormatException e) {
-                    // Nếu id không phải số → quay lại danh sách
+                    // If id is not numeric → back to list
                     response.sendRedirect("products");
                     return;
                 }
 
-                // Lấy sản phẩm theo ID
+                // Get product by ID
                 Product product = dao.getProductById(productId);
                 if (product == null) {
-                    response.sendRedirect("products");
+                    response.sendRedirect("products"); // not found → back to list
                     return;
                 }
 
-                // Lấy danh sách feedback của sản phẩm
+                // Update customer behavior if session is present
+                if (session != null) {
+                    AccountUsers account = (AccountUsers) session.getAttribute("account"); // current user
+                    CustomerBehaviorDAO customer = new CustomerBehaviorDAO(); // customer behavior DAO
+                    if (account != null) {
+                        if (customer.selectBehaviorDAO(productId, account.getId()) == null) { // if no record, create
+                            customer.createBehavior(productId, 1, account.getId()); // record first view
+                        } else {
+                            int count = customer.selectQuantity(productId, account.getId()); // get view count
+                            count = count + 1; // increase count
+                            customer.updateQuantity(productId, count, account.getId()); // update count
+                        }
+                    }
+                }
+
+                // Get feedback list for this product
                 FeedBackDAO feedbackDAO = new FeedBackDAO();
                 List<Feedback> feedbacks = feedbackDAO.getFeedbackByProductId(productId);
                 request.setAttribute("feedbackList", feedbacks);
-
-                // Đảm bảo Product có map attributes để JSP không lỗi
+                System.out.println(feedbacks.size());
+                // Ensure Product has attributes map to avoid JSP errors
                 if (product.getAttributesMap() == null) {
                     product.setAttributesMap(new HashMap<>());
                 }
 
-                // Xử lý thông báo từ session (nếu có)
+                // Handle messages from session (if any)
                 String msg = (String) request.getSession().getAttribute("msg");
                 String msgError = (String) request.getSession().getAttribute("msgee");
                 request.setAttribute("msg", msg);
@@ -182,25 +218,24 @@ public class ProductServlet extends HttpServlet {
                 request.getSession().removeAttribute("msg");
                 request.getSession().removeAttribute("msgee");
 
-                // Gán sản phẩm vào request và forward sang trang chi tiết
+                // Attach product to request and forward to detail page
                 request.setAttribute("product", product);
                 request.getRequestDispatcher("/WEB-INF/views/user/product/product-detail/product-detail.jsp")
                         .forward(request, response);
                 return;
             }
 
-            // ========== 4️⃣ Nếu không khớp bất kỳ trường hợp nào → quay về danh sách ==========
-            response.sendRedirect("products");
+            // Default: if none matched → back to list
+            response.sendRedirect("products"); // default back to list
 
         } catch (Exception e) {
             e.printStackTrace();
 
-            // Nếu response chưa gửi, trả về mã lỗi 500
+            // If response not committed, return 500 error
             if (!response.isCommitted()) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                        "Lỗi khi tải sản phẩm: " + e.getMessage());
+                        "Error loading products: " + e.getMessage()); // server error message
             }
         }
     }
-
 }

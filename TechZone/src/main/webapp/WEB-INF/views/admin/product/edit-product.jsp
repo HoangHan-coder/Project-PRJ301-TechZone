@@ -130,7 +130,7 @@
                             <label class="form-label">Hình ảnh sản phẩm <span class="text-danger">(*)</span></label>
                             <div class="border border-primary border-2 p-5 text-center bg-white rounded-3 upload-area" onclick="document.getElementById('fileUpload').click();">
                                 <p class="mb-0 text-primary fw-bold">Kéo và thả ảnh vào đây, hoặc <span class="text-decoration-underline">Chọn tệp</span></p>
-                                <input type="file" id="fileUpload" multiple accept="image/*" class="d-none" name="img">
+                                <input type="file" id="fileUpload"  accept=".png, .jpg, .jpeg, .gif" class="d-none" name="img">
                             </div>
                             <div class="mt-3 image-preview">
                             </div>
@@ -140,6 +140,7 @@
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end pt-3">
+                <input type="hidden"  name="old-img"  value="${productedit.linkImg}">
                 <button type="submit" class="btn btn-primary btn-lg">
                     <i class="bi bi-plus-circle me-2"></i> Sua San Pham
                 </button>
@@ -220,7 +221,7 @@
         const weight = document.getElementById("weight").value.trim();
         const stock = document.getElementById("quantity").value.trim();
         const cat = document.getElementById("category").value;
- const price = parseFloat(pricedraw);
+        const price = parseFloat(pricedraw);
 
 
 

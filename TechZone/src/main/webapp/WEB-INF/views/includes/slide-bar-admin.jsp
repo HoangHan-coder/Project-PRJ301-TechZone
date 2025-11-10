@@ -51,6 +51,7 @@
 <!-- Sidebar -->
 <div class="sidebar">
     <h5>TechZone</h5>
+    <a href="${pageContext.request.contextPath}/products" class="nav-link"><i class="bi bi-shop"></i> Go to shop</a>
     <ul class="nav flex-column">
         <li class="nav-item mb-2">
             <a href="${pageContext.request.contextPath}/admin/report" class="nav-link"><i class="bi bi-house"></i> Tổng quan</a>
@@ -59,7 +60,7 @@
             <a href="${pageContext.request.contextPath}/admin/account?view=list" class="nav-link"><i class="bi bi-people"></i> Người dùng</a>
         </li>
         <li class="nav-item mb-2">
-            <a href="#" class="nav-link"><i class="bi bi-box"></i> Sản phẩm</a>
+            <a href="${pageContext.request.contextPath}/admin/product" class="nav-link"><i class="bi bi-box"></i> Sản phẩm</a>
         </li>
         <li class="nav-item mb-2">
             <a href="${pageContext.request.contextPath}/admin/order?view=list&page=1" class="nav-link"><i class="bi bi-cart"></i> Đơn hàng</a>
@@ -69,6 +70,12 @@
         </li>
         <li class="nav-item mb-2">
             <a href="${pageContext.request.contextPath}/admin/feedback?view=list" class="nav-link"><i class="bi bi-chat"></i> Phản hồi</a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="${pageContext.request.contextPath}/admin/export" class="nav-link"><i class="bi bi-file-earmark-excel-fill "></i> Xuất File</a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="${pageContext.request.contextPath}/logout" class="nav-link"><i class="bi bi-box-arrow-right"></i> Đăng xuất</a>
         </li>
     </ul>
 </div>

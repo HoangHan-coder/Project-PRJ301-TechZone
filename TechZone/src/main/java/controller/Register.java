@@ -12,6 +12,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
+import model.Account;
+import model.AccountUsers;
 
 /**
  *
@@ -20,9 +23,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name = "Register", urlPatterns = {"/register"})
 public class Register extends HttpServlet {
 
-
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -56,17 +56,27 @@ public class Register extends HttpServlet {
         String username = request.getParameter("name");
         String password = request.getParameter("password");
         String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
 
         AuthDAO account = new AuthDAO();
         // hello
       
         PrintWriter out = response.getWriter();
-        if (account.register(username, password, phone) == 1) {
-            
+       int success = account.register(username, password, phone, email);
+        if (success == 1) {           
             String json = "{ \"success\": true, \"message\":\"User registered successfully!\" }";
             out.print(json);
-        } else {
+        } else if(success == 0){
             String json = "{ \"success\": false, \"message\":\"register failure\" }";
+            out.print(json);
+        } else if(success == 2){
+            String json = "{ \"success\": false, \"message\":\"register failure, Username is exist\" }";
+            out.print(json);
+        } else if(success == 3){
+            String json = "{ \"success\": false, \"message\":\"register failure, Email is exist\" }";
+            out.print(json);
+        } else if (success == 4){
+            String json = "{ \"success\": false, \"message\":\"register failure, Phone is exist\" }";
             out.print(json);
         }
         out.flush();

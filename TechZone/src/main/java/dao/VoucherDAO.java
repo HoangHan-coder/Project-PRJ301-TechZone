@@ -15,7 +15,8 @@ import java.util.logging.Logger;
 import model.Voucher;
 
 /**
- *
+ * DAO for voucher management (CRUD, listing, search, usage tracking).
+ * 
  * @author NgKaitou
  */
 public class VoucherDAO extends DBContext {
@@ -26,6 +27,10 @@ public class VoucherDAO extends DBContext {
 
     }
 
+    /**
+     * Retrieves all vouchers.
+     * @return list of {@link Voucher}
+     */
     public List<Voucher> getAllVoucher() {
         List<Voucher> listVoucher = new ArrayList<>();
         String sql = "SELECT * FROM Vouchers";
@@ -58,6 +63,11 @@ public class VoucherDAO extends DBContext {
         return listVoucher;
     }
     
+    /**
+     * Retrieves vouchers applicable for an order total (minOrderValue <= totalAmount).
+     * @param totalAmount order subtotal/total
+     * @return list of {@link Voucher}
+     */
     public List<Voucher> getAvailableVoucher(double totalAmount) {
         List<Voucher> listVoucher = new ArrayList<>();
         String sql = "SELECT * FROM Vouchers WHERE minOrderValue <= ?;";
@@ -91,6 +101,11 @@ public class VoucherDAO extends DBContext {
         return listVoucher;
     }
 
+    /**
+     * Retrieves a voucher by code.
+     * @param voucherCode code value
+     * @return {@link Voucher} or null
+     */
     public Voucher getByVoucherCode(String voucherCode) {
 
         try {
@@ -122,6 +137,11 @@ public class VoucherDAO extends DBContext {
         return null;
     }
     
+    /**
+     * Retrieves a voucher by id.
+     * @param voucherId identifier
+     * @return {@link Voucher} or null
+     */
     public Voucher getByVoucherId(int voucherId) {
 
         try {
@@ -153,6 +173,11 @@ public class VoucherDAO extends DBContext {
         return null;
     }
 
+    /**
+     * Creates a new voucher; status is inferred from dates and max usage.
+     * @param voucher voucher data
+     * @return affected rows (1 on success)
+     */
     public int createVoucher(Voucher voucher) {
         if (voucher.isExpired()) {
             voucher.setStatus("EXPIRED");
@@ -188,6 +213,12 @@ public class VoucherDAO extends DBContext {
         return 0;
     }
 
+    /**
+     * Updates voucher values by id.
+     * @param voucher updated data
+     * @param voucherId target id
+     * @return affected rows
+     */
     public int updateVoucher(Voucher voucher, int voucherId) {
 
         String sql = "UPDATE Vouchers SET "
@@ -219,6 +250,11 @@ public class VoucherDAO extends DBContext {
         return 0;
     }
 
+    /**
+     * Soft-disables a voucher by setting Status = 'DISABLED'.
+     * @param id voucher id
+     * @return affected rows
+     */
     public int deleteVoucher(int id) {
 
         try {
@@ -232,6 +268,11 @@ public class VoucherDAO extends DBContext {
         return 0;
     }
 
+    /**
+     * Counts vouchers filtered by code keyword.
+     * @param keyword code substring
+     * @return count
+     */
     public int getTotalRow(String keyword) {
         try {
             String sql = "SELECT Count(VoucherId) as totalRow FROM Vouchers WHERE Code LIKE ? ";
@@ -248,7 +289,10 @@ public class VoucherDAO extends DBContext {
         return 0;
     }
 
-    
+    /**
+     * Counts all vouchers.
+     * @return total rows
+     */
     public int getTotalRow() {
         try {
             String sql = "SELECT Count(VoucherId) as totalRow FROM Vouchers";
@@ -264,6 +308,11 @@ public class VoucherDAO extends DBContext {
         return 0;
     }
 
+    /**
+     * Retrieves paginated vouchers (12 per page).
+     * @param page page index (1-based)
+     * @return list of {@link Voucher}
+     */
     public List<Voucher> getVoucherList(int page) {
         List<Voucher> listVoucher = new ArrayList<>();
         int index = (page - 1) * 12;
@@ -295,6 +344,11 @@ public class VoucherDAO extends DBContext {
         return listVoucher;
     }
 
+    /**
+     * Checks if a voucher code already exists.
+     * @param voucherCode code to check
+     * @return true if exists
+     */
     public boolean voucherCodeExist(String voucherCode) {
         String sql = "SELECT * FROM Vouchers WHERE Code = ?";
         Voucher v = null;
@@ -325,6 +379,12 @@ public class VoucherDAO extends DBContext {
         return false;
     }
 
+    /**
+     * Retrieves vouchers filtered by code with pagination.
+     * @param keyword code keyword (nullable)
+     * @param page page index (1-based)
+     * @return list of {@link Voucher}
+     */
     public List<Voucher> getByVouCode(String keyword, int page) {
         List<Voucher> listVoucher = new ArrayList<>();
         int index = (page - 1) * 12;
@@ -361,6 +421,12 @@ public class VoucherDAO extends DBContext {
         return listVoucher;
     }
     
+    /**
+     * Marks a voucher as used by updating usage counters.
+     * @param voucher voucher entity
+     * @param totalPrice order total (unused in current SQL)
+     * @return affected rows or 0 if not applicable
+     */
     public int useVoucher(Voucher voucher, double totalPrice) {
         if (voucher.getMaxUsage() <= 0) return 0;
         String sql = "UPDAte Vouchers set MaxUsage = MaxUsage - 1, CurrentUsage = CurrentUsage + 1 Where VoucherId = ?";

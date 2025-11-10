@@ -18,16 +18,23 @@ import java.util.Map;
 import model.Product;
 
 /**
+ * DAO for admin product management: listing, filtering/searching, CRUD on Product.
+ *
+ * <p>Builds product attribute JSON per category and executes SQL queries using
+ * {@link DBContext} connections.</p>
  *
  * @author acer
  */
 public class AdminProductDAO extends DBContext {
 
+    /**
+     * Returns all non-deleted products.
+     */
     public List<Product> getAllProducts() {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE IsDeleted = 0";
 
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) { // execute query
 
             while (rs.next()) {
                 list.add(mapResultSetToProduct(rs));
@@ -39,6 +46,9 @@ public class AdminProductDAO extends DBContext {
         return list;
     }
 
+    /**
+     * Maps a ResultSet row to Product entity.
+     */
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         Product p = new Product();
 
@@ -58,6 +68,10 @@ public class AdminProductDAO extends DBContext {
         return p;
     }
 
+    /**
+     * Filters products by optional category name, brand (from JSON attribute),
+     * and sort option.
+     */
     public List<Product> filterProducts(String category, String brand, String sort) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE IsDeleted = 0";
@@ -66,25 +80,25 @@ public class AdminProductDAO extends DBContext {
             if (category.equals("all")) {
                 category = "";
             } else {
-                sql += " AND CategoryId = (select CategoryId from Category where Name = ?)";
+                sql += " AND CategoryId = (select CategoryId from Category where Name = ?)"; // filter by category name
             }
 
         }
         if (brand != null && !brand.isEmpty()) {
-            sql += " AND JSON_VALUE(ProductAttributes, '$.brand') = ?";
+            sql += " AND JSON_VALUE(ProductAttributes, '$.brand') = ?"; // filter by brand in JSON attributes
         }
         if ("newest".equals(sort)) {
-            sql += " ORDER BY CreatedAt DESC";
+            sql += " ORDER BY CreatedAt DESC"; // sort newest first
         }
         System.out.println(sql);
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) { // prepare final query
 
             int index = 1;
             if (category != null && !category.isEmpty()) {
-                ps.setString(index++, category);
+                ps.setString(index++, category); // bind category name
             }
             if (brand != null && !brand.isEmpty()) {
-                ps.setString(index++, brand);
+                ps.setString(index++, brand); // bind brand
             }
 
             ResultSet rs = ps.executeQuery();
@@ -98,12 +112,15 @@ public class AdminProductDAO extends DBContext {
         return list;
     }
 
+    /**
+     * Searches products by name with LIKE, excluding deleted ones.
+     */
     public List<Product> getAllProductsSearch(String txt) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE ProductName LIKE ? AND IsDeleted = 0";
 
         try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, "%" + txt + "%");
+            ps.setString(1, "%" + txt + "%"); // bind keyword
             System.out.println(sql);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -117,13 +134,16 @@ public class AdminProductDAO extends DBContext {
         return list;
     }
 
+    /**
+     * Retrieves a product by id if not deleted.
+     */
     public Product getProductById(int id) {
         String sql = "SELECT * FROM Product WHERE ProductId = ? AND IsDeleted = 0";
 
         try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            ps.setInt(1, id); // bind id
+            ResultSet rs = ps.executeQuery(); // execute
 
             if (rs.next()) {
                 return mapResultSetToProduct(rs);
@@ -136,6 +156,9 @@ public class AdminProductDAO extends DBContext {
         return null;
     }
 
+    /**
+     * Creates a new product with JSON attributes per category and formatted price.
+     */
     public int createProduct(String imgName, String model, String productname, String CategoryID, String brand, String price, String descriptionproduct, String cpu, String ram, String storage, String os, String weight, String stock, String cam, String type, String connectivity, String color, String compatibility) {
         Map<String, String> attributes = new HashMap<>();
         String json = null;
@@ -149,8 +172,8 @@ public class AdminProductDAO extends DBContext {
             attributes.put("os", os);
             attributes.put("weight", weight);
 
-            json = toJsonString(attributes);
-            img = "assets/images/laptops/" + imgName;
+            json = toJsonString(attributes); // build JSON for laptop
+            img = "assets/images/laptops/" + imgName; // image path
         } else if (CategoryID.equals("2")) {
             attributes.put("brand", brand);
             attributes.put("model", model);
@@ -161,8 +184,8 @@ public class AdminProductDAO extends DBContext {
             attributes.put("os", os);
             attributes.put("weight", weight);
 
-            json = toJsonString(attributes);
-            img = "assets/images/phones/" + imgName;
+            json = toJsonString(attributes); // build JSON for phone
+            img = "assets/images/phones/" + imgName; // image path
         } else if (CategoryID.equals("3")) {
             attributes.put("brand", brand);
             attributes.put("model", model);
@@ -172,27 +195,27 @@ public class AdminProductDAO extends DBContext {
             attributes.put("compatibility", compatibility);
             attributes.put("weight", weight);
 
-            json = toJsonString(attributes);
-            img = "assets/images/accessories/" + imgName;
+            json = toJsonString(attributes); // build JSON for accessory
+            img = "assets/images/accessories/" + imgName; // image path
         }
-         price = price.replaceAll("[.,]", "");
+         price = price.replaceAll("[.,]", ""); // normalize price string
         int category = Integer.parseInt(CategoryID);
-        double priceparse = Double.parseDouble(price);
-        int stockparse = Integer.parseInt(stock);
+        double priceparse = Double.parseDouble(price); // numeric price
+        int stockparse = Integer.parseInt(stock); // numeric stock
 
         String sql = "INSERT INTO Product (LinkImg, ProductName, ProductPrice, ProductAttributes, CategoryId, Stock, DescriptionProduct)\n"
                 + "VALUES (?,?,?,?,?,?,?)";
 
         try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, img);
-            ps.setString(2, productname);
-            ps.setBigDecimal(3, BigDecimal.valueOf(priceparse));
-            ps.setString(4, json);
-            ps.setInt(5, category);
-            ps.setInt(6, stockparse);
-            ps.setString(7, descriptionproduct);
-            return ps.executeUpdate();
+            ps.setString(1, img); // image link
+            ps.setString(2, productname); // name
+            ps.setBigDecimal(3, BigDecimal.valueOf(priceparse)); // price as BigDecimal
+            ps.setString(4, json); // JSON attributes
+            ps.setInt(5, category); // category id
+            ps.setInt(6, stockparse); // stock
+            ps.setString(7, descriptionproduct); // description
+            return ps.executeUpdate(); // insert
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -202,10 +225,16 @@ public class AdminProductDAO extends DBContext {
 
     }
 
+    /**
+     * Converts map to JSON string using Gson.
+     */
     private String toJsonString(Map<String, String> map) {
         return new Gson().toJson(map);
     }
 
+    /**
+     * Updates an existing product by id; if imgName is empty, leaves LinkImg unchanged.
+     */
     public int updateProduct(int id, String imgName, String model, String productname, String CategoryID, String brand, String price, String descriptionproduct, String cpu, String ram, String storage, String os, String weight, String stock, String cam, String type, String connectivity, String color, String compatibility) {
         Map<String, String> attributes = new HashMap<>();
         String json = null;
@@ -242,13 +271,13 @@ public class AdminProductDAO extends DBContext {
             attributes.put("compatibility", compatibility);
             attributes.put("weight", weight);
 
-            json = toJsonString(attributes);
-            img = "assets/images/accessories/" + imgName;
+            json = toJsonString(attributes); // JSON for accessory
+            img = "assets/images/accessories/" + imgName; // image path
         }
        
         int category = Integer.parseInt(CategoryID);
-        double priceparse = Double.parseDouble(price);
-        int stockparse = Integer.parseInt(stock);
+        double priceparse = Double.parseDouble(price); // numeric price
+        int stockparse = Integer.parseInt(stock); // numeric stock
         if(imgName == null || imgName.isEmpty()){
             String sql = "UPDATE Product SET \n"
                 + "ProductName = ?,\n"
@@ -262,14 +291,14 @@ public class AdminProductDAO extends DBContext {
         try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
             
-            ps.setString(1, productname);
-            ps.setBigDecimal(2, BigDecimal.valueOf(priceparse));
-            ps.setString(3, json);
-            ps.setInt(4, category);
-            ps.setInt(5, stockparse);
-            ps.setString(6, descriptionproduct);
-            ps.setInt(7, id);
-            return ps.executeUpdate();
+            ps.setString(1, productname); // name
+            ps.setBigDecimal(2, BigDecimal.valueOf(priceparse)); // price
+            ps.setString(3, json); // attributes JSON
+            ps.setInt(4, category); // category id
+            ps.setInt(5, stockparse); // stock
+            ps.setString(6, descriptionproduct); // description
+            ps.setInt(7, id); // product id
+            return ps.executeUpdate(); // update without image
             
              } catch (Exception e) {
             e.printStackTrace();
@@ -287,15 +316,15 @@ public class AdminProductDAO extends DBContext {
 
         try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, img);
-            ps.setString(2, productname);
-            ps.setBigDecimal(3, BigDecimal.valueOf(priceparse));
-            ps.setString(4, json);
-            ps.setInt(5, category);
-            ps.setInt(6, stockparse);
-            ps.setString(7, descriptionproduct);
-            ps.setInt(8, id);
-            return ps.executeUpdate();
+            ps.setString(1, img); // image link
+            ps.setString(2, productname); // name
+            ps.setBigDecimal(3, BigDecimal.valueOf(priceparse)); // price
+            ps.setString(4, json); // attributes JSON
+            ps.setInt(5, category); // category id
+            ps.setInt(6, stockparse); // stock
+            ps.setString(7, descriptionproduct); // description
+            ps.setInt(8, id); // product id
+            return ps.executeUpdate(); // update with image
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -307,14 +336,17 @@ public class AdminProductDAO extends DBContext {
 
     }
     
+    /**
+     * Soft-deletes a product by setting IsDeleted = true.
+     */
     public int deleteProduct(int id) {
         String sql = "update Product set IsDeleted = ? WHERE ProductId = ?";
 
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) { // prepare update
             
-            ps.setBoolean(1, true);
-            ps.setInt(2, id);
-            return ps.executeUpdate();
+            ps.setBoolean(1, true); // mark deleted
+            ps.setInt(2, id); // id
+            return ps.executeUpdate(); // execute
 
             
 

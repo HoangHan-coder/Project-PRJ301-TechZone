@@ -15,11 +15,11 @@
         <title>Home 12 Clone</title>
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-              
+
     </head>
     <body>
         <jsp:include page="/WEB-INF/views/includes/navbar.jsp"/>
-        
+
         <!-- Bootstrap Carousel -->
         <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
             <!-- Indicators -->
@@ -41,6 +41,9 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
+
+        <%@include file="./customer-behavior.jsp" %>
+
         <!-- Categories -->
         <section class="categories py-5 bg-light">
             <div class="container">
@@ -91,7 +94,7 @@
                     <c:forEach var="p" items="${listPhonefe}">
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                                <a href="products?action=detail&id=${p.productId}">
+                                <a href="products?action=detail&id=${p.productId}" style="text-decoration: none;">
                                     <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
@@ -106,7 +109,7 @@
                     <c:forEach var="p" items="${listLapfe}">
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                                <a href="products?action=detail&id=${p.productId}">
+                                <a href="products?action=detail&id=${p.productId}" style="text-decoration: none;">
                                     <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
@@ -121,7 +124,7 @@
                     <c:forEach var="p" items="${listAccessoryFe}">
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                                <a href="products?action=detail&id=${p.productId}">
+                                <a href="products?action=detail&id=${p.productId}"  style="text-decoration: none;">
                                     <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
@@ -146,7 +149,7 @@
                     <c:forEach var="p" items="${listPhone}">
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                                <a href="products?action=detail&id=${p.productId}">
+                                <a href="products?action=detail&id=${p.productId}" style="text-decoration: none;">
                                     <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
@@ -161,7 +164,7 @@
                     <c:forEach var="p" items="${listLap}">
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                                <a href="products?action=detail&id=${p.productId}">
+                                <a href="products?action=detail&id=${p.productId}" style="text-decoration: none;">
                                     <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
@@ -176,7 +179,7 @@
                     <c:forEach var="p" items="${listAccessory}">
                         <div class="col-md-4">
                             <div class="category-card p-4 text-center bg-white shadow-sm rounded-3">
-                                <a href="products?action=detail&id=${p.productId}">
+                                <a href="products?action=detail&id=${p.productId}" style="text-decoration: none;">
                                     <img src="${pageContext.request.contextPath}${p.linkImg}" alt="${p.productName}" class="img-fluid mb-3" style="height:200px;object-fit:contain;">
                                     <h5 class="fw-bold">${p.productName}</h5>
                                     <p class="text-danger mb-0">
@@ -192,7 +195,7 @@
         </section>
 
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
-<!--        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
     </body>
 
 </html>

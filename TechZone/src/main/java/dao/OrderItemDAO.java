@@ -20,11 +20,19 @@ import model.Product;
 import model.Voucher;
 
 /**
- *
- * @author NgKaitou
+ * DAO for order items.
+ * 
+ * <p>Provides APIs to query a user's order items, filter by status, get items
+ * of an order, and create order items.</p>
  */
 public class OrderItemDAO extends DBContext {
 
+    /**
+     * Gets order items for a given username across their orders.
+     *
+     * @param username account username
+     * @return list of {@link OrderItem}
+     */
     public List<OrderItem> getOrderItemByUsername(String username) {
         List<OrderItem> listOrderItems = new ArrayList<>();
         String sql = "SELECT Accounts.Username, Accounts.FullName, Accounts.Phone, Accounts.IsDeleted AS accIsDeaded, Product.LinkImg, Accounts.AccountId, OrderItems.OrderItemId, OrderItems.UnitPrice, OrderItems.ProductNameSnapshot, \n"
@@ -63,6 +71,13 @@ public class OrderItemDAO extends DBContext {
         return listOrderItems;
     }
 
+    /**
+     * Gets order items filtered by order status for a username.
+     *
+     * @param username account username
+     * @param statusOrder order status filter (LIKE)
+     * @return list of {@link OrderItem}
+     */
     public List<OrderItem> getOrderItemfilterByStatus(String username, String statusOrder) {
         List<OrderItem> listOrderItems = new ArrayList<>();
         String sql = "SELECT Accounts.Username, Accounts.FullName, Accounts.Phone, Accounts.IsDeleted AS accIsDeaded, Product.LinkImg, Accounts.AccountId, OrderItems.OrderItemId, OrderItems.UnitPrice, OrderItems.ProductNameSnapshot, \n"
@@ -78,7 +93,7 @@ public class OrderItemDAO extends DBContext {
         try {
             PreparedStatement statement = this.getConnection().prepareStatement(sql);
             statement.setString(1, username);
-            statement.setString(2,  "%" + statusOrder + "%");
+            statement.setString(2, "%" + statusOrder + "%");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Account account = new Account(rs.getInt("AccountId"), rs.getString("Username"), rs.getString("FullName"), rs.getString("Phone"), rs.getBoolean("accIsDeaded"));
@@ -101,7 +116,13 @@ public class OrderItemDAO extends DBContext {
         }
         return listOrderItems;
     }
-    
+
+    /**
+     * Retrieves items belonging to a specific order id.
+     *
+     * @param OrderId order identifier
+     * @return list of {@link OrderItem}
+     */
     public List<OrderItem> getByOrderId(int OrderId) {
         List<OrderItem> items = new ArrayList<>();
         String sql = "SELECT Accounts.AccountId, Accounts.Username, Accounts.FullName, Accounts.Phone, Accounts.IsDeleted as accountIsDeleted, OrderItems.OrderItemId, OrderItems.ProductNameSnapshot, OrderItems.UnitPrice, OrderItems.Quantity, OrderItems.TotalPrice, Orders.OrderId , Orders.OrderCode, \n"
@@ -136,6 +157,10 @@ public class OrderItemDAO extends DBContext {
         return items;
     }
 
+    /**
+     * Returns the maximum orderItemId value.
+     * @return max id or 0
+     */
     public int maxId() {
         try {
             String sql = "select MAX(orderItemId) from OrderItems";
@@ -150,6 +175,16 @@ public class OrderItemDAO extends DBContext {
         return 0;
     }
 
+    /**
+     * Creates a new order item row for an order.
+     *
+     * @param OrderId order id
+     * @param ProductId product id
+     * @param ProductNameSnapshot product name snapshot string
+     * @param UnitPrice unit price
+     * @param Quantity quantity
+     * @return affected rows (1 on success)
+     */
     public int createOrderItem(int OrderId, int ProductId, String ProductNameSnapshot, double UnitPrice, int Quantity) {
         String sql = "INSERT INTO OrderItems (OrderId, ProductId, ProductNameSnapshot, UnitPrice, Quantity)\n"
                 + "VALUES (?, ?, ?, ?, ?);";

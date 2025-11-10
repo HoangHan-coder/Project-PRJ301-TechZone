@@ -110,7 +110,7 @@
                     <div class="row g-3 mb-4">
                         <div class="col-md-3 col-sm-6">
                             <div class="dashboard-card">
-                                <h4><fmt:formatNumber value="${allprice}" type="number" maxFractionDigits="0"/>k</h4>
+                                <h4><fmt:formatNumber value="${allprice}" type="number" maxFractionDigits="0"/>đ</h4>
                                 <p>Doanh thu</p>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                                         <td>${i.getName()}</td>
                                         <td>${i.sales}</td>
                                         <td>${i.sumquantity}</td>
-                                        <td><fmt:formatNumber value="${i.allprice}" type="number" maxFractionDigits="0"/>k</td>
+                                        <td><fmt:formatNumber value="${i.allprice}" type="number" maxFractionDigits="0"/>đ</td>
                                     </tr>
                                 </tbody>
                             </c:forEach>

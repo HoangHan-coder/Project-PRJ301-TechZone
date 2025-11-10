@@ -1,9 +1,7 @@
-<%@page import="model.AccountUsers"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    AccountUsers user = (AccountUsers) session.getAttribute("account");
-%>
+
 
 <style>
     .input-group .form-select,
@@ -70,8 +68,8 @@
                 <span>Shop By Categories</span>
             </a>
 
-            <!-- Menu x? xu?ng -->
-            <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+            <!-- Menu drop down -->
+            <ul class="dropdown-menu mt-3" aria-labelledby="categoriesDropdown">
                 <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=phone">SMARTPHONE</a></li>
                 <li><a class="dropdown-item"  href="${pageContext.request.contextPath}/products?category=laptop">LAPTOP</a></li>
                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/products?category=accessory">ACCESSORY</a></li>
@@ -109,8 +107,8 @@
                     <i class="bi bi-person"></i>
                 </a>
 
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile" aria-labelledby="profileDropdown">
-                    <c:if test="${user != null}">
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile mt-3" aria-labelledby="profileDropdown">
+                    <c:if test="${sessionScope.account != null}">
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/profile">
                                 <i class="bi bi-person"></i>
@@ -120,7 +118,7 @@
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/order">
-                                <i class="bi bi-gear"></i>
+                                <i class="bi bi-bag-check"></i>
                                 <span class="ms-2">Đơn mua</span>
                             </a>
                         </li>
@@ -133,7 +131,7 @@
                         </li>
                     </c:if>
 
-                    <c:if test="${user == null}">
+                    <c:if test="${sessionScope.account == null}">
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/login">
                                 <i class="bi bi-person"></i>
@@ -161,4 +159,5 @@
 <!-- Bootstrap Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>

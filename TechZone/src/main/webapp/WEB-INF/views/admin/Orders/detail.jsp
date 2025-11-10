@@ -328,7 +328,7 @@
                             <c:when test="${order.status == 'COMPLETED'}">
                                 Đã giao
                             </c:when>
-                            <c:when test="${order.status == 'CANCEL'}">
+                            <c:when test="${order.status == 'CANCELED'}">
                                 Đã hủy
                             </c:when>
                             <c:otherwise>
@@ -406,13 +406,16 @@
                         </tr>
                     </table>
                     <div class="actions">
-                        <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
-                            <button class="btn btn-success"><i class="fa-solid fa-check"></i> Xác nhận đơn</button>
+                        <form style="cursor: pointer" method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=pending&id=${order.orderId}">
+                            <button style="cursor: pointer" class="btn btn-success"
+                                    ${order.status == 'PENDING' || order.status == 'CANCELED' || order.status == 'COMPLETED' ? 'disabled' : ''}>
+                                <i class="fa-solid fa-check"></i> Xác nhận đơn
+                            </button>
                         </form>
-                        <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=completed&id=${order.orderId}">
-                            <button class="btn btn-info"><i class="fa-solid fa-truck"></i> Giao hàng</button>
+                        <form style="cursor: pointer" method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=completed&id=${order.orderId}">
+                            <button   class="btn btn-info"  ${order.status == 'COMPLETED' || order.status == 'CANCELED' ? 'disabled' : ''}><i class="fa-solid fa-truck"></i> Giao hàng</button>
                         </form>
-                        <button type="button" class="btn btn-danger" id="cancelBtn">
+                        <button  type="button" class="btn btn-danger" id="cancelBtn"  ${order.status != 'PROCESSING' ? 'disabled' : ''}>
                             <i class="fa-solid fa-times"></i> Hủy đơn
                         </button>
                     </div>
@@ -423,7 +426,7 @@
             <div id="cancelModal" class="modal-overlay">
                 <div class="modal-content">
                     <h3>Lý do hủy đơn</h3>
-                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=cancel&id=${order.orderId}" id="cancelForm">
+                    <form method="POST" action="${pageContext.request.contextPath}/admin/order?view=update&type=canceled&id=${order.orderId}" id="cancelForm">
                         <textarea name="cancelReason" placeholder="Nhập lý do hủy đơn..." required></textarea>
                         <div class="modal-buttons">
                             <button type="button" class="btn-cancel" id="closeModal">Đóng</button>

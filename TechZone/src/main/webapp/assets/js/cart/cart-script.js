@@ -120,30 +120,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
 
             let quantity = parseInt(input.value);
-            if (btn.classList.contains('btn-quantity-plus'))
+            let stock = parseInt(form.querySelector("#stock").value);
+            console.log(stock);
+            if (btn.classList.contains('btn-quantity-plus') && quantity < stock)
                 quantity++;
-            else if (quantity > 1)
+            else if (btn.classList.contains('btn-quantity-minus') && quantity > 1)
                 quantity--;
-
+            
             input.value = quantity;
             updateItemTotal(form.querySelector('.product-row'));
             updateCartSummary();
             form.submit();
         });
     }
-
-    // 4️⃣ Khi người dùng nhập số lượng thủ công
-    document.querySelectorAll('.input-quantity').forEach(input => {
-        input.addEventListener('change', function () {
-            let quantity = parseInt(this.value);
-            if (isNaN(quantity) || quantity < 1)
-                this.value = 1;
-            updateItemTotal(this.closest('.product-row'));
-            updateCartSummary();
-            this.closest('.form-cart-item').submit();
-        });
-    });
-
     // 5️⃣ Xóa sản phẩm (xác nhận trước khi gửi)
     document.body.addEventListener('click', function (e) {
         const delBtn = e.target.closest('.btn-delete-item');
@@ -163,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // AI supports: gửi form tối giản để xóa
+        // gửi form tối giản để xóa
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = (document.body.getAttribute('data-context-path') || '') + '/cartitem';
@@ -195,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!confirm('Xóa ' + selected.length + ' sản phẩm đã chọn?'))
                 return;
 
-            // AI supports: gửi form tối giản để xóa nhiều item
+            // gửi form tối giản để xóa nhiều item
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = (document.body.getAttribute('data-context-path') || '') + '/cartitem';

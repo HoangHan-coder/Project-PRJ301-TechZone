@@ -4,39 +4,39 @@
  */
 
 
-const selectVoucher = document.getElementById("selectVoucher");
-const discountValue = document.getElementById("discountValue");
-const subtotalValRaw = document.getElementById("subtotalVal").textContent;
-const summaryTotal = document.getElementById("summaryTotal");
-const btnVoucher = document.getElementById("btnVoucher");
-const voucherVal = document.getElementById("voucherVal");
-const totalAmount = document.getElementById("totalAmount");
-const shippingFee = parseInt("150000");
-var subtotal =  parseInt(subtotalValRaw.replace(/[^\d]/g, ""), 10);
-var discountAmount;
+const selectVoucher = document.getElementById("selectVoucher"); // dropdown chọn voucher
+const discountValue = document.getElementById("discountValue"); // hiển thị giảm giá tạm tính
+const subtotalValRaw = document.getElementById("subtotalVal").textContent; // tổng phụ dạng chuỗi có định dạng
+const summaryTotal = document.getElementById("summaryTotal"); // tổng thanh toán hiển thị cuối
+const btnVoucher = document.getElementById("btnVoucher"); // nút áp dụng voucher
+const voucherVal = document.getElementById("voucherVal"); // hiển thị giảm giá đã áp dụng
+const totalAmount = document.getElementById("totalAmount"); // input ẩn tổng tiền gửi lên server
+const shippingFee = parseInt("150000"); // phí vận chuyển cố định 150,000đ
+var subtotal =  parseInt(subtotalValRaw.replace(/[^\d]/g, ""), 10); // chuyển tổng phụ về số (bỏ ký tự không phải số)
+var discountAmount; // số tiền giảm giá sau khi chọn voucher
 
-selectVoucher.addEventListener("change", function () {
-    const opt = selectVoucher.options[selectVoucher.selectedIndex];
-    var type = opt.dataset.type;
-    var discountVal = parseFloat(opt.dataset.value);
+selectVoucher.addEventListener("change", function () { // khi chọn voucher mới
+    const opt = selectVoucher.options[selectVoucher.selectedIndex]; // option đang chọn
+    var type = opt.dataset.type; // loại voucher: PERCENT hoặc AMOUNT
+    var discountVal = parseFloat(opt.dataset.value); // giá trị giảm (phần trăm hoặc số tiền)
 
-    if (type === "PERCENT") {
+    if (type === "PERCENT") { // giảm theo phần trăm
         var discountPercent = discountVal;
         discountAmount = subtotal * (discountPercent / 100);
-    } else {
+    } else { // giảm theo số tiền cố định
         discountAmount = discountVal;
     }
 
-    discountValue.innerHTML = "-" + discountAmount.toLocaleString("vi-VN") + "₫";
+    discountValue.innerHTML = "-" + discountAmount.toLocaleString("vi-VN") + "₫"; // cập nhật hiển thị giảm tạm tính
 
 
 });
 
-btnVoucher.addEventListener("click", function () {
-    const totalAfterDiscount = subtotal + shippingFee - discountAmount;
-    totalAmount.value = totalAfterDiscount;
-    voucherVal.innerHTML = "-" + discountAmount.toLocaleString("vi-VN") + "₫";
-    summaryTotal.innerHTML = totalAfterDiscount.toLocaleString("vi-VN") + "₫";
+btnVoucher.addEventListener("click", function () { // khi bấm áp dụng voucher
+    const totalAfterDiscount = subtotal + shippingFee - discountAmount; // tính tổng sau giảm
+    totalAmount.value = totalAfterDiscount; // set giá trị gửi lên server
+    voucherVal.innerHTML = "-" + discountAmount.toLocaleString("vi-VN") + "₫"; // hiển thị giảm cố định
+    summaryTotal.innerHTML = totalAfterDiscount.toLocaleString("vi-VN") + "₫"; // cập nhật tổng cộng
 });
 const addressInput = document.getElementById("address");
 const addressError = document.getElementById("addressError");
@@ -81,8 +81,8 @@ function validateAddress() {
 // Gọi khi blur hoặc trước khi submit
 addressInput.addEventListener("blur", validateAddress);
 
-document.getElementById("checkoutForm").addEventListener("submit", (e) => {
+document.getElementById("checkoutForm").addEventListener("submit", (e) => { // kiểm tra trước khi gửi form
     if (!validateAddress()) {
-        e.preventDefault(); // chặn submit
+        e.preventDefault(); // chặn submit nếu địa chỉ không hợp lệ
     }
 });

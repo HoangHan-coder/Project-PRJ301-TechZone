@@ -24,7 +24,7 @@ public class ProfileServlet extends HttpServlet {
 
     
 
-    
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -75,10 +75,18 @@ public class ProfileServlet extends HttpServlet {
             if(success == 1){
                  String json = "{ \"success\": true, \"message\":\"Update successfully!\" }";
             out.print(json);
-            } else {
+            } else if(success == 0){
                  String json = "{ \"success\": false, \"message\":\"Update failure!\" }";
             out.print(json);
+            } else if(success == 3){
+                String json = "{ \"success\": false, \"message\":\"Update failure!, email is duplicated, email cannot duplicated\" }";
+            out.print(json);
+            } else if(success == 4){
+                String json = "{ \"success\": false, \"message\":\"Update failure!, phone is duplicated, email cannot duplicated\" }";
+            out.print(json);
             }
+            
+            
             out.flush();
         } else if (action.equals("updatepassword")){
             String name = request.getParameter("name");

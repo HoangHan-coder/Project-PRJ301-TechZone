@@ -55,20 +55,6 @@ public class CartItemServlet extends HttpServlet {
         CartDAO cartDAO = new CartDAO();
         HttpSession session = request.getSession(false);
         AccountUsers account = (AccountUsers) session.getAttribute("account");
-//        // Yêu cầu đăng nhập cho mọi thao tác POST giỏ hàng
-
-//        if (account == null) {
-//            if (isAjax(request)) {
-//                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//                response.setContentType("application/json;charset=UTF-8");
-//                try (PrintWriter out = response.getWriter()) {
-//                    out.write("{\"status\":\"unauthorized\",\"redirect\":\"" + request.getContextPath() + "/login\"}");
-//                }
-//            } else {
-//                response.sendRedirect(request.getContextPath() + "/login");
-//            }
-//            return;
-//        }
         switch (action) {
             case "create-cart": {
                 try {
@@ -108,7 +94,7 @@ public class CartItemServlet extends HttpServlet {
                 break;
             }
 
-            // 🟠 Cập nhật số lượng
+            // 🟠 Update quantity
             case "update": {
                 try {
                     int cartItemId = Integer.parseInt(request.getParameter("cartItemId"));
@@ -126,7 +112,7 @@ public class CartItemServlet extends HttpServlet {
                 break;
             }
 
-            // 🔴 Xóa sản phẩm khỏi giỏ
+            // 🔴 Delete entire cart by cartId
             case "delete": {
                 try {
                     int cartId = Integer.parseInt(request.getParameter("cartId"));
@@ -144,7 +130,7 @@ public class CartItemServlet extends HttpServlet {
                 break;
             }
 
-            // 🟣 Xóa 1 CartItem theo cartItemId (per-item delete)
+            // 🟣 Delete a single CartItem by cartItemId (per-item delete)
             case "delete-item": {
                 try {
                     int cartItemId = Integer.parseInt(request.getParameter("cartItemId"));
@@ -172,7 +158,7 @@ public class CartItemServlet extends HttpServlet {
                 break;
             }
 
-            // 🟢 Xóa nhiều CartItem được chọn
+            // 🟢 Delete multiple selected CartItems
             case "delete-items": {
                 try {
                     String[] ids = request.getParameterValues("selectedCartItemIds");

@@ -9,7 +9,6 @@
         <title>Thanh toán - TechZone</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         <style>
             .container-checkout {
                 width: 100%;
@@ -210,7 +209,7 @@
 
                                         <!-- Tổng kết đơn hàng -->
                                         <c:set var="shippingFee" value="${150000}"/>
-                                        
+
                                         <c:set var="voucherDiscount" value="${empty voucherDiscount ? 0 : voucherDiscount}"/>
                                         <c:set var="orderTotal" value="${(empty subtotal ? 0 : subtotal) + shippingFee - voucherDiscount}"/>
                                         <div class="card mt-3">
@@ -251,6 +250,8 @@
             </div>
 
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
         <script src="assets/js/order/order-script.js"></script>
         <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
     </body>

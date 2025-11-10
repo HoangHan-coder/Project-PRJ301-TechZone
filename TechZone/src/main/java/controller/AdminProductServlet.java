@@ -5,9 +5,11 @@
 package controller;
 
 import com.google.gson.Gson;
+import dao.AccountDAO;
 import dao.AdminProductDAO;
 import dao.ProductDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,6 +20,7 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.util.List;
 import model.FileUpload;
+import model.ImageNameHashToken;
 import model.Product;
 
 /**
@@ -31,8 +34,6 @@ import model.Product;
         maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
 public class AdminProductServlet extends HttpServlet {
-
-   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -50,7 +51,7 @@ public class AdminProductServlet extends HttpServlet {
         AdminProductDAO daoProductAd = new AdminProductDAO();
         ProductDAO daoProduct = new ProductDAO();
         String idProduct = request.getParameter("Id");
-         if (view == null || view.equals("product")) {
+        if (view == null || view.equals("product")) {
             List<Product> listpro = daoProductAd.getAllProducts();
             request.setAttribute("listproductadmin", listpro);
             request.getRequestDispatcher("/WEB-INF/views/admin/product/admin-product.jsp").forward(request, response);
@@ -61,11 +62,11 @@ public class AdminProductServlet extends HttpServlet {
         } else if (view.equals("createproduct")) {
 
             request.getRequestDispatcher("/WEB-INF/views/admin/product/create-product.jsp").forward(request, response);
-        } else if (view.equals("detail") && idProduct != null){
+        } else if (view.equals("detail") && idProduct != null) {
             Product productdetail = daoProductAd.getProductById(Integer.parseInt(idProduct));
             request.setAttribute("productdetail", productdetail);
             request.getRequestDispatcher("/WEB-INF/views/admin/product/product-detail.jsp").forward(request, response);
-        } else if(view.equals("delete") && idProduct != null){
+        } else if (view.equals("delete") && idProduct != null) {
             Product productdetail = daoProductAd.getProductById(Integer.parseInt(idProduct));
             request.setAttribute("productdelete", productdetail);
             request.getRequestDispatcher("/WEB-INF/views/admin/product/product-delete.jsp").forward(request, response);
@@ -83,8 +84,8 @@ public class AdminProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String action = request.getParameter("action");
-        
+        String action = request.getParameter("action");
+
         AdminProductDAO daoProductAd = new AdminProductDAO();
         if (action.equals("filter")) {
             String category = request.getParameter("category");
@@ -126,32 +127,33 @@ public class AdminProductServlet extends HttpServlet {
             String color = request.getParameter("color");
             String compatibility = request.getParameter("compatibility");
             String uploadFolder = FileUpload.UPLOAD_DIR;
-            if(CategoryID.equals("1")){
+            if (CategoryID.equals("1")) {
                 uploadFolder += "\\laptops";
-            } else if (CategoryID.equals("2")){
+            } else if (CategoryID.equals("2")) {
                 uploadFolder += "\\phones";
-            } else if (CategoryID.equals("3")){
+            } else if (CategoryID.equals("3")) {
                 uploadFolder += "\\accessories";
-            } 
-            
+            }
+
             File folder = new File(uploadFolder);
             if (!folder.exists()) {
                 folder.mkdir();
             }
             Part imgPart = request.getPart("img");
-            String imgName = imgPart.getSubmittedFileName();
+            String imgNameTemp = imgPart.getSubmittedFileName();
+            String imgName = ImageNameHashToken.hashImg(imgNameTemp);
             if (imgName != null && imgName.length() > 0) {
                 File outFile = new File(folder, imgName);
                 FileUpload.saveFile(imgPart, outFile);
             }
-            
-            int success = daoProductAd.createProduct(imgName,model, productname, CategoryID, brand, price, descriptionproduct, cpu, ram, storage, os, weight, stock, cam, type, connectivity, color, compatibility);
-            if(success == 1){
+
+            int success = daoProductAd.createProduct(imgName, model, productname, CategoryID, brand, price, descriptionproduct, cpu, ram, storage, os, weight, stock, cam, type, connectivity, color, compatibility);
+            if (success == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin/product?view=product");
             } else {
                 response.sendRedirect(request.getContextPath() + "/admin/product?view=createproduct");
             }
-        } else if(action.equals("updateproduct")){
+        } else if (action.equals("updateproduct")) {
             String productname = request.getParameter("productname");
             String CategoryID = request.getParameter("CategoryID");
             String brand = request.getParameter("brand");
@@ -172,35 +174,40 @@ public class AdminProductServlet extends HttpServlet {
             String id = request.getParameter("productID");
             int idparse = Integer.parseInt(id);
             String uploadFolder = FileUpload.UPLOAD_DIR;
-            if(CategoryID.equals("1")){
+            if (CategoryID.equals("1")) {
                 uploadFolder += "\\laptops";
-            } else if (CategoryID.equals("2")){
+            } else if (CategoryID.equals("2")) {
                 uploadFolder += "\\phones";
-            } else if (CategoryID.equals("3")){
+            } else if (CategoryID.equals("3")) {
                 uploadFolder += "\\accessories";
-            } 
-            
+            }
             File folder = new File(uploadFolder);
             if (!folder.exists()) {
                 folder.mkdir();
             }
             Part imgPart = request.getPart("img");
-            String imgName = imgPart.getSubmittedFileName();
-            if (imgName != null && imgName.length() > 0) {
-                File outFile = new File(folder, imgName);
-                FileUpload.saveFile(imgPart, outFile);
+            String imgName;
+            if (imgPart == null || imgPart.getSize() == 0) {
+                String oldImg = request.getParameter("old-img");
+                imgName = oldImg.substring(oldImg.lastIndexOf("/") + 1);
+            } else {
+                String imgNameTemp = imgPart.getSubmittedFileName();
+                imgName = ImageNameHashToken.hashImg(imgNameTemp);
+                if (imgName != null && imgName.length() > 0) {
+                    File outFile = new File(folder, imgName);
+                    FileUpload.saveFile(imgPart, outFile);
+                }
             }
-            
             int success = daoProductAd.updateProduct(idparse, imgName, model, productname, CategoryID, brand, price, descriptionproduct, cpu, ram, storage, os, weight, stock, cam, type, connectivity, color, compatibility);
-            if(success == 1){
+            if (success == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin/product?view=detail&Id=" + id);
             } else {
                 response.sendRedirect(request.getContextPath() + "/admin/product?view=edit&Id=" + id);
             }
-        } else if(action.equals("deleteproduct")){
+        } else if (action.equals("deleteproduct")) {
             String id = request.getParameter("productID");
             int deleted = daoProductAd.deleteProduct(Integer.parseInt(id));
-            if(deleted == 1){
+            if (deleted == 1) {
                 response.sendRedirect(request.getContextPath() + "/admin/product?view=product");
             } else {
                 response.sendRedirect(request.getContextPath() + "/admin/product?view=delete&Id=" + id);

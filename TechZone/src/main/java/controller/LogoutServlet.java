@@ -14,40 +14,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
+ * Handles user logout by invalidating the session and redirecting to login.
+ *
+ * <p>GET invalidates the current HTTP session if present and then redirects to
+ * the login page. POST is unused.</p>
  *
  * @author acer
  */
 @WebServlet(name = "LogoutServlet", urlPatterns = {"/logout"})
 public class LogoutServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LogoutServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+     /**
      * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
@@ -58,13 +34,12 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
-            HttpSession session = request.getSession(false); // lấy session nếu có
+            HttpSession session = request.getSession(false); // get session if exists
         if (session != null) {
-            session.invalidate(); // hủy session
+            session.invalidate(); // invalidate session
         }
 
-       response.sendRedirect(getServletContext().getContextPath() + "/login");
+       response.sendRedirect(getServletContext().getContextPath() + "/login"); // redirect to login page
     }
 
     /**
@@ -78,7 +53,6 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
     }
 
     /**

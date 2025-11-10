@@ -8,6 +8,9 @@
         <session-timeout>
             30
         </session-timeout>
+        <tracking-mode>
+            COOKIE
+        </tracking-mode>
     </session-config>
     <!-- Cấu hình trang lỗi 404 -->
     <error-page>

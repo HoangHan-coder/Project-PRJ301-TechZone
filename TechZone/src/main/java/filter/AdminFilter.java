@@ -21,6 +21,13 @@ import jakarta.servlet.http.HttpSession;
 import model.AccountUsers;
 
 /**
+ * Authorization filter for admin-only routes.
+ *
+ * <p>Intercepts all requests matching <code>/admin/*</code> and verifies the
+ * current session contains an authenticated user whose role is Admin. If no
+ * session or non-admin user is found, redirects accordingly.</p>
+ */
+/**
  *
  * @author acer
  */
@@ -40,18 +47,18 @@ public class AdminFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        HttpServletResponse resp = (HttpServletResponse) response;
-        HttpSession session = req.getSession(false); // lấy session nếu có
+        HttpServletRequest req = (HttpServletRequest) request; // cast to HTTP request
+        HttpServletResponse resp = (HttpServletResponse) response; // cast to HTTP response
+        HttpSession session = req.getSession(false); // retrieve existing session, do not create
         
-        if (session == null || session.getAttribute("account") == null) {
-            resp.sendRedirect(req.getContextPath() + "/login");
+        if (session == null || session.getAttribute("account") == null) { // not logged in
+            resp.sendRedirect(req.getContextPath() + "/login"); // redirect to login page
         } else {
-            AccountUsers admin = (AccountUsers) session.getAttribute("account");
+            AccountUsers admin = (AccountUsers) session.getAttribute("account"); // get user from session
             if(admin.getAccountroles().equals("Admin")){
-                chain.doFilter(request, response);
+                chain.doFilter(request, response); // allow request to proceed
             } else {
-                resp.sendRedirect(req.getContextPath() + "/error");
+                resp.sendRedirect(req.getContextPath() + "/error"); // non-admin redirected to error page
             }
             
         }

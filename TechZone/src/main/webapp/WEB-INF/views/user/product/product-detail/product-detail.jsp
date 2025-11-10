@@ -218,8 +218,8 @@
                             </small>
                             <c:if test="${fb.responseMessage != null}">
                                 <div class="border rounded p-3 mb-3">
-                                    <strong>${fb.responseBy.fullName}</strong>
-                                    <p class="mb-1 text-danger">${fb.responseMessage}</p>
+                                    <strong class="text-danger">Admin TechZone</strong>
+                                    <p class="mb-1 text-dark">${fb.responseMessage}</p>
                                     <small class="text-muted">
                                         <fmt:formatDate value="${fb.responseAt}" pattern="dd/MM/yyyy HH:mm"/>
                                     </small>
@@ -307,7 +307,7 @@
             }
 
         </script>
+        <script src="assets/js/bootstrap.bundle.min.js"></script>   
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

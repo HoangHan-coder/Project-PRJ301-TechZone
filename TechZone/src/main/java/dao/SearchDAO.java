@@ -7,37 +7,40 @@ import java.util.List;
 import model.Product;
 
 /**
- * DAO chuyên xử lý tìm kiếm sản phẩm (search có phân trang)
+ * DAO for handling product search (with pagination).
+ *
+ * <p>Provides methods to search by keyword with pagination, count total results
+ * by keyword, and filter products by brand within a category.</p>
  */
 public class SearchDAO extends DBContext {
 
     /**
-     * Lấy danh sách sản phẩm theo từ khóa (phân trang)
+     * Retrieves a paginated list of products by keyword.
      *
-     * @param keyword từ khóa tìm kiếm
-     * @param page số trang hiện tại
-     * @param pageSize số sản phẩm trên mỗi trang
-     * @return danh sách sản phẩm phù hợp
+     * @param keyword search keyword
+     * @param page current page number
+     * @param pageSize items per page
+     * @return list of matching products
      */
     public List<Product> searchProducts(String keyword, int page, int pageSize) {
         List<Product> list = new ArrayList<>();
-        int offset = (page - 1) * pageSize;
+        int offset = (page - 1) * pageSize; // compute starting offset for page
 
         String sql = "SELECT * FROM Product WHERE ProductName LIKE ? AND IsDeleted = 0 ORDER BY ProductId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
 
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) { // open connection and prepare statement
 
             if (keyword == null) {
-                keyword = "";
+                keyword = ""; // default to empty string to make LIKE work
             }
-            ps.setString(1, "%" + keyword + "%");
+            ps.setString(1, "%" + keyword + "%"); // parameter for LIKE on product name
 
-            ps.setInt(2, offset);
-            ps.setInt(3, pageSize);
+            ps.setInt(2, offset); // starting position
+            ps.setInt(3, pageSize); // records per page
 
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery(); // execute query
             while (rs.next()) {
-                list.add(mapResultSetToProduct(rs));
+                list.add(mapResultSetToProduct(rs)); // map each row to Product and add to list
             }
 
         } catch (Exception e) {
@@ -48,22 +51,22 @@ public class SearchDAO extends DBContext {
     }
 
     /**
-     * Đếm tổng số sản phẩm khớp với từ khóa
+     * Counts total number of products matching the keyword.
      *
-     * @param keyword từ khóa tìm kiếm
-     * @return tổng số dòng kết quả
+     * @param keyword search keyword
+     * @return total number of results
      */
     public int countProductsByKeyword(String keyword) {
         String sql = "SELECT COUNT(*) FROM Product WHERE ProductName LIKE ? AND IsDeleted = 0";
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) { // open connection and prepare statement
 
             if (keyword == null) {
-                keyword = "";
+                keyword = ""; // default to empty string to make LIKE work
             }
-            ps.setString(1, "%" + keyword + "%");
-            ResultSet rs = ps.executeQuery();
+            ps.setString(1, "%" + keyword + "%"); // parameter for LIKE
+            ResultSet rs = ps.executeQuery(); // execute query
             if (rs.next()) {
-                return rs.getInt(1);
+                return rs.getInt(1); // return count
             }
 
         } catch (Exception e) {
@@ -72,7 +75,14 @@ public class SearchDAO extends DBContext {
         return 0;
     }
 
-    // 🔹 Hàm ánh xạ ResultSet -> Product
+    // 🔹 ResultSet -> Product mapping function
+    /**
+     * Maps a ResultSet row to a Product object.
+     *
+     * @param rs ResultSet pointing at the record to map
+     * @return Product object populated from the row
+     * @throws SQLException on column access error
+     */
     private Product mapResultSetToProduct(ResultSet rs) throws SQLException {
         Product p = new Product();
         p.setProductId(rs.getInt("ProductId"));
@@ -90,6 +100,13 @@ public class SearchDAO extends DBContext {
         return p;
     }
 
+    /**
+     * Filters products by category and optionally by brand in JSON attributes.
+     *
+     * @param categoryId category id
+     * @param brand brand to filter (can be empty or null)
+     * @return list of matching products
+     */
     public List<Product> getFilterBrand(int categoryId, String brand) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product WHERE CategoryId = ? AND IsDeleted = 0";
@@ -97,16 +114,16 @@ public class SearchDAO extends DBContext {
             sql += " AND JSON_VALUE(ProductAttributes, '$.brand') = ?";
         }
 
-        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = this.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) { // open connection and prepare statement
 
-            ps.setInt(1, categoryId);
+            ps.setInt(1, categoryId); // category parameter
             if (brand != null && !brand.isEmpty()) {
-                ps.setString(2, brand);
+                ps.setString(2, brand); // brand parameter
             }
 
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery(); // execute query
             while (rs.next()) {
-                list.add(mapResultSetToProduct(rs));
+                list.add(mapResultSetToProduct(rs)); // map and add to list
             }
         } catch (Exception e) {
             e.printStackTrace();
